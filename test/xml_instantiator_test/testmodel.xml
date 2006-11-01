@@ -1,0 +1,7 @@
+<TestModel xmlns:MNS="testmodel.org/myNamespace" >
+	<MNS:House>
+		<MNS:Room id="1" name="Kitchen" />
+		<MNS:Room id="2" name="TomsRoom" />
+	</MNS:House>
+	<Person name="Tom" room="2" />
+</TestModel>

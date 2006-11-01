@@ -1,0 +1,10 @@
+   Document: SomeDocument
+   Index:
+      1 Intro in SomeDocument
+      2 MainPart in SomeDocument
+      3 Summary in SomeDocument
+   by MyName
+   ----------------
+   *** Intro ***
+   *** MainPart ***
+   *** Summary ***

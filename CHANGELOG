@@ -1,0 +1,18 @@
+=0.1.0 (August 3rd, 2006)
+
+* First public release
+
+=0.2.0 (September 3rd, 2006)
+
+* Added model transformation language (Transformer)
+* Now RGen is distributed as a gem
+* More complete documentation
+
+=0.3.0 (October 9th, 2006)
+
+* Improved XML Instantiator (Namespaces, Resolver, Customization)
+* Added many_to_one builder method
+* Added attribute reflection to MMBase (one_attributes, many_attributes)
+* Added +copy+ method to Transformer
+* Added simple model dumper module
+* Fixed mmgen/mmgen.rb

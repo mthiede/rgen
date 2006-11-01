@@ -1,0 +1,73 @@
+== RGen - Ruby Modelling and Generator Framework
+
+RGen is a framework supporting Model Driven Software Development (MDSD).
+This means that it helps you build Metamodels, instantiate Models, modify
+and transform Models and finally generate arbitrary textual content from it.
+
+RGen features include:
+* Programmatic definition of Metamodels
+* Instantiation of Metamodels, i.e. creation of Models (e.g. from XML)
+* Model Transformations
+* Powerful template based generator language
+* A growing set of included Metamodels, Transformations, Generators:
+* UML Class and Object Diagram Metamodel
+* Instantiation of UML Models from XMI
+* Metamodel Generator generating programmatic Metamodel definitions from UML Class Models
+
+
+= Download
+
+Get the latest release from Rubyforge:
+
+	http://rubyforge.org/frs/?group_id=1988
+
+
+= Installation
+
+Unpack the release package somewhere to your filesystem.
+Make sure the 'lib' folder is included in the search path (-I) when you run your own scripts.
+
+As of version 0.2.0 RGen is also available as a gem.
+
+
+= Getting started
+
+Change to the 'test' folder and run the test suite:
+
+	test> ruby rgen_test.rb
+
+
+= Documentation
+
+RGen is being documented using rdoc. 
+Point your browser to 'doc/index.html' to view the documentation.
+
+These are the main parts already documented:
+* RGen::MetamodelBuilder
+* RGen::Transformer
+* RGen::TemplateLanguage
+
+
+= Examples
+
+There are several examples of using RGen within the framework itself.
+
+Metamodel Definition:
+	lib/uml/uml_classmodel.rb
+	lib/uml/uml_objectmodel.rb
+
+Instantiation:
+	lib/ea/xmi_class_instantiator.rb
+	lib/ea/xmi_object_instantiator.rb
+	
+Transformations:
+	lib/ea/xmi_to_classmodel.rb
+	lib/ea/xmi_to_objectmodel.rb
+	
+Generators:
+	lib/mmgen/metamodel_generator.rb
+
+	
+= License
+
+RGen is released under the MIT license.
