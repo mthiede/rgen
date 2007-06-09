@@ -27,6 +27,10 @@ class MetamodelDescription
 		@props[prop]
 	end
 	
+	def annotations
+	    @annotations ||= []
+	end
+	
 	def many?
 		value(:upperBound) > 1 || value(:upperBound) == -1
 	end

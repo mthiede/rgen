@@ -19,9 +19,28 @@ module MetamodelBuilder
 module BuilderExtensions
 	include NameHelper
 
-	def has_attr(role, target_class=nil, raw_props={})
+    class FeatureBlockEvaluator
+      def self.eval(block, props1, props2=nil)
+        return unless block
+        e = self.new(props1, props2)
+        e.instance_eval(&block)
+      end
+      def initialize(props1, props2)
+        @props1, @props2 = props1, props2
+      end
+      def annotation(hash)
+        @props1.annotations << Intermediate::Annotation.new(hash)
+      end
+      def opposite_annotation(hash)
+        raise "No opposite available" unless @props2
+        @props2.annotations << Intermediate::Annotation.new(hash)
+      end
+    end
+    
+	def has_attr(role, target_class=nil, raw_props={}, &block)
 		props = AttributeDescription.new(target_class, raw_props.merge({
 			:name=>role, :upperBound=>1}))
+		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 	
@@ -35,9 +54,10 @@ module BuilderExtensions
 	# 	class#role	# getter
 	# 	class#role=(value)	# setter
 	# 
-	def has_one(role, target_class=nil, raw_props={})
+	def has_one(role, target_class=nil, raw_props={}, &block)
 		props = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>role, :upperBound=>1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 
@@ -54,21 +74,24 @@ module BuilderExtensions
 	# Note that the first letter of the role name is turned into an uppercase 
 	# for the add and remove methods.
 	# 
-	def has_many(role, target_class=nil, raw_props={})
+	def has_many(role, target_class=nil, raw_props={}, &block)
 		props = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>role, :upperBound=>-1,	:containment=>false}))
+		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 	
-	def contains_one_uni(role, target_class=nil, raw_props={})
+	def contains_one_uni(role, target_class=nil, raw_props={}, &block)
 		props = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>role, :upperBound=>1, :containment=>true}))
+		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 
-	def contains_many_uni(role, target_class=nil, raw_props={})
+	def contains_many_uni(role, target_class=nil, raw_props={}, &block)
 		props = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>role, :upperBound=>-1, :containment=>true}))
+		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 	
@@ -93,28 +116,31 @@ module BuilderExtensions
 	# When an element is added/set on either side, this element also receives the element
 	# is is added to as a new element.
 	# 
-	def one_to_many(target_role, target_class, own_role, raw_props={})
+	def one_to_many(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>-1, :containment=>false}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 
-	def contains_many(target_role, target_class, own_role, raw_props={})
+	def contains_many(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>-1, :containment=>true}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 	
 	# This is the inverse of one_to_many provided for convenience.
-	def many_to_one(target_role, target_class, own_role, raw_props={})
+	def many_to_one(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>1, :containment=>false}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>-1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 	
@@ -140,11 +166,12 @@ module BuilderExtensions
 	# When an element is added on either side, this element also receives the element
 	# is is added to as a new element.
 	# 
-	def many_to_many(target_role, target_class, own_role, raw_props={})
+	def many_to_many(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>-1, :containment=>false}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>-1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 	
@@ -166,26 +193,24 @@ module BuilderExtensions
 	# When an element is set on either side, this element also receives the element
 	# is is added to as the new element.
 	# 
-	def one_to_one(target_role, target_class, own_role, raw_props={})
+	def one_to_one(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>1, :containment=>false}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 	
-	def contains_one(target_role, target_class, own_role, raw_props={})
+	def contains_one(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, raw_props.merge({
 			:name=>target_role, :upperBound=>1, :containment=>true}))
 		props2 = ReferenceDescription.new(self, raw_props.merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
+		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
-	
-	def annotation(hash)
-	   Annotation.new(hash)
-	end
-	
+		
 	def _metamodel_description # :nodoc:
 		@metamodel_description ||= []
 	end
@@ -356,17 +381,6 @@ module BuilderExtensions
 			#TODO final_method :#{name}
 			
 		CODE
-	end
-
-	def final_method(m)
-		@final_methods ||= []
-		@final_methods << m
-	end
-
-	public 
-	
-	def method_added(m)
-		raise "Method #{m} can not be redefined" if @final_methods && @final_methods.include?(m)
 	end
 	
 end
