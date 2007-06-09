@@ -1,0 +1,256 @@
+=begin
+# $Id: conformance.rd.src,v 1.1 2003/01/22 16:41:45 katsu Exp $
+
+= xmlscan の規格への適合性
+
+	en| = Conformance of xmlscan to the specifications
+
+この文書では、xmlscan に含まれる各パーサの XML 関連規格への
+適合性について述べます。
+
+	en| This document describes the conformance of each parser
+	en| included in xmlscan for XML related specifications.
+
+== 概要
+
+	en| == Abstract
+
+xmlscan は XML 1.0 Sepcification ((<[XML]>)) でいうところの
+「妥当性を検証しないプロセサ」です。妥当性を検証しないプロセサに
+求められる条件のほとんどを満たしていますが、実装の都合上、主に
+次のような制約があります。詳細は各クラス毎の記述を参照してください。
+
+	en| XMLscan is one of "non-validating XML processor" according to
+	en| XML 1.0 Specification ((<[XML]>)). XMLscan is satisfied with
+	en| almost conditions required for a non-validation XML processor,
+	en| though, for the limitations of implementations, there are mainly
+	en| the following restrictions. For detail, See the below
+	en| descriptions for each class.
+
+ * UTF-16 で書かれたXML文書を直接解析できません。
+ * デフォルトでは、XML文書中で、又はある文脈で使用が認められない
+   文字が含まれていないことを検査しません。
+ * あらゆる外部実体を読み込みません。外部解析対象実体に関する
+   整形式制約はチェックされません。
+ * 内部DTDサブセットは読み飛ばします (将来のバージョンでサポート予定)。
+   DTDに関する整形式制約はチェックされません。
+
+	en| * It is impossible to parse an XML document encoded in UTF-16
+	en|   directly.
+	en| * By default, it is not checked for illegal characters which
+	en|   must not appear in an XML document or in a context.
+	en| * XMLscan doesn't read any external entities. Well-formedness
+	en|   constraints for external entities are not checked.
+	en| * XMLscan skips an internal DTD subset. (it will be supported
+	en|   in future version). Well-formedness constraints for an
+	en|   internal DTD subset are not checked.
+
+
+== XMLScan::XMLScanner の規格への適合性
+
+	en| == Conformance of XMLScan::XMLScanner
+
+XMLScan::XMLScanner はXML文書を解析し、XML宣言、文書型宣言、処理命令、
+コメント、開始タグ、終了タグ、空要素タグ、CDATAセクション、一般実体参照、
+および文字参照の認知のみを行います。以下に述べる場合を除いて、
+これらが現れてはならない文脈で現れたとしても、エラーになりません。
+
+	en| XMLScan::XMLScanner tokenize an XML document and only recognize
+	en| each XML declaration, document type declaration, processing
+	en| instruction, comment, start tag, end tag, empty element tag,
+	en| CDATA section, general entity reference, and character reference.
+	en| It is NOT an error even that one of these parts appears in the
+	en| context which prohibits existence of it, except in the case
+	en| described below.
+
+XML宣言、文書型宣言 (内部DTDサブセットを除く)、処理命令、コメント、
+開始タグ、終了タグ、空要素タグ、CDATAセクション、一般実体参照、および
+文字参照が XML 1.0 Specification ((<[XML]>)) に定める生成規則に
+マッチしない場合、解析エラーとなります。
+
+	en| It is reported as an parse error that an XML declaration,
+	en| document type definition (except internal DTD subset),
+	en| processing instruction, comment, start tag, end tag, empty
+	en| element tag, CDATA section, general entity reference, or a
+	en| character reference is not matched with its production defined
+	en| in XML 1.0 Specification ((<[XML]>)).
+
+実用的な処理速度を得るため、strict_char オプションが指定されていない
+場合、名前や文字データ等に使用が認められない文字が含まれていないことを
+検査しません。その文脈で区切り子として認識されるべき文字を除いた全ての
+文字が容認されます。具体的には、strict_char オプションが指定されて
+いなければ、生成規則 Char[2], Name[5], Nmtoken[7], EntityValue[9],
+AttValue[10], SystemLiteral[11], PubidChar[13], CharData[14],
+VersionNum[26], EncName[81] は厳密にチェックされません。
+
+	en| For reasonably speed, if `strict_char' option is not specified,
+	en| XMLScan::XMLScanner doesn't check whether a name or character
+	en| data includes an illegal characters for it. All characters
+	en| except ones recognized as one of delimiters in that context
+	en| are allowed. To be more precise, without `strict_char' option,
+	en| the production Char[2], Name[5], Nmtoken[7], EntityValue[9],
+	en| AttValue[10], SystemLiteral[11], PubidChar[13], CharData[14],
+	en| VersionNum[26], and EncName[81] are not checked strictly.
+
+行末の正規化を行いません。
+
+	en| XMLScan::XMLScanner doesn't normalize linebreaks.
+
+Ruby 自体がサポートしていないため、UTF-16 で書かれた文書を
+直接解析することはできません。解析前に一旦 UTF-8 に変換する
+必要があります。
+
+	en| Since Ruby is not supported UTF-16, it is impossible to parse
+	en| an XML document encoded in UTF-16 as it is. You need to convert
+	en| it to UTF-8 before parsing.
+
+文書の先頭以外で `<?xml' が現れた場合は、それを処理命令とみなします。
+
+	en| `<?xml' in a place except the beginning of an XML document is
+	en| regarded as a processing instruction.
+
+スタンドアロン文書宣言が yes または no であるかをチェックしません。
+
+	en| It is not checked whether the value of a standalone document
+	en| documentation is either "yes" or "no".
+
+処理命令のターゲットが xml でないことをチェックしません。
+
+	en| It is not checked whether a target in a processing instruction
+	en| is not "xml" or like, which is a reserved target.
+
+文書型宣言が前書き以外に現れた場合、また2回以上現れた場合は
+解析エラーとなります。
+
+	en| It is reported as a parse error in the case that a document type
+	en| declaration appears in a place except prolog, or two or more
+	en| document type declarations are found in one document.
+
+属性値の中に `<' の文字が直接現れた場合、整形式制約違反エラーと
+なります。strict_char オプションが指定されている場合、整形式制約
+"Legal Character" をチェックします。これ以外の整形式制約はまったく
+チェックされません。
+
+	en| It is reported as a well-formedness constraint violation
+	en| that `<' appears directly in a attribute value. If strict_char
+	en| option is specified, XMLScan::XMLScanner checks
+	en| well-formedness constraint: Legal Character.
+	en| Any other well-formedness constraints are not checked.
+
+内部DTDサブセットは読み飛ばします。
+
+	en| XMLScan::XMLScanner skips an internal DTD subset.
+
+
+== XMLScan::XMLParser の規格への適合性
+
+	en| == Conformance of XMLScan::XMLParser
+
+XMLScan::XMLParser は、妥当性を検証しないXMLプロセサとして求められる
+条件のほとんど全てを満たすことを目標にしています。
+
+	en| The goal of XMLScan::XMLParser is to satisfy almost all
+	en| conditions required to a non-validating XML parser.
+
+XMLScan::XMLScanner の strict_char オプションに関する記述、及び
+UTF-16 に関する記述は、そのまま XMLScan::XMLParser にも当てはまります。
+文字参照に関する以下の制約は、strict_char オプションが指定された
+場合のみチェックされます。
+
+	en| The description for XMLScan::XMLScanner about `strict_char'
+	en| option and the description for UTF-16 are applicable to
+	en| XMLScan::XMLParser. The following well-formedness constraints
+	en| about a character reference are checked only if `strict_char'
+	en| option is specified;
+
+ * Well-formedness constraint: Legal Character
+
+行末の正規化を行いません。
+
+	en| XMLScan::XMLScanner doesn't normalize linebreaks.
+
+内部DTDサブセットは読み飛ばします。内部DTDサブセットに関する以下の
+整形式制約はチェックされません。
+
+	en| XMLScan::XMLParser skips an internal DTD subset. The following
+	en| well-formedness constraints about an internal DTD subset are
+	en| not checked;
+
+ * Well-formedness constraint: PEs in Internal Subset
+ * Well-formedness constraint: PE Between Declarations
+ * Well-formedness constraint: No External Entity References
+ * Well-formedness constraint: Entity Declared
+ * Well-formedness constraint: Parsed Entity
+ * Well-formedness constraint: No Recursion
+ * Well-formedness constraint: In DTD
+
+定義済み実体 (lt,gt,amp,quot,apos) を除く全ての一般実体参照は、
+宣言が読み込まれていない実体への参照として報告されます。
+
+	en| All general entity references except ones to predefined entities
+	en| (lt,gt,amp,quot,apos) are reported as ones to undeclared entities.
+
+外部DTDサブセットは取り込みません。外部DTDサブセットに関する以下の
+整形式制約はチェックされません。
+
+	en| External DTD subsets are not read. The following well-formedness
+	en| constraints about an external DTD subset are not checked;
+
+ * Well-formedness constraint: External Subset
+
+宣言を読み込んでいない実体の置換テキストに < が含まれていることを
+確認できないため、以下の整形式制約はチェックされません。
+
+	en| Since XMLScan::XMLParser cannot check whether a replacement text
+	en| of an undeclared entity includes `<', the following
+	en| well-formedness constraints are not checked completely;
+
+ * Well-formedness constraint: No < in Attribute Values
+
+
+== XMLScan::XMLNamespace の規格への適合性
+
+	en| == Conformance of XMLScan::XMLNamespace
+
+XMLScan::XMLNamespace は Namespaces in XML 及びその errata ((<[Namespaces]>))
+に定められる全ての制約をチェックし、 XML 文書が名前空間整形式
+(namespace-well-formed) であることを確認します。
+
+	en| XMLScan::XMLNamespace checks for all constraints specified in
+	en| ``Namespaces in XML'' and its errata ((<[Namespaces]>)), and
+	en| ensure that an XML document is namespace-well-formed.
+
+XMLScan::XMLParser に起因する制限は、そのまま XMLScan::XMLNamespace
+にも継承されます。
+
+	en| All limitations for XMLScan::XMLParser are inherited to
+	en| XMLScan::XMLNamespace.
+
+
+== 参考文献
+	en| == References
+
+: [XML]
+    W3C (World Wide Web Consortium).
+    Extensible Markup Language (XML) 1.0 (Second Edition),
+    January 2000.
+    ((<URL:http://www.w3.org/TR/2000/REC-xml-20001006>))
+
+: [Namespaces]
+    W3C (World Wide Web Consortium).
+    Namespaces in XML,
+    January 1999.
+    ((<URL:http://www.w3.org/TR/1999/REC-xml-names-19990114>)).
+    重要な訂正が ((<URL:http://www.w3.org/XML/xml-names-19990114-errata>))
+    に含まれている.
+
+	en| : [Namespaces]
+	en|     W3C (World Wide Web Consortium).
+	en|     Namespaces in XML,
+	en|     January 1999.
+	en|     ((<URL:http://www.w3.org/TR/1999/REC-xml-names-19990114>)).
+	en|     Important corrections are found at
+	en|     ((<URL:http://www.w3.org/XML/xml-names-19990114-errata>)).
+
+
+=end

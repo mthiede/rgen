@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>en/conformance.rd</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">Conformance of xmlscan to the specifications</a></h1><!-- RDLabel: "Conformance of xmlscan to the specifications" -->
+<p>This document describes the conformance of each parser
+included in xmlscan for XML related specifications.</p>
+<h2><a name="label-1" id="label-1">Abstract</a></h2><!-- RDLabel: "Abstract" -->
+<p>XMLscan is one of "non-validating XML processor" according to
+XML 1.0 Specification <a href="#label-6">[XML]</a>. XMLscan is satisfied with
+almost conditions required for a non-validation XML processor,
+though, for the limitations of implementations, there are mainly
+the following restrictions. For detail, See the below
+descriptions for each class.</p>
+<ul>
+<li>It is impossible to parse an XML document encoded in UTF-16
+   directly.</li>
+<li>By default, it is not checked for illegal characters which
+   must not appear in an XML document or in a context.</li>
+<li>XMLscan doesn't read any external entities. Well-formedness
+   constraints for external entities are not checked.</li>
+<li>XMLscan skips an internal DTD subset. (it will be supported
+   in future version). Well-formedness constraints for an
+   internal DTD subset are not checked.</li>
+</ul>
+<h2><a name="label-2" id="label-2">Conformance of XMLScan::XMLScanner</a></h2><!-- RDLabel: "Conformance of XMLScan::XMLScanner" -->
+<p>XMLScan::XMLScanner tokenize an XML document and only recognize
+each XML declaration, document type declaration, processing
+instruction, comment, start tag, end tag, empty element tag,
+CDATA section, general entity reference, and character reference.
+It is NOT an error even that one of these parts appears in the
+context which prohibits existence of it, except in the case
+described below.</p>
+<p>It is reported as an parse error that an XML declaration,
+document type definition (except internal DTD subset),
+processing instruction, comment, start tag, end tag, empty
+element tag, CDATA section, general entity reference, or a
+character reference is not matched with its production defined
+in XML 1.0 Specification <a href="#label-6">[XML]</a>.</p>
+<p>For reasonably speed, if `strict_char' option is not specified,
+XMLScan::XMLScanner doesn't check whether a name or character
+data includes an illegal characters for it. All characters
+except ones recognized as one of delimiters in that context
+are allowed. To be more precise, without `strict_char' option,
+the production Char[2], Name[5], Nmtoken[7], EntityValue[9],
+AttValue[10], SystemLiteral[11], PubidChar[13], CharData[14],
+VersionNum[26], and EncName[81] are not checked strictly.</p>
+<p>XMLScan::XMLScanner doesn't normalize linebreaks.</p>
+<p>Since Ruby is not supported UTF-16, it is impossible to parse
+an XML document encoded in UTF-16 as it is. You need to convert
+it to UTF-8 before parsing.</p>
+<p>`&lt;?xml' in a place except the beginning of an XML document is
+regarded as a processing instruction.</p>
+<p>It is not checked whether the value of a standalone document
+documentation is either "yes" or "no".</p>
+<p>It is not checked whether a target in a processing instruction
+is not "xml" or like, which is a reserved target.</p>
+<p>It is reported as a parse error in the case that a document type
+declaration appears in a place except prolog, or two or more
+document type declarations are found in one document.</p>
+<p>It is reported as a well-formedness constraint violation
+that `&lt;' appears directly in a attribute value. If strict_char
+option is specified, XMLScan::XMLScanner checks
+well-formedness constraint: Legal Character.
+Any other well-formedness constraints are not checked.</p>
+<p>XMLScan::XMLScanner skips an internal DTD subset.</p>
+<h2><a name="label-3" id="label-3">Conformance of XMLScan::XMLParser</a></h2><!-- RDLabel: "Conformance of XMLScan::XMLParser" -->
+<p>The goal of XMLScan::XMLParser is to satisfy almost all
+conditions required to a non-validating XML parser.</p>
+<p>The description for XMLScan::XMLScanner about `strict_char'
+option and the description for UTF-16 are applicable to
+XMLScan::XMLParser. The following well-formedness constraints
+about a character reference are checked only if `strict_char'
+option is specified;</p>
+<ul>
+<li>Well-formedness constraint: Legal Character</li>
+</ul>
+<p>XMLScan::XMLScanner doesn't normalize linebreaks.</p>
+<p>XMLScan::XMLParser skips an internal DTD subset. The following
+well-formedness constraints about an internal DTD subset are
+not checked;</p>
+<ul>
+<li>Well-formedness constraint: PEs in Internal Subset</li>
+<li>Well-formedness constraint: PE Between Declarations</li>
+<li>Well-formedness constraint: No External Entity References</li>
+<li>Well-formedness constraint: Entity Declared</li>
+<li>Well-formedness constraint: Parsed Entity</li>
+<li>Well-formedness constraint: No Recursion</li>
+<li>Well-formedness constraint: In DTD</li>
+</ul>
+<p>All general entity references except ones to predefined entities
+(lt,gt,amp,quot,apos) are reported as ones to undeclared entities.</p>
+<p>External DTD subsets are not read. The following well-formedness
+constraints about an external DTD subset are not checked;</p>
+<ul>
+<li>Well-formedness constraint: External Subset</li>
+</ul>
+<p>Since XMLScan::XMLParser cannot check whether a replacement text
+of an undeclared entity includes `&lt;', the following
+well-formedness constraints are not checked completely;</p>
+<ul>
+<li>Well-formedness constraint: No &lt; in Attribute Values</li>
+</ul>
+<h2><a name="label-4" id="label-4">Conformance of XMLScan::XMLNamespace</a></h2><!-- RDLabel: "Conformance of XMLScan::XMLNamespace" -->
+<p>XMLScan::XMLNamespace checks for all constraints specified in
+``Namespaces in XML'' and its errata <a href="#label-7">[Namespaces]</a>, and
+ensure that an XML document is namespace-well-formed.</p>
+<p>All limitations for XMLScan::XMLParser are inherited to
+XMLScan::XMLNamespace.</p>
+<h2><a name="label-5" id="label-5">References</a></h2><!-- RDLabel: "References" -->
+<dl>
+<dt><a name="label-6" id="label-6">[XML]</a></dt><!-- RDLabel: "[XML]" -->
+<dd>
+W3C (World Wide Web Consortium).
+Extensible Markup Language (XML) 1.0 (Second Edition),
+January 2000.
+<a href="http://www.w3.org/TR/2000/REC-xml-20001006">&lt;URL:http://www.w3.org/TR/2000/REC-xml-20001006&gt;</a>
+</dd>
+<dt><a name="label-7" id="label-7">[Namespaces]</a></dt><!-- RDLabel: "[Namespaces]" -->
+<dd>
+W3C (World Wide Web Consortium).
+Namespaces in XML,
+January 1999.
+<a href="http://www.w3.org/TR/1999/REC-xml-names-19990114">&lt;URL:http://www.w3.org/TR/1999/REC-xml-names-19990114&gt;</a>.
+Important corrections are found at
+<a href="http://www.w3.org/XML/xml-names-19990114-errata">&lt;URL:http://www.w3.org/XML/xml-names-19990114-errata&gt;</a>.
+</dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+xmlscan
+=======
+
+  The fastest XML parser written in 100% pure Ruby.
+
+Installation
+------------
+
+  Run install.rb. Type as follows:
+
+    $ ruby install.rb
+
+Samples
+-------
+
+  In directory `samples', there are sample programs.
+
+LICENCE
+-------
+
+  This module's license is the same of Ruby. You can redistribute
+  it and/or modify it under the same term as Ruby.
+
+    Japanese: http://www.ruby-lang.org/ja/LICENSE.txt
+    English:  http://www.ruby-lang.org/en/LICENSE.txt
+
+Bug Reports
+-----------
+
+  Any kinds of comments and bug reports are welcome.
+  If you find bugs, please email me.
+
+
+                             UENO Katsuhiro <katsu@blue.sky.or.jp>
