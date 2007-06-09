@@ -3,6 +3,7 @@
 
 require 'rgen/metamodel_builder/builder_runtime'
 require 'rgen/metamodel_builder/builder_extensions'
+require 'rgen/metamodel_builder/module_extension'
 require 'rgen/metamodel_builder/data_types'
 require 'rgen/metamodel_builder/mm_multiple'
 require 'rgen/ecore/ecore_instantiator'
@@ -179,13 +180,10 @@ module MetamodelBuilder
 		include BuilderRuntime
 		include DataTypes
 		extend BuilderExtensions
+		extend ModuleExtension
 		extend RGen::ECore::ECoreInstantiator
 	end
 	
-	module ModuleExtension
-		include BuilderExtensions
-		include RGen::ECore::ECoreInstantiator
-    end
 end
 
 end

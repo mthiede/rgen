@@ -11,7 +11,7 @@
 		
 <% define 'GeneratePackage', :for => EPackage do %>
 	module <%= moduleName %><% iinc %>
-		extend RGen::ECore::ECoreInstantiator
+		extend RGen::MetamodelBuilder::ModuleExtension
 		include RGen::MetamodelBuilder::DataTypes
 		<%nl%>
 		<% expand 'EnumTypes' %>

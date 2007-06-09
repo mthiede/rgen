@@ -337,48 +337,71 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["classAs", "classCs"], OtherSubClass.ecore.eAllReferences.name.sort
   end
   
-#  module AnnotatedModule 
-#    extend RGen::MetamodelBuilder::ModuleExtension
-#
-#    annotation "moduletag" => "modulevalue"
-#    
-#    class AnnotatedClass < RGen::MetamodelBuilder::MMBase
-#      annotation "sometag" => "somevalue", "othertag" => "othervalue"
-#      annotation :source => "rgen/test", :details => {"thirdtag" => "thirdvalue"}
-#    
-#      has_many "others", AnnotatedClass do
-#        annotation "attrtag" => "attrval"
-#        annotation :source => "rgen/test2", :details => {"attrtag2" => "attrvalue2", "attrtag3" => "attrvalue3"}
-#      end
-#    end
-#    
-#  end
+  module AnnotatedModule 
+    extend RGen::MetamodelBuilder::ModuleExtension
+
+    annotation "moduletag" => "modulevalue"
+    
+    class AnnotatedClass < RGen::MetamodelBuilder::MMBase
+      annotation "sometag" => "somevalue", "othertag" => "othervalue"
+      annotation :source => "rgen/test", :details => {"thirdtag" => "thirdvalue"}
+    
+      has_attr "boolAttr", Boolean do
+        annotation "attrtag" => "attrval"
+        annotation :source => "rgen/test2", :details => {"attrtag2" => "attrvalue2", "attrtag3" => "attrvalue3"}
+      end
+
+      has_many "others", AnnotatedClass do
+        annotation "reftag" => "refval"
+        annotation :source => "rgen/test3", :details => {"reftag2" => "refvalue2", "reftag3" => "refvalue3"}
+      end
+
+      many_to_many "m2m", AnnotatedClass, "m2mback" do
+        annotation "m2mtag" => "m2mval"
+        opposite_annotation "opposite_m2mtag" => "opposite_m2mval"
+      end
+    end
+    
+  end
   
-  def hide_test_annotations
+  def test_annotations
     assert_equal 1, AnnotatedModule.ecore.eAnnotations.size
     anno = AnnotatedModule.ecore.eAnnotations.first
-    assert anno.is_a?(RGen::ECore::EAnnotation)
-    checkDetails(nil,{"moduletag" => "modulevalue"})
+    checkAnnotation(anno, nil, {"moduletag" => "modulevalue"})
 
-    assert_equal 2, AnnotatedClass.ecore.eAnnotations.size
-    anno = AnnotatedClass.ecore.eAnnotations.find{|a| a.source == "rgen/test"}
-    assert anno.is_a?(RGen::ECore::EAnnotation)
-    checkDetails("rgen/test", {"thirdtag" => "thirdvalue"})
-    anno = AnnotatedClass.ecore.eAnnotations.find{|a| a.source == nil}
-    assert anno.is_a?(RGen::ECore::EAnnotation)
-    checkDetails(nil, {"sometag" => "somevalue", "othertag" => "othervalue"})
+    eClass = AnnotatedModule::AnnotatedClass.ecore
+    assert_equal 2, eClass.eAnnotations.size
+    anno = eClass.eAnnotations.find{|a| a.source == "rgen/test"}
+    checkAnnotation(anno, "rgen/test", {"thirdtag" => "thirdvalue"})
+    anno = eClass.eAnnotations.find{|a| a.source == nil}
+    checkAnnotation(anno, nil, {"sometag" => "somevalue", "othertag" => "othervalue"})
 
-    eAttr = AnnotatedClass.ecore.eAttributes.first
+    eAttr = eClass.eAttributes.first
     assert_equal 2, eAttr.eAnnotations.size
     anno = eAttr.eAnnotations.find{|a| a.source == "rgen/test2"}
-    assert anno.is_a?(RGen::ECore::EAnnotation)
-    checkDetails("rgen/test2", {"attrtag2" => "attrvalue2", "attrtag3" => "attrvalue3"})
+    checkAnnotation(anno, "rgen/test2", {"attrtag2" => "attrvalue2", "attrtag3" => "attrvalue3"})
     anno = eAttr.eAnnotations.find{|a| a.source == nil}
-    assert anno.is_a?(RGen::ECore::EAnnotation)
-    checkDetails(nil, {"attrtag" => "attrval"})
+    checkAnnotation(anno, nil, {"attrtag" => "attrval"})
+
+    eRef = eClass.eReferences.find{|r| !r.eOpposite}
+    assert_equal 2, eRef.eAnnotations.size
+    anno = eRef.eAnnotations.find{|a| a.source == "rgen/test3"}
+    checkAnnotation(anno, "rgen/test3", {"reftag2" => "refvalue2", "reftag3" => "refvalue3"})
+    anno = eRef.eAnnotations.find{|a| a.source == nil}
+    checkAnnotation(anno, nil, {"reftag" => "refval"})
+
+    eRef = eClass.eReferences.find{|r| r.eOpposite}
+    assert_equal 1, eRef.eAnnotations.size
+    anno = eRef.eAnnotations.first
+    checkAnnotation(anno, nil, {"m2mtag" => "m2mval"})
+    eRef = eRef.eOpposite
+    assert_equal 1, eRef.eAnnotations.size
+    anno = eRef.eAnnotations.first
+    checkAnnotation(anno, nil, {"opposite_m2mtag" => "opposite_m2mval"})
   end
 
-  def checkDetails(source, hash)
+  def checkAnnotation(anno, source, hash)
+    assert anno.is_a?(RGen::ECore::EAnnotation)
     assert_equal source, anno.source
     assert_equal hash.size, anno.details.size
     hash.each_pair do |k, v|

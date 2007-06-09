@@ -1,7 +1,7 @@
 require 'rgen/metamodel_builder'
 
 module HouseMetamodel
-   extend RGen::ECore::ECoreInstantiator
+   extend RGen::MetamodelBuilder::ModuleExtension
    include RGen::MetamodelBuilder::DataTypes
 
 
@@ -17,7 +17,7 @@ module HouseMetamodel
 
 
    module Rooms
-      extend RGen::ECore::ECoreInstantiator
+      extend RGen::MetamodelBuilder::ModuleExtension
       include RGen::MetamodelBuilder::DataTypes
 
 

@@ -1,7 +1,7 @@
 require 'rgen/metamodel_builder'
 
 module RGen
-extend RGen::ECore::ECoreInstantiator
+extend RGen::MetamodelBuilder::ModuleExtension
 
 # This is the ECore metamodel described using the RGen::MetamodelBuilder language.
 #
@@ -9,7 +9,7 @@ extend RGen::ECore::ECoreInstantiator
 # * Attributes can not be "many"
 # 
 module ECore
-	 extend RGen::ECore::ECoreInstantiator
+   extend RGen::MetamodelBuilder::ModuleExtension
 
    class EObject < RGen::MetamodelBuilder::MMBase
    end
