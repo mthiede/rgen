@@ -23,8 +23,8 @@ class ArrayExtensionsTest < Test::Unit::TestCase
 	end
 	
 	class MMBaseClass < RGen::MetamodelBuilder::MMBase
-		has_one 'name'
-		has_one 'age'
+		has_attr 'name'
+		has_attr 'age', Integer
 	end
 	
 	def test_with_mmbase

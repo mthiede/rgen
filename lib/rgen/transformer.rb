@@ -198,16 +198,13 @@ class Transformer
 
 	# This class method specifies that all objects of class +from+ are to be copied
 	# into an object of class +to+. If +to+ is omitted, +from+ is used as target class.
-	# During copy, all attributes according to 
-	# MetamodelBuilder::BuilderExtensions.one_attributes and 
-	# MetamodelBuilder::BuilderExtensions.many_attributes of the target object
+	# During copy, all attributes and references of the target object
 	# are set to their transformed counterparts of the source object.
 	# 
 	def self.copy(from, to=nil)
 		transform(from, :to => to || from) do
-			Hash[*(@current_object.class.one_attributes + 
-			@current_object.class.many_attributes).inject([]) {|l,a|
-				l + [a.to_sym, trans(@current_object.send(a))]
+			Hash[*@current_object.class.ecore.eAllStructuralFeatures.inject([]) {|l,a|
+				l + [a.name.to_sym, trans(@current_object.send(a.name))]
 			}]
 		end
 	end
@@ -221,9 +218,10 @@ class Transformer
 	end
 	
 
-	# Creates a new transformer with the specified input and output Environment.
+	# Creates a new transformer
+	# Optionally an input and output Environment can be specified.
 	# 
-	def initialize(env_in, env_out)
+	def initialize(env_in=nil, env_out=nil)
 		@env_in = env_in
 		@env_out = env_out
 		@transformer_results = {}
@@ -244,7 +242,10 @@ class Transformer
 	# * a hash used as input to Environment#find with the result being transformed
 	# 
 	def trans(obj)
-		obj = @env_in.find(obj) if obj.is_a?(Hash)
+		if obj.is_a?(Hash)
+			raise StandardError.new("No input environment available to find model element.") unless @env_in
+			obj = @env_in.find(obj) 
+		end
 		return nil if obj.nil?
 		return obj if obj.is_a?(TrueClass) or obj.is_a?(FalseClass) or obj.is_a?(Numeric) or obj.is_a?(Symbol)
 		return @transformer_results[obj] if @transformer_results[obj]
@@ -266,11 +267,11 @@ class Transformer
 	# If that object also does not respond to the call, it is treated as a transformer
 	# method call (see Transformer.method).
 	# 
-	def method_missing(m) #:nodoc:
+	def method_missing(m, *args) #:nodoc:
 		if @current_object.respond_to?(m)
-			@current_object.send(m)
+			@current_object.send(m, *args)
 		else
-			_invokeMethod(m)
+			_invokeMethod(m, *args)
 		end
 	end
 
@@ -313,7 +314,9 @@ class Transformer
 			target_class = target_desc
 		end
 		@current_object = old_object
-		@env_out.new target_class
+		result = target_class.new
+		@env_out << result if @env_out
+		result
 	end
 	
 	def _invokeMethod(m) # :nodoc:

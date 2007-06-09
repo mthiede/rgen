@@ -1,6 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__),"..")
 
-require 'ea/xmi_class_instantiator'
+require 'ea/xmi_ecore_instantiator'
 require 'mmgen/metamodel_generator'
 
 include MMGen::MetamodelGenerator
@@ -16,11 +16,13 @@ else
 	puts out_file
 end
 
-envUML = RGen::Environment.new
+env = RGen::Environment.new
 File.open(file_name) { |f|
-	XMIClassInstantiator.new.instantiateUMLClassModel(envUML, f.read)
+    puts "instantiating ..."
+	XMIECoreInstantiator.new.instantiateECoreModel(env, f.read)
 }
 
-rootPackage = envUML.find(:class => UMLClassModel::UMLPackage).select{|p| p.name == root_package_name}.first
+rootPackage = env.find(:class => RGen::ECore::EPackage, :name => root_package_name).first
 
+puts "generating ..."
 generateMetamodel(rootPackage, out_file, modules)

@@ -3,6 +3,9 @@
 
 require 'rgen/metamodel_builder/builder_runtime'
 require 'rgen/metamodel_builder/builder_extensions'
+require 'rgen/metamodel_builder/data_types'
+require 'rgen/metamodel_builder/mm_multiple'
+require 'rgen/ecore/ecore_instantiator'
 
 module RGen
 
@@ -23,12 +26,12 @@ module RGen
 # Here is an example:
 # 
 # 	class Person < RGen::MetamodelBuilder::MMBase
-# 		has_one 'name', String
-# 		has_one 'age', Integer
+# 		has_attr 'name', String
+# 		has_attr 'age', Integer
 # 	end
 # 
 # 	class House < RGen::MetamodelBuilder::MMBase
-# 		has_one 'address'
+# 		has_attr 'address' # String is default
 # 	end
 # 
 # 	Person.many_to_many 'homes', House, 'inhabitants'
@@ -53,8 +56,7 @@ module RGen
 # 
 # 	p.name = :myName	# => exception: can not put a Symbol where a String is expected
 # 
-# If the type of an attribute should be left undefined, just leave away the
-# second argument of 'has_one' as show at the attribute 'address' for House.
+# If the type of an attribute should be left undefined, use Object as type.
 #
 # =Associations
 # 
@@ -81,11 +83,92 @@ module RGen
 # exception:
 # 
 # 	p.addHomes(:justASymbol) # => exception: can not put a Symbol where a House is expected
+#
+# =ECore Metamodel description
 # 
-# _Unidirectional_ associations can be thought of as attributes as shown above. This means 
-# that 'has_one' or 'has_many' can be used to define such associations. Again, the
-# type of the attribute/association can be specified as a second argument.
+# The class methods described above are used to create a Ruby representation of the metamodel
+# we have in mind in a very simple and easy way. We don't have to care about all the details
+# of a metamodel at this point (e.g. multiplicities, changeability, etc).
 # 
+# At the same time however, an instance of the ECore metametamodel (i.e. a ECore based
+# description of our metamodel) is provided for all the Ruby classes and modules we create.
+# Since we did not provide the nitty-gritty details of the metamodel, defaults are used to
+# fully complete the ECore metamodel description.
+#
+# In order to access the ECore metamodel description, just call the +ecore+ method on a
+# Ruby class or module object belonging to your metamodel.
+# 
+# Here is the example continued from above:
+# 
+# 	Person.ecore.eAttributes.name # => ["name", "age"]
+# 	h2pRef = House.ecore.eReferences.first
+# 	h2pRef.eType                  # => Person
+# 	h2pRef.eOpposite.eType        # => House
+# 	h2pRef.lowerBound             # => 0
+# 	h2pRef.upperBound             # => -1
+# 	h2pRef.many                   # => true
+# 	h2pRef.containment            # => false
+# 
+# Note that the use of array_extensions.rb is assumed here to make model navigation convenient.
+# 
+# The following metamodel builder methods are supported, see individual method description
+# for details:
+# 
+# Attributes:
+# * BuilderExtensions#has_attr
+# 
+# Unidirectional references:
+# * BuilderExtensions#has_one
+# * BuilderExtensions#has_many
+# * BuilderExtensions#contains_one_uni
+# * BuilderExtensions#contains_many_uni
+# 
+# Bidirectional references:
+# * BuilderExtensions#one_to_one
+# * BuilderExtensions#one_to_many
+# * BuilderExtensions#many_to_one
+# * BuilderExtensions#many_to_many
+# * BuilderExtensions#contains_one
+# * BuilderExtensions#contains_many
+# 
+# Every builder command can optionally take a specification of further ECore properties.
+# Additional properties for Attributes and References are (with defaults in brackets):
+# * :ordered (true), 
+# * :unique (true),
+# * :changeable (true),
+# * :volatile (false),
+# * :transient (false),
+# * :unsettable (false),
+# * :derived (false),
+# * :lowerBound (0),
+# * :resolveProxies (true) <i>references only</i>,
+# 
+# Using these additional properties, the above example can be refined as follows:
+# 
+# 	class Person < RGen::MetamodelBuilder::MMBase
+# 		has_attr 'name', String, :lowerBound => 1
+# 		has_attr 'yearOfBirth', Integer,
+# 		has_attr 'age', Integer, :derived => true
+# 		def age_derived
+# 			Time.now.year - yearOfBirth
+# 		end
+# 	end
+# 
+# 	Person.many_to_many 'homes', House, 'inhabitants', :upperBound => 5
+# 
+# 	Person.ecore.eReferences.find{|r| r.name == 'homes'}.upperBound # => 5
+# 
+# This way we state that there must be a name for each person, we introduce a new attribute
+# 'yearOfBirth' and make 'age' a derived attribute. We also say that a person can 
+# have at most 5 houses in our metamodel.
+# 
+# ==Derived attributes and references
+# 
+# If the attribute 'derived' of an attribute or reference is set to true, a method +attributeName_derived+
+# has to be provided. This method is called whenever the original attribute is accessed. The
+# original attribute can not be written if it is derived.
+# 
+#
 module MetamodelBuilder	
 
 	# Use this class as a start for new metamodel elements (i.e. Ruby classes)
@@ -94,9 +177,15 @@ module MetamodelBuilder
 	# See MetamodelBuilder for an example.
 	class MMBase
 		include BuilderRuntime
+		include DataTypes
 		extend BuilderExtensions
+		extend RGen::ECore::ECoreInstantiator
 	end
-
+	
+	module ModuleExtension
+		include BuilderExtensions
+		include RGen::ECore::ECoreInstantiator
+    end
 end
 
 end

@@ -4,22 +4,23 @@ module XMIMetaModel
 	
 		include RGen::MetamodelBuilder
 		class Classifier_feature < MMBase
-			has_many 'operation'
 		end
 		class ClassifierRole < MMBase
 		end
 		class Clazz < ClassifierRole
-			has_many 'modelElement_stereotype'
+		end
+		class Interface < ClassifierRole
 		end
 		class Operation < MMBase
-			has_one 'parent'
 		end
 		class Generalization < MMBase
 		end
 		class ModelElement_stereotype < MMBase
-			has_one 'parent'
 		end
 		class AssociationEnd < MMBase
+			def otherEnd
+				parent.associationEnd.find{|ae| ae != self}
+			end
 		end
 		class AssociationEndRole < MMBase
 		end

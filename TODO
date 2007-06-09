@@ -1,0 +1,11 @@
+=Open issues 
+* allow definition of templates from within regular code
+* support for additional abstract superclasses (modules), 
+  test generated metamodel by generating again from its ecore model (must have same result)
+* opposite properties for bidirectional references
+* indexed find
+* XML instantiator documentation
+* provide means to setup model element attributes within constructor call
+* revise builder datatypes, especially enum implementation using Enum objects as types, 
+  also revise ecore metamodel at this point
+* revise documentation of BuilderExtensions

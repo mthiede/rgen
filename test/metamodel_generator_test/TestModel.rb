@@ -1,40 +1,39 @@
 require 'rgen/metamodel_builder'
-module HouseMetamodel
 
-   class Person < RGen::MetamodelBuilder::MMBase
-      has_one 'name', String
+module HouseMetamodel
+   extend RGen::ECore::ECoreInstantiator
+   include RGen::MetamodelBuilder::DataTypes
+
+
+   class MeetingPlace < RGen::MetamodelBuilder::MMBase
    end
 
    class House < RGen::MetamodelBuilder::MMBase
-      has_one 'name', String
-      has_one 'address', String
+      has_attr 'address', String, :changeable => false
    end
 
-   module MeetingPlace
-      extend RGen::MetamodelBuilder::BuilderExtensions
-      has_one 'name', String
+   class Person < RGen::MetamodelBuilder::MMBase
    end
 
 
    module Rooms
+      extend RGen::ECore::ECoreInstantiator
+      include RGen::MetamodelBuilder::DataTypes
+
 
       class Room < RGen::MetamodelBuilder::MMBase
-         has_one 'name', String
       end
 
       class Bathroom < Room
-         has_one 'name', String
       end
 
-      class Kitchen < Room
-         include MeetingPlace
-         has_one 'name', String
+      class Kitchen < RGen::MetamodelBuilder::MMMultiple(HouseMetamodel::MeetingPlace, Room)
       end
 
    end
 end
 
-HouseMetamodel::Person.one_to_many 'home', HouseMetamodel::House, 'person'
-HouseMetamodel::House.one_to_one 'bathroom', HouseMetamodel::Rooms::Bathroom, 'house'
-HouseMetamodel::Rooms::Kitchen.one_to_one 'house', HouseMetamodel::House, 'kitchen'
-HouseMetamodel::House.one_to_many 'room', HouseMetamodel::Rooms::Room, 'house'
+HouseMetamodel::House.has_one 'bathroom', HouseMetamodel::Rooms::Bathroom, :lowerBound => 1
+HouseMetamodel::House.one_to_one 'kitchen', HouseMetamodel::Rooms::Kitchen, 'house', :lowerBound => 1
+HouseMetamodel::House.contains_many 'room', HouseMetamodel::Rooms::Room, 'house', :lowerBound => 1
+HouseMetamodel::Person.has_many 'home', HouseMetamodel::House

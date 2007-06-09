@@ -1,9 +1,10 @@
-require 'rgen/xml_instantiator'
+require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
 require 'uml/uml_objectmodel'
 require 'ea/xmi_metamodel'
 
 # This module can be used to instantiate an UMLObjectModel from an XMI description.
+# The input XMI is expected to be written by Enterprise Architect.
 # 
 # Here is an example:
 # 
@@ -21,7 +22,7 @@ require 'ea/xmi_metamodel'
 #
 # This module relies on XmiToObjectmodel to do the actual transformation.
 # 
-class XMIObjectInstantiator < RGen::XMLInstantiator
+class XMIObjectInstantiator < RGen::Instantiator::DefaultXMLInstantiator
 	
 	include UMLObjectModel
 

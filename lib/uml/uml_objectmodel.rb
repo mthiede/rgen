@@ -5,15 +5,15 @@ module UMLObjectModel
 include RGen::MetamodelBuilder
 
 class UMLPackage < MMBase
-	has_one 'name', String
+	has_attr 'name', String
 	def allObjects
 		subpackages.inject(objects) {|r,p| r.concat(p.allObjects) }
 	end
 end
 
 class UMLObject < MMBase
-	has_one 'name', String
-	has_one 'classname', String
+	has_attr 'name', String
+	has_attr 'classname', String
 	def remoteNavigableEnds
 		assocEnds.otherEnd.select{|e| e.navigable}
 	end
@@ -30,8 +30,8 @@ class UMLObject < MMBase
 end
 
 class UMLAttributeSetting < MMBase
-	has_one 'name', String
-	has_one 'value', String
+	has_attr 'name', String
+	has_attr 'value', String
 end
 
 class UMLAssociation < MMBase
@@ -41,9 +41,9 @@ class UMLAggregation < UMLAssociation
 end	
 
 class UMLAssociationEnd < MMBase
-	has_one 'navigable' # boolean
-	has_one 'composite' # boolean
-	has_one 'role', String
+	has_attr 'navigable', Boolean
+	has_attr 'composite', Boolean
+	has_attr 'role', String
 	def assoc
 		assocA || assocB
 	end

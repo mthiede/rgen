@@ -18,25 +18,30 @@ class EnvironmentTest < Test::Unit::TestCase
 		m2 = ModelSub.new
 		m2.name = "M2"
 		m3 = "justAString"
-		env_in = RGen::Environment.new << m1 << m2 << m3
-
-		result = env_in.find(:class => Model, :name => "M1")
+		env = RGen::Environment.new << m1 << m2 << m3
+		assertFind(env, m1, m2, m3)
+		idx = env.findIndex(:name)
+		assertFind(idx, m1, m2, m3)
+	end
+	
+	def assertFind(context, m1, m2, m3)
+		result = context.find(:class => Model, :name => "M1")
 		assert result.is_a?(Array)
 		assert_equal 1, result.size
 		assert_equal m1, result.first
 
-		result = env_in.find(:class => Model)
+		result = context.find(:class => Model)
 		assert result.is_a?(Array)
 		assert_equal 2, result.size
 		assert_equal m1, result[0]
 		assert_equal m2, result[1]
 		
-		result = env_in.find(:name => "M2")
+		result = context.find(:name => "M2")
 		assert result.is_a?(Array)
 		assert_equal 1, result.size
 		assert_equal m2, result[0]		
 		
-		result = env_in.find(:class => [Model, String])
+		result = context.find(:class => [Model, String])
 		assert result.is_a?(Array)
 		assert_equal 3, result.size
 		assert_equal m1, result[0]

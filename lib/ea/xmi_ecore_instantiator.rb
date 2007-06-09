@@ -1,29 +1,27 @@
 require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
-require 'uml/uml_classmodel'
+require 'rgen/ecore/ecore'
 require 'ea/xmi_metamodel'
 
-# This module can be used to instantiate an UMLClassModel from an XMI description.
+# This module can be used to instantiate an ECore model from an XMI description.
 # The input XMI is expected to be written by Enterprise Architect.
 # 
 # Here is an example:
 # 
-# 	envUML = RGen::Environment.new
+# 	envECore = RGen::Environment.new
 # 	File.open(MODEL_DIR+"/testmodel.xml") { |f|
-# 		XMIClassInstantiator.new.instantiateUMLClassModel(envUML, f.read)
+# 		XMIECoreInstantiator.new.instantiateECoreModel(envECore, f.read)
 # 	}
 #
-# 	# now use the newly created UML model
-# 	envUML.find(:class => UMLClassModel::UMLClass).each { |c|
+# 	# now use the newly created ECore model
+# 	envECore.find(:class => ECore::EClass).each { |c|
 # 		puts c.name
 # 	}
 #
-# This module relies on XmiToClassmodel to do the actual transformation.
+# This module relies on XmiToECore to do the actual transformation.
 # 
-class XMIClassInstantiator < RGen::Instantiator::DefaultXMLInstantiator
-	
-	include UMLClassModel
-	
+class XMIECoreInstantiator < RGen::Instantiator::DefaultXMLInstantiator
+		
 	map_tag_ns "omg.org/UML1.3", XMIMetaModel::UML
 	
 	resolve_by_id :typeClass, :src => :type, :id => :xmi_id
@@ -34,7 +32,7 @@ class XMIClassInstantiator < RGen::Instantiator::DefaultXMLInstantiator
 		@envXMI = RGen::Environment.new 
 		super(@envXMI, XMIMetaModel, true)
 	end
-	
+
 	def new_object(node)
 	 if node.tag == "EAStub"
 	   class_name = saneClassName(node.attributes["UMLType"])
@@ -45,15 +43,15 @@ class XMIClassInstantiator < RGen::Instantiator::DefaultXMLInstantiator
       else
        super
 	 end
-	end
-	
+	end	
+
 	# This method does the actual work.
-	def instantiateUMLClassModel(envOut, str)
+	def instantiateECoreModel(envOut, str)
 		instantiate(str)
 
-		require 'ea/xmi_to_classmodel'
+		require 'ea/xmi_to_ecore'
 		
-		XmiToClassmodel.new(@envXMI,envOut).transform
+		XmiToECore.new(@envXMI,envOut).transform
 	end
 
 end

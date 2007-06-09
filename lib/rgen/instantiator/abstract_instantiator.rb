@@ -1,6 +1,8 @@
 module RGen
 
-class Instantiator
+module Instantiator
+
+class AbstractInstantiator
 
 	ResolverDescription = Struct.new(:from, :attribute, :block) # :nodoc:
 
@@ -8,7 +10,7 @@ class Instantiator
 		attr_accessor :resolver_descs
 	end
 
-	def initialize(env, mod)
+	def initialize(env)
 		@env = env
 	end
 
@@ -57,6 +59,8 @@ class Instantiator
 		}
 	end			
 	
+end
+
 end
 
 end

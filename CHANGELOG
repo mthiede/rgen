@@ -16,3 +16,19 @@
 * Added +copy+ method to Transformer
 * Added simple model dumper module
 * Fixed mmgen/mmgen.rb
+
+=0.4.0 (May 28th, 2007)
+
+* Added ECore metamodel and use it as the core metametamodel
+* Revised and extended MetamodelBuilder language
+* There is an ECore instance describing each metamodel built using MetamodelBuilder now
+* Metamodel generator is now ECore based
+* Added Ruby implementation of Boolean and Enum types
+* Switched XML Instantiator to xmlscan for performance reasons
+* Cleaned up instantiator file structure
+* Renamed RGen::XMLInstantiator into RGen::Instantiator::DefaultXMLInstantiator
+* Included xmlscan as a redistributed module
+* Added support for chardata within XML tags
+* Added (Enterprise Architect) XMI to ECore instantiator
+* Some minor fixes in NameHelper
+

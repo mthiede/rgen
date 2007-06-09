@@ -6,9 +6,9 @@ require 'rgen/array_extensions'
 
 # This class is a RGen::Transformer working on an input and output Environment.
 # It creates an UMLClassModel from an XMI Model instantiated by a
-# RGen::XMLInstantiator.
+# RGen::Instantiator::DefaultXMLInstantiator.
 # 
-# See description of RGen::XMLInstantiator for details about the XMI (meta-)model.
+# See description of RGen::Instantiator::DefaultXMLInstantiator for details about the XMI (meta-)model.
 # See UMLClassModel for details about the UML Class (meta-)model.
 class XmiToClassmodel < RGen::Transformer
 	include UMLClassModel
@@ -44,7 +44,7 @@ class XmiToClassmodel < RGen::Transformer
 			:attributes => trans(classifier_feature.attribute),
 			:operations => trans(classifier_feature.operation),
 			:taggedvalues => trans(modelElement_taggedValue.taggedValue),
-			:stereotypes => modelElement_stereotype.stereotype.name,
+			:stereotypes => modelElement_stereotype.stereotype.collect{|s| r = UMLStereotype.new; r.name = s.name; r},
 			:subclasses =>  trans(generalizationsAsSupertype.subtypeClass),
 			:assocEnds => trans(associationEnds)}
 	end

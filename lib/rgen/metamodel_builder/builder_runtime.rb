@@ -13,6 +13,11 @@ module MetamodelBuilder
 module BuilderRuntime
 	include NameHelper
 	
+	def is_a?(c)
+	   return super unless c.respond_to?(:_class_module)
+	   kind_of?(c._class_module)
+	end
+	
 	def addGeneric(role, value)
 		send("add#{firstToUpper(role)}",value)
 	end
@@ -56,7 +61,8 @@ module BuilderRuntime
 		end
 		valueId = value.class.name
 		valueId += "(" + value.name + ")" if value.respond_to?(:name) and value.name
-		text += "Can not put a #{valueId} where a #{expected} is expected"
+		valueId += "(:" + value.to_s + ")" if value.is_a?(Symbol)
+		text += "Can not use a #{valueId} where a #{expected} is expected"
 		StandardError.new(text)
 	end
 

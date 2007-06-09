@@ -1,7 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
 require 'test/unit'
-require 'ea/xmi_class_instantiator'
+require 'ea/xmi_ecore_instantiator'
 require 'mmgen/metamodel_generator'
 
 class MetamodelGeneratorTest < Test::Unit::TestCase
@@ -9,32 +9,33 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
 	MODEL_DIR = File.join(File.dirname(__FILE__),"xmi_instantiator_test")
 	OUTPUT_DIR = File.dirname(__FILE__)+"/metamodel_generator_test"
 	MM_FILE = OUTPUT_DIR+"/TestModel.rb"
+	MM_FILE2 = OUTPUT_DIR+"/TestModel2.rb"
 	
 	include MMGen::MetamodelGenerator
 		
 	def test_generator
-		envUML = RGen::Environment.new
+		env = RGen::Environment.new
 		File.open(MODEL_DIR+"/testmodel.xml") { |f|
-			XMIClassInstantiator.new.instantiateUMLClassModel(envUML, f.read)
+			XMIECoreInstantiator.new.instantiateECoreModel(env, f.read)
 		}
 
-		rootPackage = envUML.find(:class => UMLClassModel::UMLPackage).select{|p| p.name == "HouseMetamodel"}.first
+		rootPackage = env.find(:class => RGen::ECore::EPackage).select{|p| p.name == "HouseMetamodel"}.first
 		assert_not_nil rootPackage
 		
-		assert_raise StandardError do
-			# this will raise an exception because multiple inheritance is not resolved
-			generateMetamodel(rootPackage, MM_FILE)
-		end
+		# add some more specific attributes to check the generator
+		house = env.find(:class => RGen::ECore::EClass, :name => "House")
+		house.eAttributes.first.changeable = false
 		
-		# resolve multiple inheritance by specifying which class should be a module
-		modules = ['MeetingPlace']
-		generateMetamodel(rootPackage, MM_FILE, modules)
+		generateMetamodel(rootPackage, MM_FILE)
 		
 		# try to use the generated metamodel
 		File.open(MM_FILE) { |f|
 			eval(f.read)
 		}
-		assert HouseMetamodel::House.new
+        assert HouseMetamodel::House.ecore.is_a?(RGen::ECore::EClass)
+
+        # TODO: now do it again using the ecore built up from generated code
+		# generateMetamodel(HouseMetamodel::House.ecore.ePackage, MM_FILE2, modules)
 
 		result = expected = ""
 		File.open(MM_FILE) {|f| result = f.read}

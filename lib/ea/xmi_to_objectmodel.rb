@@ -6,9 +6,9 @@ require 'rgen/array_extensions'
 
 # This class is a RGen::Transformer working on an input and output Environment.
 # It creates an UMLObjectModel from an XMI Model instantiated by a
-# RGen::XMLInstantiator.
+# RGen::Instantiator::DefaultXMLInstantiator.
 # 
-# See description of RGen::XMLInstantiator for details about the XMI (meta-)model.
+# See description of RGen::Instantiator::DefaultXMLInstantiator for details about the XMI (meta-)model.
 # See UMLObjectModel for details about the UML Object (meta-)model.
 class XmiToObjectmodel < RGen::Transformer
 	include UMLObjectModel

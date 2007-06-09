@@ -5,15 +5,14 @@ module UMLClassModel
 include RGen::MetamodelBuilder
 
 class UMLPackage < MMBase
-	has_one 'name', String
+	has_attr 'name', String
 	def allClasses
 		subpackages.inject(classes) {|r,p| r.concat(p.allClasses) }
 	end
 end
 
 class UMLClass < MMBase
-	has_one 'name', String
-	has_many 'stereotypes', String
+	has_attr 'name', String
 	def remoteNavigableEnds
 		assocEnds.otherEnd.select{|e| e.navigable}
 	end
@@ -30,17 +29,17 @@ class UMLClass < MMBase
 end
 
 class UMLOperation < MMBase
-	has_one 'name', String
+	has_attr 'name', String
 end
 
 class UMLAttribute < MMBase
-	has_one 'name', String
-	has_one 'type', String
+	has_attr 'name', String
+	has_attr 'type', String
 end
 
 class UMLTaggedValue < MMBase
-	has_one 'tag'
-	has_one 'value'
+	has_attr 'tag'
+	has_attr 'value'
 end
 
 class UMLAssociation < MMBase
@@ -50,10 +49,10 @@ class UMLAggregation < UMLAssociation
 end	
 
 class UMLAssociationEnd < MMBase
-	has_one 'multiplicity', String
-	has_one 'navigable' # boolean
-	has_one 'composite' # boolean
-	has_one 'role', String
+	has_attr 'multiplicity', String
+	has_attr 'navigable', Boolean
+	has_attr 'composite', Boolean
+	has_attr 'role', String
 	def assoc
 		assocA || assocB
 	end
@@ -77,6 +76,11 @@ class UMLAssociationEnd < MMBase
 	end
 end
 
+class UMLStereotype < MMBase
+	has_attr 'name'
+end
+
+
 UMLPackage.one_to_many 'subpackages', UMLPackage, 'superpackage'
 UMLPackage.one_to_many 'classes', UMLClass, 'package'
 
@@ -85,6 +89,7 @@ UMLClass.one_to_many 'assocEnds', UMLAssociationEnd, 'clazz'
 UMLClass.one_to_many 'attributes', UMLAttribute, 'clazz'
 UMLClass.one_to_many 'operations', UMLOperation, 'clazz'
 UMLClass.one_to_many 'taggedvalues', UMLTaggedValue, 'clazz'
+UMLClass.has_many 'stereotypes', UMLStereotype
 
 UMLAssociation.one_to_one 'endA', UMLAssociationEnd, 'assocA'
 UMLAssociation.one_to_one 'endB', UMLAssociationEnd, 'assocB'
