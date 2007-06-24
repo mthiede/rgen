@@ -1,5 +1,10 @@
 require 'rgen/ecore/ecore'
 
+module Testmodel
+
+# Checks the ECore model elements created by transformation from the
+# UML Class model elements from the example model
+# 
 module ECoreModelChecker			
 	include RGen::ECore
 
@@ -91,4 +96,6 @@ module ECoreModelChecker
 		assert_equal(-1, homeEnd.upperBound)
 		
 	end
+end
+
 end

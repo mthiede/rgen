@@ -1,6 +1,10 @@
 require 'metamodels/uml13_metamodel'
 require 'metamodels/uml13_metamodel_ext'
 
+module Testmodel
+
+# Checks the UML Class model elements from the example model
+# 
 module ClassModelChecker			
     
 	def checkClassModel(envUML)
@@ -110,4 +114,6 @@ module ClassModelChecker
 		assert_equal 3, houseClass.associationEnd.size
     end
     
+end
+
 end

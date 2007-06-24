@@ -4,9 +4,10 @@ $:.unshift File.join(File.dirname(__FILE__),"..","test")
 require 'test/unit'
 require 'rgen/transformer'
 require 'rgen/environment'
-require 'uml/uml_classmodel'
-require 'ea/xmi_class_instantiator'
-require 'xmi_instantiator_test/class_model_checker'
+require 'rgen/model_comparator'
+require 'metamodels/uml13_metamodel'
+require 'instantiators/ea_instantiator'
+require 'testmodel/class_model_checker'
 
 class TransformerTest < Test::Unit::TestCase
 
@@ -179,25 +180,32 @@ class TransformerTest < Test::Unit::TestCase
 	end
 	
 	class CopyTransformer < RGen::Transformer
-		include UMLClassModel
+		include UML13
 		def transform
-			trans(:class => UMLPackage)
+			trans(:class => UML13::Package)
 		end
-		constants.each{|c| copy const_get(c) if c =~ /^UML/}
+		UML13.ecore.eClassifiers.each do |c|
+		  copy c.instanceClass 
+        end
 	end
 
-	MODEL_DIR = File.join(File.dirname(__FILE__),"xmi_instantiator_test")
+	MODEL_DIR = File.join(File.dirname(__FILE__),"testmodel")
 
-	include ClassModelChecker
+	include Testmodel::ClassModelChecker
+    include RGen::ModelComparator
 	
 	def test_copyTransformer
 		envIn = RGen::Environment.new
 		envOut = RGen::Environment.new
-		File.open(MODEL_DIR+"/testmodel.xml") { |f|
-			XMIClassInstantiator.new.instantiateUMLClassModel(envIn, f.read)
+		File.open(MODEL_DIR+"/ea_testmodel.xml") { |f|
+			inst = EAInstantiator.new(envIn, EAInstantiator::ERROR)
+			inst.instantiate(f.read)
 		}
 		CopyTransformer.new(envIn, envOut).transform
 		checkClassModel(envOut)
+		assert modelEqual?(
+		  envIn.find(:class => UML13::Model).first,
+		  envOut.find(:class => UML13::Model).first)
 	end
 	
 end

@@ -7,10 +7,13 @@ require 'rgen/array_extensions'
 class MetamodelBuilderTest < Test::Unit::TestCase
   
   class SimpleClass < RGen::MetamodelBuilder::MMBase
+    KindType = RGen::MetamodelBuilder::DataTypes::Enum.new([:simple, :extended])
     has_attr 'name' # default is String
+    has_attr 'stringWithDefault', String, :defaultValueLiteral => "xtest"
     has_attr 'anything', Object
     has_attr 'allowed', RGen::MetamodelBuilder::DataTypes::Boolean
-    has_attr 'kind', RGen::MetamodelBuilder::DataTypes::Enum.new([:simple, :extended])
+    has_attr 'kind', KindType
+    has_attr 'kindWithDefault', KindType, :defaultValueLiteral => "extended"
   end
   
   def test_has_attr
@@ -26,6 +29,9 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       sc.name = 5
     end
     assert_equal "EString", SimpleClass.ecore.eAttributes.find{|a| a.name=="name"}.eType.name
+
+    assert_equal "xtest", sc.stringWithDefault
+    assert_equal :extended, sc.kindWithDefault
     
     sc.anything = :asymbol
     assert_equal :asymbol, sc.anything

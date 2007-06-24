@@ -4,6 +4,8 @@ require 'test/unit'
 require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
 require 'rgen/model_dumper'
+require 'xml_instantiator_test/simple_xmi_ecore_instantiator'
+require 'xml_instantiator_test/simple_ecore_model_checker'
 
 module EmptyMM
 end
@@ -18,7 +20,7 @@ end
 
 class XMLInstantiatorTest < Test::Unit::TestCase
 
-	XML_DIR = File.join(File.dirname(__FILE__),"xml_instantiator_test")
+	XML_DIR = File.join(File.dirname(__FILE__),"testmodel")
 	
 	include RGen::ModelDumper
 	
@@ -74,24 +76,24 @@ class XMLInstantiatorTest < Test::Unit::TestCase
 		
 		# prune level 2 is set in the class body
 		inst = PruneTestInstantiator.new(env)
-		inst.instantiate_file(File.join(XML_DIR,"testmodel.xml"))
+		inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
 		assert_equal 2, inst.max_depth
 		
 		PruneTestInstantiator.set_prune_level(0)
 		inst = PruneTestInstantiator.new(env)
-		inst.instantiate_file(File.join(XML_DIR,"testmodel.xml"))
+		inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
 		assert_equal 5, inst.max_depth
 		
 		PruneTestInstantiator.set_prune_level(1)
 		inst = PruneTestInstantiator.new(env)
-		inst.instantiate_file(File.join(XML_DIR,"testmodel.xml"))
+		inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
 		assert_equal 1, inst.max_depth
 	end
 	
 	def test_custom
 		env = RGen::Environment.new
 		inst = MyInstantiator.new(env, DefaultMM, true)
-		inst.instantiate_file(File.join(XML_DIR,"testmodel.xml"))
+		inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
 		
 		house = env.find(:class => DefaultMM::MNS::House).first
 		assert_not_nil house
@@ -111,14 +113,14 @@ class XMLInstantiatorTest < Test::Unit::TestCase
 		
 		assert tom.personalRoom == tomsRoom
     
-    mpns = env.find(:class => DefaultMM::MultiPartName)
-    assert mpns.first.respond_to?("insideMultiPart")
+        mpns = env.find(:class => DefaultMM::MultiPartName)
+        assert mpns.first.respond_to?("insideMultiPart")
 	end
 	
 	def test_default
 		env = RGen::Environment.new
 		inst = RGen::Instantiator::DefaultXMLInstantiator.new(env, EmptyMM, true)
-		inst.instantiate_file(File.join(XML_DIR,"testmodel.xml"))
+		inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
 		
 		house = env.find(:class => EmptyMM::MNS_House).first
 		assert_not_nil house
@@ -140,5 +142,15 @@ class XMLInstantiatorTest < Test::Unit::TestCase
 		tom = persons.select{|p| p.name == "Tom"}.first
 		assert_not_nil tom
 	end
+
+	include SimpleECoreModelChecker
 	
+	def test_simle_xmi_ecore_instantiator
+		envECore = RGen::Environment.new
+		File.open(XML_DIR+"/ea_testmodel.xml") { |f|
+			SimpleXMIECoreInstantiator.new.instantiateECoreModel(envECore, f.read)
+		}
+		checkECoreModel(envECore)
+	end
+		
 end
