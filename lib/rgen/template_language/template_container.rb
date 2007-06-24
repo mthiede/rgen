@@ -2,6 +2,7 @@
 # (c) Martin Thiede, 2006
 
 require 'erb'
+require 'fileutils'
 require 'rgen/template_language/output_handler'
 require 'rgen/template_language/template_helper'
 
@@ -12,13 +13,14 @@ module TemplateLanguage
 class TemplateContainer
 	include TemplateHelper
 	
-	def initialize(metamodel, output_path, parent)
+	def initialize(metamodels, output_path, parent)
 		@templates = {}
 		@parent = parent
 		@indent = 0
 		@output_path = output_path
 		raise StandardError.new("Can not set metamodel, dup class first") if self.class == TemplateContainer
-		@@metamodel = metamodel
+		@@metamodels = metamodels
+		@@metamodels = [ @@metamodels ] unless @@metamodels.is_a?(Array)
 	end
 
 	def load(filename)
@@ -48,8 +50,11 @@ class TemplateContainer
 	end
 	
 	def self.const_missing(name)
-		super unless @@metamodel
-		@@metamodel.const_get(name) 
+		super unless @@metamodels
+		@@metamodels.each do |mm|
+		  return mm.const_get(name) rescue NameError
+		end
+		super
 	end
 	
 	private
@@ -64,6 +69,10 @@ class TemplateContainer
 	
 	def nl
 		_direct_concat("\n")
+	end
+
+	def ws
+		_direct_concat(" ")
 	end
 	
 	def iinc
@@ -87,6 +96,8 @@ class TemplateContainer
 		yield
 		path = ""
 		path += @output_path+"/" if @output_path
+		dirname = File.dirname(path+name)
+		FileUtils.makedirs(dirname) unless File.exist?(dirname)
 		File.open(path+name,"w") { |f| f.write(@output) }
 		@output = old_output
 	end
