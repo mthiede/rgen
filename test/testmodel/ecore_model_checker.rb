@@ -18,14 +18,16 @@ module ECoreModelChecker
 		
 		# check main package classes
 		assert mainPackage.eClassifiers.is_a?(Array)
-		assert_equal 3, mainPackage.eClassifiers.size
+		assert_equal 4, mainPackage.eClassifiers.size
 		assert mainPackage.eClassifiers.all?{|c| c.is_a?(EClass)}
 		houseClass = mainPackage.eClassifiers.select{|c| c.name == "House"}.first
 		personClass = mainPackage.eClassifiers.select{|c| c.name == "Person"}.first
 		meetingPlaceClass = mainPackage.eClassifiers.select{|c| c.name == "MeetingPlace"}.first
+		cookingPlaceInterface = mainPackage.eClassifiers.select{|c| c.name == "CookingPlace"}.first
 		assert_not_nil houseClass
 		assert_not_nil personClass
 		assert_not_nil meetingPlaceClass
+		assert_not_nil cookingPlaceInterface
 
 		# check Rooms package classes
 		assert roomsPackage.eClassifiers.is_a?(Array)
@@ -40,9 +42,10 @@ module ECoreModelChecker
 		
 		# check Room inheritance
 		assert kitchenClass.eSuperTypes.is_a?(Array)
-		assert_equal 2, kitchenClass.eSuperTypes.size
+		assert_equal 3, kitchenClass.eSuperTypes.size
 		assert_equal roomClass.object_id, kitchenClass.eSuperTypes.select{|c| c.name == "Room"}.first.object_id
 		assert_equal meetingPlaceClass.object_id, kitchenClass.eSuperTypes.select{|c| c.name == "MeetingPlace"}.first.object_id
+		assert_equal cookingPlaceInterface.object_id, kitchenClass.eSuperTypes.select{|c| c.name == "CookingPlace"}.first.object_id
 		assert bathroomClass.eSuperTypes.is_a?(Array)
 		assert_equal 1, bathroomClass.eSuperTypes.size
 		assert_equal roomClass.object_id, bathroomClass.eSuperTypes[0].object_id
