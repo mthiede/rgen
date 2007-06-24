@@ -38,8 +38,9 @@ module BuilderExtensions
     end
     
 	def has_attr(role, target_class=nil, raw_props={}, &block)
-		props = AttributeDescription.new(target_class, raw_props.merge({
+		props = AttributeDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>1}))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
@@ -55,8 +56,9 @@ module BuilderExtensions
 	# 	class#role=(value)	# setter
 	# 
 	def has_one(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, raw_props.merge({
+		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>1, :containment=>false}))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
@@ -75,22 +77,25 @@ module BuilderExtensions
 	# for the add and remove methods.
 	# 
 	def has_many(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, raw_props.merge({
+		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>-1,	:containment=>false}))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 	
 	def contains_one_uni(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, raw_props.merge({
+		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>1, :containment=>true}))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
 
 	def contains_many_uni(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, raw_props.merge({
+		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>-1, :containment=>true}))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
@@ -117,18 +122,18 @@ module BuilderExtensions
 	# is is added to as a new element.
 	# 
 	def one_to_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>-1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 
 	def contains_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>-1, :containment=>true}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
@@ -136,9 +141,9 @@ module BuilderExtensions
 	
 	# This is the inverse of one_to_many provided for convenience.
 	def many_to_one(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>-1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
@@ -167,9 +172,9 @@ module BuilderExtensions
 	# is is added to as a new element.
 	# 
 	def many_to_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>-1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>-1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
@@ -194,18 +199,18 @@ module BuilderExtensions
 	# is is added to as the new element.
 	# 
 	def one_to_one(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
 	
 	def contains_one(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, raw_props.merge({
+		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>1, :containment=>true}))
-		props2 = ReferenceDescription.new(self, raw_props.merge({
+		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
@@ -220,13 +225,13 @@ module BuilderExtensions
 	end
 		
 	def _class_module # :nodoc:
-        unless @class_module
-          @class_module = Module.new
-          include @class_module
+        unless const_defined?(:ClassModule)
+          const_set(:ClassModule, Module.new)
+          include const_get(:ClassModule)
         end
-        @class_module
+        const_get(:ClassModule)
     end
-	
+		
 	protected
 		
 	# Central builder method
@@ -267,7 +272,10 @@ module BuilderExtensions
 			
 				def #{name}
 				  <% if props.is_a?(AttributeDescription) && props.value(:defaultValueLiteral) %>
-					@#{name}.nil? ? <%= props.value(:defaultValueLiteral) %> : @#{name}
+					<% defVal = props.value(:defaultValueLiteral) %>
+                    <% defVal = '"'+defVal+'"' if props.impl_type == String %>
+                    <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) %>
+					@#{name}.nil? ? <%= defVal %> : @#{name}
 				  <% else %>
 				    @#{name}
 				  <% end %>
@@ -342,7 +350,7 @@ module BuilderExtensions
 				def #{name}=(val)
 					return if val.nil?
 					raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
-					#{name}.each {|e|
+					getGeneric(:#{name}).each {|e|
 						remove<%= firstToUpper(name) %>(e)
 					}
 					val.each {|v|
@@ -383,6 +391,22 @@ module BuilderExtensions
 		CODE
 	end
 	
+	private
+	
+	def _ownProps(props)
+	  Hash[*(props.select{|k,v| !(k.to_s =~ /^opposite_/)}.flatten)]
+    end
+
+	def _oppositeProps(props)
+	   r = {}
+	   props.each_pair do |k,v|
+	     if k.to_s =~ /^opposite_(.*)$/
+            r[$1.to_sym] = v
+         end
+       end
+       r
+    end
+    
 end
 
 end

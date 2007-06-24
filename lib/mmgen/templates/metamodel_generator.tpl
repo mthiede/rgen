@@ -3,7 +3,12 @@
 	<% file filename do %>
 		require 'rgen/metamodel_builder'
 		<%nl%>
-		<% expand 'GeneratePackage' %>
+		<% if needClassReorder? %>
+			<% expand 'GeneratePackagesOnly' %>
+			<% expand 'GenerateClassesReordered' %>
+		<% else %>
+			<% expand 'GeneratePackage' %>
+		<% end %>
 		<%nl%>
 		<% expand 'GenerateAssocs' %>
 	<% end %>
@@ -13,16 +18,41 @@
 	module <%= moduleName %><% iinc %>
 		extend RGen::MetamodelBuilder::ModuleExtension
 		include RGen::MetamodelBuilder::DataTypes
+		<% expand 'annotations::Annotations' %>
 		<%nl%>
 		<% expand 'EnumTypes' %>
-		<% for c in sortedClasses %><%nl%>
+		<% for c in ownClasses %><%nl%>
 			<% expand 'ClassHeader', this, :for => c %><%iinc%>
+				<% expand 'annotations::Annotations', :for => c %>
 				<% expand 'Attribute', this, :foreach => c.eAttributes %>
 				<%idec%>
 			end
 		<% end %><%nl%>
 		<% for p in eSubpackages %>
 			<%nl%><% expand 'GeneratePackage', :for => p %>
+		<% end %><%idec%>
+	end
+<% end %>
+
+<% define 'GenerateClassesReordered', :for => EPackage do %>
+	<% for c in allClassesSorted %><%nl%>
+		<% expand 'ClassHeaderFullyQualified', this, :for => c %><%iinc%>
+			<% expand 'annotations::Annotations', :for => c %>
+			<% expand 'Attribute', this, :foreach => c.eAttributes %>
+			<%idec%>
+		end
+	<% end %><%nl%>
+<% end %>
+
+<% define 'GeneratePackagesOnly', :for => EPackage do %>
+	module <%= moduleName %><% iinc %>
+		extend RGen::MetamodelBuilder::ModuleExtension
+		include RGen::MetamodelBuilder::DataTypes
+		<% expand 'annotations::Annotations' %>
+		<%nl%>
+		<% expand 'EnumTypes' %>
+		<% for p in eSubpackages %>
+			<%nl%><% expand 'GeneratePackagesOnly', :for => p %>
 		<% end %><%idec%>
 	end
 <% end %>
@@ -47,7 +77,7 @@
 	    	<% end %><%nows%>
 		<% end %>
 	<% end %>
-	<%nl%>
+	<% expand 'annotations::Annotations' %><%nl%>
 	<% end %>
 <% end %>
 
@@ -81,6 +111,7 @@
 			<% elsif ref.many && ref.eOpposite.many %>
 				<% expand 'Reference', "many_to_many", this, :for => ref %>
 			<% end %>
+			<% expand 'annotations::Annotations', :for => ref %><%nl%>
 		<% elsif !refDone[ref] %>
 			<% refDone[ref] = true %>
 			<% if !ref.many %>
@@ -96,22 +127,25 @@
 					<% expand 'Reference', "has_many", this, :for => ref %>
 				<% end %>
 			<% end %>
+			<% expand 'annotations::Annotations', :for => ref %><%nl%>
 		<% end %>
 	<% end %>
 <% end %>
 
 <% define 'Reference', :for => EReference do |cmd, rootpackage| %>
-	<%= eContainingClass.qualifiedName(rootpackage) %>.<%= cmd %> '<%= name %>', <%= eType.qualifiedName(rootpackage) %><%nows%>
+	<%= eContainingClass.qualifiedName(rootpackage) %>.<%= cmd %> '<%= name %>', <%= eType && eType.qualifiedName(rootpackage) %><%nows%>
 	<% if eOpposite %><%nows%>
 		, '<%= eOpposite.name%>'<%nows%>
 	<% end %><%nows%>
-	<% for p in RGen::MetamodelBuilder::ReferenceDescription.propertySet %><%nows%>
-		<% unless p == :name || p == :upperBound || p == :containment ||
-			RGen::MetamodelBuilder::ReferenceDescription.default_value(p) == getGeneric(p) %><%nows%>
-	    	, :<%=p%> => <%=getGeneric(p)%><%nows%>
-		<% end %>
+	<% pset = RGen::MetamodelBuilder::ReferenceDescription.propertySet.reject{|p| p == :name || p == :upperBound || p == :containment} %>
+	<% for p in pset.reject{|p| RGen::MetamodelBuilder::ReferenceDescription.default_value(p) == getGeneric(p)} %>
+    	, :<%=p%> => <%=getGeneric(p)%><%nows%>
 	<% end %>
-	<%nl%>
+	<% if eOpposite %>
+		<% for p in pset.reject{|p| RGen::MetamodelBuilder::ReferenceDescription.default_value(p) == eOpposite.getGeneric(p)} %>
+	    	, :opposite_<%=p%> => <%=eOpposite.getGeneric(p)%><%nows%>
+		<% end %>
+	<% end %><%ws%>
 <% end %>
 
 <% define 'ClassHeader', :for => EClass do |rootp| %>
@@ -120,6 +154,17 @@
 		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedNameIfRequired(rootp)}.join(', ') %>)
 	<% elsif eSuperTypes.size > 0 %><% nows %>
 		<%= eSuperTypes.first.qualifiedNameIfRequired(rootp) %>
+	<% else %><% nows %>
+		RGen::MetamodelBuilder::MMBase
+	<% end %>
+<% end %>
+
+<% define 'ClassHeaderFullyQualified', :for => EClass do |rootp| %>
+	class <%= qualifiedName(rootp) %> < <% nows %>
+	<% if eSuperTypes.size > 1 %><% nows %>
+		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedName(rootp)}.join(', ') %>)
+	<% elsif eSuperTypes.size > 0 %><% nows %>
+		<%= eSuperTypes.first.qualifiedName(rootp) %>
 	<% else %><% nows %>
 		RGen::MetamodelBuilder::MMBase
 	<% end %>

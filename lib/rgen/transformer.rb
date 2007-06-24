@@ -234,7 +234,9 @@ class Transformer
 	# The transformation result element is created in the output environment and returned.
 	# In addition, the result is cached, i.e. a second invocation with the same parameter
 	# object will return the same result object without any further evaluation of the 
-	# transformation rules. Nil will be transformed into nil.
+	# transformation rules. Nil will be transformed into nil. Ruby "singleton" objects
+	# +true+, +false+, numerics and symbols will be return without any change. Ruby strings
+	# will be duplicated with the result being cached.
 	# 
 	# The transformation input can be given as:
 	# * a single object

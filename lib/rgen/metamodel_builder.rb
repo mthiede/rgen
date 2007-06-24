@@ -182,6 +182,13 @@ module MetamodelBuilder
 		extend BuilderExtensions
 		extend ModuleExtension
 		extend RGen::ECore::ECoreInstantiator
+		
+		def initialize(arg=nil)
+          arg.each_pair { |k,v| setGeneric(k, v) } if arg.is_a?(Hash)
+		end
+    	def self.method_added(m)
+    	  raise "Do not add methods to model classes directly, add them to the ClassModule instead"
+    	end
 	end
 	
 end

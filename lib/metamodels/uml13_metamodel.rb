@@ -1,7 +1,7 @@
 require 'rgen/metamodel_builder'
 
 module UML13
-   extend RGen::ECore::ECoreInstantiator
+   extend RGen::MetamodelBuilder::ModuleExtension
    include RGen::MetamodelBuilder::DataTypes
 
    AggregationKind = Enum.new([ :none, :aggregate, :composite ])

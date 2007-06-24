@@ -33,8 +33,8 @@ class Environment
 	# This method can be used to instantiate a class and automatically put it into
 	# the environment. The new instance is returned.
 	#
-	def new(clazz)
-		@elements << clazz.new
+	def new(clazz, *args)
+		@elements << clazz.new(*args)
 		@elements[-1]
 	end
 end
