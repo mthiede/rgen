@@ -16,7 +16,7 @@ SPEC = Gem::Specification.new do |s|
   s.files = candidates.delete_if do |item|
   	item.include?(".svn") || item.include?(".settings")
   end
-  s.rdoc_options = ["--main", "README"]
+  s.rdoc_options = ["--main", "README", "-x", "redist", "-x", "test", "-x", "metamodels"]
   s.extra_rdoc_files = ["README", "CHANGELOG", "MIT-LICENSE"]
 #  s.require_path = ["lib", "redist/xmlscan/lib"]
 end
