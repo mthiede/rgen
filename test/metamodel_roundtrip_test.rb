@@ -34,14 +34,14 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
   end
   
   def test_generate_from_ecore
-    outfile = TEST_DIR+"/uml13_metamodel.rb"
+    outfile = TEST_DIR+"/houseMetamodel_from_ecore.rb"
 
     env = RGen::Environment.new
-    File.open(TEST_DIR+"/uml13.ecore") { |f|
+    File.open(TEST_DIR+"/houseMetamodel.ecore") { |f|
       ECoreXMLInstantiator.new(env).instantiate(f.read)
     }
     rootpackage = env.find(:class => RGen::ECore::EPackage).first
-    rootpackage.name = "UML13"
+    rootpackage.name = "HouseMetamodel"
     generateMetamodel(rootpackage, outfile)
     
     File.open(outfile) do |f|
