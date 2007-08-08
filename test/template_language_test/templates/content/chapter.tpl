@@ -1,5 +1,5 @@
 <% define 'Root', :for => Chapter do %>
- *** <%= title %> ***
+ *** <%= title %> ***<%nows%>
  
 
 <% end %>

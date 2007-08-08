@@ -8,7 +8,7 @@ module HouseMetamodel
   #   AggregationKind = Enum.new([ :none, :aggregate, :composite ])
   
   class MeetingPlace < RGen::MetamodelBuilder::MMBase
-    annotation       'complexity' => '1', 'date_created' => '2006-07-12 08:40:46', 'date_modified' => '2006-07-12 08:44:02', 'ea_ntype' => '0', 'ea_stype' => 'Class', 'gentype' => 'Java', 'isSpecification' => 'false', 'package' => 'EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD', 'package_name' => 'HouseMetamodel', 'phase' => '1.0', 'status' => 'Proposed', 'style' => 'BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;', 'tagged' => '0', 'version' => '1.0'
+    annotation :source => "testmodel", :details => { 'complexity' => '1', 'date_created' => '2006-07-12 08:40:46', 'date_modified' => '2006-07-12 08:44:02', 'ea_ntype' => '0', 'ea_stype' => 'Class', 'gentype' => 'Java', 'isSpecification' => 'false', 'package' => 'EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD', 'package_name' => 'HouseMetamodel', 'phase' => '1.0', 'status' => 'Proposed', 'style' => 'BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;', 'tagged' => '0', 'version' => '1.0' }
   end
   
   class Person < RGen::MetamodelBuilder::MMBase
