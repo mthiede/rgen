@@ -65,19 +65,19 @@
 	<% else %><%nows%>
 		<%= eType && eType.instanceClass.to_s %><%nows%>
 	<% end %><%nows%>
-	<% for p in RGen::MetamodelBuilder::AttributeDescription.propertySet %><%nows%>
-		<% unless p == :name || p == :upperBound || RGen::MetamodelBuilder::AttributeDescription.default_value(p) == getGeneric(p) %><%nows%>
+	<% for p in RGen::MetamodelBuilder::AttributeDescription.propertySet %>
+		<% unless p == :name || p == :upperBound || RGen::MetamodelBuilder::AttributeDescription.default_value(p) == getGeneric(p) %>
 	    	, :<%=p%> => <%nows%>
-	    	<% if getGeneric(p).is_a?(String) %><%nows%>
+	    	<% if getGeneric(p).is_a?(String) %>
 	    		"<%= getGeneric(p) %>"<%nows%>
-	    	<% elsif getGeneric(p).is_a?(Symbol) %><%nows%>
+	    	<% elsif getGeneric(p).is_a?(Symbol) %>
 	    		:<%= getGeneric(p) %><%nows%>
-	    	<% else %><%nows%>
+	    	<% else %>
 	    		<%= getGeneric(p) %><%nows%>
-	    	<% end %><%nows%>
+	    	<% end %>
 		<% end %>
 	<% end %>
-	<% expand 'annotations::Annotations' %><%nl%>
+	<%ws%><% expand 'annotations::Annotations' %><%nl%>
 	<% end %>
 <% end %>
 

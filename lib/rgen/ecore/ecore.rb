@@ -157,35 +157,14 @@ module RGen
     
     # predefined datatypes
     
-    EString = EDataType.new
-    EString.name = "EString"
-    EString.instanceClassName = "String"
-    
-    EInt = EDataType.new
-    EInt.name = "EInt"
-    EInt.instanceClassName = "Integer"
-    
-    EBoolean = EDataType.new
-    EBoolean.name = "EBoolean"
-    EBoolean.instanceClassName = "RGen::MetamodelBuilder::DataTypes::Boolean"
-    
-    EFloat = EDataType.new
-    EFloat.name = "EFloat"
-    EFloat.instanceClassName = "Float"
-    
-    ERubyObject = EDataType.new
-    ERubyObject.name = "ERubyObject"
-    ERubyObject.instanceClassName = "Object"
-    
-    EJavaObject = EDataType.new
-    EJavaObject.name = "EJavaObject"
-    
-    ERubyClass = EDataType.new
-    ERubyClass.name = "ERubyClass"
-    ERubyClass.instanceClassName = "Class"
-    
-    EJavaClass = EDataType.new
-    EJavaClass.name = "EJavaClass"
+    EString = EDataType.new(:name => "EString", :instanceClassName => "String")
+    EInt = EDataType.new(:name => "EInt", :instanceClassName => "Integer")
+    EBoolean = EDataType.new(:name => "EBoolean", :instanceClassName => "RGen::MetamodelBuilder::DataTypes::Boolean")
+    EFloat = EDataType.new(:name => "EFloat", :instanceClassName => "Float")
+    ERubyObject = EDataType.new(:name => "ERubyObject", :instanceClassName => "Object")
+    EJavaObject = EDataType.new(:name => "EJavaObject")
+    ERubyClass = EDataType.new(:name => "ERubyClass", :instanceClassName => "Class")
+    EJavaClass = EDataType.new(:name => "EJavaClass")
     
   end
   
