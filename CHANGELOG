@@ -17,7 +17,7 @@
 * Added simple model dumper module
 * Fixed mmgen/mmgen.rb
 
-=0.4.0 (May 28th, 2007)
+=0.4.0 (Aug 8th, 2007)
 
 * Added ECore metamodel and use it as the core metametamodel
 * Revised and extended MetamodelBuilder language
@@ -31,4 +31,7 @@
 * Added support for chardata within XML tags
 * Added (Enterprise Architect) XMI to ECore instantiator
 * Some minor fixes in NameHelper
+* Some fixes to template language
+* Added UML1.3 Metamodel
+* Added tranformation from UML1.3 to ECore
 

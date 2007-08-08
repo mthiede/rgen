@@ -6,13 +6,15 @@ and transform Models and finally generate arbitrary textual content from it.
 
 RGen features include:
 * Programmatic definition of Metamodels
+* ECore as Metametamodel with an ECore instance available for every Metamodel
+* Generator for programmatic Metamodel from ECore instance
 * Instantiation of Metamodels, i.e. creation of Models (e.g. from XML)
 * Model Transformations
 * Powerful template based generator language
 * A growing set of included Metamodels, Transformations, Generators:
-* UML Class and Object Diagram Metamodel
-* Instantiation of UML Models from XMI
-* Metamodel Generator generating programmatic Metamodel definitions from UML Class Models
+* UML 1.3 Metamodel
+* XMI 1.1 Instantiator
+* XMI 2.0 Instantiator, currently use to read ECore instances only
 
 
 = Download
@@ -53,16 +55,17 @@ These are the main parts already documented:
 There are several examples of using RGen within the framework itself.
 
 Metamodel Definition:
-	lib/uml/uml_classmodel.rb
-	lib/uml/uml_objectmodel.rb
+	lib/rgen/ecore/ecore.rb
+	lib/metamodels/uml13_metamodel.rb
 
 Instantiation:
-	lib/ea/xmi_class_instantiator.rb
-	lib/ea/xmi_object_instantiator.rb
+	lib/rgen/instantiator/xmi11_instantiator.rb
+	lib/rgen/instantiator/ecore_xml_instantiator.rb
+	lib/instantiators/ea_instantiator.rb
 	
 Transformations:
-	lib/ea/xmi_to_classmodel.rb
-	lib/ea/xmi_to_objectmodel.rb
+	lib/rgen/ecore/ecore_transformer.rb
+	lib/transformers/uml13_to_ecore.rb
 	
 Generators:
 	lib/mmgen/metamodel_generator.rb

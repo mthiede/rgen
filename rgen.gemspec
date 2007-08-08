@@ -2,8 +2,8 @@ require 'rubygems'
 
 SPEC = Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = "0.3.0"
-  s.date = %q{2006-10-08}
+  s.version = "0.4.0"
+  s.date = %q{2007-08-08}
   s.summary = %q{Ruby Modelling and Generator Framework}
 #  s.email = %q{}
 #  s.homepage = %q{}
@@ -12,10 +12,11 @@ SPEC = Gem::Specification.new do |s|
 #  s.autorequire = %q{}
   s.has_rdoc = true
   s.authors = ["Martin Thiede"]
-  candidates = Dir.glob("{lib,test}/**/*")
+  candidates = Dir.glob("{lib,test,redist}/**/*")
   s.files = candidates.delete_if do |item|
   	item.include?(".svn") || item.include?(".settings")
   end
   s.rdoc_options = ["--main", "README"]
   s.extra_rdoc_files = ["README", "CHANGELOG", "MIT-LICENSE"]
+#  s.require_path = ["lib", "redist/xmlscan/lib"]
 end
