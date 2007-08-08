@@ -23,11 +23,11 @@ module RGen
 # 
 # As an example a template directory could look like the following:
 # 
-# 	templates/root.tpl
-# 	templates/dbaccess/dbaccess.tpl
-# 	templates/dbaccess/schema.tpl
-# 	templates/headers/generic_headers.tpl
-# 	templates/headers/specific/component.tpl
+#   templates/root.tpl
+#   templates/dbaccess/dbaccess.tpl
+#   templates/dbaccess/schema.tpl
+#   templates/headers/generic_headers.tpl
+#   templates/headers/specific/component.tpl
 # 
 # A template is always called for a <i>context object</i>. The context object
 # serves as the receiver of methods called within the template. Details are given
@@ -39,10 +39,10 @@ module RGen
 # One or more templates can be defined in a template file using the +define+
 # keyword as in the following example:
 # 
-# 	<% define 'GenerateDBAdapter', :for => DBDescription do |dbtype| %>
-# 		Content to be generated; use ERB syntax here
-# 	<% end %>
-# 
+#   <% define 'GenerateDBAdapter', :for => DBDescription do |dbtype| %>
+#     Content to be generated; use ERB syntax here
+#   <% end %>
+#   
 # The template definition takes three kinds of parameters:
 # 1. The name of the template within the template file as a String or Symbol
 # 2. An optional class object describing the class of context objects for which
@@ -61,6 +61,9 @@ module RGen
 # All methods which are called from within the template are sent to the context
 # object.
 #
+# Experience shows that one easily forgets the +do+ at the end of the first 
+# line of a template definition. This will result in an ERB parse error.
+# 
 # 
 # =Expanding Templates
 # 
@@ -76,32 +79,147 @@ module RGen
 # 
 # Here are some examples:
 # 
-# 	<% expand 'GenerateDBAdapter', dbtype, :for => dbDesc %>
+#   <% expand 'GenerateDBAdapter', dbtype, :for => dbDesc %>
 # 
 # <i>Non qualified</i>. Must be called within the file where 'GenerateDBAdapter' is defined.
 # There is one template parameter passed in via variable +dbtype+.
 # The context object is provided in variable +dbDesc+.
 #  
-# 	<% expand 'dbaccess::ExampleSQL' %>
+#   <% expand 'dbaccess::ExampleSQL' %>
 # 
 # <i>Qualified with filename</i>. Must be called from a file in the same directory as 'dbaccess.tpl'
 # There are no parameters. The current context object will be used as the context 
 # object for this template expansion.
 # 
-# 	<% expand '../headers/generic_headers::CHeader', :foreach => modules %>
+#   <% expand '../headers/generic_headers::CHeader', :foreach => modules %>
 # 
 # <i>Relatively qualified</i>. Must be called from a location from which the file
 # 'generic_headers.tpl' is accessible via the relative path '../headers'.
 # The template is expanded for each module in +modules+ (which has to be an Array).
 # Each element of +modules+ will be the context object in turn.
 # 
-# 	<% expand '/headers/generic_headers::CHeader', :foreach => modules %>
+#   <% expand '/headers/generic_headers::CHeader', :foreach => modules %>
 # 
 # Absolutely qualified: The same behaviour as before but with an absolute path from
 # the template directory root (which in this example is 'templates', see above)
 # 
+# Sometimes it is neccessary to generate some text (e.g. a ',') in between the single
+# template expansion results from a <code>:foreach</code> expansion. This can be achieved by
+# using the <code>:separator</code> keyword:
 # 
-# =Output Files and Formatting
+#   <% expand 'ColumnName', :foreach => column, :separator => ', ' %>
+#   
+# Note that the separator may also contain newline characters (\n). See below for
+# details about formatting.
+# 
+# 
+# =Formatting
+# 
+# For many generator tools a formatting postprocess (e.g. using a pretty printer) is 
+# required in order to make the output readable. However, depending on the kind of
+# generated output, such a tool might not be available.
+# 
+# The RGen template language has been design for generators which do not need a
+# postprocessing step. The basic idea is to eliminate all whitespace at the beginning
+# of template lines (the indentation that makes the _template_ readable) and output
+# newlines only after at least on character has been generated in the corresponding
+# line. This way there are no empty lines in the output and each line will start with
+# a non-whitspace character.
+# 
+# Starting from this point one can add indentation and newlines as required by using
+# explicit formatting commands:
+# * <code><%nl%></code> (newline) starts a new line
+# * <code><%iinc%></code> (indentation increment) increases the current indentation
+# * <code><%idec%></code> (indentation decrement) decreases the current indentation
+# * <code><%nonl%></code> (no newline) ignore next newline
+# * <code><%nows%></code> (no whitespace) ignore next whitespace
+# 
+# Indentation takes place for every new line in the output unless it is 0.
+# The initial indentation can be specified with a root +expand+ command by using
+# the <code>:indent</code> keyword.
+# 
+# Here is an example:
+# 
+#   expand 'GenerateDBAdapter', dbtype, :for => dbDesc, :indent => 1
+#   
+# Initial indentation defaults to 0. Normally <code><%iinc%></code> and 
+# <code><%idec%></code> are used to change the indentation.
+# The current indentation is kept for expansion of subtemplates.
+# 
+# Note that commands to ignore whitespace and newlines are still useful if output 
+# generated from multiple template lines should show up in one single output line.
+# 
+# Here is an example of a template generating a C program:
+# 
+#   #include <stdio.h>
+#   <%nl%>
+#   int main() {<%iinc%>
+#     printf("Hello World\n");
+#     return 0;<%idec>
+#   }
+#   
+# The result is:
+# 
+#   #include <stdio.h>
+#   
+#   int main() {
+#      printf("Hello World\n");
+#      return 0;
+#   }
+# 
+# Note that without the explicit formatting commands, the output generated from the 
+# example above would not have any empty lines or whitespace in the beginning of lines.
+# This may seem like unneccessary extra work for the example above which could also
+# have been generated by passing the template to the output verbatimly.
+# However in most cases templates will contain more template specific indentation and
+# newlines which should be eliminated than formatting that should be visible in the 
+# output.
+# 
+# Here is a more realistic example for generating C function prototypes:
+# 
+#   <% define 'Prototype', :for => CFunction do %>
+#     <%= getType.name %> <%= name %>(<%nows%>
+#       <% expand 'Signature', :foreach => argument, :separator => ', ' %>);
+#   <% end %>
+#   
+#   <% define 'Signature', :for => CFunctionArgument do %>
+#     <%= getType.name %> <%= name%><%nows%>
+#   <% end %>
+#   
+# The result could look something like:
+# 
+#   void somefunc(int a, float b, int c);
+#   int otherfunc(short x);
+# 
+# In this example a separator is used to join the single arguments of the C functions.
+# Note that the template generating the argument type and name needs to contain
+# a <code><%nows%></code> if the result should consist of a single line.
+# 
+# Here is one more example for generating C array initializations:
+# 
+#   <% define 'Array', :for => CArray do %>
+#     <%= getType.name %> <%= name %>[<%= size %>] = {<%iinc%>
+#       <% expand 'InitValue', :foreach => initvalue, :separator => ",\n" %><%nl%><%idec%>
+#     };
+#   <% end %>
+#   
+#   <% define 'InitValue', :for => PrimitiveInitValue do %>
+#     <%= value %><%nows%>
+#   <% end %>
+# 
+# The result could look something like:
+# 
+#   int myArray[3] = {
+#      1,
+#      2,
+#      3
+#   };
+# 
+# Note that in this example, the separator contains a newline. The current increment
+# will be applied to each single expansion result since it starts in a new line.
+# 
+# 
+# =Output Files
 # 
 # Normally the generated content is to be written into one or more output files.
 # The RGen template language facilitates this by means of the +file+ keyword.
@@ -115,9 +233,9 @@ module RGen
 # 
 # Here is an example:
 # 
-# 	<% file 'dbadapter/'+adapter.name+'.c' do %>
-# 		all content within this block will be written to the specified file
-# 	<% end %>
+#   <% file 'dbadapter/'+adapter.name+'.c' do %>
+#     all content within this block will be written to the specified file
+#   <% end %>
 # 
 # Note that the filename itself can be calculated dynamically by an arbitrary
 # Ruby expression.
@@ -128,29 +246,31 @@ module RGen
 # =Setting up the Generator
 # 
 # Setting up the generator consists of 3 steps:
-# * Instantiate DirectoryTemplateContainer passing the metamodel and the output 
+# * Instantiate DirectoryTemplateContainer passing one or more metamodel(s) and the output 
 #   directory to the constructor.
 # * Load the templates into the template container
 # * Expand the root template to start generation
 # 
 # Here is an example:
 #
-# 	module MyMM
-# 		# metaclasses are defined here, e.g. using RGen::MetamodelBuilder
-# 	end
+#   module MyMM
+#     # metaclasses are defined here, e.g. using RGen::MetamodelBuilder
+#   end
 # 
-# 	OUTPUT_DIR = File.dirname(__FILE__)+"/output"
-# 	TEMPLATES_DIR = File.dirname(__FILE__)+"/templates"
+#   OUTPUT_DIR = File.dirname(__FILE__)+"/output"
+#   TEMPLATES_DIR = File.dirname(__FILE__)+"/templates"
 # 
-# 	tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new(MyMM, OUTPUT_DIR)
-# 	tc.load(TEMPLATES_DIR)
-# 	# testModel should hold an instance of the metamodel class expected by the root template
-# 	# the following line starts generation
-# 	tc.expand('root::Root', :for => testModel, :indent => 1)
+#   tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new(MyMM, OUTPUT_DIR)
+#   tc.load(TEMPLATES_DIR)
+#   # testModel should hold an instance of the metamodel class expected by the root template
+#   # the following line starts generation
+#   tc.expand('root::Root', :for => testModel, :indent => 1)
 # 
 # The metamodel is the Ruby module which contains the metaclasses.
 # This information is required for the template container in order to resolve the
 # metamodel classes used within the template file. 
+# If several metamodels shall be used, an array of modules can be passed instead
+# of a single module.
 # 
 # The output path is prepended to the relative paths provided to the +file+ 
 # definitions in the template files.
