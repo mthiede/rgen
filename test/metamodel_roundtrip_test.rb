@@ -29,7 +29,7 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
     assert modelEqual?(HouseMetamodel.ecore, Regenerated::HouseMetamodel.ecore, ["instanceClassName"])
   end
   
-  module UMLRegenerated
+  module FromECore
     Inside = binding
   end
   
@@ -45,8 +45,10 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
     generateMetamodel(rootpackage, outfile)
     
     File.open(outfile) do |f|
-      eval(f.read, UMLRegenerated::Inside, "test_eval", 0)
+      eval(f.read, FromECore::Inside, "test_eval", 0)
     end
+    
+    FromECore::HouseMetamodel.ecore
   end
   
 end
