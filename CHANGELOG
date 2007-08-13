@@ -35,3 +35,6 @@
 * Added UML1.3 Metamodel
 * Added tranformation from UML1.3 to ECore
 
+=0.4.1
+
+* Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
