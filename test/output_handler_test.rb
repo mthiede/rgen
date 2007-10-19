@@ -37,4 +37,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
 		h << "Start   \n\n"
 		assert_equal "   Start\n", h.to_s
 	end
+  def test_performance
+    h = RGen::TemplateLanguage::OutputHandler.new
+    h.mode = :explicit
+    h.indent = 1
+    line = (1..50).collect{|w| "someword"}.join(" ")+"\n"
+    # repeat more often to make performance differences visible
+    20.times do 
+      h << line
+    end
+  end
 end

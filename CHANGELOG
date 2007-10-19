@@ -37,4 +37,6 @@
 
 =0.4.1
 
+* Template language performance improvement
 * Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
+* Minor fixes on metamodel generator and ecore primitive type handling

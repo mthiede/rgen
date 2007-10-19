@@ -28,40 +28,28 @@ module TemplateLanguage
         @output.concat(s)
       elsif @mode == :explicit
         while s.size > 0
-          #puts "DEGUB: #{@state} #{s.dump}"
-          # s starts with whitespace
-          if s =~ /\A(\s+)(.*)/m	
-            ws = $1; rest = $2
-            #puts "DEGUB: ws #{ws.dump} rest #{rest.dump}"
-            if @state == :wait_for_nl
-              # ws contains a newline
-              if ws =~ /\A[\t ]*(\r?\n)(\s*)/m
-                @output.concat($1)
-                @state = :wait_for_nonws
-                s = $2 + rest
-              else
-                @output.concat(ws)
-                s = rest
-              end
+          if @state == :wait_for_nl
+            if s =~ /\A([^\r\n]*\r?\n)(.*)/m
+              rest = $2
+              @output.concat($1.gsub(/[\t ]+(?=\r|\n)/,''))
+              s = rest || ""
+              @state = :wait_for_nonws
             else
-              s = rest
+              @output.concat(s)
+              s = ""
             end
-            # s starts with non-whitespace
-          elsif s =~ /\A(\S+)(.*)/m
-            nonws = $1; rest = $2
-            #puts "DEGUB: nonws #{nonws.dump} rest #{rest.dump}"
-            if @state == :wait_for_nonws
-              # within the same output handle we can recognize a newline by ourselves
-              # but if the output handler is changed, someone has to tell us
+          elsif @state == :wait_for_nonws
+            if s =~ /\A\s*(\S+.*)/m
+              s = $1 || ""
               if !@noIndentNextLine && !(@output =~ /[^\n]\z/)
                 @output.concat("   "*@indent)
               else
                 @noIndentNextLine = false
               end
+              @state = :wait_for_nl
+            else
+              s = ""
             end
-            @output.concat(nonws)
-            @state = :wait_for_nl
-            s = rest
           end
         end
       end
