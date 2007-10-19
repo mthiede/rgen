@@ -274,7 +274,7 @@ module BuilderExtensions
 				  <% if props.is_a?(AttributeDescription) && props.value(:defaultValueLiteral) %>
 					<% defVal = props.value(:defaultValueLiteral) %>
                     <% defVal = '"'+defVal+'"' if props.impl_type == String %>
-                    <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) %>
+                    <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
 					@#{name}.nil? ? <%= defVal %> : @#{name}
 				  <% else %>
 				    @#{name}
