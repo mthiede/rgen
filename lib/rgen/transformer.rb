@@ -225,6 +225,7 @@ class Transformer
 		@env_in = env_in
 		@env_out = env_out
 		@transformer_results = {}
+		@transformer_jobs = []
 	end
 
 
@@ -235,7 +236,7 @@ class Transformer
 	# In addition, the result is cached, i.e. a second invocation with the same parameter
 	# object will return the same result object without any further evaluation of the 
 	# transformation rules. Nil will be transformed into nil. Ruby "singleton" objects
-	# +true+, +false+, numerics and symbols will be return without any change. Ruby strings
+	# +true+, +false+, numerics and symbols will be returned without any change. Ruby strings
 	# will be duplicated with the result being cached.
 	# 
 	# The transformation input can be given as:
@@ -257,11 +258,36 @@ class Transformer
 		block_desc = _evaluateCondition(obj)
 		return nil unless block_desc
 		@transformer_results[obj] = _instantiateTargetClass(obj, block_desc.target)
+		# we will transform the properties later
+		@transformer_jobs << TransformerJob.new(self, obj, block_desc)
+		# if there have been jobs in the queue before, don't process them in this call
+		# this way calls to trans are not nested; a recursive implementation 
+		# may cause a "Stack level too deep" exception for large models
+		return @transformer_results[obj] if @transformer_jobs.size > 1
+		# otherwise this is the first call of trans, process all jobs here
+		# more jobs will be added during job execution
+		while @transformer_jobs.size > 0
+			@transformer_jobs.first.execute
+			@transformer_jobs.shift
+		end
+		@transformer_results[obj]
+	end
+	
+	def _transformProperties(obj, block_desc) #:nodoc:
 		old_object, @current_object = @current_object, obj
 		block_result = instance_eval(&block_desc.block)
 		raise StandardError.new("Transformer must return a hash") unless block_result.is_a? Hash
 		@current_object = old_object
 		_attributesFromHash(@transformer_results[obj], block_result)
+	end
+	
+	class TransformerJob #:nodoc:
+		def initialize(transformer, obj, block_desc)
+			@transformer, @obj, @block_desc = transformer, obj, block_desc
+		end
+		def execute
+			@transformer._transformProperties(@obj, @block_desc)
+		end
 	end
 
 	# Each call which is not handled by the transformer object is passed to the object

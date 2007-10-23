@@ -35,8 +35,9 @@
 * Added UML1.3 Metamodel
 * Added tranformation from UML1.3 to ECore
 
-=0.4.1
+=0.4.1 (Oct 19th, 2007)
 
 * Template language performance improvement
 * Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
 * Minor fixes on metamodel generator and ecore primitive type handling
+* Made transformer implementation non-recursive to prevent "stack level too deep" exception for large models
