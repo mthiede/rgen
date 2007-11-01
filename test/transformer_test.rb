@@ -14,6 +14,9 @@ class TransformerTest < Test::Unit::TestCase
 	class ModelIn
 		attr_accessor :name
 	end
+
+	class ModelInSub < ModelIn
+	end
 	
 	class ModelAIn
 		attr_accessor :name
@@ -107,6 +110,15 @@ class TransformerTest < Test::Unit::TestCase
 		assert_equal "TestName", t.trans(from).name
 		assert_equal 1, env_out.elements.size
 		assert_equal env_out.elements.first, t.trans(from)
+		assert_equal 1, t.modelInTrans_count
+	end
+	
+	def test_transformer_subclass
+		from = ModelInSub.new
+		from.name = "TestName"
+		t = MyTransformer.new
+		assert t.trans(from).is_a?(ModelOut)
+		assert_equal "TestName", t.trans(from).name
 		assert_equal 1, t.modelInTrans_count
 	end
 	

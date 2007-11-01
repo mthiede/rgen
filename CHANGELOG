@@ -41,3 +41,5 @@
 * Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
 * Minor fixes on metamodel generator and ecore primitive type handling
 * Made transformer implementation non-recursive to prevent "stack level too deep" exception for large models
+* Minor fixes on EAInstantiator
+* Made transformer search for matching rules for superclasses 

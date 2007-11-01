@@ -13,6 +13,10 @@ module RGen
 # Within the subclass, the Transformer.transform class method can be used to specify transformation
 # blocks for specific metamodel classes of the source metamodel.
 # 
+# If there is no transformation rule for the current object's class, a rule for the superclass
+# is used instead. If there's no rule for the superclass, the class hierarchy is searched
+# this way until Object.
+# 
 # Here is an example:
 # 
 # 	class MyTransformer < RGen::Transformer
@@ -30,7 +34,7 @@ module RGen
 # as well as for elements of class OtherInputClass. The former is to be transformed into
 # an instance of OutputClass, the latter into an instance of OtherOutputClass.
 # Note that the Ruby class objects are used to specifiy the classes.
-# 
+#
 # =Transforming Attributes
 # 
 # Besides the target class of a transformation, the attributes of the result object are
@@ -127,6 +131,9 @@ module RGen
 # Conditions are specified using transformer methods as described above. If the return
 # value is true, the corresponding block is used for transformation. If more than one
 # conditions are true, only the first transformer block will be evaluated.
+# 
+# If there is no rule with a condition evaluating to true, rules for superclasses will
+# be checked as described above.
 # 
 # Here is an example:
 # 
@@ -254,7 +261,7 @@ class Transformer
 		return @transformer_results[obj] if @transformer_results[obj]
 		return @transformer_results[obj] = obj.dup if obj.is_a?(String)
 		return obj.collect{|o| trans(o)}.compact if obj.is_a? Array
-		raise StandardError.new("No transformer for class #{obj.class.name}") unless self.class._transformer_blocks[obj.class]
+		raise StandardError.new("No transformer for class #{obj.class.name}") unless _transformerBlock(obj.class)
 		block_desc = _evaluateCondition(obj)
 		return nil unless block_desc
 		@transformer_results[obj] = _instantiateTargetClass(obj, block_desc.target)
@@ -304,15 +311,23 @@ class Transformer
 	end
 
 	private
+	
+	# returns _transformer_blocks content for clazz or one of its superclasses 
+	def _transformerBlock(clazz) # :nodoc:
+		block = self.class._transformer_blocks[clazz]
+		block = _transformerBlock(clazz.superclass) if block.nil? && clazz != Object
+		block
+	end
 		
-	# returns the first TransformationDescription for which condition is true :nodoc:
-	def _evaluateCondition(obj)
-		tb = self.class._transformer_blocks[obj.class]
+	# returns the first TransformationDescription for clazz or one of its superclasses
+	# for which condition is true 
+	def _evaluateCondition(obj, clazz=obj.class) # :nodoc:
+		tb = self.class._transformer_blocks[clazz]
 		block_description = nil
 		if tb.is_a?(TransformationDescription)
 			# non-conditional
 			block_description = tb
-		else
+		elsif tb
 			old_object, @current_object = @current_object, obj
 			tb.each_pair {|condition, block|
 				if condition.is_a?(Proc)
@@ -329,6 +344,7 @@ class Transformer
 			}
 			@current_object = old_object
 		end
+		block_description = _evaluateCondition(obj, clazz.superclass) if block_description.nil? && clazz != Object
 		block_description
 	end
 	

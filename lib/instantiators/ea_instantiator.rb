@@ -8,13 +8,16 @@ class EAInstantiator < XMI11Instantiator
     :tags => {
       "EAStub" => proc { |tag, attr| UML13::Class.new(
         :name => attr["name"]
-      )}
+      )},
+      "ActivityModel" => "ActivityGraph",
+      "PseudoState" => "Pseudostate"
     },
     :feature_names => {
       "isOrdered" => "ordering",
       "subtype" => "child",
       "supertype" => "parent",
-      "changeable" => "changeability"
+      "changeable" => "changeability",
+      "substate" => "subvertex"
     },
     :feature_values => {
       "ordering" => {"true" => "ordered", "false" => "unordered"},
