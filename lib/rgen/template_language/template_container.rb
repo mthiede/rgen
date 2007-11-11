@@ -130,7 +130,7 @@ module RGen
         @indent = params[:indent] || @indent
         # if this is the first call to expand within this container, @output is nil
         noIndentNextLine = params[:noIndentNextLine]
-        noIndentNextLine = (@output.to_s =~ /[^\n]\z/ ? true : false) if noIndentNextLine.nil?
+        noIndentNextLine = (@output.to_s.size > 0 && @output.to_s[-1] != "\n"[0]) if noIndentNextLine.nil?
         old_context, @context = @context, context if context
         local_output = nil
         if template =~ LOCAL_TEMPLATE_REGEX

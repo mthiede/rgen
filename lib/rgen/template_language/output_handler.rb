@@ -41,7 +41,7 @@ module TemplateLanguage
           elsif @state == :wait_for_nonws
             if s =~ /\A\s*(\S+.*)/m
               s = $1 || ""
-              if !@noIndentNextLine && !(@output =~ /[^\n]\z/)
+              if !@noIndentNextLine && !(@output.to_s.size > 0 && @output.to_s[-1] != "\n"[0])
                 @output.concat("   "*@indent)
               else
                 @noIndentNextLine = false
