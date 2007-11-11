@@ -81,7 +81,7 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
   def instantiate(str)
     @resolver_descs = []
 #    puts "Instantiating ..."
-    super
+    super(str, 1000)
     rootpackage = @env.find(:class => EPackage).first
 #    puts "Resolving ..."
     @resolver_descs.each do |rd|

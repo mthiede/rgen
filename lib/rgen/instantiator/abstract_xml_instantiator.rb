@@ -7,9 +7,10 @@ class AbstractXMLInstantiator
   class XMLScanVisitor
     include XMLScan::NSVisitor
     
-    def initialize(inst)
+    def initialize(inst, gcSuspendCount)
       @current_attributes = {}
       @instantiator = inst
+      @gcSuspendCount = gcSuspendCount
     end
     
     def on_attribute_ns(qname, prefix, localpart)
@@ -30,6 +31,7 @@ class AbstractXMLInstantiator
     end
     
     def on_stag_end_ns(qname, namespaces)
+			controlGC
       prefix, tag = split_qname(qname)
       @instantiator.start_tag(prefix, tag, namespaces, @current_attributes)
       @current_attributes.each_pair { |k,v| @instantiator.set_attribute(k, v) }
@@ -37,6 +39,7 @@ class AbstractXMLInstantiator
     end
     
     def on_stag_end_empty_ns(qname, namespaces)
+			controlGC
       prefix, tag = split_qname(qname)
       @instantiator.start_tag(prefix, tag, namespaces, @current_attributes)
       @current_attributes.each_pair { |k,v| @instantiator.set_attribute(k, v) }
@@ -48,12 +51,36 @@ class AbstractXMLInstantiator
       prefix, tag = split_qname(qname)
       @instantiator.end_tag(prefix, tag)
     end
+		
+		def on_chardata(str)
+			@instantiator.text(str)
+		end
+		
+		def controlGC
+			return unless @gcSuspendCount > 0
+			@gcCounter ||= 0
+			@gcCounter += 1
+			if @gcCounter == @gcSuspendCount
+				@gcCounter = 0
+				GC.enable
+				ObjectSpace.garbage_collect
+				GC.disable 
+			end    	
+		end
   end
 
-  def instantiate(str)
-    visitor = XMLScanVisitor.new(self)
-	parser = XMLScan::XMLParserNS.new(visitor)
-    parser.parse(str)
+  def instantiate(str, gcSuspendCount=0)
+  	gcDisabledBefore = GC.disable
+  	gcSuspendCount = 0 if gcDisabledBefore
+  	begin
+	    visitor = XMLScanVisitor.new(self, gcSuspendCount)
+			parser = XMLScan::XMLParserNS.new(visitor)
+			parser.parse(str)
+   	ensure 	
+    	GC.enable unless gcDisabledBefore
+    end
   end
   
+	def text(str)
+	end
 end

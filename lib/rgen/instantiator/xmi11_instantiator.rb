@@ -28,7 +28,7 @@ class XMI11Instantiator < AbstractXMLInstantiator
   def instantiate(str)
     @resolver_descs = []
     @element_by_id = {}
-    super(str)
+    super(str, 1000)
     @resolver_descs.each do |rd|
       if rd.many
         newval = rd.value.split(" ").collect{|v| @element_by_id[v]}
