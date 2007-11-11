@@ -35,7 +35,7 @@
 * Added UML1.3 Metamodel
 * Added tranformation from UML1.3 to ECore
 
-=0.4.1 (Oct 19th, 2007)
+=0.4.1 (Nov 11th, 2007)
 
 * Template language performance improvement
 * Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
@@ -43,3 +43,8 @@
 * Made transformer implementation non-recursive to prevent "stack level too deep" exception for large models
 * Minor fixes on EAInstantiator
 * Made transformer search for matching rules for superclasses 
+* Bugfix: Enums are now added to EPackages created using the "ecore" method on a module
+* Bugfix: Metamodel generator now writes enum names
+* Performance improvement: don't require ecore transformer every time someone calls "ecore"
+* Major performance improvement of template engine (no Regexps to check \n at end of line)
+* Major performance improvement: AbstractXMLInstantiator optionally controls the garbage collector

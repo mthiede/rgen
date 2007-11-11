@@ -102,7 +102,7 @@ module RGen
 # 
 # Here is an example:
 # 
-#		transform ModelIn, :to => ModelOut do
+# 	transform ModelIn, :to => ModelOut do
 # 		{ :number => doubleNumber }
 # 	end
 #

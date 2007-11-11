@@ -198,7 +198,7 @@ class TransformerTest < Test::Unit::TestCase
 		end
 		UML13.ecore.eClassifiers.each do |c|
 		  copy c.instanceClass 
-        end
+    end
 	end
 
 	MODEL_DIR = File.join(File.dirname(__FILE__),"testmodel")
