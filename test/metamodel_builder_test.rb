@@ -417,4 +417,26 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
   end
   
+	module SomePackage 
+  	extend RGen::MetamodelBuilder::ModuleExtension
+		
+		class ClassA < RGen::MetamodelBuilder::MMBase
+		end
+		
+		module SubPackage 
+	  	extend RGen::MetamodelBuilder::ModuleExtension
+		
+			class ClassB < RGen::MetamodelBuilder::MMBase
+			end
+		end
+	end
+	
+	def test_ecore_identity
+		subPackage = SomePackage::SubPackage.ecore
+		assert_equal subPackage.eClassifiers.first.object_id, SomePackage::SubPackage::ClassB.ecore.object_id
+		
+		somePackage = SomePackage.ecore
+		assert_equal somePackage.eSubpackages.first.object_id, subPackage.object_id
+	end
+  
 end
