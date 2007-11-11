@@ -4,16 +4,16 @@ module UML13
    extend RGen::MetamodelBuilder::ModuleExtension
    include RGen::MetamodelBuilder::DataTypes
 
-   AggregationKind = Enum.new([ :none, :aggregate, :composite ])
-   ChangeableKind = Enum.new([ :changeable, :frozen, :addOnly ])
-   OperationDirectionKind = Enum.new([ ])
-   ParameterDirectionKind = Enum.new([ :in, :inout, :out, :return ])
-   MessageDirectionKind = Enum.new([ ])
-   ScopeKind = Enum.new([ :instance, :classifier ])
-   VisibilityKind = Enum.new([ :public, :protected, :private ])
-   PseudostateKind = Enum.new([ :initial, :deepHistory, :shallowHistory, :join, :fork, :branch, :junction, :final ])
-   CallConcurrencyKind = Enum.new([ :sequential, :guarded, :concurrent ])
-   OrderingKind = Enum.new([ :unordered, :ordered, :sorted ])
+   AggregationKind = Enum.new(:name => "AggregationKind", :literals =>[ :none, :aggregate, :composite ])
+   ChangeableKind = Enum.new(:name => "ChangeableKind", :literals =>[ :changeable, :frozen, :addOnly ])
+   OperationDirectionKind = Enum.new(:name => "OperationDirectionKind", :literals =>[ ])
+   ParameterDirectionKind = Enum.new(:name => "ParameterDirectionKind", :literals =>[ :in, :inout, :out, :return ])
+   MessageDirectionKind = Enum.new(:name => "MessageDirectionKind", :literals =>[ ])
+   ScopeKind = Enum.new(:name => "ScopeKind", :literals =>[ :instance, :classifier ])
+   VisibilityKind = Enum.new(:name => "VisibilityKind", :literals =>[ :public, :protected, :private ])
+   PseudostateKind = Enum.new(:name => "PseudostateKind", :literals =>[ :initial, :deepHistory, :shallowHistory, :join, :fork, :branch, :junction, :final ])
+   CallConcurrencyKind = Enum.new(:name => "CallConcurrencyKind", :literals =>[ :sequential, :guarded, :concurrent ])
+   OrderingKind = Enum.new(:name => "OrderingKind", :literals =>[ :unordered, :ordered, :sorted ])
 
    class Element < RGen::MetamodelBuilder::MMBase
    end

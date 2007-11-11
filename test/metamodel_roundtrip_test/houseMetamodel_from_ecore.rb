@@ -4,15 +4,18 @@ module HouseMetamodel
    extend RGen::MetamodelBuilder::ModuleExtension
    include RGen::MetamodelBuilder::DataTypes
 
+   SexEnum = Enum.new(:name => 'SexEnum', :literals =>[ :male, :female ])
 
    class House < RGen::MetamodelBuilder::MMBase
-      has_attr 'address', String, :ordered => :true, :unique => :true, :changeable => false, :volatile => :false, :transient => :false, :unsettable => :false, :derived => :false 
+      annotation :source => "bla", :details => {'a' => 'b'}
+      has_attr 'address', String, :changeable => false 
    end
 
    class MeetingPlace < RGen::MetamodelBuilder::MMBase
    end
 
    class Person < RGen::MetamodelBuilder::MMBase
+      has_attr 'sex', HouseMetamodel::SexEnum 
    end
 
 
@@ -33,7 +36,7 @@ module HouseMetamodel
    end
 end
 
-HouseMetamodel::House.contains_one_uni 'bathroom', HouseMetamodel::Rooms::Bathroom, :ordered => true, :unique => true, :changeable => true, :volatile => false, :transient => false, :unsettable => false, :derived => false, :lowerBound => 1, :resolveProxies => true 
-HouseMetamodel::Rooms::Kitchen.contains_one 'house', HouseMetamodel::House, 'kitchen', :ordered => true, :unique => true, :changeable => true, :volatile => false, :transient => false, :unsettable => false, :derived => false, :resolveProxies => true, :opposite_ordered => true, :opposite_unique => true, :opposite_changeable => true, :opposite_volatile => false, :opposite_transient => false, :opposite_unsettable => false, :opposite_derived => false, :opposite_lowerBound => 1, :opposite_resolveProxies => true 
-HouseMetamodel::Rooms::Room.many_to_one 'house', HouseMetamodel::House, 'room', :ordered => true, :unique => true, :changeable => true, :volatile => false, :transient => false, :unsettable => false, :derived => false, :resolveProxies => true, :opposite_ordered => true, :opposite_unique => true, :opposite_changeable => true, :opposite_volatile => false, :opposite_transient => false, :opposite_unsettable => false, :opposite_derived => false, :opposite_resolveProxies => true 
-HouseMetamodel::Person.contains_many_uni 'house', HouseMetamodel::House, :ordered => true, :unique => true, :changeable => true, :volatile => false, :transient => false, :unsettable => false, :derived => false, :resolveProxies => true 
+HouseMetamodel::House.has_one 'bathroom', HouseMetamodel::Rooms::Bathroom, :lowerBound => 1 
+HouseMetamodel::House.one_to_one 'kitchen', HouseMetamodel::Rooms::Kitchen, 'house', :lowerBound => 1 
+HouseMetamodel::House.contains_many 'room', HouseMetamodel::Rooms::Room, 'house' 
+HouseMetamodel::Person.has_many 'house', HouseMetamodel::House 

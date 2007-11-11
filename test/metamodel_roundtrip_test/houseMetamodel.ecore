@@ -3,6 +3,9 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="HouseMetamodel">
   <eClassifiers xsi:type="ecore:EClass" name="House">
+    <eAnnotations source="bla">
+      <details key="a" value="b"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="#//String"
         changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bathroom" lowerBound="1"
@@ -16,8 +19,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Person">
     <eStructuralFeatures xsi:type="ecore:EReference" name="house" upperBound="-1"
         eType="#//House"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sex" eType="#//SexEnum"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="SexEnum">
+    <eLiterals name="male"/>
+    <eLiterals name="female"/>
+  </eClassifiers>
   <eSubpackages name="Rooms">
     <eClassifiers xsi:type="ecore:EClass" name="Room">
       <eStructuralFeatures xsi:type="ecore:EReference" name="house" eType="#//House"

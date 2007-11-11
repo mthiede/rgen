@@ -31,8 +31,12 @@ class ECoreTransformer < Transformer
   end
   
   transform Module, :to => EPackage, :if => :convert?  do
+  	@enumParentModule ||= {}
+  	constants.select {|c| const_get(c).is_a?(MetamodelBuilder::DataTypes::Enum)}.
+  		each {|c| @enumParentModule[const_get(c)] = @current_object}
     { :name => name.gsub(/.*::(\w+)$/,'\1'),
-      :eClassifiers => trans(constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Class)}),
+      :eClassifiers => trans(constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Class) || 
+	      (c.is_a?(MetamodelBuilder::DataTypes::Enum) && c != MetamodelBuilder::DataTypes::Boolean) }),
       :eSuperPackage => trans(name =~ /(.*)::\w+$/ ? eval($1) : nil),
       :eSubpackages => trans(constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Module) && !c.is_a?(Class)}),
       :eAnnotations => trans(_annotations)
@@ -71,6 +75,7 @@ class ECoreTransformer < Transformer
   
   transform MetamodelBuilder::DataTypes::Enum, :to => EEnum do
     { :name => name, 
+      :instanceClassName => @enumParentModule && @enumParentModule[@current_object] && @enumParentModule[@current_object].name+"::"+name,
       :eLiterals => literals.collect do |l|
         lit = EEnumLiteral.new
         lit.name = l.to_s
