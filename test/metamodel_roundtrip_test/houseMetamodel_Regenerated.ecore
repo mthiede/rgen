@@ -1,0 +1,268 @@
+<ecore:EPackage xmi:version="2.0" name="HouseMetamodel" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <eClassifiers name="House" abstract="false" instanceClassName="HouseMetamodel::House" interface="false" ePackage="#/" xsi:type="ecore:EClass">
+    <eStructuralFeatures name="size" derived="false" transient="false" changeable="true" eContainingClass="#//House" unsettable="false" iD="false" xsi:type="ecore:EAttribute" upperBound="1" ordered="true" volatile="false" lowerBound="0" unique="true">
+    </eStructuralFeatures>
+    <eStructuralFeatures name="module" derived="false" transient="false" changeable="true" eContainingClass="#//House" unsettable="false" iD="false" xsi:type="ecore:EAttribute" upperBound="1" ordered="true" volatile="false" lowerBound="0" unique="true">
+    </eStructuralFeatures>
+    <eStructuralFeatures name="address" derived="false" transient="false" changeable="false" eContainingClass="#//House" unsettable="false" iD="false" xsi:type="ecore:EAttribute" upperBound="1" ordered="true" volatile="false" lowerBound="0" unique="true">
+      <eAnnotations eModelElement="#//House/address" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="derived">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Not Specified" key="containment">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="{A8DF581B-9AC6-4f75-AB48-8FAEDFC6E068}" key="ea_guid">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="duplicates">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="collection">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="String" key="type">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="volatile=0;" key="styleex">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="upperBound">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ordered">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="lowerBound">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="position">
+        </details>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures name="bathroom" derived="false" containment="false" transient="true" changeable="true" resolveProxies="true" eContainingClass="#//House" unsettable="false" xsi:type="ecore:EReference" upperBound="1" ordered="true" volatile="false" lowerBound="1" eType="#//Rooms/Bathroom" unique="true">
+    </eStructuralFeatures>
+    <eStructuralFeatures name="kitchen" derived="false" containment="false" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//House" eOpposite="#//Rooms/Kitchen/house" unsettable="false" xsi:type="ecore:EReference" upperBound="1" ordered="true" volatile="false" lowerBound="1" eType="#//Rooms/Kitchen" unique="true">
+      <eAnnotations eModelElement="#//House/kitchen" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Unspecified" key="containment">
+        </details>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures name="room" derived="false" containment="true" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//House" eOpposite="#//Rooms/Room/house" unsettable="false" xsi:type="ecore:EReference" upperBound="-1" ordered="true" volatile="false" lowerBound="1" eType="#//Rooms/Room" unique="true">
+    </eStructuralFeatures>
+    <eAnnotations eModelElement="#//House" xsi:type="ecore:EAnnotation">
+      <details xsi:type="ecore:EStringToStringMapEntry" value="dummy" key="stereotype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2005-09-16 19:52:18" key="date_created">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2006-02-28 08:29:19" key="date_modified">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" key="package">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="HouseMetamodel" key="package_name">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+      </details>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers name="Person" abstract="false" instanceClassName="HouseMetamodel::Person" interface="false" ePackage="#/" xsi:type="ecore:EClass">
+    <eStructuralFeatures name="sex" derived="false" transient="false" changeable="true" eContainingClass="#//Person" unsettable="false" iD="false" xsi:type="ecore:EAttribute" upperBound="1" ordered="true" volatile="false" lowerBound="0" eType="#//SexEnum" unique="true">
+    </eStructuralFeatures>
+    <eStructuralFeatures name="home" derived="false" containment="false" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//Person" unsettable="false" xsi:type="ecore:EReference" upperBound="-1" ordered="true" volatile="false" lowerBound="0" eType="#//House" unique="true">
+      <eAnnotations eModelElement="#//Person/home" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Unspecified" key="containment">
+        </details>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eAnnotations eModelElement="#//Person" xsi:type="ecore:EAnnotation">
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:34:23" key="date_created">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:34:26" key="date_modified">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" key="package">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="HouseMetamodel" key="package_name">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+      </details>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers name="SexEnum" instanceClassName="HouseMetamodel::SexEnum" ePackage="#/" xsi:type="ecore:EEnum">
+    <eLiterals name="male" xsi:type="ecore:EEnumLiteral" eEnum="#//SexEnum">
+    </eLiterals>
+    <eLiterals name="female" xsi:type="ecore:EEnumLiteral" eEnum="#//SexEnum">
+    </eLiterals>
+  </eClassifiers>
+  <eClassifiers name="MeetingPlace" abstract="false" instanceClassName="HouseMetamodel::MeetingPlace" interface="false" ePackage="#/" xsi:type="ecore:EClass">
+    <eAnnotations eModelElement="#//MeetingPlace" xsi:type="ecore:EAnnotation" source="testmodel">
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2006-07-12 08:40:46" key="date_created">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="2006-07-12 08:44:02" key="date_modified">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" key="package">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="HouseMetamodel" key="package_name">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+      </details>
+      <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+      </details>
+    </eAnnotations>
+  </eClassifiers>
+  <eSubpackages name="Rooms" xsi:type="ecore:EPackage" eSuperPackage="#/">
+    <eClassifiers name="Bathroom" abstract="false" instanceClassName="HouseMetamodel::Rooms::Bathroom" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSuperTypes="#//Rooms/Room">
+      <eAnnotations eModelElement="#//Rooms/Bathroom" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:32:25" key="date_created">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:34:23" key="date_modified">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" key="package">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Rooms" key="package_name">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+        </details>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers name="Room" abstract="false" instanceClassName="HouseMetamodel::Rooms::Room" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass">
+      <eStructuralFeatures name="house" derived="false" containment="false" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//Rooms/Room" eOpposite="#//House/room" unsettable="false" xsi:type="ecore:EReference" upperBound="1" ordered="true" volatile="false" lowerBound="0" eType="#//House" unique="true">
+        <eAnnotations eModelElement="#//Rooms/Room/house" xsi:type="ecore:EAnnotation">
+          <details xsi:type="ecore:EStringToStringMapEntry" value="Unspecified" key="containment">
+          </details>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eAnnotations eModelElement="#//Rooms/Room" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2005-09-16 19:52:28" key="date_created">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-22 21:15:25" key="date_modified">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" key="package">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Rooms" key="package_name">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+        </details>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers name="Kitchen" abstract="false" instanceClassName="HouseMetamodel::Rooms::Kitchen" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSuperTypes="#//MeetingPlace #//Rooms/Room">
+      <eStructuralFeatures name="house" derived="false" containment="false" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//Rooms/Kitchen" eOpposite="#//House/kitchen" unsettable="false" xsi:type="ecore:EReference" upperBound="1" ordered="true" volatile="false" lowerBound="1" eType="#//House" unique="true">
+        <eAnnotations eModelElement="#//Rooms/Kitchen/house" xsi:type="ecore:EAnnotation">
+          <details xsi:type="ecore:EStringToStringMapEntry" value="Unspecified" key="containment">
+          </details>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eAnnotations eModelElement="#//Rooms/Kitchen" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2005-11-30 19:26:13" key="date_created">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-22 21:15:34" key="date_modified">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" key="package">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Rooms" key="package_name">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style">
+        </details>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype">
+        </details>
+      </eAnnotations>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="DependingOnRooms" xsi:type="ecore:EPackage" eSuperPackage="#/">
+    <eClassifiers name="RoomSub" abstract="false" instanceClassName="HouseMetamodel::DependingOnRooms::RoomSub" interface="false" ePackage="#//DependingOnRooms" xsi:type="ecore:EClass" eSuperTypes="#//Rooms/Room">
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
