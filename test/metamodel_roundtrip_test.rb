@@ -5,6 +5,7 @@ require 'rgen/array_extensions'
 require 'rgen/model_comparator'
 require 'mmgen/metamodel_generator'
 require 'rgen/instantiator/ecore_xml_instantiator'
+require 'rgen/serializer/xmi20_serializer'
 
 class MetamodelGeneratorTest < Test::Unit::TestCase
   
@@ -47,6 +48,15 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
     File.open(outfile) do |f|
       eval(f.read, UMLRegenerated::Inside, "test_eval", 0)
     end
+  end
+  
+  def test_ecore_serializer
+    require TEST_DIR+"/TestModel.rb"
+    File.open(TEST_DIR+"/houseMetamodel_Regenerated.ecore","w") do |f|
+	  	ser = RGen::Serializer::XMI20Serializer.new
+	  	ser.serialize(HouseMetamodel.ecore)
+	  	f.write(ser.result)
+	 	end
   end
   
 end
