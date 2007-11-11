@@ -13,8 +13,10 @@ module ECoreInstantiator
 	# class or module using ECoreTransformer.
 	# 
 	def ecore
-		require 'rgen/ecore/ecore_transformer'
-		@@transformer ||= ECoreTransformer.new
+		unless defined?(@@transformer)
+			require 'rgen/ecore/ecore_transformer'
+			@@transformer = ECoreTransformer.new
+		end
 		@@transformer.trans(self)
 	end	
 	
