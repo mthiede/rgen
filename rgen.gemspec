@@ -3,7 +3,7 @@ require 'rubygems'
 SPEC = Gem::Specification.new do |s|
   s.name = %q{rgen}
   s.version = "0.4.1"
-  s.date = %q{2007-10-19}
+  s.date = %q{2007-11-15}
   s.summary = %q{Ruby Modelling and Generator Framework}
 #  s.email = %q{}
 #  s.homepage = %q{}

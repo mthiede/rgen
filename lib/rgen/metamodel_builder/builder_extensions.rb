@@ -2,7 +2,6 @@
 # (c) Martin Thiede, 2006
 
 require 'erb'
-require 'rgen/metamodel_builder/build_helper'
 require 'rgen/metamodel_builder/metamodel_description.rb'
 
 module RGen
@@ -268,39 +267,41 @@ module BuilderExtensions
 		if props.value(:derived)
 			build_derived_method(name, props, :one)
 		else
-			BuildHelper.build _class_module, binding, <<-CODE
+			@@one_read_builder ||= ERB.new <<-CODE
 			
-				def #{name}
+				def <%= name %>
 				  <% if props.is_a?(AttributeDescription) && props.value(:defaultValueLiteral) %>
 					<% defVal = props.value(:defaultValueLiteral) %>
                     <% defVal = '"'+defVal+'"' if props.impl_type == String %>
                     <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
-					@#{name}.nil? ? <%= defVal %> : @#{name}
+					@<%= name %>.nil? ? <%= defVal %> : @<%= name %>
 				  <% else %>
-				    @#{name}
+				    @<%= name %>
 				  <% end %>
 				end
-				alias get<%= firstToUpper(name) %> #{name}
+				alias get<%= firstToUpper(name) %> <%= name %>
 
 			CODE
+			_class_module.module_eval(@@one_read_builder.result(binding))
 		end
 		
 		if props.value(:changeable)
-			BuildHelper.build _class_module, binding, <<-CODE
+			@@one_write_builder ||= ERB.new <<-CODE
 				
-				def #{name}=(val)
-					return if val == @#{name}
+				def <%= name %>=(val)
+					return if val == @<%= name %>
 					<%= type_check_code("val", props) %>
-					oldval = @#{name}
-					@#{name} = val
+					oldval = @<%= name %>
+					@<%= name %> = val
 					<% if other_role && other_kind %>
-						_unregister(self,oldval,"#{other_role}","#{other_kind}")
-						_register(self,val,"#{other_role}","#{other_kind}")
+						_unregister(self,oldval,"<%= other_role %>","<%= other_kind %>")
+						_register(self,val,"<%= other_role %>","<%= other_kind %>")
 					<% end %>
 				end 
-				alias set<%= firstToUpper(name) %> #{name}=
+				alias set<%= firstToUpper(name) %> <%= name %>=
 				
 			CODE
+			_class_module.module_eval(@@one_write_builder.result(binding))
 
 		end
 	end
@@ -315,51 +316,53 @@ module BuilderExtensions
 		if props.value(:derived)
 			build_derived_method(name, props, :many)
 		else
-			BuildHelper.build _class_module, binding, <<-CODE
+			@@many_read_builder ||= ERB.new <<-CODE
 			
-				def #{name}
-					( @#{name} ? @#{name}.dup : [] )
+				def <%= name %>
+					( @<%= name %> ? @<%= name %>.dup : [] )
 				end
-				alias get<%= firstToUpper(name) %> #{name}
+				alias get<%= firstToUpper(name) %> <%= name %>
 							
 			CODE
+			_class_module.module_eval(@@many_read_builder.result(binding))
 		end
 		
 		if props.value(:changeable)
-			BuildHelper.build _class_module, binding, <<-CODE
+			@@many_write_builder ||= ERB.new <<-CODE
 		
 				def add<%= firstToUpper(name) %>(val)
-					@#{name} = [] unless @#{name}
-					return if val.nil? or @#{name}.include?(val) 
+					@<%= name %> = [] unless @<%= name %>
+					return if val.nil? or @<%= name %>.include?(val) 
 					<%= type_check_code("val", props) %>
-					@#{name}.push val
+					@<%= name %>.push val
 					<% if other_role && other_kind %>
-						_register(self, val, "#{other_role}", "#{other_kind}")
+						_register(self, val, "<%= other_role %>", "<%= other_kind %>")
 					<% end %>
 				end
 				
 				def remove<%= firstToUpper(name) %>(val)
-					@#{name} = [] unless @#{name}
-					return unless @#{name}.include?(val)
-					@#{name}.delete val
+					@<%= name %> = [] unless @<%= name %>
+					return unless @<%= name %>.include?(val)
+					@<%= name %>.delete val
 					<% if other_role && other_kind %>
-						_unregister(self, val, "#{other_role}", "#{other_kind}")
+						_unregister(self, val, "<%= other_role %>", "<%= other_kind %>")
 					<% end %>
 				end
 				
-				def #{name}=(val)
+				def <%= name %>=(val)
 					return if val.nil?
 					raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
-					getGeneric(:#{name}).each {|e|
+					getGeneric(:<%= name %>).each {|e|
 						remove<%= firstToUpper(name) %>(e)
 					}
 					val.each {|v|
 						add<%= firstToUpper(name) %>(v)
 					}
 				end
-				alias set<%= firstToUpper(name) %> #{name}=
+				alias set<%= firstToUpper(name) %> <%= name %>=
 				
 			CODE
+			_class_module.module_eval(@@many_write_builder.result(binding))
 		end		
 				
 	end	
@@ -369,12 +372,12 @@ module BuilderExtensions
 	def build_derived_method(name, props, kind)
 		raise "Implement method #{name}_derived instead of method #{name}" \
 			if (public_instance_methods+protected_instance_methods+private_instance_methods).include?(name)
-		BuildHelper.build _class_module, binding, <<-CODE
+		@@derived_builder ||= ERB.new <<-CODE
 		
-			def #{name}
-				raise "Derived feature requires public implementation of method #{name}_derived" \
-					unless respond_to?(:#{name+"_derived"})
-				val = #{name}_derived
+			def <%= name %>
+				raise "Derived feature requires public implementation of method <%= name %>_derived" \
+					unless respond_to?(:<%= name+"_derived" %>)
+				val = <%= name %>_derived
 				<% if kind == :many %>
 					raise _assignmentTypeError(self,val,Array) unless val && val.is_a?(Array)
 					val.each do |v|
@@ -385,13 +388,28 @@ module BuilderExtensions
 				<% end %>	
 				val
 			end
-			alias get#{firstToUpper(name)} #{name}
-			#TODO final_method :#{name}
+			alias get<%= firstToUpper(name) %> <%= name %>
+			#TODO final_method :<%= name %>
 			
 		CODE
+		_class_module.module_eval(@@derived_builder.result(binding))
 	end
 	
-	private
+	def type_check_code(varname, props)
+		code = ""
+		if props.impl_type.is_a?(Class)
+			code << "unless #{varname}.nil? or #{varname}.is_a? #{props.impl_type}\n"
+			expected = props.impl_type.to_s
+		elsif props.impl_type.is_a?(RGen::MetamodelBuilder::DataTypes::Enum)
+			code << "unless #{varname}.nil? or [#{props.impl_type.literals_as_strings.join(',')}].include?(#{varname})\n"
+		    expected = "["+props.impl_type.literals_as_strings.join(',')+"]"
+		else
+			raise StandardError.new("Unkown type "+props.impl_type.to_s)
+		end
+		code << "raise _assignmentTypeError(self,#{varname},\"#{expected}\")\n"
+		code << "end"
+		code		
+	end	
 	
 	def _ownProps(props)
 	  Hash[*(props.select{|k,v| !(k.to_s =~ /^opposite_/)}.flatten)]
