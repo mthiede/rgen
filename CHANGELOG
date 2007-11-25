@@ -35,7 +35,7 @@
 * Added UML1.3 Metamodel
 * Added tranformation from UML1.3 to ECore
 
-=0.4.1 (Nov 15th, 2007)
+=0.4.1 (Nov 25th, 2007)
 
 * Template language performance improvement
 * Bugfix: use true/false instead of symbols for boolean attribute default values in metamodel classes
@@ -49,3 +49,4 @@
 * Major performance improvement of template engine (no Regexps to check \n at end of line)
 * Major performance improvement: AbstractXMLInstantiator optionally controls the garbage collector
 * Major performance improvement: ERB templates are reused in metamodel_builder
+* Added delete method to Environment
