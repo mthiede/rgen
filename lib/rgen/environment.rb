@@ -18,6 +18,11 @@ class Environment
 		self
 	end
 	
+	# Removes model element from environment.
+	def delete(el)
+		@elements.delete(el)
+	end
+		
 	# Iterates each element
 	#
 	def each(&b)
