@@ -69,6 +69,14 @@ class AbstractXMLInstantiator
 		end
   end
 
+	# Parses str and calls start_tag, end_tag, set_attribute and text methods of a subclass.
+	# 
+	# If gcSuspendCount is specified, the garbage collector will be disabled for that
+	# number of start or end tags. After that period it will clean up and then be disabled again.
+	# A value of about 1000 can significantly improve overall performance.
+	# The memory usage normally does not increase.
+	# Depending on the work done for every xml tag the value might have to be adjusted.
+	# 
   def instantiate(str, gcSuspendCount=0)
   	gcDisabledBefore = GC.disable
   	gcSuspendCount = 0 if gcDisabledBefore
