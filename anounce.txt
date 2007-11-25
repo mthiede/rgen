@@ -43,3 +43,19 @@ RGen could also be useful in combination with Rails.
 One application to Rails could be to generate not only the model, view and controller classes, but also the database schemas and code reflecting associations between Rails model elements (i.e. the has_many, belongs_to, .. code in the ActiveRecord subclasses)
 The base model for such a generation could be a description of the model elements and its associations as an UML class model.
 Another application could be to base new Rails generators (like the Login generator, etc) on RGen.
+
+
+=Major Performance Improvement
+
+RGen 0.4.1 features major performance improvements.
+All applications using the template language will be faster now.
+Applications using the AbstractXMLInstantiator can benefit if explicit garbage collection is enabled.
+(see documentation of AbstractXMLInstantiator)
+Another improvement makes the "ecore" class method of classes and modules much faster.
+Last but not least the loading of metamodels takes about half the time as before.
+
+For large models the metamodel generator is about 20 times faster.
+Reading a 50 000 lines ecore file now takes 9 seconds on a Centrino Duo 2GHz (85s with RGen 0.4.0)
+Generating the RGen metamodel code for the ecore model takes 5 seconds (200s with RGen 0.4.0)
+Requiring this RGen metamodel takes about 3 seconds (about 6s with RGen 0.4.0).
+
