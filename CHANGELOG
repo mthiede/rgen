@@ -50,3 +50,8 @@
 * Major performance improvement: AbstractXMLInstantiator optionally controls the garbage collector
 * Major performance improvement: ERB templates are reused in metamodel_builder
 * Added delete method to Environment
+
+=0.4.2 (ongoing)
+
+* Performance improvement: collection feature of array extension uses hashes now to speed up array union
+* Performance improvement: find on environment hashes elements by class
