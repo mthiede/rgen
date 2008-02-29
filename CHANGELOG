@@ -55,3 +55,4 @@
 
 * Performance improvement: collection feature of array extension uses hashes now to speed up array union
 * Performance improvement: find on environment hashes elements by class
+* Extended Transformer to allow sharing of result maps between several Transformer instances

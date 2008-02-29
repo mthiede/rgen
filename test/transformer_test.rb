@@ -112,6 +112,39 @@ class TransformerTest < Test::Unit::TestCase
 		assert_equal env_out.elements.first, t.trans(from)
 		assert_equal 1, t.modelInTrans_count
 	end
+  
+  def test_transformer_chain
+    from = ModelIn.new
+    from.name = "Test1"
+    from2 = ModelIn.new
+    from2.name = "Test2"
+    from3 = ModelIn.new
+    from3.name = "Test3"
+    env_out = RGen::Environment.new
+    elementMap = {}
+    t1 = MyTransformer.new(:env_in, env_out, elementMap)
+		assert t1.trans(from).is_a?(ModelOut)
+		assert_equal "Test1", t1.trans(from).name
+		assert_equal 1, t1.modelInTrans_count
+    # modifying the element map means that following calls of +trans+ will be affected
+    assert_equal( {from => t1.trans(from)}, elementMap )
+    elementMap.merge!({from2 => :dummy})
+    assert_equal :dummy, t1.trans(from2)
+    # second transformer based on the element map of the first
+    t2 = MyTransformer.new(:env_in, env_out, elementMap)
+    # second transformer returns same objects
+    assert_equal t1.trans(from).object_id, t2.trans(from).object_id
+    assert_equal :dummy, t2.trans(from2)
+    # and no transformer rule is evaluated at this point
+		assert_equal nil, t2.modelInTrans_count
+    # now transform a new object in second transformer
+		assert t2.trans(from3).is_a?(ModelOut)
+		assert_equal "Test3", t2.trans(from3).name
+		assert_equal 1, t2.modelInTrans_count
+    # the first transformer returns the same object without evaluation of a transformer rule
+    assert_equal t1.trans(from3).object_id, t2.trans(from3).object_id
+		assert_equal 1, t1.modelInTrans_count
+  end
 	
 	def test_transformer_subclass
 		from = ModelInSub.new

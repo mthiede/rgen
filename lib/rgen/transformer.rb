@@ -227,11 +227,14 @@ class Transformer
 
 	# Creates a new transformer
 	# Optionally an input and output Environment can be specified.
+  # If an elementMap is provided (normally a Hash) this map will be used to lookup 
+  # and store transformation results. This way results can be predefined
+  # and it is possible to have several transformers work on the same result map.
 	# 
-	def initialize(env_in=nil, env_out=nil)
+	def initialize(env_in=nil, env_out=nil, elementMap=nil)
 		@env_in = env_in
 		@env_out = env_out
-		@transformer_results = {}
+		@transformer_results = elementMap || {}
 		@transformer_jobs = []
 	end
 
