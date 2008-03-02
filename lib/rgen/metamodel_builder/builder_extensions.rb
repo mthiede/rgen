@@ -76,8 +76,8 @@ module BuilderExtensions
 	# for the add and remove methods.
 	# 
 	def has_many(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
-			:name=>role, :upperBound=>-1,	:containment=>false}))
+		props = ReferenceDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>role, :containment=>false})))
 		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
@@ -92,8 +92,8 @@ module BuilderExtensions
 	end
 
 	def contains_many_uni(role, target_class=nil, raw_props={}, &block)
-		props = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
-			:name=>role, :upperBound=>-1, :containment=>true}))
+		props = ReferenceDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>role, :containment=>true})))
 		raise "No opposite available" unless _oppositeProps(raw_props).empty?
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
@@ -121,8 +121,8 @@ module BuilderExtensions
 	# is is added to as a new element.
 	# 
 	def one_to_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
-			:name=>target_role, :upperBound=>-1, :containment=>false}))
+		props1 = ReferenceDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>target_role, :containment=>false})))
 		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
@@ -130,8 +130,8 @@ module BuilderExtensions
 	end
 
 	def contains_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
-			:name=>target_role, :upperBound=>-1, :containment=>true}))
+		props1 = ReferenceDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>target_role, :containment=>true})))
 		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
 			:name=>own_role, :upperBound=>1, :containment=>false}))
 		FeatureBlockEvaluator.eval(block, props1, props2)
@@ -142,8 +142,8 @@ module BuilderExtensions
 	def many_to_one(target_role, target_class, own_role, raw_props={}, &block)
 		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>target_role, :upperBound=>1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
-			:name=>own_role, :upperBound=>-1, :containment=>false}))
+		props2 = ReferenceDescription.new(self, _setManyUpperBound(_oppositeProps(raw_props).merge({
+			:name=>own_role, :containment=>false})))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
@@ -171,10 +171,10 @@ module BuilderExtensions
 	# is is added to as a new element.
 	# 
 	def many_to_many(target_role, target_class, own_role, raw_props={}, &block)
-		props1 = ReferenceDescription.new(target_class, _ownProps(raw_props).merge({
-			:name=>target_role, :upperBound=>-1, :containment=>false}))
-		props2 = ReferenceDescription.new(self, _oppositeProps(raw_props).merge({
-			:name=>own_role, :upperBound=>-1, :containment=>false}))
+		props1 = ReferenceDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>target_role, :containment=>false})))
+		props2 = ReferenceDescription.new(self, _setManyUpperBound(_oppositeProps(raw_props).merge({
+			:name=>own_role, :containment=>false})))
 		FeatureBlockEvaluator.eval(block, props1, props2)
 		_build_internal(props1, props2)
 	end
@@ -413,17 +413,22 @@ module BuilderExtensions
 	
 	def _ownProps(props)
 	  Hash[*(props.select{|k,v| !(k.to_s =~ /^opposite_/)}.flatten)]
-    end
+  end
 
 	def _oppositeProps(props)
-	   r = {}
-	   props.each_pair do |k,v|
-	     if k.to_s =~ /^opposite_(.*)$/
-            r[$1.to_sym] = v
-         end
-       end
-       r
+    r = {}
+	  props.each_pair do |k,v|
+      if k.to_s =~ /^opposite_(.*)$/
+        r[$1.to_sym] = v
+      end
     end
+    r
+  end
+
+  def _setManyUpperBound(props)
+    props[:upperBound] = -1 unless props[:upperBound].is_a?(Integer) && props[:upperBound] > 1
+    props
+  end
     
 end
 

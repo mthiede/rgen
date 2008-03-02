@@ -144,7 +144,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   end
   class ManyClass < RGen::MetamodelBuilder::MMBase
   end
-  OneClass.one_to_many 'manyClasses', ManyClass, 'oneClass'
+  OneClass.one_to_many 'manyClasses', ManyClass, 'oneClass', :upperBound => 5
   
   def test_one_to_many
     oc = OneClass.new
@@ -178,6 +178,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     
     assert_equal [], OneClass.ecore.eReferences.select{|r| r.many == false}
     assert_equal ["manyClasses"], OneClass.ecore.eReferences.select{|r| r.many == true}.name
+    assert_equal 5, OneClass.ecore.eReferences.find{|r| r.many == true}.upperBound
     assert_equal ["oneClass"], ManyClass.ecore.eReferences.select{|r| r.many == false}.name
     assert_equal [], ManyClass.ecore.eReferences.select{|r| r.many == true}
   end
