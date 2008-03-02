@@ -51,8 +51,9 @@
 * Major performance improvement: ERB templates are reused in metamodel_builder
 * Added delete method to Environment
 
-=0.4.2 (ongoing)
+=0.4.2 (Mar 2nd, 2008)
 
 * Performance improvement: collection feature of array extension uses hashes now to speed up array union
 * Performance improvement: find on environment hashes elements by class
 * Extended Transformer to allow sharing of result maps between several Transformer instances
+* Bugfix: User defined upper bound values are no longer overwritten by -1 in all "many" metamodel builder methods

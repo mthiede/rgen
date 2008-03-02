@@ -1,6 +1,7 @@
 =Known Bugs
 * <% expand ... :indent => 0 %> seems to change behaviour of active template not only expanded subtemplate
 * Ecore build in types (EString, ...) do not work in ECore instantiator, define your own EDatatype instead
+* ECore datatypes in RGen::ECore should use Java like instanceClassNames
 
 =Major issues 
 * XML instantiator documentation
