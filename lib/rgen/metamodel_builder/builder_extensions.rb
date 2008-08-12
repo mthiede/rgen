@@ -356,7 +356,7 @@ module BuilderExtensions
         def <%= name %>=(val)
           return if val.nil?
           raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
-          get<%= firstToUpper(name) %>).each {|e|
+          get<%= firstToUpper(name) %>.each {|e|
             remove<%= firstToUpper(name) %>(e)
           }
           val.each {|v|
