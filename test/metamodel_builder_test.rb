@@ -74,6 +74,12 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   end
   
   class ClassA < RGen::MetamodelBuilder::MMBase
+    # metamodel accessors must work independent of the ==() method
+    module ClassModule
+      def ==(o)
+        o.is_a?(ClassA)
+      end
+    end
   end
   
   class ClassB < RGen::MetamodelBuilder::MMBase

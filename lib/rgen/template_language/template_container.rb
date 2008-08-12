@@ -96,8 +96,8 @@ module RGen
         @templates[template][cls] = block
       end
       
-      def file(name)
-        old_output, @output = @output, OutputHandler.new(@indent)
+      def file(name, indentString=nil)
+        old_output, @output = @output, OutputHandler.new(@indent, indentString || @parent.indentString)
         begin
           yield
         rescue Exception => e
@@ -126,6 +126,7 @@ module RGen
       LOCAL_TEMPLATE_REGEX = /^:*(\w+)$/
       
       def _expand(template, args, params)
+        raise StandardError.new("expand :for argument evaluates to nil") if params.has_key?(:for) && params[:for].nil?
         context = params[:for]
         @indent = params[:indent] || @indent
         # if this is the first call to expand within this container, @output is nil
@@ -135,8 +136,8 @@ module RGen
         local_output = nil
         if template =~ LOCAL_TEMPLATE_REGEX
           tplname = $1
-          throw "Template not found: #{$1}" unless @templates[tplname]
-          old_output, @output = @output, OutputHandler.new(@indent)
+          raise StandardError.new("Template not found: #{$1}") unless @templates[tplname]
+          old_output, @output = @output, OutputHandler.new(@indent, @parent.indentString)
           @output.noIndentNextLine if noIndentNextLine
           _call_template(tplname, @context, args)
           local_output, @output = @output, old_output

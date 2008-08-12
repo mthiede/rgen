@@ -14,8 +14,8 @@ module BuilderRuntime
 	include NameHelper
 	
 	def is_a?(c)
-	   return super unless c.respond_to?(:_class_module)
-	   kind_of?(c._class_module)
+    return super unless c.const_defined?(:ClassModule)
+    kind_of?(c::ClassModule)
 	end
 	
 	def addGeneric(role, value)
@@ -32,24 +32,6 @@ module BuilderRuntime
 
 	def getGeneric(role)
 		send("#{role}")
-	end
-
-	def _unregister(element, target, target_role, kind)
-		return unless element and target and target_role
-		if kind == 'one'
-			target.send("#{target_role}=",nil)
-		elsif kind == 'many'
-			target.send("remove#{firstToUpper(target_role)}",element)
-		end
-	end
-			
-	def _register(element, target, target_role, kind)
-		return unless element and target and target_role
-		if kind == 'one'
-			target.send("#{target_role}=",element)
-		elsif kind == 'many'
-			target.send("add#{firstToUpper(target_role)}",element)
-		end
 	end
 
 	def _assignmentTypeError(target, value, expected)

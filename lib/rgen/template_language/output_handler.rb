@@ -8,9 +8,10 @@ module TemplateLanguage
   class OutputHandler
     attr_writer :indent
     
-    def initialize(indent=0, mode=:explicit)
+    def initialize(indent=0, indentString="   ", mode=:explicit)
       self.mode = mode
       @indent = indent
+      @indentString = indentString
       @state = :wait_for_nonws
       @output = ""
     end
@@ -42,7 +43,7 @@ module TemplateLanguage
             if s =~ /\A\s*(\S+.*)/m
               s = $1 || ""
               if !@noIndentNextLine && !(@output.to_s.size > 0 && @output.to_s[-1] != "\n"[0])
-                @output.concat("   "*@indent)
+                @output.concat(@indentString * @indent)
               else
                 @noIndentNextLine = false
               end

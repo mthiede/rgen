@@ -219,17 +219,9 @@ module BuilderExtensions
 		@metamodel_description ||= []
 	end
 	
-	def inherited(c)
-	   c._class_module
+  	def inherited(c)
+    	c.send(:include, c.const_set(:ClassModule, Module.new))
 	end
-		
-	def _class_module # :nodoc:
-        unless const_defined?(:ClassModule)
-          const_set(:ClassModule, Module.new)
-          include const_get(:ClassModule)
-        end
-        const_get(:ClassModule)
-    end
 		
 	protected
 		
@@ -282,7 +274,7 @@ module BuilderExtensions
 				alias get<%= firstToUpper(name) %> <%= name %>
 
 			CODE
-			_class_module.module_eval(@@one_read_builder.result(binding))
+			self::ClassModule.module_eval(@@one_read_builder.result(binding))
 		end
 		
 		if props.value(:changeable)
@@ -294,14 +286,22 @@ module BuilderExtensions
 					oldval = @<%= name %>
 					@<%= name %> = val
 					<% if other_role && other_kind %>
-						_unregister(self,oldval,"<%= other_role %>","<%= other_kind %>")
-						_register(self,val,"<%= other_role %>","<%= other_kind %>")
+						oldval._unregister<%= firstToUpper(other_role) %>(self) unless oldval.nil?
+						val._register<%= firstToUpper(other_role) %>(self) unless val.nil?
 					<% end %>
 				end 
 				alias set<%= firstToUpper(name) %> <%= name %>=
-				
+
+				def _register<%= firstToUpper(name) %>(val)
+					@<%= name %> = val
+				end
+        
+				def _unregister<%= firstToUpper(name) %>(val)
+					@<%= name %> = nil
+				end
+        
 			CODE
-			_class_module.module_eval(@@one_write_builder.result(binding))
+			self::ClassModule.module_eval(@@one_write_builder.result(binding))
 
 		end
 	end
@@ -324,7 +324,7 @@ module BuilderExtensions
 				alias get<%= firstToUpper(name) %> <%= name %>
 							
 			CODE
-			_class_module.module_eval(@@many_read_builder.result(binding))
+			self::ClassModule.module_eval(@@many_read_builder.result(binding))
 		end
 		
 		if props.value(:changeable)
@@ -332,41 +332,54 @@ module BuilderExtensions
 		
 				def add<%= firstToUpper(name) %>(val)
 					@<%= name %> = [] unless @<%= name %>
-					return if val.nil? or @<%= name %>.include?(val) 
+					return if val.nil? || @<%= name %>.any?{|e| e.object_id == val.object_id} 
 					<%= type_check_code("val", props) %>
 					@<%= name %>.push val
 					<% if other_role && other_kind %>
-						_register(self, val, "<%= other_role %>", "<%= other_kind %>")
+						val._register<%= firstToUpper(other_role) %>(self)
 					<% end %>
 				end
 				
 				def remove<%= firstToUpper(name) %>(val)
 					@<%= name %> = [] unless @<%= name %>
-					return unless @<%= name %>.include?(val)
-					@<%= name %>.delete val
-					<% if other_role && other_kind %>
-						_unregister(self, val, "<%= other_role %>", "<%= other_kind %>")
-					<% end %>
+					@<%= name %>.each_with_index do |e,i|
+						if e.object_id == val.object_id
+							@<%= name %>.delete_at(i)
+    						<% if other_role && other_kind %>
+								val._unregister<%= firstToUpper(other_role) %>(self)
+    						<% end %>
+							return
+						end
+	        		end    
 				end
-				
-				def <%= name %>=(val)
-					return if val.nil?
-					raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
-					getGeneric(:<%= name %>).each {|e|
-						remove<%= firstToUpper(name) %>(e)
-					}
-					val.each {|v|
-						add<%= firstToUpper(name) %>(v)
-					}
-				end
+        
+        def <%= name %>=(val)
+          return if val.nil?
+          raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
+          get<%= firstToUpper(name) %>).each {|e|
+            remove<%= firstToUpper(name) %>(e)
+          }
+          val.each {|v|
+            add<%= firstToUpper(name) %>(v)
+          }
+        end
 				alias set<%= firstToUpper(name) %> <%= name %>=
-				
+        
+        def _register<%= firstToUpper(name) %>(val)
+          @<%= name %> = [] unless @<%= name %>
+          @<%= name %>.push val
+        end
+
+        def _unregister<%= firstToUpper(name) %>(val)
+          @<%= name %>.delete val
+        end
+        
 			CODE
-			_class_module.module_eval(@@many_write_builder.result(binding))
+			self::ClassModule.module_eval(@@many_write_builder.result(binding))
 		end		
 				
 	end	
-	
+  
 	private
 
 	def build_derived_method(name, props, kind)
@@ -392,7 +405,7 @@ module BuilderExtensions
 			#TODO final_method :<%= name %>
 			
 		CODE
-		_class_module.module_eval(@@derived_builder.result(binding))
+		self::ClassModule.module_eval(@@derived_builder.result(binding))
 	end
 	
 	def type_check_code(varname, props)

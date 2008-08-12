@@ -51,6 +51,17 @@ class DirectoryTemplateContainer
     end
   end
   
+  # Set indentation string.
+  # Every generated line will be prependend with n times this string at an indentation level of n.
+  # Defaults to "   " (3 spaces)
+  def indentString=(str)
+    @indentString = str
+  end
+  
+  def indentString
+    @indentString || (@parent && @parent.indentString) || "   "
+  end
+  
   private
   
   def _expand(template, *all_args)

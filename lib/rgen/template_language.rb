@@ -145,6 +145,11 @@ module RGen
 # Initial indentation defaults to 0. Normally <code><%iinc%></code> and 
 # <code><%idec%></code> are used to change the indentation.
 # The current indentation is kept for expansion of subtemplates.
+#
+# The string which is used to realize one indentation step can be set using
+# DirectoryTemplateContainer#indentString or with the template language +file+ command.
+# The default is "   " (3 spaces), the indentation string given at a +file+ command
+# overwrites the container's default which in turn overwrites the overall default.
 # 
 # Note that commands to ignore whitespace and newlines are still useful if output 
 # generated from multiple template lines should show up in one single output line.
@@ -242,6 +247,9 @@ module RGen
 # 
 # The absolute position where the output file is created depends on the output
 # root directory passed to DirectoryTemplateContainer as described below.
+#
+# As a second argument, the +file+ command can take the indentation string which is
+# used to indent output lines (see Formatting).
 # 
 # =Setting up the Generator
 # 

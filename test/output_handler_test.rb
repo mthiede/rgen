@@ -47,4 +47,12 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       h << line
     end
   end
+	def test_indent_string
+		h = RGen::TemplateLanguage::OutputHandler.new(1, "\t", :explicit)
+		h << "Start"
+		h << "   \n "
+		h << "Test"
+		h << "      \n   \n    Content"
+		assert_equal "\tStart\n\tTest\n\tContent", h.to_s
+	end
 end
