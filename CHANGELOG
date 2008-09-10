@@ -64,3 +64,9 @@
 * Bugfix: Use object identity for metamodel to-many add/remove methods
 * Bugfix: If expand's :for expression evaluates to nil an error is generated (silently used current context before)
 * Template language indentation string can be set on DirectoryTemplateContainer and with the "file" command
+
+=0.4.4 (Sep 10th, 2008)
+
+* Added "abstract" metamodel DSL command
+* Added ecore_ext.rb with convenience methods
+* Added XMI1.1 serializer, revised XMLSerializer super class
