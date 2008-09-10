@@ -1,7 +1,8 @@
 require 'rgen/environment'
 require 'rgen/template_language'
 require 'rgen/ecore/ecore'
-require 'mmgen/mm_ext/ecore_ext'
+require 'rgen/ecore/ecore_ext'
+require 'mmgen/mm_ext/ecore_mmgen_ext'
 
 module MMGen
 
