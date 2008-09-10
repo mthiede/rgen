@@ -16,10 +16,6 @@ module RGen
         eSuperPackage.qualifiedModuleName(rootPackage) + "::" + moduleName
       end
       
-      def allClassifiers
-        eSubpackages.inject(eClassifiers) {|r,p| r.concat(p.allClassifiers) }	 
-      end
-      
       def ancestorPackages
         return [] unless eSuperPackage
         [eSuperPackage] + eSuperPackage.ancestorPackages
@@ -66,17 +62,17 @@ module RGen
       def classifierName
         firstToUpper(name)			
       end
-      def qualifiedName(rootPackage)
+      def qualifiedClassifierName(rootPackage)
        (ePackage ? ePackage.qualifiedModuleName(rootPackage) + "::" : "") + classifierName
       end
       def ancestorPackages
         return [] unless ePackage
         [ePackage] + ePackage.ancestorPackages
       end
-      def qualifiedNameIfRequired(package)
+      def qualifiedClassifierNameIfRequired(package)
         if ePackage != package
           commonSuper = (package.ancestorPackages & ancestorPackages).first
-          qualifiedName(commonSuper)
+          qualifiedClassifierName(commonSuper)
         else
           classifierName
         end
