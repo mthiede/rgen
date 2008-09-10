@@ -12,7 +12,7 @@ class ECoreTransformer < Transformer
   
   transform Class, :to => EClass, :if => :convert? do
     { :name => name.gsub(/.*::(\w+)$/,'\1'),
-      :abstract => false,
+      :abstract => _abstract_class,
       :interface => false,
       :eStructuralFeatures => trans(_metamodel_description),
       :ePackage =>  trans(name =~ /(.*)::\w+$/ ? eval($1) : nil),

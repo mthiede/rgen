@@ -23,6 +23,7 @@
 		<% expand 'EnumTypes' %>
 		<% for c in ownClasses %><%nl%>
 			<% expand 'ClassHeader', this, :for => c %><%iinc%>
+				<% if c.abstract %>abstract<% end %>
 				<% expand 'annotations::Annotations', :for => c %>
 				<% expand 'Attribute', this, :foreach => c.eAttributes %>
 				<%idec%>
@@ -37,6 +38,7 @@
 <% define 'GenerateClassesReordered', :for => EPackage do %>
 	<% for c in allClassesSorted %><%nl%>
 		<% expand 'ClassHeaderFullyQualified', this, :for => c %><%iinc%>
+			<% if c.abstract %>abstract<% end %>
 			<% expand 'annotations::Annotations', :for => c %>
 			<% expand 'Attribute', this, :foreach => c.eAttributes %>
 			<%idec%>
@@ -61,7 +63,7 @@
 	<% if upperBound == 1%>
 	has_attr '<%= name %>', <%nows%>
 	<% if eType.is_a?(EEnum) %><%nows%>
-		<%= eType.qualifiedName(rootp) %><%nows%>
+		<%= eType.qualifiedClassifierName(rootp) %><%nows%>
 	<% else %><%nows%>
 		<%= eType && eType.instanceClass.to_s %><%nows%>
 	<% end %><%nows%>
@@ -90,7 +92,7 @@
 
 <% define 'GenerateAssocs', :for => EPackage do %>
 	<% refDone = {} %>
-	<% for ref in allClassifiers.select{|c| c.is_a?(EClass)}.eReferences %>
+	<% for ref in eAllClassifiers.select{|c| c.is_a?(EClass)}.eReferences %>
 		<% if !refDone[ref] && ref.eOpposite %>
 			<% ref = ref.eOpposite if ref.eOpposite.containment %>
 			<% refDone[ref] = refDone[ref.eOpposite] = true %>
@@ -133,7 +135,7 @@
 <% end %>
 
 <% define 'Reference', :for => EReference do |cmd, rootpackage| %>
-	<%= eContainingClass.qualifiedName(rootpackage) %>.<%= cmd %> '<%= name %>', <%= eType && eType.qualifiedName(rootpackage) %><%nows%>
+	<%= eContainingClass.qualifiedClassifierName(rootpackage) %>.<%= cmd %> '<%= name %>', <%= eType && eType.qualifiedClassifierName(rootpackage) %><%nows%>
 	<% if eOpposite %><%nows%>
 		, '<%= eOpposite.name%>'<%nows%>
 	<% end %><%nows%>
@@ -151,20 +153,20 @@
 <% define 'ClassHeader', :for => EClass do |rootp| %>
 	class <%= classifierName %> < <% nows %>
 	<% if eSuperTypes.size > 1 %><% nows %>
-		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedNameIfRequired(rootp)}.join(', ') %>)
+		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedClassifierNameIfRequired(rootp)}.join(', ') %>)
 	<% elsif eSuperTypes.size > 0 %><% nows %>
-		<%= eSuperTypes.first.qualifiedNameIfRequired(rootp) %>
+		<%= eSuperTypes.first.qualifiedClassifierNameIfRequired(rootp) %>
 	<% else %><% nows %>
 		RGen::MetamodelBuilder::MMBase
 	<% end %>
 <% end %>
 
 <% define 'ClassHeaderFullyQualified', :for => EClass do |rootp| %>
-	class <%= qualifiedName(rootp) %> < <% nows %>
+	class <%= qualifiedClassifierName(rootp) %> < <% nows %>
 	<% if eSuperTypes.size > 1 %><% nows %>
-		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedName(rootp)}.join(', ') %>)
+		RGen::MetamodelBuilder::MMMultiple(<%= eSuperTypes.collect{|t| t.qualifiedClassifierName(rootp)}.join(', ') %>)
 	<% elsif eSuperTypes.size > 0 %><% nows %>
-		<%= eSuperTypes.first.qualifiedName(rootp) %>
+		<%= eSuperTypes.first.qualifiedClassifierName(rootp) %>
 	<% else %><% nows %>
 		RGen::MetamodelBuilder::MMBase
 	<% end %>

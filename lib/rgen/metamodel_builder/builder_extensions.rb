@@ -218,9 +218,17 @@ module BuilderExtensions
 	def _metamodel_description # :nodoc:
 		@metamodel_description ||= []
 	end
+  
+  def abstract
+    @abstract = true
+  end
+  
+  def _abstract_class
+    @abstract || false
+  end
 	
-  	def inherited(c)
-    	c.send(:include, c.const_set(:ClassModule, Module.new))
+	def inherited(c)
+	  c.send(:include, c.const_set(:ClassModule, Module.new))
 	end
 		
 	protected
