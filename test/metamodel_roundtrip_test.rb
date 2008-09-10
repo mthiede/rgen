@@ -53,9 +53,8 @@ class MetamodelGeneratorTest < Test::Unit::TestCase
   def test_ecore_serializer
     require TEST_DIR+"/TestModel.rb"
     File.open(TEST_DIR+"/houseMetamodel_Regenerated.ecore","w") do |f|
-	  	ser = RGen::Serializer::XMI20Serializer.new
+	  	ser = RGen::Serializer::XMI20Serializer.new(f)
 	  	ser.serialize(HouseMetamodel.ecore)
-	  	f.write(ser.result)
 	 	end
   end
   
