@@ -4,25 +4,41 @@ module Serializer
 
 class XMLSerializer
 
-	def initialize
-		@output = ""
-	end
-	
-	def result
-		@output
+  INDENT_SPACE = 2
+  
+	def initialize(file)
+    @indent = 0
+    @lastStartTag = nil
+    @textContent = false
+    @file = file
 	end
 	
 	def serialize(rootElement)
 		raise "Abstract class, overwrite method in subclass!"
 	end
-	
-	def startTag(tag, attributes, indent)
-		@output += "  "*indent + "<#{tag} " + attributes.keys.collect{|k| "#{k}=\"#{attributes[k]}\""}.join(" ") + ">\n"
-	end
+  
+  def startTag(tag, attributes={})
+    @textContent = false
+    handleLastStartTag(false, true)
+    @lastStartTag = " "*@indent*INDENT_SPACE +
+    	"<#{tag} "+attributes.keys.collect{|k| "#{k}=\"#{attributes[k]}\""}.join(" ")
+    @indent += 1
+  end
+  
+  def endTag(tag)
+    @indent -= 1
+    unless handleLastStartTag(true, true)
+      output " "*@indent*INDENT_SPACE unless @textContent
+      output "</#{tag}>\n"
+    end
+    @textContent = false
+  end
 
-	def endTag(tag, indent)
-		@output += "  "*indent + "</#{tag}>\n"
-	end
+  def writeText(text)
+    handleLastStartTag(false, false)
+    output "#{text}"
+    @textContent = true
+  end  
 	
 	protected
 
@@ -52,8 +68,25 @@ class XMLSerializer
 	end  
 
   def containmentReferences(element)
-  	eAllReferences(element).select{|r| r.containment}
+    @containmentReferences ||= {}
+    @containmentReferences[element.class] ||= eAllReferences(element).select{|r| r.containment}
   end
+  
+  private
+  
+  def handleLastStartTag(close, newline)
+    return false unless @lastStartTag
+    output @lastStartTag
+    output close ? "/>" : ">"
+    output "\n" if newline
+    @lastStartTag = nil
+    true
+  end
+  
+  def output(text)
+    @file.write(text)
+  end
+  
 end
 
 end

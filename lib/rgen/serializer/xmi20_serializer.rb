@@ -14,19 +14,19 @@ class XMI20Serializer < XMLSerializer
 		attrs['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
 		attrs['xmlns:ecore'] = "http://www.eclipse.org/emf/2002/Ecore" 
 		tag = "ecore:"+rootElement.class.ecore.name
-		startTag(tag, attrs, 0)
-		writeComposites(rootElement, 1)
-		endTag(tag, 0)
+		startTag(tag, attrs)
+		writeComposites(rootElement)
+		endTag(tag)
 	end
 	
-	def writeComposites(element, indent)
+	def writeComposites(element)
 		eachReferencedElement(element, containmentReferences(element)) do |r,te|
 			attrs = attributeHash(te)
 			attrs['xsi:type'] = "ecore:"+te.class.ecore.name
 			tag = r.name
-			startTag(tag, attrs, indent)
-			writeComposites(te, indent+1)
-			endTag(tag, indent)
+			startTag(tag, attrs)
+			writeComposites(te)
+			endTag(tag)
 		end
 	end
 
