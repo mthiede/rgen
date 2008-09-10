@@ -33,6 +33,7 @@ module HouseMetamodel
     
     
     class Room < RGen::MetamodelBuilder::MMBase
+      abstract
       annotation          'complexity' => '1', 'date_created' => '2005-09-16 19:52:28', 'date_modified' => '2006-06-22 21:15:25', 'ea_ntype' => '0', 'ea_stype' => 'Class', 'gentype' => 'Java', 'isSpecification' => 'false', 'package' => 'EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08', 'package_name' => 'Rooms', 'phase' => '1.0', 'status' => 'Proposed', 'style' => 'BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;', 'tagged' => '0', 'version' => '1.0'
     end
     
