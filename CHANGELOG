@@ -70,3 +70,7 @@
 * Added "abstract" metamodel DSL command
 * Added ecore_ext.rb with convenience methods
 * Added XMI1.1 serializer, revised XMLSerializer super class
+
+=0.4.5 (Nov 17th, 2008)
+
+* Updated XMI1.1 serializer to support explicit placement of elements on content level of the XMI file

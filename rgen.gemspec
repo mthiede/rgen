@@ -2,8 +2,8 @@ require 'rubygems'
 
 SPEC = Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = "0.4.4"
-  s.date = %q{2008-09-10}
+  s.version = "0.4.5"
+  s.date = %q{2008-11-18}
   s.summary = %q{Ruby Modelling and Generator Framework}
 #  s.email = %q{}
 #  s.homepage = %q{}
