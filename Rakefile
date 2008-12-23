@@ -32,6 +32,10 @@ RGenPackageTask = Rake::GemPackageTask.new(RGenGemSpec) do |p|
   p.need_zip = true
 end	
 
+task :publish_doc do
+  sh %{pscp -r doc/* thiedem@rubyforge.org:/var/www/gforge-projects/rgen}
+end
+
 task :prepare_package_rdoc => :rdoc do
   RGenPackageTask.package_files.include("doc/**/*")
 end
