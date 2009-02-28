@@ -74,11 +74,11 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc.load(TEMPLATES_DIR)
     tc.indentString = "  "  # 2 spaces instead of 3 (default)
     tc.expand('indent_string_test::IndentStringTest', :for => :dummy)
-    File.open(OUTPUT_DIR+"/indentStringTestDefaultIndent.out") do |f|
-      assert_equal "  <- your default here\n", f.read
+    File.open(OUTPUT_DIR+"/indentStringTestDefaultIndent.out","rb") do |f|
+      assert_equal "  <- your default here\r\n", f.read
     end
-    File.open(OUTPUT_DIR+"/indentStringTestTabIndent.out") do |f|
-      assert_equal "\t<- tab\n", f.read
+    File.open(OUTPUT_DIR+"/indentStringTestTabIndent.out","rb") do |f|
+      assert_equal "\t<- tab\r\n", f.read
     end
   end
   
