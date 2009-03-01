@@ -65,25 +65,16 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc.expand('root::Root', :for => TEST_MODEL, :indent => 1)
     result = expected = ""
     File.open(OUTPUT_DIR+"/testout.txt") {|f| result = f.read}
-    File.open(OUTPUT_DIR+"/expected_result.txt") {|f| expected = f.read}
+    File.open(OUTPUT_DIR+"/expected_result1.txt") {|f| expected = f.read}
     assert_equal expected, result
   end
   
   def test_immediate_result
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
-    code = <<CODE
-int myArray[5] = {
-   1,
-   2,
-   3,
-   4,
-   5
-};
-Text from Root
-Text from Root
-CODE
-    assert_equal code, tc.expand('code/array::ArrayDefinition', :for => TEST_MODEL.sampleArray).to_s
+    expected = ""
+    File.open(OUTPUT_DIR+"/expected_result2.txt") {|f| expected = f.read}
+    assert_equal expected, tc.expand('code/array::ArrayDefinition', :for => TEST_MODEL.sampleArray).to_s
   end
   
   def test_indent_string
