@@ -74,3 +74,10 @@
 =0.4.5 (Nov 17th, 2008)
 
 * Updated XMI1.1 serializer to support explicit placement of elements on content level of the XMI file
+
+=0.4.6 (Mar 1st, 2009)
+
+* Bugfix: expand :foreach silently assumed current context if :foreach evalutated to nil
+* Bugfix: fixed unit test for non-Windows plattforms (\r\n)
+* Bugfix: depending on the Ruby version and/or platform constants used in templates could not be resolved
+* Added automatic line ending detection (\n or \r\n) for template language +nl+ command

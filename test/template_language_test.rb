@@ -69,6 +69,23 @@ class TemplateContainerTest < Test::Unit::TestCase
     assert_equal expected, result
   end
   
+  def test_immediate_result
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    code = <<CODE
+int myArray[5] = {
+   1,
+   2,
+   3,
+   4,
+   5
+};
+Text from Root
+Text from Root
+CODE
+    assert_equal code, tc.expand('code/array::ArrayDefinition', :for => TEST_MODEL.sampleArray).to_s
+  end
+  
   def test_indent_string
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
@@ -86,7 +103,12 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
     assert_raise StandardError do 
+      # the template must raise an exception because it calls expand :for => nil
       tc.expand('null_context_test::NullContextTestBad', :for => :dummy)
+    end
+    assert_raise StandardError do 
+      # the template must raise an exception because it calls expand :foreach => nil
+      tc.expand('null_context_test::NullContextTestBad2', :for => :dummy)
     end
     assert_nothing_raised do
       tc.expand('null_context_test::NullContextTestOk', :for => :dummy)

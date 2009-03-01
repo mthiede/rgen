@@ -19,11 +19,10 @@ class DirectoryTemplateContainer
   end
   
   def load(dir)
-    #print "Loading templates in #{dir} ...\n"
     Dir.foreach(dir) { |f|
       qf = dir+"/"+f
       if !File.directory?(qf) && f =~ /^(.*)\.tpl$/
-       (@containers[$1] = TemplateContainer.dup.new(@metamodel, @output_path, self,qf)).load
+       (@containers[$1] = TemplateContainer.new(@metamodel, @output_path, self,qf)).load
       elsif File.directory?(qf) && f != "." && f != ".."
        (@containers[f] = DirectoryTemplateContainer.new(@metamodel, @output_path, self)).load(qf)
       end
