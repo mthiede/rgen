@@ -73,7 +73,7 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
     expected = ""
-    File.open(OUTPUT_DIR+"/expected_result2.txt") {|f| expected = f.read}
+    File.open(OUTPUT_DIR+"/expected_result2.txt","rb") {|f| expected = f.read}
     assert_equal expected, tc.expand('code/array::ArrayDefinition', :for => TEST_MODEL.sampleArray).to_s
   end
   

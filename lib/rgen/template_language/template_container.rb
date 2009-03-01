@@ -24,7 +24,7 @@ class TemplateContainer
   end
   
   def load
-    File.open(@filename) do |f|
+    File.open(@filename,"rb") do |f|
       begin
         @@metamodels = @metamodels
         fileContent = f.read
@@ -110,7 +110,7 @@ class TemplateContainer
     path += @output_path+"/" if @output_path
     dirname = File.dirname(path+name)
     FileUtils.makedirs(dirname) unless File.exist?(dirname)
-    File.open(path+name,"w") { |f| f.write(@output) }
+    File.open(path+name,"wb") { |f| f.write(@output) }
     @output = old_output
   end
   
