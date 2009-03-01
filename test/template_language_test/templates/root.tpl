@@ -18,7 +18,7 @@
 		<% expand 'content/chapter::Root', :foreach => chapters, :separator => ", " %><%nl%>
 		<%nl%>
 		Chapters each in one line:
-		<% expand 'content/chapter::Root', :foreach => chapters, :separator => ",\n" %><%nl%>
+		<% expand 'content/chapter::Root', :foreach => chapters, :separator => ",\r\n" %><%nl%>
 		<%nl%>
 		Here are some code examples:
 		<% expand 'code/array::ArrayDefinition', :for => sampleArray %>

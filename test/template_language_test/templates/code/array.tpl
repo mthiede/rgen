@@ -1,6 +1,6 @@
 <% define 'ArrayDefinition', :for => CArray do %>
   <%= getType %> <%= name %>[<%= size %>] = {<%iinc%>
-    <% expand 'InitValue', :foreach => initvalue, :separator => ",\n" %><%nl%><%idec%>
+    <% expand 'InitValue', :foreach => initvalue, :separator => ",\r\n" %><%nl%><%idec%>
   };
   <% expand '../root::TextFromRoot' %>
   <% expand '/root::TextFromRoot' %>

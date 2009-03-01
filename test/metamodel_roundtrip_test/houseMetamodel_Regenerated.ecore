@@ -89,25 +89,7 @@
     </eAnnotations>
   </eClassifiers>
   <eSubpackages name="Rooms" xsi:type="ecore:EPackage" eSuperPackage="#/">
-    <eClassifiers name="Bathroom" abstract="false" instanceClassName="HouseMetamodel::Rooms::Bathroom" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSuperTypes="#//Rooms/Room">
-      <eAnnotations eModelElement="#//Rooms/Bathroom" xsi:type="ecore:EAnnotation">
-        <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:32:25" key="date_created"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:34:23" key="date_modified"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" key="package"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="Rooms" key="package_name"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style"/>
-        <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype"/>
-      </eAnnotations>
-    </eClassifiers>
-    <eClassifiers name="Room" abstract="true" instanceClassName="HouseMetamodel::Rooms::Room" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSubTypes="#//Rooms/Bathroom #//Rooms/Kitchen #//DependingOnRooms/RoomSub">
+    <eClassifiers name="Room" abstract="true" instanceClassName="HouseMetamodel::Rooms::Room" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSubTypes="#//Rooms/Kitchen #//Rooms/Bathroom #//DependingOnRooms/RoomSub">
       <eStructuralFeatures name="house" derived="false" containment="false" transient="false" changeable="true" resolveProxies="true" eContainingClass="#//Rooms/Room" eOpposite="#//House/room" unsettable="false" xsi:type="ecore:EReference" upperBound="1" ordered="true" volatile="false" lowerBound="0" eType="#//House" unique="true">
         <eAnnotations eModelElement="#//Rooms/Room/house" xsi:type="ecore:EAnnotation">
           <details xsi:type="ecore:EStringToStringMapEntry" value="Unspecified" key="containment"/>
@@ -141,6 +123,24 @@
         <details xsi:type="ecore:EStringToStringMapEntry" value="2005-11-30 19:26:13" key="date_created"/>
         <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype"/>
         <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-22 21:15:34" key="date_modified"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" key="package"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="false" key="isSpecification"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Rooms" key="package_name"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1" key="complexity"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="phase"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" key="style"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Java" key="gentype"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers name="Bathroom" abstract="false" instanceClassName="HouseMetamodel::Rooms::Bathroom" interface="false" ePackage="#//Rooms" xsi:type="ecore:EClass" eSuperTypes="#//Rooms/Room">
+      <eAnnotations eModelElement="#//Rooms/Bathroom" xsi:type="ecore:EAnnotation">
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Proposed" key="status"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:32:25" key="date_created"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="Class" key="ea_stype"/>
+        <details xsi:type="ecore:EStringToStringMapEntry" value="2006-06-27 08:34:23" key="date_modified"/>
         <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="tagged"/>
         <details xsi:type="ecore:EStringToStringMapEntry" value="0" key="ea_ntype"/>
         <details xsi:type="ecore:EStringToStringMapEntry" value="1.0" key="version"/>

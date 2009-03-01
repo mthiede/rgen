@@ -197,9 +197,9 @@ class TemplateContainer
   def _detectNewLinePattern(text)
     tests = 0
     rnOccurances = 0
-    text.scan(/(\r?)\n/) do |r|
+    text.scan(/(\r?)\n/) do |groups|
       tests += 1
-      rnOccurances += 1 if r == "\r"
+      rnOccurances += 1 if groups[0] == "\r"
       break if tests >= 10
     end
     if rnOccurances > (tests / 2)

@@ -1,4 +1,4 @@
-<XMI timestamp="Sun Mar 01 13:40:09 +0100 2009" xmi.version="1.1">
+<XMI timestamp="Sun Mar 01 14:15:58 +0100 2009" xmi.version="1.1">
   <XMI.header >
     <XMI.documentation >
       <XMI.exporter >Enterprise Architect</XMI.exporter>
@@ -6,815 +6,815 @@
     </XMI.documentation>
   </XMI.header>
   <XMI.content >
-    <Model visibility="public" name="EA Model" xmi.id="28183240">
+    <Model visibility="public" name="EA Model" xmi.id="23826697093300">
       <Namespace.ownedElement >
-        <Class visibility="public" name="EARootClass" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="28178980"/>
-        <Package visibility="public" name="Views" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="28175440">
+        <Class visibility="public" name="EARootClass" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="23826697084320"/>
+        <Package visibility="public" name="Views" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="23826697076860">
           <ModelElement.taggedValue >
-            <TaggedValue tag="ea_package_id" value="1" xmi.id="28171720"/>
-            <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="28170500"/>
-            <TaggedValue tag="isprotected" value="FALSE" xmi.id="28169810"/>
-            <TaggedValue tag="usedtd" value="FALSE" xmi.id="28169120"/>
-            <TaggedValue tag="logxml" value="FALSE" xmi.id="28168430"/>
+            <TaggedValue tag="ea_package_id" value="1" xmi.id="23826697069300"/>
+            <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="23826697066860"/>
+            <TaggedValue tag="isprotected" value="FALSE" xmi.id="23826697065480"/>
+            <TaggedValue tag="usedtd" value="FALSE" xmi.id="23826697064100"/>
+            <TaggedValue tag="logxml" value="FALSE" xmi.id="23826697062720"/>
           </ModelElement.taggedValue>
           <Namespace.ownedElement >
-            <Collaboration visibility="public" name="Collaborations" xmi.id="28167460">
+            <Collaboration visibility="public" name="Collaborations" xmi.id="23826697060780">
               <Namespace.ownedElement >
-                <ClassifierRole visibility="public" name="HouseMetamodel" base="28178980" xmi.id="28163780">
+                <ClassifierRole visibility="public" name="HouseMetamodel" base="23826697084320" xmi.id="23826697053420">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="28159650"/>
-                    <TaggedValue tag="ea_stype" value="Package" xmi.id="28158950"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="28158260"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="28157570"/>
-                    <TaggedValue tag="package" value="EAPK_B216CC15_6D9C_4c10_9015_96740F924D1C" xmi.id="28156880"/>
-                    <TaggedValue tag="date_created" value="2006-06-26 08:41:49" xmi.id="28156190"/>
-                    <TaggedValue tag="date_modified" value="2006-06-26 08:41:49" xmi.id="28155500"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="28154810"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="28154120"/>
-                    <TaggedValue tag="package2" value="EAID_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="28153430"/>
-                    <TaggedValue tag="package_name" value="Views" xmi.id="28152740"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="28152050"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="28151360"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="28150670"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="28149980"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826697045160"/>
+                    <TaggedValue tag="ea_stype" value="Package" xmi.id="23826697043760"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826697042380"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826697041000"/>
+                    <TaggedValue tag="package" value="EAPK_B216CC15_6D9C_4c10_9015_96740F924D1C" xmi.id="23826697039620"/>
+                    <TaggedValue tag="date_created" value="2006-06-26 08:41:49" xmi.id="23826697038240"/>
+                    <TaggedValue tag="date_modified" value="2006-06-26 08:41:49" xmi.id="23826697036860"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826697035480"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826697034100"/>
+                    <TaggedValue tag="package2" value="EAID_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826697032720"/>
+                    <TaggedValue tag="package_name" value="Views" xmi.id="23826697031340"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826697029960"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826697028580"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826697027200"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826697025820"/>
                   </ModelElement.taggedValue>
                 </ClassifierRole>
-                <ClassifierRole visibility="public" name="HouseExampleModel" base="28178980" xmi.id="28148860">
+                <ClassifierRole visibility="public" name="HouseExampleModel" base="23826697084320" xmi.id="23826697023580">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="28147750"/>
-                    <TaggedValue tag="ea_stype" value="Package" xmi.id="28147050"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="28146360"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="28145670"/>
-                    <TaggedValue tag="package" value="EAPK_B216CC15_6D9C_4c10_9015_96740F924D1C" xmi.id="28144980"/>
-                    <TaggedValue tag="date_created" value="2006-07-20 18:34:43" xmi.id="28144290"/>
-                    <TaggedValue tag="date_modified" value="2006-07-20 18:34:43" xmi.id="28143600"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="28142910"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="28142220"/>
-                    <TaggedValue tag="package2" value="EAID_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="28141530"/>
-                    <TaggedValue tag="package_name" value="Views" xmi.id="28140840"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="28140150"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="28139460"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="28138770"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="28138080"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826697021360"/>
+                    <TaggedValue tag="ea_stype" value="Package" xmi.id="23826697019960"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826697018580"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826697017200"/>
+                    <TaggedValue tag="package" value="EAPK_B216CC15_6D9C_4c10_9015_96740F924D1C" xmi.id="23826697015820"/>
+                    <TaggedValue tag="date_created" value="2006-07-20 18:34:43" xmi.id="23826697014440"/>
+                    <TaggedValue tag="date_modified" value="2006-07-20 18:34:43" xmi.id="23826697013060"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826697011680"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826697010300"/>
+                    <TaggedValue tag="package2" value="EAID_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826697008920"/>
+                    <TaggedValue tag="package_name" value="Views" xmi.id="23826697007540"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826697006160"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826697004780"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826697003400"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826697002020"/>
                   </ModelElement.taggedValue>
                 </ClassifierRole>
               </Namespace.ownedElement>
             </Collaboration>
-            <Package visibility="public" name="HouseMetamodel" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="28136210">
+            <Package visibility="public" name="HouseMetamodel" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="23826696998280">
               <ModelElement.taggedValue >
-                <TaggedValue tag="created" value="2006-06-26 00:00:00" xmi.id="28134740"/>
-                <TaggedValue tag="modified" value="2006-06-26 00:00:00" xmi.id="28134040"/>
-                <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="28133350"/>
-                <TaggedValue tag="isprotected" value="FALSE" xmi.id="28132660"/>
-                <TaggedValue tag="usedtd" value="FALSE" xmi.id="28131970"/>
-                <TaggedValue tag="logxml" value="FALSE" xmi.id="28131280"/>
-                <TaggedValue tag="ea_package_id" value="44" xmi.id="28130590"/>
-                <TaggedValue tag="phase" value="1.0" xmi.id="28129900"/>
-                <TaggedValue tag="status" value="Proposed" xmi.id="28129210"/>
-                <TaggedValue tag="complexity" value="1" xmi.id="28128520"/>
-                <TaggedValue tag="ea_stype" value="Public" xmi.id="28127830"/>
+                <TaggedValue tag="created" value="2006-06-26 00:00:00" xmi.id="23826696995340"/>
+                <TaggedValue tag="modified" value="2006-06-26 00:00:00" xmi.id="23826696993940"/>
+                <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="23826696992560"/>
+                <TaggedValue tag="isprotected" value="FALSE" xmi.id="23826696991180"/>
+                <TaggedValue tag="usedtd" value="FALSE" xmi.id="23826696989800"/>
+                <TaggedValue tag="logxml" value="FALSE" xmi.id="23826696988420"/>
+                <TaggedValue tag="ea_package_id" value="44" xmi.id="23826696987040"/>
+                <TaggedValue tag="phase" value="1.0" xmi.id="23826696985660"/>
+                <TaggedValue tag="status" value="Proposed" xmi.id="23826696984280"/>
+                <TaggedValue tag="complexity" value="1" xmi.id="23826696982900"/>
+                <TaggedValue tag="ea_stype" value="Public" xmi.id="23826696981520"/>
               </ModelElement.taggedValue>
               <Namespace.ownedElement >
-                <Class stereotype="28123960" visibility="public" name="House" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27676320" xmi.id="28126080">
+                <Class stereotype="23826696973800" visibility="public" name="House" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696078620" xmi.id="23826696978020">
                   <Classifier.feature >
-                    <Attribute visibility="private" name="address" targetScope="instance" type="27681310" changeability="frozen" ownerScope="instance" xmi.id="28110870">
+                    <Attribute visibility="private" name="address" targetScope="instance" type="23826696088600" changeability="frozen" ownerScope="instance" xmi.id="23826696947620">
                       <Attribute.initialValue >
-                        <Expression xmi.id="28107970"/>
+                        <Expression xmi.id="23826696941820"/>
                       </Attribute.initialValue>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="type" value="String" xmi.id="28106310"/>
-                        <TaggedValue tag="derived" value="0" xmi.id="28105610"/>
-                        <TaggedValue tag="containment" value="Not Specified" xmi.id="28104920"/>
-                        <TaggedValue tag="ordered" value="0" xmi.id="28104230"/>
-                        <TaggedValue tag="collection" value="false" xmi.id="28103540"/>
-                        <TaggedValue tag="position" value="0" xmi.id="28102850"/>
-                        <TaggedValue tag="lowerBound" value="1" xmi.id="28102160"/>
-                        <TaggedValue tag="upperBound" value="1" xmi.id="28101470"/>
-                        <TaggedValue tag="duplicates" value="0" xmi.id="28100780"/>
-                        <TaggedValue tag="ea_guid" value="{A8DF581B-9AC6-4f75-AB48-8FAEDFC6E068}" xmi.id="28100090"/>
-                        <TaggedValue tag="styleex" value="volatile=0;" xmi.id="28099400"/>
+                        <TaggedValue tag="type" value="String" xmi.id="23826696938500"/>
+                        <TaggedValue tag="derived" value="0" xmi.id="23826696937100"/>
+                        <TaggedValue tag="containment" value="Not Specified" xmi.id="23826696935720"/>
+                        <TaggedValue tag="ordered" value="0" xmi.id="23826696934340"/>
+                        <TaggedValue tag="collection" value="false" xmi.id="23826696932960"/>
+                        <TaggedValue tag="position" value="0" xmi.id="23826696931580"/>
+                        <TaggedValue tag="lowerBound" value="1" xmi.id="23826696930200"/>
+                        <TaggedValue tag="upperBound" value="1" xmi.id="23826696928820"/>
+                        <TaggedValue tag="duplicates" value="0" xmi.id="23826696927440"/>
+                        <TaggedValue tag="ea_guid" value="{A8DF581B-9AC6-4f75-AB48-8FAEDFC6E068}" xmi.id="23826696926060"/>
+                        <TaggedValue tag="styleex" value="volatile=0;" xmi.id="23826696924680"/>
                       </ModelElement.taggedValue>
                     </Attribute>
                   </Classifier.feature>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="28121900"/>
-                    <TaggedValue tag="ea_stype" value="Class" xmi.id="28121200"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="28120510"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="28119820"/>
-                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="28119130"/>
-                    <TaggedValue tag="date_created" value="2005-09-16 19:52:18" xmi.id="28118440"/>
-                    <TaggedValue tag="date_modified" value="2006-02-28 08:29:19" xmi.id="28117750"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="28117060"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="28116370"/>
-                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="28115680"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="28114990"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="28114300"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="28113610"/>
-                    <TaggedValue tag="stereotype" value="dummy" xmi.id="28112920"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="28112230"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826696969680"/>
+                    <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696968280"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696966900"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826696965520"/>
+                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696964140"/>
+                    <TaggedValue tag="date_created" value="2005-09-16 19:52:18" xmi.id="23826696962760"/>
+                    <TaggedValue tag="date_modified" value="2006-02-28 08:29:19" xmi.id="23826696961380"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826696960000"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826696958620"/>
+                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696957240"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696955860"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696954480"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696953100"/>
+                    <TaggedValue tag="stereotype" value="dummy" xmi.id="23826696951720"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696950340"/>
                   </ModelElement.taggedValue>
                 </Class>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27645600 27607200" xmi.id="28097950">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826696017180 23826695940380" xmi.id="23826696921780">
                   <Association.connection >
-                    <AssociationEnd visibility="public" aggregation="none" targetScope="instance" type="28126080" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="28087220">
+                    <AssociationEnd visibility="public" aggregation="none" targetScope="instance" type="23826696978020" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696900320">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28084820"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696895520"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" name="bathroom" aggregation="none" targetScope="instance" type="27860240" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="28083300">
+                    <AssociationEnd visibility="public" name="bathroom" aggregation="none" targetScope="instance" type="23826696446460" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696892480">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28082400">
+                        <Multiplicity xmi.id="23826696890680">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="1" upper="1" xmi.id="28082410"/>
+                            <MultiplicityRange lower="1" upper="1" xmi.id="23826696890700"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28081220"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696888320"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="28094280"/>
-                    <TaggedValue tag="ea_type" value="Association" xmi.id="28093580"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="28092720"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="28092030"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="28091340"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="28090650"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="28089960"/>
-                    <TaggedValue tag="privatedata5" value="SX=8;SY=5;EX=8;EY=5;" xmi.id="28089270"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="28088580"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696914440"/>
+                    <TaggedValue tag="ea_type" value="Association" xmi.id="23826696913040"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696911320"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696909940"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696908560"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696907180"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696905800"/>
+                    <TaggedValue tag="privatedata5" value="SX=8;SY=5;EX=8;EY=5;" xmi.id="23826696904420"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696903040"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27643040 27617440" xmi.id="28079760">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826696012060 23826695960860" xmi.id="23826696885400">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="kitchen" aggregation="none" targetScope="instance" type="27872250" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="28071530">
+                    <AssociationEnd visibility="public" name="kitchen" aggregation="none" targetScope="instance" type="23826696470480" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696868940">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28070630">
+                        <Multiplicity xmi.id="23826696867140">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="1" upper="1" xmi.id="28070640"/>
+                            <MultiplicityRange lower="1" upper="1" xmi.id="23826696867160"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28069450"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696864780"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" name="house" aggregation="none" targetScope="instance" type="28126080" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="28067930">
+                    <AssociationEnd visibility="public" name="house" aggregation="none" targetScope="instance" type="23826696978020" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696861740">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28067040">
+                        <Multiplicity xmi.id="23826696859960">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="1" upper="1" xmi.id="28067050"/>
+                            <MultiplicityRange lower="1" upper="1" xmi.id="23826696859980"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28065860"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696857600"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="28078680"/>
-                    <TaggedValue tag="ea_type" value="Association" xmi.id="28077980"/>
-                    <TaggedValue tag="direction" value="Bi-Directional" xmi.id="28077290"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="28076600"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="28075910"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="28075220"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="28074530"/>
-                    <TaggedValue tag="privatedata5" value="SX=6;SY=-12;EX=-44;EY=-9;EDGE=1;" xmi.id="28073840"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="28073150"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696883240"/>
+                    <TaggedValue tag="ea_type" value="Association" xmi.id="23826696881840"/>
+                    <TaggedValue tag="direction" value="Bi-Directional" xmi.id="23826696880460"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696879080"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696877700"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696876320"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696874940"/>
+                    <TaggedValue tag="privatedata5" value="SX=6;SY=-12;EX=-44;EY=-9;EDGE=1;" xmi.id="23826696873560"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696872180"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27640480 27635360" xmi.id="28064400">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826696006940 23826695996700" xmi.id="23826696854680">
                   <Association.connection >
-                    <AssociationEnd visibility="public" aggregation="none" targetScope="instance" type="28020620" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="28056950">
+                    <AssociationEnd visibility="public" aggregation="none" targetScope="instance" type="23826696767120" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696839780">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28055710"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696837300"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" name="home" aggregation="none" targetScope="instance" type="28126080" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="28054190">
+                    <AssociationEnd visibility="public" name="home" aggregation="none" targetScope="instance" type="23826696978020" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696834260">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28053200">
+                        <Multiplicity xmi.id="23826696832280">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="0" upper="*" xmi.id="28053210"/>
+                            <MultiplicityRange lower="0" upper="*" xmi.id="23826696832300"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28052020"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696829920"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="28063320"/>
-                    <TaggedValue tag="ea_type" value="Association" xmi.id="28062620"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="28061760"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="28061070"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="28060380"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="28059690"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="28059000"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="28058310"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696852520"/>
+                    <TaggedValue tag="ea_type" value="Association" xmi.id="23826696851120"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696849400"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696848020"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696846640"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696845260"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696843880"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696842500"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27637920 27627680" xmi.id="28050560">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826696001820 23826695981340" xmi.id="23826696827000">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="27924650" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="28041470">
+                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="23826696575240" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696808820">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28040470">
+                        <Multiplicity xmi.id="23826696806820">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="1" upper="*" xmi.id="28040480"/>
+                            <MultiplicityRange lower="1" upper="*" xmi.id="23826696806840"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28039290"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696804460"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" name="house" aggregation="composite" targetScope="instance" type="28126080" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="28037770">
+                    <AssociationEnd visibility="public" name="house" aggregation="composite" targetScope="instance" type="23826696978020" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696801420">
                       <AssociationEnd.multiplicity >
-                        <Multiplicity xmi.id="28036880">
+                        <Multiplicity xmi.id="23826696799640">
                           <Multiplicity.range >
-                            <MultiplicityRange lower="1" upper="1" xmi.id="28036890"/>
+                            <MultiplicityRange lower="1" upper="1" xmi.id="23826696799660"/>
                           </Multiplicity.range>
                         </Multiplicity>
                       </AssociationEnd.multiplicity>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="28035700"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696797280"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="28049480"/>
-                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="28048780"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="28047920"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="28047230"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="28046540"/>
-                    <TaggedValue tag="subtype" value="Strong" xmi.id="28045850"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="28045160"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="28044470"/>
-                    <TaggedValue tag="privatedata5" value="SX=-2;SY=-1;EX=-2;EY=-1;" xmi.id="28043780"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="28043090"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696824840"/>
+                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="23826696823440"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696821720"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696820340"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696818960"/>
+                    <TaggedValue tag="subtype" value="Strong" xmi.id="23826696817580"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696816200"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696814820"/>
+                    <TaggedValue tag="privatedata5" value="SX=-2;SY=-1;EX=-2;EY=-1;" xmi.id="23826696813440"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696812060"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Collaboration visibility="public" name="Collaborations" xmi.id="28034630">
+                <Collaboration visibility="public" name="Collaborations" xmi.id="23826696795140">
                   <Namespace.ownedElement >
-                    <ClassifierRole visibility="public" name="Rooms" base="28178980" xmi.id="28033540">
+                    <ClassifierRole visibility="public" name="Rooms" base="23826697084320" xmi.id="23826696792960">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="28032420"/>
-                        <TaggedValue tag="ea_stype" value="Package" xmi.id="28031720"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="28031030"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="28030340"/>
-                        <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="28029650"/>
-                        <TaggedValue tag="date_created" value="2006-06-23 08:28:49" xmi.id="28028960"/>
-                        <TaggedValue tag="date_modified" value="2006-06-23 08:28:49" xmi.id="28028270"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="28027580"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="28026890"/>
-                        <TaggedValue tag="package2" value="EAID_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="28026200"/>
-                        <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="28025510"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="28024820"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="28024130"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="28023440"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="28022750"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696790720"/>
+                        <TaggedValue tag="ea_stype" value="Package" xmi.id="23826696789320"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696787940"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696786560"/>
+                        <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696785180"/>
+                        <TaggedValue tag="date_created" value="2006-06-23 08:28:49" xmi.id="23826696783800"/>
+                        <TaggedValue tag="date_modified" value="2006-06-23 08:28:49" xmi.id="23826696782420"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696781040"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696779660"/>
+                        <TaggedValue tag="package2" value="EAID_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="23826696778280"/>
+                        <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696776900"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696775520"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696774140"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696772760"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696771380"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
                   </Namespace.ownedElement>
                 </Collaboration>
-                <Class visibility="public" name="Person" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27673030" xmi.id="28020620">
+                <Class visibility="public" name="Person" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696072040" xmi.id="23826696767120">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="28019230"/>
-                    <TaggedValue tag="ea_stype" value="Class" xmi.id="28018530"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="28017840"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="28017150"/>
-                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="28016460"/>
-                    <TaggedValue tag="date_created" value="2006-06-27 08:34:23" xmi.id="28015770"/>
-                    <TaggedValue tag="date_modified" value="2006-06-27 08:34:26" xmi.id="28015080"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="28014390"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="28013700"/>
-                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="28013010"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="28012320"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="28011630"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="28010940"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="28010250"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826696764340"/>
+                    <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696762940"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696761560"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826696760180"/>
+                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696758800"/>
+                    <TaggedValue tag="date_created" value="2006-06-27 08:34:23" xmi.id="23826696757420"/>
+                    <TaggedValue tag="date_modified" value="2006-06-27 08:34:26" xmi.id="23826696756040"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826696754660"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826696753280"/>
+                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696751900"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696750520"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696749140"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696747760"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696746380"/>
                   </ModelElement.taggedValue>
                 </Class>
-                <Comment visibility="public" presentation="27670910" xmi.id="28009260">
+                <Comment visibility="public" presentation="23826696067800" xmi.id="23826696744400">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="28007050"/>
-                    <TaggedValue tag="ea_stype" value="Note" xmi.id="28006350"/>
-                    <TaggedValue tag="ea_ntype" value="1" xmi.id="28005660"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="28004970"/>
-                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="28004280"/>
-                    <TaggedValue tag="date_created" value="2006-07-07 08:08:53" xmi.id="28003590"/>
-                    <TaggedValue tag="date_modified" value="2006-07-07 08:09:48" xmi.id="28002900"/>
-                    <TaggedValue tag="gentype" value="none" xmi.id="28002000"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="28001310"/>
-                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="28000620"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="27999930"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="27999240"/>
-                    <TaggedValue tag="documentation" value="this aggregation is navigable from room to house (EA does not show it)" xmi.id="27998550"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="27997860"/>
-                    <TaggedValue tag="relatedlinks" value="idref1=EAID_F15A2B25_0DA9_4203_8FC9_25645610B5E5;" xmi.id="27997170"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27996480"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826696739980"/>
+                    <TaggedValue tag="ea_stype" value="Note" xmi.id="23826696738580"/>
+                    <TaggedValue tag="ea_ntype" value="1" xmi.id="23826696737200"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826696735820"/>
+                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696734440"/>
+                    <TaggedValue tag="date_created" value="2006-07-07 08:08:53" xmi.id="23826696733060"/>
+                    <TaggedValue tag="date_modified" value="2006-07-07 08:09:48" xmi.id="23826696731680"/>
+                    <TaggedValue tag="gentype" value="none" xmi.id="23826696729880"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826696728500"/>
+                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696727120"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696725740"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696724360"/>
+                    <TaggedValue tag="documentation" value="this aggregation is navigable from room to house (EA does not show it)" xmi.id="23826696722980"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696721600"/>
+                    <TaggedValue tag="relatedlinks" value="idref1=EAID_F15A2B25_0DA9_4203_8FC9_25645610B5E5;" xmi.id="23826696720220"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696718840"/>
                   </ModelElement.taggedValue>
                 </Comment>
-                <Class visibility="public" name="MeetingPlace" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27668790" xmi.id="27994840">
+                <Class visibility="public" name="MeetingPlace" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696063560" xmi.id="23826696715560">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="27993450"/>
-                    <TaggedValue tag="ea_stype" value="Class" xmi.id="27992750"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="27992060"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="27991370"/>
-                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="27990680"/>
-                    <TaggedValue tag="date_created" value="2006-07-12 08:40:46" xmi.id="27989990"/>
-                    <TaggedValue tag="date_modified" value="2007-06-14 08:22:21" xmi.id="27989300"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="27988610"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="27987920"/>
-                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="27987230"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="27986540"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="27985850"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="27985160"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27984470"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826696712780"/>
+                    <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696711380"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696710000"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826696708620"/>
+                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696707240"/>
+                    <TaggedValue tag="date_created" value="2006-07-12 08:40:46" xmi.id="23826696705860"/>
+                    <TaggedValue tag="date_modified" value="2007-06-14 08:22:21" xmi.id="23826696704480"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826696703100"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826696701720"/>
+                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696700340"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696698960"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696697580"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696696200"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696694820"/>
                   </ModelElement.taggedValue>
                 </Class>
-                <Generalization visibility="public" child="27872250" presentation="27632800 27612320" parent="27994840" xmi.id="27983350">
+                <Generalization visibility="public" child="23826696470480" presentation="23826695991580 23826695950620" parent="23826696715560" xmi.id="23826696692580">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27980530"/>
-                    <TaggedValue tag="ea_type" value="Generalization" xmi.id="27979830"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27978980"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27978290"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27977600"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27976910"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27976220"/>
-                    <TaggedValue tag="src_visibility" value="Public" xmi.id="27975530"/>
-                    <TaggedValue tag="src_isOrdered" value="false" xmi.id="27974840"/>
-                    <TaggedValue tag="src_isNavigable" value="false" xmi.id="27974150"/>
-                    <TaggedValue tag="dst_visibility" value="Public" xmi.id="27973460"/>
-                    <TaggedValue tag="dst_isOrdered" value="false" xmi.id="27972770"/>
-                    <TaggedValue tag="dst_isNavigable" value="true" xmi.id="27972080"/>
-                    <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="27971120"/>
-                    <TaggedValue tag="privatedata5" value="SX=-24;SY=-16;" xmi.id="27970430"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696686940"/>
+                    <TaggedValue tag="ea_type" value="Generalization" xmi.id="23826696685540"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696683840"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696682460"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696681080"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696679700"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696678320"/>
+                    <TaggedValue tag="src_visibility" value="Public" xmi.id="23826696676940"/>
+                    <TaggedValue tag="src_isOrdered" value="false" xmi.id="23826696675560"/>
+                    <TaggedValue tag="src_isNavigable" value="false" xmi.id="23826696674180"/>
+                    <TaggedValue tag="dst_visibility" value="Public" xmi.id="23826696672800"/>
+                    <TaggedValue tag="dst_isOrdered" value="false" xmi.id="23826696671420"/>
+                    <TaggedValue tag="dst_isNavigable" value="true" xmi.id="23826696670040"/>
+                    <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="23826696668140"/>
+                    <TaggedValue tag="privatedata5" value="SX=-24;SY=-16;" xmi.id="23826696666760"/>
                   </ModelElement.taggedValue>
                 </Generalization>
-                <Interface stereotype="27964720" visibility="public" name="CookingPlace" supplierDependency="27953030" isLeaf="false" isAbstract="true" isRoot="false" presentation="27666670" xmi.id="27968920">
+                <Interface stereotype="23826696655360" visibility="public" name="CookingPlace" supplierDependency="23826696631980" isLeaf="false" isAbstract="true" isRoot="false" presentation="23826696059320" xmi.id="23826696663740">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="isSpecification" value="false" xmi.id="27963820"/>
-                    <TaggedValue tag="ea_stype" value="Interface" xmi.id="27963120"/>
-                    <TaggedValue tag="ea_ntype" value="0" xmi.id="27962430"/>
-                    <TaggedValue tag="version" value="1.0" xmi.id="27961740"/>
-                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="27961050"/>
-                    <TaggedValue tag="date_created" value="2007-06-14 08:22:21" xmi.id="27960360"/>
-                    <TaggedValue tag="date_modified" value="2007-06-14 08:23:36" xmi.id="27959670"/>
-                    <TaggedValue tag="gentype" value="Java" xmi.id="27958980"/>
-                    <TaggedValue tag="tagged" value="0" xmi.id="27958290"/>
-                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="27957600"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="27956910"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="27956220"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="27955530"/>
-                    <TaggedValue tag="stereotype" value="interface" xmi.id="27954840"/>
-                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27954150"/>
+                    <TaggedValue tag="isSpecification" value="false" xmi.id="23826696653560"/>
+                    <TaggedValue tag="ea_stype" value="Interface" xmi.id="23826696652160"/>
+                    <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696650780"/>
+                    <TaggedValue tag="version" value="1.0" xmi.id="23826696649400"/>
+                    <TaggedValue tag="package" value="EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD" xmi.id="23826696648020"/>
+                    <TaggedValue tag="date_created" value="2007-06-14 08:22:21" xmi.id="23826696646640"/>
+                    <TaggedValue tag="date_modified" value="2007-06-14 08:23:36" xmi.id="23826696645260"/>
+                    <TaggedValue tag="gentype" value="Java" xmi.id="23826696643880"/>
+                    <TaggedValue tag="tagged" value="0" xmi.id="23826696642500"/>
+                    <TaggedValue tag="package_name" value="HouseMetamodel" xmi.id="23826696641120"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696639740"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696638360"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696636980"/>
+                    <TaggedValue tag="stereotype" value="interface" xmi.id="23826696635600"/>
+                    <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696634220"/>
                   </ModelElement.taggedValue>
                 </Interface>
-                <Dependency stereotype="27950340" visibility="public" supplier="27968920" client="27872250" presentation="27630240 27620000" xmi.id="27953030">
+                <Dependency stereotype="23826696626620" visibility="public" supplier="23826696663740" client="23826696470480" presentation="23826695986460 23826695965980" xmi.id="23826696631980">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27949440"/>
-                    <TaggedValue tag="ea_type" value="Dependency" xmi.id="27948740"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27947890"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27947200"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27946510"/>
-                    <TaggedValue tag="stereotype" value="implements" xmi.id="27945820"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27945130"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27944440"/>
-                    <TaggedValue tag="conditional" value="쳃mplements�" xmi.id="27943750"/>
-                    <TaggedValue tag="src_visibility" value="Public" xmi.id="27943060"/>
-                    <TaggedValue tag="src_aggregation" value="0" xmi.id="27942370"/>
-                    <TaggedValue tag="src_isOrdered" value="false" xmi.id="27941680"/>
-                    <TaggedValue tag="src_isNavigable" value="false" xmi.id="27940990"/>
-                    <TaggedValue tag="src_containment" value="Unspecified" xmi.id="27940300"/>
-                    <TaggedValue tag="dst_visibility" value="Public" xmi.id="27939610"/>
-                    <TaggedValue tag="dst_aggregation" value="0" xmi.id="27938920"/>
-                    <TaggedValue tag="dst_isOrdered" value="false" xmi.id="27938230"/>
-                    <TaggedValue tag="dst_isNavigable" value="true" xmi.id="27937540"/>
-                    <TaggedValue tag="dst_containment" value="Unspecified" xmi.id="27936850"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="27936160"/>
-                    <TaggedValue tag="mb" value="쳃mplements�" xmi.id="27935470"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696624820"/>
+                    <TaggedValue tag="ea_type" value="Dependency" xmi.id="23826696623420"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696621720"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696620340"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696618960"/>
+                    <TaggedValue tag="stereotype" value="implements" xmi.id="23826696617580"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696616200"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696614820"/>
+                    <TaggedValue tag="conditional" value="쳃mplements�" xmi.id="23826696613440"/>
+                    <TaggedValue tag="src_visibility" value="Public" xmi.id="23826696612060"/>
+                    <TaggedValue tag="src_aggregation" value="0" xmi.id="23826696610680"/>
+                    <TaggedValue tag="src_isOrdered" value="false" xmi.id="23826696609300"/>
+                    <TaggedValue tag="src_isNavigable" value="false" xmi.id="23826696607920"/>
+                    <TaggedValue tag="src_containment" value="Unspecified" xmi.id="23826696606540"/>
+                    <TaggedValue tag="dst_visibility" value="Public" xmi.id="23826696605160"/>
+                    <TaggedValue tag="dst_aggregation" value="0" xmi.id="23826696603780"/>
+                    <TaggedValue tag="dst_isOrdered" value="false" xmi.id="23826696602400"/>
+                    <TaggedValue tag="dst_isNavigable" value="true" xmi.id="23826696601020"/>
+                    <TaggedValue tag="dst_containment" value="Unspecified" xmi.id="23826696599640"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696598260"/>
+                    <TaggedValue tag="mb" value="쳃mplements�" xmi.id="23826696596880"/>
                   </ModelElement.taggedValue>
                 </Dependency>
-                <Package visibility="public" name="Rooms" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="27934090">
+                <Package visibility="public" name="Rooms" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="23826696594120">
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="created" value="2006-06-23 00:00:00" xmi.id="27932620"/>
-                    <TaggedValue tag="modified" value="2006-06-23 00:00:00" xmi.id="27931920"/>
-                    <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="27931230"/>
-                    <TaggedValue tag="isprotected" value="FALSE" xmi.id="27930540"/>
-                    <TaggedValue tag="usedtd" value="FALSE" xmi.id="27929850"/>
-                    <TaggedValue tag="logxml" value="FALSE" xmi.id="27929160"/>
-                    <TaggedValue tag="phase" value="1.0" xmi.id="27928470"/>
-                    <TaggedValue tag="status" value="Proposed" xmi.id="27927780"/>
-                    <TaggedValue tag="complexity" value="1" xmi.id="27927090"/>
-                    <TaggedValue tag="ea_stype" value="Public" xmi.id="27926400"/>
+                    <TaggedValue tag="created" value="2006-06-23 00:00:00" xmi.id="23826696591180"/>
+                    <TaggedValue tag="modified" value="2006-06-23 00:00:00" xmi.id="23826696589780"/>
+                    <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="23826696588400"/>
+                    <TaggedValue tag="isprotected" value="FALSE" xmi.id="23826696587020"/>
+                    <TaggedValue tag="usedtd" value="FALSE" xmi.id="23826696585640"/>
+                    <TaggedValue tag="logxml" value="FALSE" xmi.id="23826696584260"/>
+                    <TaggedValue tag="phase" value="1.0" xmi.id="23826696582880"/>
+                    <TaggedValue tag="status" value="Proposed" xmi.id="23826696581500"/>
+                    <TaggedValue tag="complexity" value="1" xmi.id="23826696580120"/>
+                    <TaggedValue tag="ea_stype" value="Public" xmi.id="23826696578740"/>
                   </ModelElement.taggedValue>
                   <Namespace.ownedElement >
-                    <Class visibility="public" name="Room" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27664550" xmi.id="27924650">
+                    <Class visibility="public" name="Room" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696055080" xmi.id="23826696575240">
                       <Classifier.feature >
-                        <Operation visibility="public" name="enter" isQuery="false" concurrency="sequential" ownerScope="instance" xmi.id="27912910">
+                        <Operation visibility="public" name="enter" isQuery="false" concurrency="sequential" ownerScope="instance" xmi.id="23826696551760">
                           <BehavioralFeature.parameter >
-                            <Parameter visibility="public" kind="return" type="27677690" xmi.id="27903950">
+                            <Parameter visibility="public" kind="return" type="23826696081360" xmi.id="23826696533840">
                               <Parameter.defaultValue >
-                                <Expression xmi.id="27898330"/>
+                                <Expression xmi.id="23826696522600"/>
                               </Parameter.defaultValue>
                               <ModelElement.taggedValue >
-                                <TaggedValue tag="pos" value="0" xmi.id="27901150"/>
-                                <TaggedValue tag="type" value="void" xmi.id="27900450"/>
-                                <TaggedValue tag="const" value="0" xmi.id="27899760"/>
-                                <TaggedValue tag="ea_guid" value="{A8C01177-4523-44c4-87F7-F2B8F9F3C915}" xmi.id="27899070"/>
+                                <TaggedValue tag="pos" value="0" xmi.id="23826696528240"/>
+                                <TaggedValue tag="type" value="void" xmi.id="23826696526840"/>
+                                <TaggedValue tag="const" value="0" xmi.id="23826696525460"/>
+                                <TaggedValue tag="ea_guid" value="{A8C01177-4523-44c4-87F7-F2B8F9F3C915}" xmi.id="23826696524080"/>
                               </ModelElement.taggedValue>
                             </Parameter>
                           </BehavioralFeature.parameter>
                           <ModelElement.taggedValue >
-                            <TaggedValue tag="type" value="void" xmi.id="27909760"/>
-                            <TaggedValue tag="const" value="false" xmi.id="27909060"/>
-                            <TaggedValue tag="synchronised" value="0" xmi.id="27908370"/>
-                            <TaggedValue tag="concurrency" value="Sequential" xmi.id="27907680"/>
-                            <TaggedValue tag="position" value="0" xmi.id="27906990"/>
-                            <TaggedValue tag="returnarray" value="0" xmi.id="27906300"/>
-                            <TaggedValue tag="pure" value="0" xmi.id="27905610"/>
-                            <TaggedValue tag="ea_guid" value="{A8C01177-4523-44c4-87F7-F2B8F9F3C915}" xmi.id="27904920"/>
+                            <TaggedValue tag="type" value="void" xmi.id="23826696545460"/>
+                            <TaggedValue tag="const" value="false" xmi.id="23826696544060"/>
+                            <TaggedValue tag="synchronised" value="0" xmi.id="23826696542680"/>
+                            <TaggedValue tag="concurrency" value="Sequential" xmi.id="23826696541300"/>
+                            <TaggedValue tag="position" value="0" xmi.id="23826696539920"/>
+                            <TaggedValue tag="returnarray" value="0" xmi.id="23826696538540"/>
+                            <TaggedValue tag="pure" value="0" xmi.id="23826696537160"/>
+                            <TaggedValue tag="ea_guid" value="{A8C01177-4523-44c4-87F7-F2B8F9F3C915}" xmi.id="23826696535780"/>
                           </ModelElement.taggedValue>
                         </Operation>
                       </Classifier.feature>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27923250"/>
-                        <TaggedValue tag="ea_stype" value="Class" xmi.id="27922550"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27921860"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27921170"/>
-                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="27920480"/>
-                        <TaggedValue tag="date_created" value="2005-09-16 19:52:28" xmi.id="27919790"/>
-                        <TaggedValue tag="date_modified" value="2006-06-22 21:15:25" xmi.id="27919100"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27918410"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27917720"/>
-                        <TaggedValue tag="package_name" value="Rooms" xmi.id="27917030"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27916340"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27915650"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27914960"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27914270"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696572440"/>
+                        <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696571040"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696569660"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696568280"/>
+                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="23826696566900"/>
+                        <TaggedValue tag="date_created" value="2005-09-16 19:52:28" xmi.id="23826696565520"/>
+                        <TaggedValue tag="date_modified" value="2006-06-22 21:15:25" xmi.id="23826696564140"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696562760"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696561380"/>
+                        <TaggedValue tag="package_name" value="Rooms" xmi.id="23826696560000"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696558620"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696557240"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696555860"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696554480"/>
                       </ModelElement.taggedValue>
                     </Class>
-                    <Generalization visibility="public" child="27860240" presentation="27625120 27609760" parent="27924650" xmi.id="27896980">
+                    <Generalization visibility="public" child="23826696446460" presentation="23826695976220 23826695945500" parent="23826696575240" xmi.id="23826696519900">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="style" value="3" xmi.id="27895750"/>
-                        <TaggedValue tag="ea_type" value="Generalization" xmi.id="27895050"/>
-                        <TaggedValue tag="direction" value=" Destination" xmi.id="27894200"/>
-                        <TaggedValue tag="linemode" value="3" xmi.id="27893510"/>
-                        <TaggedValue tag="seqno" value="0" xmi.id="27892820"/>
-                        <TaggedValue tag="headStyle" value="0" xmi.id="27892130"/>
-                        <TaggedValue tag="lineStyle" value="0" xmi.id="27891440"/>
-                        <TaggedValue tag="src_visibility" value="Public" xmi.id="27890750"/>
-                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="27890060"/>
-                        <TaggedValue tag="src_isNavigable" value="false" xmi.id="27889370"/>
-                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="27888680"/>
-                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="27887990"/>
-                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="27887300"/>
-                        <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="27886340"/>
+                        <TaggedValue tag="style" value="3" xmi.id="23826696517440"/>
+                        <TaggedValue tag="ea_type" value="Generalization" xmi.id="23826696516040"/>
+                        <TaggedValue tag="direction" value=" Destination" xmi.id="23826696514340"/>
+                        <TaggedValue tag="linemode" value="3" xmi.id="23826696512960"/>
+                        <TaggedValue tag="seqno" value="0" xmi.id="23826696511580"/>
+                        <TaggedValue tag="headStyle" value="0" xmi.id="23826696510200"/>
+                        <TaggedValue tag="lineStyle" value="0" xmi.id="23826696508820"/>
+                        <TaggedValue tag="src_visibility" value="Public" xmi.id="23826696507440"/>
+                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="23826696506060"/>
+                        <TaggedValue tag="src_isNavigable" value="false" xmi.id="23826696504680"/>
+                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="23826696503300"/>
+                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="23826696501920"/>
+                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="23826696500540"/>
+                        <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="23826696498640"/>
                       </ModelElement.taggedValue>
                     </Generalization>
-                    <Generalization visibility="public" child="27872250" presentation="27622560 27614880" parent="27924650" xmi.id="27885220">
+                    <Generalization visibility="public" child="23826696470480" presentation="23826695971100 23826695955740" parent="23826696575240" xmi.id="23826696496400">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="style" value="3" xmi.id="27883990"/>
-                        <TaggedValue tag="ea_type" value="Generalization" xmi.id="27883290"/>
-                        <TaggedValue tag="direction" value=" Destination" xmi.id="27882440"/>
-                        <TaggedValue tag="linemode" value="3" xmi.id="27881750"/>
-                        <TaggedValue tag="seqno" value="0" xmi.id="27881060"/>
-                        <TaggedValue tag="headStyle" value="0" xmi.id="27880370"/>
-                        <TaggedValue tag="lineStyle" value="0" xmi.id="27879680"/>
-                        <TaggedValue tag="src_visibility" value="Public" xmi.id="27878990"/>
-                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="27878300"/>
-                        <TaggedValue tag="src_isNavigable" value="false" xmi.id="27877610"/>
-                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="27876920"/>
-                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="27876230"/>
-                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="27875540"/>
-                        <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="27874580"/>
-                        <TaggedValue tag="privatedata5" value="EX=37;EY=3;" xmi.id="27873890"/>
+                        <TaggedValue tag="style" value="3" xmi.id="23826696493940"/>
+                        <TaggedValue tag="ea_type" value="Generalization" xmi.id="23826696492540"/>
+                        <TaggedValue tag="direction" value=" Destination" xmi.id="23826696490840"/>
+                        <TaggedValue tag="linemode" value="3" xmi.id="23826696489460"/>
+                        <TaggedValue tag="seqno" value="0" xmi.id="23826696488080"/>
+                        <TaggedValue tag="headStyle" value="0" xmi.id="23826696486700"/>
+                        <TaggedValue tag="lineStyle" value="0" xmi.id="23826696485320"/>
+                        <TaggedValue tag="src_visibility" value="Public" xmi.id="23826696483940"/>
+                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="23826696482560"/>
+                        <TaggedValue tag="src_isNavigable" value="false" xmi.id="23826696481180"/>
+                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="23826696479800"/>
+                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="23826696478420"/>
+                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="23826696477040"/>
+                        <TaggedValue tag="$ea_xref_property" value="$SUP;$ENDXREF;" xmi.id="23826696475140"/>
+                        <TaggedValue tag="privatedata5" value="EX=37;EY=3;" xmi.id="23826696473760"/>
                       </ModelElement.taggedValue>
                     </Generalization>
-                    <Class clientDependency="27953030" visibility="public" name="Kitchen" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27662430" xmi.id="27872250">
+                    <Class clientDependency="23826696631980" visibility="public" name="Kitchen" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696050840" xmi.id="23826696470480">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27870860"/>
-                        <TaggedValue tag="ea_stype" value="Class" xmi.id="27870160"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27869470"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27868780"/>
-                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="27868090"/>
-                        <TaggedValue tag="date_created" value="2005-11-30 19:26:13" xmi.id="27867400"/>
-                        <TaggedValue tag="date_modified" value="2006-06-22 21:15:34" xmi.id="27866710"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27866020"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27865330"/>
-                        <TaggedValue tag="package_name" value="Rooms" xmi.id="27864640"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27863950"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27863260"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27862570"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27861880"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696467700"/>
+                        <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696466300"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696464920"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696463540"/>
+                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="23826696462160"/>
+                        <TaggedValue tag="date_created" value="2005-11-30 19:26:13" xmi.id="23826696460780"/>
+                        <TaggedValue tag="date_modified" value="2006-06-22 21:15:34" xmi.id="23826696459400"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696458020"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696456640"/>
+                        <TaggedValue tag="package_name" value="Rooms" xmi.id="23826696455260"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696453880"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696452500"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696451120"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696449740"/>
                       </ModelElement.taggedValue>
                     </Class>
-                    <Class visibility="public" name="Bathroom" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="27660310" xmi.id="27860240">
+                    <Class visibility="public" name="Bathroom" isLeaf="false" isAbstract="false" isRoot="false" isActive="false" presentation="23826696046600" xmi.id="23826696446460">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27858850"/>
-                        <TaggedValue tag="ea_stype" value="Class" xmi.id="27858150"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27857460"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27856770"/>
-                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="27856080"/>
-                        <TaggedValue tag="date_created" value="2006-06-27 08:32:25" xmi.id="27855390"/>
-                        <TaggedValue tag="date_modified" value="2006-06-27 08:34:23" xmi.id="27854700"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27854010"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27853320"/>
-                        <TaggedValue tag="package_name" value="Rooms" xmi.id="27852630"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27851940"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27851250"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27850560"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27849870"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696443680"/>
+                        <TaggedValue tag="ea_stype" value="Class" xmi.id="23826696442280"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696440900"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696439520"/>
+                        <TaggedValue tag="package" value="EAPK_F9D8C6E3_4DAD_4aa2_AD47_D0ABA4E93E08" xmi.id="23826696438140"/>
+                        <TaggedValue tag="date_created" value="2006-06-27 08:32:25" xmi.id="23826696436760"/>
+                        <TaggedValue tag="date_modified" value="2006-06-27 08:34:23" xmi.id="23826696435380"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696434000"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696432620"/>
+                        <TaggedValue tag="package_name" value="Rooms" xmi.id="23826696431240"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696429860"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696428480"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696427100"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696425720"/>
                       </ModelElement.taggedValue>
                     </Class>
                   </Namespace.ownedElement>
                 </Package>
               </Namespace.ownedElement>
             </Package>
-            <Package visibility="public" name="HouseExampleModel" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="27848090">
+            <Package visibility="public" name="HouseExampleModel" isLeaf="false" isAbstract="false" isRoot="true" xmi.id="23826696422160">
               <ModelElement.taggedValue >
-                <TaggedValue tag="created" value="2006-07-20 00:00:00" xmi.id="27846620"/>
-                <TaggedValue tag="modified" value="2006-07-20 00:00:00" xmi.id="27845920"/>
-                <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="27845230"/>
-                <TaggedValue tag="isprotected" value="FALSE" xmi.id="27844540"/>
-                <TaggedValue tag="usedtd" value="FALSE" xmi.id="27843850"/>
-                <TaggedValue tag="logxml" value="FALSE" xmi.id="27843160"/>
-                <TaggedValue tag="ea_package_id" value="46" xmi.id="27842470"/>
-                <TaggedValue tag="phase" value="1.0" xmi.id="27841780"/>
-                <TaggedValue tag="status" value="Proposed" xmi.id="27841090"/>
-                <TaggedValue tag="complexity" value="1" xmi.id="27840400"/>
-                <TaggedValue tag="ea_stype" value="Public" xmi.id="27839710"/>
+                <TaggedValue tag="created" value="2006-07-20 00:00:00" xmi.id="23826696419220"/>
+                <TaggedValue tag="modified" value="2006-07-20 00:00:00" xmi.id="23826696417820"/>
+                <TaggedValue tag="iscontrolled" value="FALSE" xmi.id="23826696416440"/>
+                <TaggedValue tag="isprotected" value="FALSE" xmi.id="23826696415060"/>
+                <TaggedValue tag="usedtd" value="FALSE" xmi.id="23826696413680"/>
+                <TaggedValue tag="logxml" value="FALSE" xmi.id="23826696412300"/>
+                <TaggedValue tag="ea_package_id" value="46" xmi.id="23826696410920"/>
+                <TaggedValue tag="phase" value="1.0" xmi.id="23826696409540"/>
+                <TaggedValue tag="status" value="Proposed" xmi.id="23826696408160"/>
+                <TaggedValue tag="complexity" value="1" xmi.id="23826696406780"/>
+                <TaggedValue tag="ea_stype" value="Public" xmi.id="23826696405400"/>
               </ModelElement.taggedValue>
               <Namespace.ownedElement >
-                <Collaboration visibility="public" name="Collaborations" xmi.id="27838740">
+                <Collaboration visibility="public" name="Collaborations" xmi.id="23826696403460">
                   <Namespace.ownedElement >
-                    <ClassifierRole visibility="public" name="SomeonesHouse" presentation="27658190" base="28178980" xmi.id="27837640">
+                    <ClassifierRole visibility="public" name="SomeonesHouse" presentation="23826696042360" base="23826697084320" xmi.id="23826696401260">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27836520"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27835820"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27835130"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27834440"/>
-                        <TaggedValue tag="classifier" value="EAID_436D81AD_A9B0_44d8_8AD1_86BB0808DA32" xmi.id="27833750"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27833060"/>
-                        <TaggedValue tag="classname" value="House" xmi.id="27832370"/>
-                        <TaggedValue tag="date_created" value="2006-07-20 18:35:22" xmi.id="27831680"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:53" xmi.id="27830990"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27830300"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27829610"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27828920"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27828230"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27827540"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27826850"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27826160"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696399020"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696397620"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696396240"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696394860"/>
+                        <TaggedValue tag="classifier" value="EAID_436D81AD_A9B0_44d8_8AD1_86BB0808DA32" xmi.id="23826696393480"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696392100"/>
+                        <TaggedValue tag="classname" value="House" xmi.id="23826696390720"/>
+                        <TaggedValue tag="date_created" value="2006-07-20 18:35:22" xmi.id="23826696389340"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:53" xmi.id="23826696387960"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696386580"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696385200"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696383820"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696382440"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696381060"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696379680"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696378300"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
-                    <AssociationRole visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27599520 27584160" xmi.id="27824910">
+                    <AssociationRole visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826695925020 23826695325100" xmi.id="23826696375800">
                       <Association.connection >
-                        <AssociationEndRole visibility="public" aggregation="none" targetScope="instance" type="27762400" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27807020">
+                        <AssociationEndRole visibility="public" aggregation="none" targetScope="instance" type="23826696250780" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696340020">
                           <ModelElement.taggedValue >
-                            <TaggedValue tag="containment" value="Unspecified" xmi.id="27804180"/>
+                            <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696334340"/>
                           </ModelElement.taggedValue>
                         </AssociationEndRole>
-                        <AssociationEndRole visibility="public" name="home" aggregation="none" targetScope="instance" type="27837640" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27802790">
+                        <AssociationEndRole visibility="public" name="home" aggregation="none" targetScope="instance" type="23826696401260" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696331560">
                           <ModelElement.taggedValue >
-                            <TaggedValue tag="containment" value="Unspecified" xmi.id="27801500"/>
+                            <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696328980"/>
                           </ModelElement.taggedValue>
                         </AssociationEndRole>
                       </Association.connection>
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="style" value="3" xmi.id="27820810"/>
-                        <TaggedValue tag="ea_type" value="Association" xmi.id="27820110"/>
-                        <TaggedValue tag="direction" value="Unspecified" xmi.id="27819420"/>
-                        <TaggedValue tag="linemode" value="3" xmi.id="27818730"/>
-                        <TaggedValue tag="seqno" value="0" xmi.id="27818040"/>
-                        <TaggedValue tag="headStyle" value="0" xmi.id="27817350"/>
-                        <TaggedValue tag="lineStyle" value="0" xmi.id="27816660"/>
-                        <TaggedValue tag="src_visibility" value="Public" xmi.id="27815970"/>
-                        <TaggedValue tag="src_aggregation" value="0" xmi.id="27815280"/>
-                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="27814590"/>
-                        <TaggedValue tag="src_isNavigable" value="true" xmi.id="27813900"/>
-                        <TaggedValue tag="src_containment" value="Unspecified" xmi.id="27813210"/>
-                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="27812520"/>
-                        <TaggedValue tag="dst_name" value="home" xmi.id="27811830"/>
-                        <TaggedValue tag="dst_aggregation" value="0" xmi.id="27811140"/>
-                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="27810450"/>
-                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="27809760"/>
-                        <TaggedValue tag="dst_containment" value="Unspecified" xmi.id="27809070"/>
-                        <TaggedValue tag="virtualInheritance" value="0" xmi.id="27808380"/>
+                        <TaggedValue tag="style" value="3" xmi.id="23826696367600"/>
+                        <TaggedValue tag="ea_type" value="Association" xmi.id="23826696366200"/>
+                        <TaggedValue tag="direction" value="Unspecified" xmi.id="23826696364820"/>
+                        <TaggedValue tag="linemode" value="3" xmi.id="23826696363440"/>
+                        <TaggedValue tag="seqno" value="0" xmi.id="23826696362060"/>
+                        <TaggedValue tag="headStyle" value="0" xmi.id="23826696360680"/>
+                        <TaggedValue tag="lineStyle" value="0" xmi.id="23826696359300"/>
+                        <TaggedValue tag="src_visibility" value="Public" xmi.id="23826696357920"/>
+                        <TaggedValue tag="src_aggregation" value="0" xmi.id="23826696356540"/>
+                        <TaggedValue tag="src_isOrdered" value="false" xmi.id="23826696355160"/>
+                        <TaggedValue tag="src_isNavigable" value="true" xmi.id="23826696353780"/>
+                        <TaggedValue tag="src_containment" value="Unspecified" xmi.id="23826696352400"/>
+                        <TaggedValue tag="dst_visibility" value="Public" xmi.id="23826696351020"/>
+                        <TaggedValue tag="dst_name" value="home" xmi.id="23826696349640"/>
+                        <TaggedValue tag="dst_aggregation" value="0" xmi.id="23826696348260"/>
+                        <TaggedValue tag="dst_isOrdered" value="false" xmi.id="23826696346880"/>
+                        <TaggedValue tag="dst_isNavigable" value="true" xmi.id="23826696345500"/>
+                        <TaggedValue tag="dst_containment" value="Unspecified" xmi.id="23826696344120"/>
+                        <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696342740"/>
                       </ModelElement.taggedValue>
                     </AssociationRole>
-                    <ClassifierRole visibility="public" name="GreenRoom" presentation="27656070" base="28178980" xmi.id="27800170">
+                    <ClassifierRole visibility="public" name="GreenRoom" presentation="23826696038120" base="23826697084320" xmi.id="23826696326320">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27799060"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27798360"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27797670"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27796980"/>
-                        <TaggedValue tag="classifier" value="EAID_14DB5E54_CD7B_4c84_998C_44960049D7E0" xmi.id="27796290"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27795600"/>
-                        <TaggedValue tag="classname" value="Room" xmi.id="27794910"/>
-                        <TaggedValue tag="date_created" value="2006-07-20 18:35:32" xmi.id="27794220"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:11" xmi.id="27793530"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27792840"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27792150"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27791460"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27790770"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27790080"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27789390"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27788700"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696324100"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696322700"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696321320"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696319940"/>
+                        <TaggedValue tag="classifier" value="EAID_14DB5E54_CD7B_4c84_998C_44960049D7E0" xmi.id="23826696318560"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696317180"/>
+                        <TaggedValue tag="classname" value="Room" xmi.id="23826696315800"/>
+                        <TaggedValue tag="date_created" value="2006-07-20 18:35:32" xmi.id="23826696314420"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:11" xmi.id="23826696313040"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696311660"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696310280"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696308900"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696307520"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696306140"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696304760"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696303380"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
-                    <ClassifierRole visibility="public" name="YellowRoom" presentation="27653950" base="28178980" xmi.id="27787580">
+                    <ClassifierRole visibility="public" name="YellowRoom" presentation="23826696033880" base="23826697084320" xmi.id="23826696301140">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27786470"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27785770"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27785080"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27784390"/>
-                        <TaggedValue tag="classifier" value="EAID_14DB5E54_CD7B_4c84_998C_44960049D7E0" xmi.id="27783700"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27783010"/>
-                        <TaggedValue tag="classname" value="Room" xmi.id="27782320"/>
-                        <TaggedValue tag="date_created" value="2006-07-21 19:22:58" xmi.id="27781630"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:27" xmi.id="27780940"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27780250"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27779560"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27778870"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27778180"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27777490"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27776800"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27776110"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696298920"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696297520"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696296140"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696294760"/>
+                        <TaggedValue tag="classifier" value="EAID_14DB5E54_CD7B_4c84_998C_44960049D7E0" xmi.id="23826696293380"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696292000"/>
+                        <TaggedValue tag="classname" value="Room" xmi.id="23826696290620"/>
+                        <TaggedValue tag="date_created" value="2006-07-21 19:22:58" xmi.id="23826696289240"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:27" xmi.id="23826696287860"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696286480"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696285100"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696283720"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696282340"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696280960"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696279580"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696278200"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
-                    <ClassifierRole visibility="public" name="HotRoom" presentation="27651830" base="28178980" xmi.id="27774990">
+                    <ClassifierRole visibility="public" name="HotRoom" presentation="23826696029640" base="23826697084320" xmi.id="23826696275960">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27773880"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27773180"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27772490"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27771800"/>
-                        <TaggedValue tag="classifier" value="EAID_9CE44C59_37E4_4117_8C05_F87C4DC33529" xmi.id="27771110"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27770420"/>
-                        <TaggedValue tag="classname" value="Kitchen" xmi.id="27769730"/>
-                        <TaggedValue tag="date_created" value="2006-07-21 19:27:21" xmi.id="27769040"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:33:56" xmi.id="27768350"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27767660"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27766970"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27766280"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27765590"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27764900"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27764210"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27763520"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696273740"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696272340"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696270960"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696269580"/>
+                        <TaggedValue tag="classifier" value="EAID_9CE44C59_37E4_4117_8C05_F87C4DC33529" xmi.id="23826696268200"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696266820"/>
+                        <TaggedValue tag="classname" value="Kitchen" xmi.id="23826696265440"/>
+                        <TaggedValue tag="date_created" value="2006-07-21 19:27:21" xmi.id="23826696264060"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:33:56" xmi.id="23826696262680"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696261300"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696259920"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696258540"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696257160"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696255780"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696254400"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696253020"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
-                    <ClassifierRole visibility="public" name="Someone" presentation="27649710" base="28178980" xmi.id="27762400">
+                    <ClassifierRole visibility="public" name="Someone" presentation="23826696025400" base="23826697084320" xmi.id="23826696250780">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27761290"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27760590"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27759900"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27759210"/>
-                        <TaggedValue tag="classifier" value="EAID_2F1D9CC6_F38F_4a34_B3C4_B92915108384" xmi.id="27758520"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27757830"/>
-                        <TaggedValue tag="classname" value="Person" xmi.id="27757140"/>
-                        <TaggedValue tag="date_created" value="2006-07-21 19:29:45" xmi.id="27756450"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:35:00" xmi.id="27755760"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27755070"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27754380"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27753690"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27753000"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27752310"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27751620"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27750930"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696248560"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696247160"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696245780"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696244400"/>
+                        <TaggedValue tag="classifier" value="EAID_2F1D9CC6_F38F_4a34_B3C4_B92915108384" xmi.id="23826696243020"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696241640"/>
+                        <TaggedValue tag="classname" value="Person" xmi.id="23826696240260"/>
+                        <TaggedValue tag="date_created" value="2006-07-21 19:29:45" xmi.id="23826696238880"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:35:00" xmi.id="23826696237500"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696236120"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696234740"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696233360"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696231980"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696230600"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696229220"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696227840"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
-                    <ClassifierRole visibility="public" name="WetRoom" presentation="27647590" base="28178980" xmi.id="27749810">
+                    <ClassifierRole visibility="public" name="WetRoom" presentation="23826696021160" base="23826697084320" xmi.id="23826696225600">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="isSpecification" value="false" xmi.id="27748700"/>
-                        <TaggedValue tag="ea_stype" value="Object" xmi.id="27748000"/>
-                        <TaggedValue tag="ea_ntype" value="0" xmi.id="27747310"/>
-                        <TaggedValue tag="version" value="1.0" xmi.id="27746620"/>
-                        <TaggedValue tag="classifier" value="EAID_244CC9E5_1F81_4164_9215_C048EC679543" xmi.id="27745930"/>
-                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="27745240"/>
-                        <TaggedValue tag="classname" value="Bathroom" xmi.id="27744550"/>
-                        <TaggedValue tag="date_created" value="2006-07-21 19:31:18" xmi.id="27743860"/>
-                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:02" xmi.id="27743170"/>
-                        <TaggedValue tag="gentype" value="Java" xmi.id="27742480"/>
-                        <TaggedValue tag="tagged" value="0" xmi.id="27741790"/>
-                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="27741100"/>
-                        <TaggedValue tag="phase" value="1.0" xmi.id="27740410"/>
-                        <TaggedValue tag="complexity" value="1" xmi.id="27739720"/>
-                        <TaggedValue tag="status" value="Proposed" xmi.id="27739030"/>
-                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="27738340"/>
+                        <TaggedValue tag="isSpecification" value="false" xmi.id="23826696223380"/>
+                        <TaggedValue tag="ea_stype" value="Object" xmi.id="23826696221980"/>
+                        <TaggedValue tag="ea_ntype" value="0" xmi.id="23826696220600"/>
+                        <TaggedValue tag="version" value="1.0" xmi.id="23826696219220"/>
+                        <TaggedValue tag="classifier" value="EAID_244CC9E5_1F81_4164_9215_C048EC679543" xmi.id="23826696217840"/>
+                        <TaggedValue tag="package" value="EAPK_06C9C958_C14A_41f4_89A9_6873CCED37A7" xmi.id="23826696216460"/>
+                        <TaggedValue tag="classname" value="Bathroom" xmi.id="23826696215080"/>
+                        <TaggedValue tag="date_created" value="2006-07-21 19:31:18" xmi.id="23826696213700"/>
+                        <TaggedValue tag="date_modified" value="2006-07-21 19:34:02" xmi.id="23826696212320"/>
+                        <TaggedValue tag="gentype" value="Java" xmi.id="23826696210940"/>
+                        <TaggedValue tag="tagged" value="0" xmi.id="23826696209560"/>
+                        <TaggedValue tag="package_name" value="HouseExampleModel" xmi.id="23826696208180"/>
+                        <TaggedValue tag="phase" value="1.0" xmi.id="23826696206800"/>
+                        <TaggedValue tag="complexity" value="1" xmi.id="23826696205420"/>
+                        <TaggedValue tag="status" value="Proposed" xmi.id="23826696204040"/>
+                        <TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;" xmi.id="23826696202660"/>
                       </ModelElement.taggedValue>
                     </ClassifierRole>
                   </Namespace.ownedElement>
                 </Collaboration>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27604640 27591840" xmi.id="27736600">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826695935260 23826695353620" xmi.id="23826696199180">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="27800170" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="27728340">
+                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="23826696326320" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696182660">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27727040"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696180060"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="27837640" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27725780">
+                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="23826696401260" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696177540">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27724550"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696175080"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27735520"/>
-                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="27734820"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27733970"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27733280"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27732590"/>
-                    <TaggedValue tag="subtype" value="Strong" xmi.id="27731900"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27731210"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27730520"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="27729830"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696197020"/>
+                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="23826696195620"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696193920"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696192540"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696191160"/>
+                    <TaggedValue tag="subtype" value="Strong" xmi.id="23826696189780"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696188400"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696187020"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696185640"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27602080 27586720" xmi.id="27723090">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826695930140 23826695336580" xmi.id="23826696172160">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="27774990" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="27714830">
+                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="23826696275960" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696155640">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27713530"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696153040"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="27837640" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27712270">
+                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="23826696401260" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696150520">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27711040"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696148060"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27722010"/>
-                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="27721310"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27720460"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27719770"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27719080"/>
-                    <TaggedValue tag="subtype" value="Strong" xmi.id="27718390"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27717700"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27717010"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="27716320"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696170000"/>
+                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="23826696168600"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696166900"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696165520"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696164140"/>
+                    <TaggedValue tag="subtype" value="Strong" xmi.id="23826696162760"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696161380"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696160000"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696158620"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27596960 27589280" xmi.id="27709580">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826695367580 23826695344360" xmi.id="23826696145140">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="27787580" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="27701320">
+                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="23826696301140" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696128620">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27700020"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696126020"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="27837640" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27698760">
+                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="23826696401260" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696123500">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27697530"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696121040"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27708500"/>
-                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="27707800"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27706950"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27706260"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27705570"/>
-                    <TaggedValue tag="subtype" value="Strong" xmi.id="27704880"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27704190"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27703500"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="27702810"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696142980"/>
+                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="23826696141580"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696139880"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696138500"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696137120"/>
+                    <TaggedValue tag="subtype" value="Strong" xmi.id="23826696135740"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696134360"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696132980"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696131600"/>
                   </ModelElement.taggedValue>
                 </Association>
-                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="27594400 27581600" xmi.id="27696070">
+                <Association visibility="public" isLeaf="false" isAbstract="false" isRoot="false" presentation="23826695360040 23826695319380" xmi.id="23826696118120">
                   <Association.connection >
-                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="27749810" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="27687120">
+                    <AssociationEnd visibility="public" name="room" aggregation="none" targetScope="instance" type="23826696225600" changeability="changeable" ordering="unordered" isNavigable="false" xmi.id="23826696100220">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27685820"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696097620"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
-                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="27837640" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="27684560">
+                    <AssociationEnd visibility="public" aggregation="composite" targetScope="instance" type="23826696401260" changeability="changeable" ordering="unordered" isNavigable="true" xmi.id="23826696095100">
                       <ModelElement.taggedValue >
-                        <TaggedValue tag="containment" value="Unspecified" xmi.id="27683330"/>
+                        <TaggedValue tag="containment" value="Unspecified" xmi.id="23826696092640"/>
                       </ModelElement.taggedValue>
                     </AssociationEnd>
                   </Association.connection>
                   <ModelElement.taggedValue >
-                    <TaggedValue tag="style" value="3" xmi.id="27694990"/>
-                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="27694290"/>
-                    <TaggedValue tag="direction" value=" Destination" xmi.id="27693440"/>
-                    <TaggedValue tag="linemode" value="3" xmi.id="27692750"/>
-                    <TaggedValue tag="seqno" value="0" xmi.id="27692060"/>
-                    <TaggedValue tag="subtype" value="Strong" xmi.id="27691370"/>
-                    <TaggedValue tag="headStyle" value="0" xmi.id="27690680"/>
-                    <TaggedValue tag="lineStyle" value="0" xmi.id="27689990"/>
-                    <TaggedValue tag="privatedata5" value="SX=36;SY=-9;EX=45;EY=-9;" xmi.id="27689300"/>
-                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="27688610"/>
+                    <TaggedValue tag="style" value="3" xmi.id="23826696115960"/>
+                    <TaggedValue tag="ea_type" value="Aggregation" xmi.id="23826696114560"/>
+                    <TaggedValue tag="direction" value=" Destination" xmi.id="23826696112860"/>
+                    <TaggedValue tag="linemode" value="3" xmi.id="23826696111480"/>
+                    <TaggedValue tag="seqno" value="0" xmi.id="23826696110100"/>
+                    <TaggedValue tag="subtype" value="Strong" xmi.id="23826696108720"/>
+                    <TaggedValue tag="headStyle" value="0" xmi.id="23826696107340"/>
+                    <TaggedValue tag="lineStyle" value="0" xmi.id="23826696105960"/>
+                    <TaggedValue tag="privatedata5" value="SX=36;SY=-9;EX=45;EY=-9;" xmi.id="23826696104580"/>
+                    <TaggedValue tag="virtualInheritance" value="0" xmi.id="23826696103200"/>
                   </ModelElement.taggedValue>
                 </Association>
               </Namespace.ownedElement>
             </Package>
           </Namespace.ownedElement>
         </Package>
-        <DataType visibility="private" name="String" isLeaf="false" isAbstract="false" isRoot="false" xmi.id="27681310"/>
-        <DataType visibility="private" name="void" isLeaf="false" isAbstract="false" isRoot="false" xmi.id="27677690"/>
+        <DataType visibility="private" name="String" isLeaf="false" isAbstract="false" isRoot="false" xmi.id="23826696088600"/>
+        <DataType visibility="private" name="void" isLeaf="false" isAbstract="false" isRoot="false" xmi.id="23826696081360"/>
       </Namespace.ownedElement>
     </Model>
   </XMI.content>
