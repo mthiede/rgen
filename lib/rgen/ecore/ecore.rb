@@ -52,7 +52,21 @@ module RGen
       has_attr 'volatile', Boolean, :defaultValueLiteral => "false"
       module ClassModule
         def defaultValue_derived
-          eval(defaultValueLiteral) unless defaultValueLiteral.nil?
+          return nil if defaultValueLiteral.nil?
+          case eType
+            when EInt
+              defaultValueLiteral.to_i
+            when EFloat
+              defaultValueLiteral.to_f
+            when EEnum
+              defaultValueLiteral.to_sym
+            when EBoolean
+              defaultValueLiteral == "true"
+            when EString
+              defaultValueLiteral
+            else
+              raise "Unhandled type"
+            end
         end
       end
     end

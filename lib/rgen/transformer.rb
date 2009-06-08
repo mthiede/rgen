@@ -1,3 +1,6 @@
+require 'rgen/ecore/ecore'
+require 'rgen/ecore/ecore_ext'
+
 module RGen
 
 # The Transformer class can be used to specify model transformations.
@@ -162,6 +165,55 @@ module RGen
 # occure if the condition are based on transformation target elements, i.e. if +trans+
 # is used within the condition to lookup or transform other elements.
 # 
+# = Copy Transformations
+# 
+# In some cases, transformations should just copy a model, either in the same metamodel
+# or in another metamodel with the same package/class structure. Sometimes, a transformation
+# is not exactly a copy, but a copy with slight modifications. Also in this case most
+# classes need to be copied verbatim.
+#
+# The class method Transformer.copy can be used to specify a copy rule for a single
+# metamodel class. If no target class is specified using the :to named parameter, the
+# target class will be the same as the source class (i.e. in the same metamodel).
+#
+#   copy MM1::ClassA                          # copy within the same metamodel
+#   copy MM1::ClassA, :to => MM2::ClassA
+#
+# The class method Transfomer.copy_all can be used to specify copy rules for all classes
+# of a particular metamodel package. Again with :to, the target metamodel package may
+# be specified which must have the same package/class structure. If :to is omitted, the
+# target metamodel is the same as the source metamodel. In case that for some classes
+# specific transformation rules should be used instead of copy rules, exceptions may be 
+# specified using the :except named parameter. +copy_all+ also provides an easy way to
+# copy (clone) a model within the same metamodel.
+#
+#   copy_all MM1                              # copy rules for the whole metamodel MM1, 
+#                                             # used to clone models of MM1
+#                                          
+#   copy_all MM1, :to => MM2, :except => %w(  # copy rules for all classes of MM1 to
+#     ClassA                                  # equally named classes in MM2, except
+#     Sub1::ClassB                            # "ClassA" and "Sub1::ClassB"
+#   )
+#
+# If a specific class transformation is not an exact copy, the Transformer.transform method
+# should be used to actually specify the transformation. If this transformation is also
+# mostly a copy, the helper method Transformer#copy_features can be used to create the
+# transformation Hash required by the transform method. Any changes to this hash may be done
+# in a hash returned by a block given to +copy_features+. This hash will extend or overwrite
+# the default copy hash. In case a particular feature should not be part of the copy hash
+# (e.g. because it does not exist in the target metamodel), exceptions can be specified using
+# the :except named parameter. Here is an example:
+#
+#   transform ClassA, :to => ClassAx do
+#     copy_features :except => [:featA] do 
+#       { :featB => featA }
+#     end
+#   end
+#
+# In this example, ClassAx is a copy of ClassA except, that feature "featA" in ClassA is renamed
+# into "featB" in ClassAx. Using +copy_features+ all features are copied except "featA". Then
+# "featB" of the target class is assigned the value of "featA" of the source class.
+#
 class Transformer
 	
 	TransformationDescription = Struct.new(:block, :target) # :nodoc:
@@ -205,16 +257,37 @@ class Transformer
 
 	# This class method specifies that all objects of class +from+ are to be copied
 	# into an object of class +to+. If +to+ is omitted, +from+ is used as target class.
+  # The target class may also be specified using the :to => <class> hash notation. 
 	# During copy, all attributes and references of the target object
 	# are set to their transformed counterparts of the source object.
 	# 
 	def self.copy(from, to=nil)
+    raise StandardError.new("Specify target class either directly as second parameter or using :to => <class>") \
+      unless to.nil? || to.is_a?(Class) || (to.is_a?(Hash) && to[:to].is_a?(Class))
+    to = to[:to] if to.is_a?(Hash) 
 		transform(from, :to => to || from) do
-			Hash[*@current_object.class.ecore.eAllStructuralFeatures.inject([]) {|l,a|
-				l + [a.name.to_sym, trans(@current_object.send(a.name))]
-			}]
+      copy_features
 		end
-	end
+  end
+
+  # Create copy rules for all classes of metamodel package (module) +from+ and its subpackages.
+  # The target classes are the classes with the same name in the metamodel package
+  # specified using named parameter :to. If no target metamodel is specified, source
+  # and target classes will be the same.
+  # The named parameter :except can be used to specify classes by qualified name for which 
+  # no copy rules should be created. Qualified names are relative to the metamodel package
+  # specified.
+  #
+  def self.copy_all(from, hash={})
+    to = hash[:to] || from
+    except = hash[:except]
+    fromDepth = from.ecore.qualifiedName.split("::").size
+    from.ecore.eAllClasses.each do |c|
+      path = c.qualifiedName.split("::")[fromDepth..-1]
+      next if except && except.include?(path.join("::"))
+      copy c.instanceClass, :to => path.inject(to){|m,c| m.const_get(c)}
+    end
+  end
 	
 	# Define a transformer method for the current transformer class.
 	# In contrast to regular Ruby methods, a method defined this way executes in the
@@ -283,6 +356,24 @@ class Transformer
 		@transformer_results[obj]
 	end
 	
+  # Create the hash required as return value of the block given to the Transformer.transform method.
+  # The hash will assign feature values of the source class to the features of the target class,
+  # assuming the features of both classes are the same. If the :except named parameter specifies
+  # an Array of symbols, the listed features are not copied by the hash. In order to easily manipulate
+  # the resulting hash, a block may be given which should also return a feature assignmet hash. This
+  # hash should be created manually and will extend/overwrite the automatically created hash.
+  #
+  def copy_features(options={})
+    hash = {}
+    @current_object.class.ecore.eAllStructuralFeatures.each do |f|
+      next if f.derived
+      next if options[:except] && options[:except].include?(f.name.to_sym)
+      hash[f.name.to_sym] = trans(@current_object.send(f.name))
+    end
+    hash.merge!(yield) if block_given?
+    hash
+  end
+  
 	def _transformProperties(obj, block_desc) #:nodoc:
 		old_object, @current_object = @current_object, obj
 		block_result = instance_eval(&block_desc.block)

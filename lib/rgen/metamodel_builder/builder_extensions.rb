@@ -217,7 +217,15 @@ module BuilderExtensions
 		
 	def _metamodel_description # :nodoc:
 		@metamodel_description ||= []
-	end
+  end
+
+  def _add_metamodel_description(desc) # :nodoc
+		@metamodel_description ||= []
+    @metamodelDescriptionByName ||= {}
+    @metamodel_description.delete(@metamodelDescriptionByName[desc.value(:name)])
+    @metamodel_description << desc 
+    @metamodelDescriptionByName[desc.value(:name)] = desc
+  end
   
   def abstract
     @abstract = true
@@ -236,7 +244,7 @@ module BuilderExtensions
 	# Central builder method
 	# 
 	def _build_internal(props1, props2=nil)
-		_metamodel_description << props1
+		_add_metamodel_description(props1)
 		if props1.is_a?(ReferenceDescription) && props1.many?
 			_build_many_methods(props1, props2)
 		else
@@ -246,7 +254,7 @@ module BuilderExtensions
 			# this is a bidirectional reference
 			props1.opposite, props2.opposite = props2, props1
 			other_class = props1.impl_type			
-			other_class._metamodel_description << props2
+			other_class._add_metamodel_description(props2)
 			raise "Internal error: second description must be a ReferenceDescription" \
 				unless props2.is_a?(ReferenceDescription)
 			if props2.many?

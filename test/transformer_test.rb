@@ -6,7 +6,6 @@ require 'rgen/transformer'
 require 'rgen/environment'
 require 'rgen/model_comparator'
 require 'metamodels/uml13_metamodel'
-require 'instantiators/ea_instantiator'
 require 'testmodel/class_model_checker'
 
 class TransformerTest < Test::Unit::TestCase
@@ -242,10 +241,9 @@ class TransformerTest < Test::Unit::TestCase
 	def test_copyTransformer
 		envIn = RGen::Environment.new
 		envOut = RGen::Environment.new
-		File.open(MODEL_DIR+"/ea_testmodel.xml") { |f|
-			inst = EAInstantiator.new(envIn, EAInstantiator::ERROR)
-			inst.instantiate(f.read)
-		}
+
+    EASupport.instantiateUML13FromXMI11(envIn, MODEL_DIR+"/ea_testmodel.xml") 
+		
 		CopyTransformer.new(envIn, envOut).transform
 		checkClassModel(envOut)
 		assert modelEqual?(

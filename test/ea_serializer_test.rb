@@ -3,7 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 require 'test/unit'
 require 'rgen/environment'
 require 'metamodels/uml13_metamodel'
-require 'instantiators/ea_instantiator'
+require 'ea_support/ea_support'
 require 'rgen/serializer/xmi11_serializer'
 
 class EASerializerTest < Test::Unit::TestCase
@@ -13,17 +13,11 @@ class EASerializerTest < Test::Unit::TestCase
   
 	def test_serializer
 		envUML = RGen::Environment.new
-		File.open(MODEL_DIR+"/ea_testmodel.xml") { |f|
-			inst = EAInstantiator.new(envUML, EAInstantiator::ERROR)
-			inst.instantiate(f.read)
-		}
+    EASupport.instantiateUML13FromXMI11(envUML, MODEL_DIR+"/ea_testmodel.xml") 
     models = envUML.find(:class => UML13::Model)
     assert_equal 1, models.size
     
-    File.open(TEST_DIR+"/ea_testmodel_regenerated.xml", "w") do |f|
-      ser = RGen::Serializer::XMI11Serializer.new(f)
-      ser.serialize(models.first, {:documentation => {:exporter => "Enterprise Architect", :exporterVersion => "2.5"}})
-    end
+    EASupport.serializeUML13ToXMI11(envUML, MODEL_DIR+"/ea_testmodel_regenerated.xml") 
 	end
 	
 end

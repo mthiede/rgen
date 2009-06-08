@@ -13,6 +13,7 @@ class DirectoryTemplateContainer
   
   def initialize(metamodel=nil, output_path=nil, parent=nil)
     @containers = {}
+    @directoryContainers = {}
     @parent = parent
     @metamodel = metamodel
     @output_path = output_path
@@ -24,7 +25,7 @@ class DirectoryTemplateContainer
       if !File.directory?(qf) && f =~ /^(.*)\.tpl$/
        (@containers[$1] = TemplateContainer.new(@metamodel, @output_path, self,qf)).load
       elsif File.directory?(qf) && f != "." && f != ".."
-       (@containers[f] = DirectoryTemplateContainer.new(@metamodel, @output_path, self)).load(qf)
+       (@directoryContainers[f] = DirectoryTemplateContainer.new(@metamodel, @output_path, self)).load(qf)
       end
     }
   end
@@ -64,9 +65,12 @@ class DirectoryTemplateContainer
   private
   
   def _expand(template, *all_args)
-    if template =~ /^\/?([^:\/]+)(?:::|\/)([^:\/].*)/ 
+    if template =~ /^\/?(\w+)::(\w.*)/ 
       raise "Template not found: #{$1}" unless @containers[$1]
       @containers[$1].expand($2, *all_args)
+    elsif template =~ /^\/?(\w+)\/(\w.*)/ 
+      raise "Template not found: #{$1}" unless @directoryContainers[$1]
+      @directoryContainers[$1].expand($2, *all_args)
     else
       raise "Invalid template name: #{template}"
     end

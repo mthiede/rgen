@@ -19,7 +19,11 @@ module ECoreInstantiator
 		end
 		@@transformer.trans(self)
 	end	
-	
+
+  def self.clear_ecore_cache
+    require 'rgen/ecore/ecore_transformer'
+    @@transformer = ECoreTransformer.new
+  end
 end
 
 end

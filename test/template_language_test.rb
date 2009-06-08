@@ -65,7 +65,7 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc.expand('root::Root', :for => TEST_MODEL, :indent => 1)
     result = expected = ""
     File.open(OUTPUT_DIR+"/testout.txt") {|f| result = f.read}
-    File.open(OUTPUT_DIR+"/expected_result1.txt") {|f| expected = f.read}
+	    File.open(OUTPUT_DIR+"/expected_result1.txt") {|f| expected = f.read}
     assert_equal expected, result
   end
   
@@ -103,6 +103,46 @@ class TemplateContainerTest < Test::Unit::TestCase
     end
     assert_nothing_raised do
       tc.expand('null_context_test::NullContextTestOk', :for => :dummy)
+    end
+  end
+  
+  def test_no_indent
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "   xxx<---\r\n   xxx<---\r\n   xxx<---\r\n   xxx<---\r\n", tc.expand('no_indent_test/test::Test', :for => :dummy)
+  end
+  
+  def test_no_indent2
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "      return xxxx;\r\n", tc.expand("no_indent_test/test2::Test", :for => :dummy)
+  end
+  
+  def test_no_indent3
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "   l1<---\r\n   l2\r\n\r\n", tc.expand("no_indent_test/test3::Test", :for => :dummy)
+  end
+  
+  def test_template_resolution
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "Sub1\r\nSub1 in sub1\r\n", tc.expand('template_resolution_test/test::Test', :for => :dummy)
+    assert_equal "Sub1\r\nSub1\r\nSub1 in sub1\r\n", tc.expand('template_resolution_test/sub1::Test', :for => :dummy)
+  end
+  
+  def test_evaluate
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "xx1xxxx2xxxx3xxxx4xx\r\n", tc.expand('evaluate_test/test::Test', :for => :dummy)
+  end
+  
+  def test_define_local
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal "Local1\r\n", tc.expand('define_local_test/test::Test', :for => :dummy)
+    assert_raise StandardError do
+      tc.expand('define_local_test/test::TestForbidden', :for => :dummy)
     end
   end
 

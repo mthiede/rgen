@@ -81,3 +81,15 @@
 * Bugfix: fixed unit test for non-Windows plattforms (\r\n)
 * Bugfix: depending on the Ruby version and/or platform constants used in templates could not be resolved
 * Added automatic line ending detection (\n or \r\n) for template language +nl+ command
+
+=0.5.0 (Jun 8th, 2009)
+
+* Added ModelBuilder and ModelSerializer
+* Added template language "define_local" command
+* Added template language "evaluate" command
+* Fixed template language bug: indentation problem when expand continues a non-empty line
+* Fixed template language bug: template content expands several times when a template container is called recursively
+* Fixed template language bug: template resolution problem if a template file has the same name as a template directory
+* Cleaned up EA support
+* Added method to clear ecore metamodel reflection cache
+* Improved overriding of metamodel features in reopened classes

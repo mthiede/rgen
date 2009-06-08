@@ -7,6 +7,7 @@ module TemplateLanguage
   
   class OutputHandler
     attr_writer :indent
+    attr_accessor :noIndentNextLine
     
     def initialize(indent=0, indentString="   ", mode=:explicit)
       self.mode = mode
@@ -22,6 +23,7 @@ module TemplateLanguage
     # 
     def concat(s)
       return @output.concat(s) if s.is_a? OutputHandler
+      #puts [object_id, noIndentNextLine, @state, @output.to_s, s].inspect
       s = s.to_str.gsub(/^[\t ]*\r?\n/,'') if @ignoreNextNL
       s = s.to_str.gsub(/^\s+/,'') if @ignoreNextWS
       @ignoreNextNL = @ignoreNextWS = false if s =~ /\S/
@@ -74,10 +76,6 @@ module TemplateLanguage
       @ignoreNextWS = true
     end
     
-    def noIndentNextLine
-      @noIndentNextLine = true
-    end  
-      
     def mode=(m)
       raise StandardError.new("Unknown mode: #{m}") unless [:direct, :explicit].include?(m)
       @mode = m
