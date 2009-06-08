@@ -1,0 +1,335 @@
+# $Id: contentspec.ry,v 1.2 2003/01/19 22:38:46 katsu Exp $
+
+#[46]        contentspec ::= 'EMPTY' | 'ANY' | Mixed | children
+#[47]           children ::= (choice | seq) ('?' | '*' | '+')?
+#[48]                 cp ::= (Name | choice | seq) ('?' | '*' | '+')?
+#[49]             choice ::= '(' S? cp ( S? '|' S? cp )+ S? ')'
+#[50]                seq ::= '(' S? cp ( S? ',' S? cp )* S? ')'
+#[51]              Mixed ::= '(' S? '#PCDATA' (S? '|' S? Name)* S? ')*'
+#                            | '(' S? '#PCDATA' S? ')'
+# 空白は任意で挿入可能。ただし ? * + の直前に空白は置けない。
+
+
+# + positive closure (正閉包)
+# * kleene closure (閉包)
+# ?
+# | union (選択)
+# , concatenation (連接)
+
+
+class ContentSpecParser
+
+options no_result_var
+
+rule
+
+  contentspec:	'EMPTY'
+		| 'ANY'
+		{ @result.push :ANY }
+		| mixed
+		| children
+
+  mixed:	'(' mixedelem ')*'
+		{ @result.push :* }
+		| '(' '#PCDATA' ')'
+		{ @result.push :PCDATA }
+		| '(' '#PCDATA' ')*'
+		{ @result.push :PCDATA, :- }
+
+  mixedelem:	'#PCDATA' '|' Name
+		{ @result.push :PCDATA, val[2], :| }
+		| mixedelem '|' Name
+		{ @result.push val[2], :| }
+
+  children:	choice
+		| seq
+
+  choice:	'(' choicelist listend
+
+  choicelist:	cp '|' cp
+		{ @result.push :| }
+		| choicelist '|' cp
+		{ @result.push :| }
+
+  seq:		'(' seqlist listend
+
+  seqlist:	cp
+		| seqlist ',' cp
+		{ @result.push :** }
+
+  listend:	')'
+		| ')?'
+		{ @result.push :- }
+		| ')*'
+		{ @result.push :* }
+		| ')+'
+		{ @result.push :+ }
+
+  cp:		Name
+		{ @result.push val[0] }
+		| NameQ
+		{ @result.push val[0], :- }
+		| NameA
+		{ @result.push val[0], :* }
+		| NameP
+		{ @result.push val[0], :+ }
+		| choice
+		| seq
+
+end
+
+
+---- inner ----
+
+  def next_token
+    @tokens.shift
+  end
+
+  def parse(src)
+    @tokens = []
+    first = true
+    src.scan(/([^ \t\n\r(|,)?*+]+[?*+]?)|([(|,]|\)[?*+]?)|([^ \t\n\r][\S\s]*)/
+             ) { |name,delim,error|
+      if name then
+        if first and (name == 'EMPTY' or name == 'ANY') then
+          @tokens.push [ name, name ]
+        elsif name == '#PCDATA' then
+          @tokens.push [ name, name ]
+        else
+          c = name[-1]
+          if c == ?? then
+            name.chop!
+            @tokens.push [ :NameQ, name ]
+          elsif c == ?* then
+            name.chop!
+            @tokens.push [ :NameA, name ]
+          elsif c == ?+ then
+            name.chop!
+            @tokens.push [ :NameP, name ]
+          else
+            @tokens.push [ :Name, name ]
+          end
+        end
+      elsif delim then
+        @tokens.push [ delim, delim ]
+      else
+        raise error
+      end
+    }
+    @tokens.push [ false, nil ]
+    @yydebug = true
+    @result = []
+    do_parse
+    @result
+  end
+
+---- footer ----
+
+
+
+
+module XMLScan
+
+  class DTDScanner
+
+    def parse_error(msg)
+      print "  #{caller[0]}: ", msg, "\n"
+    end
+
+    ClosureMark = { ?? => :-, ?* => :*, ?+ => :+ }
+    SeqDelim = { ?, => :**, ?| => :| }
+
+    def scan_contentspec(src)
+      dst = []
+      parenstack = []
+      pcdata = false
+      parenallow = true
+      if src == 'EMPTY' then
+        return []
+      elsif src == 'ANY' then
+        return [:ANY]
+      end
+      src.scan(
+          /([^ \t\n\r(|,)?*+%;]+[?*+]?)|([(|,]|\)[?*+]?)|([^ \t\n\r][\S\s]*)/
+               ) { |name,delim,error|
+        if name then
+          if not parenallow or parenstack.empty? then
+            parse_error "parse error at `#{name}'"
+            break
+            # RECOVERY-01: insert a `(' before Name. Also insert `,(' if needed
+            parenstack.push nil if parenstack.empty?
+            parenstack[-1] = (:**) unless parenstack.last
+            parenstack.push nil
+          end
+          mark = ClosureMark[name[-1]]
+          name.chop! if mark
+          if name == '#PCDATA' then
+            if mark or not dst.empty? or parenstack.size > 1 then
+              parse_error "parse error at `#{name}#{mark&&mark.chr}'"
+              break
+              dst.push '#PCDATA'    # RECOVERY-02: regard as an element type.
+              dst.push mark if mark
+              mark = parenstack.last
+              dst.push mark if mark
+            else
+              dst.push :PCDATA
+              pcdata = true
+              parenstack[-1] = :|
+            end
+          else
+            dst.push name
+            dst.push mark if mark
+            mark = parenstack.last
+            dst.push mark if mark
+          end
+          parenallow = false
+        elsif delim then
+          mark = delim[1]
+          delim = delim[0]
+          if delim == ?( then
+            if not parenallow or pcdata then
+              parse_error "parse error at `('"
+              break
+              if pcdata then         # RECOVERY-03: allow it with limitation.
+                parenstack.push :|
+              else                   # RECOVERY-04: insert a `,' before `('.
+                parenstack[-1] = (:**) unless parenstack.last
+                parenstack.push nil
+                parenallow = true
+              end
+            else
+              parenstack.push nil
+            end
+          elsif delim == ?) then
+            if parenallow then
+              parse_error "parse error at `)#{mark&&mark.chr}'"
+              parenstack.pop ; break
+              mark = nil         # RECOVERY-05: allow it but ignore any marks.
+              parenallow = false
+            end
+            if parenstack.empty? then
+              parse_error "unbalanced `)'"
+              break
+              # RECOVERY-06: allow it.
+            end
+            parenstack.pop
+            if pcdata then
+              if dst.size > 1 then
+                unless parenstack.empty? then
+                  # here is continuation of RECOVERY-03: ignore any marks.
+                else
+                  unless mark == ?* then
+                    parse_error "parse error at `)#{mark&&mark.chr}'"
+                    break
+                    # RECOVERY-07: replace the mark with a `*'.
+                  end
+                  dst.push :*
+                end
+              elsif mark then
+                if mark == ?* then
+                  dst.push :-
+                else
+                  parse_error "parse error at `)#{mark&&mark.chr}'"
+                  break
+                  # RECOVERY-08: ignore it.
+                end
+              end
+            else
+              mark = ClosureMark[mark]
+              dst.push mark if mark
+              mark = parenstack.last
+              dst.push mark if mark
+            end
+          else  # | or ,
+            if parenallow or parenstack.empty? then
+              parse_error "parse error at `#{delim.chr}'"
+              break
+              # RECOVERY-09: ignore it.
+            else
+              mark = SeqDelim[delim]
+              if parenstack.last then
+                unless parenstack.last == mark then
+                  parse_error "parse error at `#{delim.chr}'"
+                  break
+                  # RECOVERY-10: regard that it is same as the previous one.
+                end
+              else
+                parenstack[-1] = mark
+              end
+              parenallow = true
+            end
+          end
+        elsif error then
+          parse_error "parse error `#{error}'"
+          break
+          parenallow = false     # RECOVERY-11: ignore all after.
+          parenstack.clear
+        end
+      }
+      #parse_error "unexpected termination of content model" if parenallow
+      parse_error "unbalanced `('" unless parenstack.empty?
+      dst
+    end
+
+  end
+
+end
+
+
+
+Examples = [
+  "EMPTY",
+  "ANY",
+  "(a,b,c)",
+  "(a,b*,c)",
+  "(a,b*,c+)",
+  "(a,(b*,c)+)",
+  "(a,(b*|(c,e)?)+,d)+",
+  "(a,(b,(c,(d,(e)))))",
+  "(a,b,c,d,e)",
+  "(((((a),b),c),d),e)",
+  "(#PCDATA|a|b|c)",
+  "(#PCDATA|a)*",
+  "(#PCDATA|a|b|c)*",
+  "(a|#PCDATA|a|b|c)*",
+  "()*",
+  "(a,)?",
+  "((a,b,),c)?",
+  "(a))",
+  "((a))",
+  "(a)b)",
+  "(a(b))",
+  "(a)",
+  "(a)*",
+  "(#PCDATA)",
+  "(#PCDATA)*",
+  "(#PCDATA)?",
+  "(a,(#PCDATA|b|c)*,d)",
+  "a*",
+  "a|b",
+  "EMPTY|b",
+  '(a|b,c)',
+  '(#PCDATA|(a|b)|c)*',
+  '(#PCDATA|a|(b|c))*',
+  ',a',
+  '(a)(b,c)',
+  '(#PCDATA)(a,b)',
+  '(a,,b)',
+]
+
+Examples.each { |s|
+  p s
+  puts
+  begin
+    print '  ', ContentSpecParser.new.parse(s).inspect, "\n"
+  rescue => e
+    print "  ERROR: #{caller[0]}: ", e.message.strip, " (#{e.class.name})\n"
+  end
+  puts
+  begin
+    print '  ', XMLScan::DTDScanner.new.scan_contentspec(s).inspect, "\n"
+  rescue => e
+    print "  ERROR: #{caller[0]}: ", e.message, " (#{e.class.name})\n"
+  end
+  puts
+}

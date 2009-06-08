@@ -1,0 +1,356 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>en/manual.rd</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">xmlscan version 0.2 Reference Manual</a></h1><!-- RDLabel: "xmlscan version 0.2 Reference Manual" -->
+<p>This is a broken English version. If you find lexical or
+grammatical mistakes, or strange expressions (including kidding,
+unnatural or unclear ones) in this document, please
+<a href="mailto:katsu@blue.sky.or.jp">let me know</a>.</p>
+<h2><a name="label-1" id="label-1">Abstract</a></h2><!-- RDLabel: "Abstract" -->
+<p>XMLscan is one of non-validating XML parser written in 100%
+pure Ruby.</p>
+<p>XMLscan's features are as follows:</p>
+<dl>
+<dt><a name="label-2" id="label-2">100% pure Ruby</a></dt><!-- RDLabel: "100% pure Ruby" -->
+<dd>
+XMLscan doesn't require any extension libraries, so
+it completely works only with a Ruby interpreter version
+1.6 or above.
+(It also needs no standard-bundled extension library.)
+</dd>
+<dt><a name="label-3" id="label-3">Compliant to the specification</a></dt><!-- RDLabel: "Compliant to the specification" -->
+<dd>
+XMLscan has been developed to satisfy all conditions,
+described in XML 1.0 Specification and required to a
+non-validating XML processor
+</dd>
+<dt><a name="label-4" id="label-4">High-speed</a></dt><!-- RDLabel: "High-speed" -->
+<dd>
+XMLscan is, probably, the fastest parser among all
+existing XML/HTML parsers written in pure Ruby.
+</dd>
+<dt><a name="label-5" id="label-5">Support for various CES.</a></dt><!-- RDLabel: "Support for various CES." -->
+<dd>
+XMLscan can parse an XML document encoded in at least
+iso-8859-*, EUC-*, Shift_JIS, and UTF-8 as it is.
+UTF-16 is not supported directly, though.
+</dd>
+<dt><a name="label-6" id="label-6">Just parsing</a></dt><!-- RDLabel: "Just parsing" -->
+<dd>
+The role of xmlscan is just to parse an XML document.
+XMLscan doesn't provide high-level features to easily
+handle an XML document. XMLscan is assumed to be used as
+a core part of a library providing such features.
+</dd>
+<dt><a name="label-7" id="label-7">HTML</a></dt><!-- RDLabel: "HTML" -->
+<dd>
+XMLscan contains htmlscan, an HTML parser.
+</dd>
+</dl>
+<h2><a name="label-8" id="label-8">Character encodings</a></h2><!-- RDLabel: "Character encodings" -->
+<p>By default, the value of global variable $KCODE decides
+which CES (character encoding scheme) is assumed for xmlscan
+to parse an XML document.
+You need to set $KCODE or <!-- Reference, RDLabel "XMLScan::XMLScanner#kcode=" doesn't exist --><em class="label-not-found">XMLScan::XMLScanner#kcode=</em><!-- Reference end -->
+an appropriate value to parse an XML document encoded in EUC-*,
+Shift_JIS, or UTF-8.</p>
+<p>UTF-16 is not supported directly. You should convert it into
+UTF-8 before parsing.</p>
+<h2><a name="label-9" id="label-9">XML Namespaces</a></h2><!-- RDLabel: "XML Namespaces" -->
+<p>XML Namespaces have been already implemented in
+xmlscan/namespace.rb. However, since its interface is going
+to be modified, this feature is undocumented now.</p>
+<h2><a name="label-10" id="label-10">Class Reference</a></h2><!-- RDLabel: "Class Reference" -->
+<h3><a name="label-11" id="label-11">XMLScan::Error</a></h3><!-- RDLabel: "XMLScan::Error" -->
+<p>The superclass for all exceptions related to xmlscan.</p>
+<p>These exceptions are raised by XMLScan::Visitor
+by default when it receives an error report from a parser,
+such as XMLScan::XMLScanner or XMLScan::XMLParser.
+Each parser never raises these exceptions by itself.</p>
+<dl>
+<dt><a name="label-12" id="label-12">XMLScan::ParseError</a></dt><!-- RDLabel: "XMLScan::ParseError" -->
+<dd>
+An error except a constraint violation, for example,
+an XML document is unmatched with a production.
+</dd>
+<dt><a name="label-13" id="label-13">XMLScan::NotWellFormedError</a></dt><!-- RDLabel: "XMLScan::NotWellFormedError" -->
+<dd>
+Raised when an XML document violates an well-formedness
+constraint.
+</dd>
+<dt><a name="label-14" id="label-14">XMLScan::NotValidError</a></dt><!-- RDLabel: "XMLScan::NotValidError" -->
+<dd>
+Raised when an XML document violates an validity constraint.
+</dd>
+</dl>
+<h3><a name="label-15" id="label-15">XMLScan::Visitor</a></h3><!-- RDLabel: "XMLScan::Visitor" -->
+<p>Mix-in for receiving the result of parsing an XML document.</p>
+<p>Each parser included in xmlscan parses an XML document from
+the beginning, and calls each specific method of given instance of
+XMLScan::Visitor for each syntactic element, such as a tag.
+It is ensured that these calls is in order of the appearance
+in the document from the beginning.</p>
+<h4><a name="label-16" id="label-16">Methods:</a></h4><!-- RDLabel: "Methods:" -->
+<p>Without special notice, the following methods do nothing by
+default.</p>
+<dl>
+<dt><a name="label-17" id="label-17"><code>XMLScan::Visitor#parse_error(<var>msg</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#parse_error" -->
+<dd>
+Called when the parser meets an error except a constraint
+violation, for example, an XML document is unmatched with
+a production. By default, this method raises
+<a href="#label-12">XMLScan::ParseError</a> exception. If no exception is
+raised and this method returns normally, the parser recovers
+the error and continues to parse.</dd>
+<dt><a name="label-18" id="label-18"><code>XMLScan::Visitor#wellformed_error(<var>msg</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#wellformed_error" -->
+<dd>
+Called when the parser meets an well-formedness constraint
+violation. By default, this method raises
+<a href="#label-13">XMLScan::NotWellFormedError</a> exception. If no exception
+is raised and this method returns normally, the parser recovers
+the error and continues to parse.</dd>
+<dt><a name="label-19" id="label-19"><code>XMLScan::Visitor#valid_error(<var>msg</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#valid_error" -->
+<dd>
+<p>Called when the parser meets validity constraint
+violation. By default, this method raises
+<a href="#label-14">XMLScan::NotValidError</a> exception. If no exception
+is raised and this method returns normally, the parser recovers
+the error and continues to parse.</p>
+<p>FYI, current version of xmlscan includes no validating XML
+processor. This method is reserved for future versions.</p></dd>
+<dt><a name="label-20" id="label-20"><code>XMLScan::Visitor#warning(<var>msg</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#warning" -->
+<dd>
+Called when the parser meets a non-error but unrecommended
+thing or a syntax which xmlscan is not able to parse.</dd>
+<dt><a name="label-21" id="label-21"><code>XMLScan::Visitor#on_start_document</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_start_document" -->
+<dd>
+Called just before the parser starts parsing an XML document.
+After this method is called, corresponding
+<a href="#label-22">XMLScan::Visitor#on_end_document</a> method is always called.</dd>
+<dt><a name="label-22" id="label-22"><code>XMLScan::Visitor#on_end_document</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_end_document" -->
+<dd>
+Called after the parser reaches the end of an XML document.</dd>
+<dt><a name="label-23" id="label-23"><code>XMLScan::Visitor#on_xmldecl</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl" -->
+<dt><a name="label-24" id="label-24"><code>XMLScan::Visitor#on_xmldecl_version(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_version" -->
+<dt><a name="label-25" id="label-25"><code>XMLScan::Visitor#on_xmldecl_encoding(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_encoding" -->
+<dt><a name="label-26" id="label-26"><code>XMLScan::Visitor#on_xmldecl_standalone(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_standalone" -->
+<dt><a name="label-27" id="label-27"><code>XMLScan::Visitor#on_xmldecl_other(<var>name</var>, <var>value</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_other" -->
+<dt><a name="label-28" id="label-28"><code>XMLScan::Visitor#on_xmldecl_end</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_end" -->
+<dd>
+<p>Called when the parser meets an XML declaration.</p>
+<pre>&lt;?xml version="1.0" encoding="euc-jp" standalone="yes" ?&gt;
+^     ^             ^                 ^                ^
+1     2             3                 4                5
+
+             method                 argument
+         --------------------------------------
+          1: on_xmldecl
+          2: on_xmldecl_version     ("1.0")
+          3: on_xmldecl_encoding    ("euc-jp")
+          4: on_xmldecl_standalone  ("yes")
+          5: on_xmldecl_end</pre>
+<p>When an XML declaration is found, both on_xmldecl and
+on_xmldecl_end method are always called. Any other methods
+are called only when the corresponding syntaxes are found.</p>
+<p>When a declaration except version, encoding, and standalone
+is found in an XML declaration, on_xmldecl_other method is
+called. Since such a declaration is not permitted, note that
+the parser always calls <a href="#label-17">XMLScan::Visitor#parse_error</a> method
+before calling on_xmldecl_other method.</p></dd>
+<dt><a name="label-29" id="label-29"><code>XMLScan::Visitor#on_doctype(<var>root</var>, <var>pubid</var>, <var>sysid</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_doctype" -->
+<dd>
+<p>Called when the parser meets a document type declaration.</p>
+<pre>document                            argument</pre>
+<pre>--------------------------------------------------------------
+ 1: &lt;!DOCTYPE foo&gt;                      ('foo', nil,   nil)
+ 2: &lt;!DOCTYPE foo SYSTEM "bar"&gt;         ('foo', nil,   'bar')
+ 3: &lt;!DOCTYPE foo PUBLIC "bar"&gt;         ('foo', 'bar',  nil )
+ 4: &lt;!DOCTYPE foo PUBLIC "bar" "baz"&gt;   ('foo', 'bar', 'baz')</pre></dd>
+<dt><a name="label-30" id="label-30"><code>XMLScan::Visitor#on_prolog_space(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_prolog_space" -->
+<dd>
+Called when the parser meets whitespaces in prolog.</dd>
+<dt><a name="label-31" id="label-31"><code>XMLScan::Visitor#on_comment(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_comment" -->
+<dd>
+Called when the parser meets a comment.</dd>
+<dt><a name="label-32" id="label-32"><code>XMLScan::Visitor#on_pi(<var>target</var>, <var>pi</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_pi" -->
+<dd>
+Called when the parser meets a processing instruction.</dd>
+<dt><a name="label-33" id="label-33"><code>XMLScan::Visitor#on_chardata(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_chardata" -->
+<dd>
+Called when the parser meets character data.</dd>
+<dt><a name="label-34" id="label-34"><code>XMLScan::Visitor#on_cdata(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_cdata" -->
+<dd>
+Called when the parser meets a CDATA section.</dd>
+<dt><a name="label-35" id="label-35"><code>XMLScan::Visitor#on_entityref(<var>ref</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_entityref" -->
+<dd>
+Called when the parser meets a general entity reference
+in a place except an attribute value.</dd>
+<dt><a name="label-36" id="label-36"><code>XMLScan::Visitor#on_charref(<var>code</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_charref" -->
+<dt><a name="label-37" id="label-37"><code>XMLScan::Visitor#on_charref_hex(<var>code</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_charref_hex" -->
+<dd>
+Called when the parser meets a character reference
+in a place except an attribute value.
+When the character code is represented by decimals,
+on_charref is called. When by hexadecimals, on_charref_hex
+is called. <var>code</var> is an integer.</dd>
+<dt><a name="label-38" id="label-38"><code>XMLScan::Visitor#on_stag(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_stag" -->
+<dt><a name="label-39" id="label-39"><code>XMLScan::Visitor#on_attribute(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attribute" -->
+<dt><a name="label-40" id="label-40"><code>XMLScan::Visitor#on_attr_value(<var>str</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attr_value" -->
+<dt><a name="label-41" id="label-41"><code>XMLScan::Visitor#on_attr_entityref(<var>ref</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attr_entityref" -->
+<dt><a name="label-42" id="label-42"><code>XMLScan::Visitor#on_attr_charref(<var>code</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attr_charref" -->
+<dt><a name="label-43" id="label-43"><code>XMLScan::Visitor#on_attr_charref_hex(<var>code</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attr_charref_hex" -->
+<dt><a name="label-44" id="label-44"><code>XMLScan::Visitor#on_attribute_end(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_attribute_end" -->
+<dt><a name="label-45" id="label-45"><code>XMLScan::Visitor#on_stag_end_empty(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_stag_end_empty" -->
+<dt><a name="label-46" id="label-46"><code>XMLScan::Visitor#on_stag_end(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_stag_end" -->
+<dd>
+<p>Called when the parser meets an XML declaration.</p>
+<pre>&lt;hoge fuga="foo&amp;bar;&amp;#38;&amp;#x26;baz"  &gt;
+^     ^     ^  ^    ^    ^     ^  ^  ^
+1     2     3  4    5    6     7  8  9
+
+     method                 argument
+ ------------------------------------
+  1: on_stag                ('hoge')
+  2: on_attribute           ('fuga')
+  3: on_attr_value          ('foo')
+  4: on_attr_entityref      ('bar')
+  5: on_attr_charref        (38)
+  6: on_attr_charref_hex    (38)
+  7: on_attr_value          ('baz')
+  8: on_attribute_end       ('fuga')
+  9: on_stag_end            ('hoge')
+      or
+     on_stag_end_empty      ('hoge')</pre>
+<p>When a start tag is found, both on_stag and corresponding
+either on_stag_end or on_stag_end_empty method are always
+called. Any other methods are called only when at least one
+attribute is found in the start tag.</p>
+<p>When an attribute is found, both on_attribute and
+on_attribute_end method are always called. If the attribute
+value is empty, only these two methods are called.</p>
+<p>When the parser meets a general entity reference in an
+attribute value, it calls on_attr_entityref method.
+When the parser meets a character reference in an attribute
+value, it calls either on_charref or on_charref_hex method.</p>
+<p>If the tag is an empty element tag, on_stag_end_empty method
+is called instead of on_stag_end method.</p></dd>
+<dt><a name="label-47" id="label-47"><code>XMLScan::Visitor#on_etag(<var>name</var>)</code></a></dt><!-- RDLabel: "XMLScan::Visitor#on_etag" -->
+<dd>
+Called when the parser meets an end tag.</dd>
+</dl>
+<h3><a name="label-48" id="label-48">XMLScan::XMLScanner</a></h3><!-- RDLabel: "XMLScan::XMLScanner" -->
+<p>The scanner which tokenizes an XML document and recognize tags,
+and so on.</p>
+<p>The conformance of XMLScan::XMLScanner to the specification
+is described in another document.</p>
+<h4><a name="label-49" id="label-49">SuperClass:</a></h4><!-- RDLabel: "SuperClass:" -->
+<ul>
+<li>Object</li>
+</ul>
+<h4><a name="label-50" id="label-50">Class Methods:</a></h4><!-- RDLabel: "Class Methods:" -->
+<dl>
+<dt><a name="label-51" id="label-51"><code>XMLScan::XMLScanner.new(<var>visitor</var>[, <var>option</var> ...])</code></a></dt><!-- RDLabel: "XMLScan::XMLScanner.new" -->
+<dd>
+<p>Creates an instance. <var>visitor</var> is a instance of
+<a href="#label-15">XMLScan::Visitor</a> and receives the result of parsing
+from the XMLScan::Scanner object.</p>
+<p>You can specify one of more <var>option</var> as a string or symbol.
+XMLScan::Scanner's options are as follows:</p>
+<dl>
+<dt><a name="label-52" id="label-52">'strict_char'</a></dt><!-- RDLabel: "'strict_char'" -->
+<dd>
+This option is enabled after
+<code>require 'xmlscan/xmlchar'</code>.
+XMLScan::Scanner checks whether an XML document includes
+an illegal character. The performance decreases sharply.
+</dd>
+</dl></dd>
+</dl>
+<h4><a name="label-53" id="label-53">Methods:</a></h4><!-- RDLabel: "Methods:" -->
+<dl>
+<dt><a name="label-54" id="label-54"><code>XMLScan::XMLScanner#kcode= <var>arg</var></code></a></dt><!-- RDLabel: "XMLScan::XMLScanner#kcode= arg" -->
+<dd>
+Sets CES. Available values for <var>code</var> are same as $KCODE
+except nil. If <var>code</var> is nil, $KCODE decides the CES.</dd>
+<dt><a name="label-55" id="label-55"><code>XMLScan::XMLScanner#kcode</code></a></dt><!-- RDLabel: "XMLScan::XMLScanner#kcode" -->
+<dd>
+Returns CES. The format of the return value is same as
+Regexp#kcode. If this method returns nil, it represents that
+$KCODE decides the CES.</dd>
+<dt><a name="label-56" id="label-56"><code>XMLScan::XMLScanner#parse(<var>source</var>)</code></a></dt><!-- RDLabel: "XMLScan::XMLScanner#parse" -->
+<dd>
+Parses <var>source</var> as an XML document. <var>source</var> must be
+a string, an array of strings, or an object which responds to
+gets method which behaves same as IO#gets does.</dd>
+</dl>
+<h3><a name="label-57" id="label-57">XMLScan::XMLParser</a></h3><!-- RDLabel: "XMLScan::XMLParser" -->
+<p>The non-validating XML parser.</p>
+<p>The conformance of XMLScan::XMLParser to the specification
+is described in another document.</p>
+<h4><a name="label-58" id="label-58">SuperClass:</a></h4><!-- RDLabel: "SuperClass:" -->
+<ul>
+<li><a href="#label-48">XMLScan::XMLScanner</a></li>
+</ul>
+<h4><a name="label-59" id="label-59">Class Methods:</a></h4><!-- RDLabel: "Class Methods:" -->
+<dl>
+<dt><a name="label-60" id="label-60"><code>XMLScan::XMLParser.new(<var>visitor</var>[, <var>option</var> ...])</code></a></dt><!-- RDLabel: "XMLScan::XMLParser.new" -->
+<dd>
+<p>XMLScan::XMLParser makes sure the following for each
+method of <var>visitor</var>:</p>
+<dl>
+<dt><a name="label-61" id="label-61"><a href="#label-38">XMLScan::Visitor#on_stag</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_stag" -->
+<dd>
+After calling this method, XMLScan::Parser always call
+corresponding <a href="#label-47">XMLScan::Visitor#on_etag</a> method.
+</dd>
+</dl>
+<p>In addition, if you never intend error recovery, method calls
+which must not be occurred in a well-formed XML document are
+all suppressed.</p></dd>
+</dl>
+<h3><a name="label-62" id="label-62">XMLScan::HTMLScanner</a></h3><!-- RDLabel: "XMLScan::HTMLScanner" -->
+<p>An HTML parser based on <a href="#label-48">XMLScan::XMLScanner</a>.</p>
+<p>The conformance of XMLScan::HTMLScanner to the specification
+is described in another document.</p>
+<h4><a name="label-63" id="label-63">SuperClass:</a></h4><!-- RDLabel: "SuperClass:" -->
+<ul>
+<li><a href="#label-48">XMLScan::XMLScanner</a></li>
+</ul>
+<h4><a name="label-64" id="label-64">Class Methods:</a></h4><!-- RDLabel: "Class Methods:" -->
+<dl>
+<dt><a name="label-65" id="label-65"><code>XMLScan::HTMLScanner.new(<var>visitor</var>[, <var>option</var> ...])</code></a></dt><!-- RDLabel: "XMLScan::HTMLScanner.new" -->
+<dd>
+XMLScan::HTMLScanner makes sure the following for each
+method of <var>visitor</var>:
+<dl>
+<dt><a name="label-66" id="label-66"><a href="#label-23">XMLScan::Visitor#on_xmldecl</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl" -->
+<dt><a name="label-67" id="label-67"><a href="#label-24">XMLScan::Visitor#on_xmldecl_version</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_version" -->
+<dt><a name="label-68" id="label-68"><a href="#label-25">XMLScan::Visitor#on_xmldecl_encoding</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_encoding" -->
+<dt><a name="label-69" id="label-69"><a href="#label-26">XMLScan::Visitor#on_xmldecl_standalone</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_standalone" -->
+<dt><a name="label-70" id="label-70"><a href="#label-28">XMLScan::Visitor#on_xmldecl_end</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_xmldecl_end" -->
+<dd>
+An XML declaration never appears in an HTML document,
+so XMLScan::HTMLScanner never calls these methods.
+</dd>
+<dt><a name="label-71" id="label-71"><a href="#label-45">XMLScan::Visitor#on_stag_end_empty</a></a></dt><!-- RDLabel: "XMLScan::Visitor#on_stag_end_empty" -->
+<dd>
+An empty element tag never appears in an HTML document,
+so XMLScan::HTMLScanner never calls this method.
+An empty element tag causes a parse error.
+</dd>
+<dt><a name="label-72" id="label-72"><a href="#label-18">XMLScan::Visitor#wellformed_error</a></a></dt><!-- RDLabel: "XMLScan::Visitor#wellformed_error" -->
+<dd>
+There is no well-formedness constraint for HTML,
+so XMLScan::HTMLScanner never calls this method.
+</dd>
+</dl></dd>
+</dl>
+
+</body>
+</html>

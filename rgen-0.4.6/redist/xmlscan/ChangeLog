@@ -1,0 +1,1301 @@
+Sun May 22 16:04:50 2005  NAKAMURA, Hiroshi  <nakahiro@sarion.co.jp>
+
+	* tests/runtest.rb: follow Test::Unit change.
+
+	* tests/testxmlchar.rb: requires tests/visitor.rb.
+
+Sun May 11 23:09:15 2003  Tanaka Akira  <akr@m17n.org>
+
+	* lib/xmlscan/scanner.rb (PrivateArray): avoid warning
+	`instance_methods parameter will default to 'true' in Jan 2004' of
+	Ruby-1.8.
+	(XMLScanner.provided_options): ditto.
+
+	* lib/xmlscan/visitor.rb (Decoration): ditto.
+
+Fri May  2 00:37:20 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/runtest.rb: run tests in safe level 2.
+
+Fri May  2 00:32:11 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Source#get): behavior of String#split has
+	changed from April 14 2003.
+	(XMLScanner#found_stag_error): ditto.
+	(XMLScanner#scan_stag): ditto.
+	(XMLScanner#get_until_qmark): ditto.
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_stag): ditto.
+
+Thu May  1 23:40:45 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (KcodeRegexp#kcode_regexp): removed excess
+	nils from parameter of Regexp#new.
+
+Wed Apr 30 12:03:11 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb (XMLChar): avoid warning 'character class
+	has `-' without escape' of Ruby-1.8.
+
+Sun Mar 23 11:16:59 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner::KcodeRegexp): slightly improved.
+
+Sat Mar 22 11:53:36 2003  NAKAMURA, Hiroshi <nahi@mwd.biglobe.ne.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): avoid warning 'character class
+	has `-' without escape' of Ruby-1.8.
+
+Mon Mar 17 11:13:32 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): '&;' now causes a
+	parse error.
+	(XMLScanner#scan_attvalue): ditto.
+
+	* tests/testscanner.rb (TestXMLScanner): likewise.
+
+Mon Mar 17 10:37:45 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_prolog): don't call
+	on_prolog_space if sequence of whitespace is empty.
+
+Sun Mar 16 11:37:36 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench/parser/rexml.rb: added BenchREXMLPull.
+
+Sun Mar 16 11:32:48 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench.rb: use fork to run each benchmark in almost same
+	environment.
+
+Fri Feb 28 21:29:23 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/runtest.rb: use Test::Unit.
+	* tests/deftestcase.rb: ditto.
+	* tests/testencoding.rb: ditto.
+	* tests/testhtmlscan.rb: ditto.
+	* tests/testnamespace.rb: ditto.
+	* tests/testparser.rb: ditto.
+	* tests/testscanner.rb: ditto.
+	* tests/testxmlchar.rb: ditto.
+
+Fri Feb 28 21:08:06 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb (deftestcase): improved.
+
+Fri Feb 28 21:06:00 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testxmlchar.rb (TestXMLScannerStrict): added testcases for
+	XMLScanner::StrictChar.
+
+Fri Feb 28 21:04:32 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb (XMLScanner::StrictChar#check_valid_name):
+	changed the exception message.
+
+Sat Feb 15 22:17:23 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Source#get): fixed a bug about line
+	concatenation.
+
+Tue Feb 11 03:08:12 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#on_stag): allow / in attribute
+	values.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): likewise.
+
+Thu Jan 30 20:44:10 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* test.rb: set $-w true before require.
+
+Thu Jan 23 02:00:14 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* unstable version 0.3.0 started.
+
+Thu Jan 23 01:54:01 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* stable version 0.2.1 released.
+
+Thu Jan 23 01:46:08 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlconftest.rb: changed the log format.
+
+Thu Jan 23 01:41:58 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/src/Makefile: new file.
+
+Thu Jan 23 01:40:58 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/: rearrenged the files.
+
+Thu Jan 23 00:34:19 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/changes.rd: new file.
+
+	* doc/.cvsignore: added changes.html.
+
+Thu Jan 23 00:32:53 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src: updated.
+
+Wed Jan 22 23:32:23 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/Makefile.rb: removed.
+
+Wed Jan 22 21:55:57 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser): commented out on_charref_hex and
+	on_attr_charref_hex.
+	(XMLParser#on_stag_end_empty): calls @visitor.on_stag_end_empty, not
+	on_stag_end and on_etag.
+
+	* lib/xmlscan/namespace.rb (XMLParserNS): followed the above changes.
+	(NSVisitor#on_stag_end_empty_ns): new method.
+
+	* tests/testparser.rb: likewise.
+	* tests/testnamespace.rb: likewise.
+
+Tue Jan 21 23:52:38 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb: rewrote.
+
+	* tests/testscanner.rb: followed new deftestcase.rb.
+	* tests/testparser.rb: ditto.
+	* tests/testnamespace.rb: ditto.
+	* tests/testhtmlscan.rb: ditto.
+
+Mon Jan 20 07:35:54 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_prolog): String#strip
+	eliminates not only XML whitespaces but any space characters.
+	Use /[^ \t\r\n]/ !~ str instead.
+
+Mon Jan 20 06:56:42 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner.regexp_hash): renamed to
+	XMLScanner::KcodeRegexp.kcode_regexp.
+
+Mon Jan 20 00:49:30 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb: stop using global variables.
+
+Mon Jan 20 00:41:58 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb (StrictChar#check_valid_char): character
+	reference to illegal character should cause wellformed_error, not
+	parse_error.
+
+Sun Jan 19 23:43:51 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_prolog): bug fixed about
+	sole `>' in prolog.
+
+	* tests/testscanner.rb (TestXMLScanner): added a testcase for the
+	above.
+
+Sun Jan 19 23:30:11 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: tiny change for font-lock mode in Emacs.
+
+Sun Jan 19 16:18:21 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb (XMLChar): use regular expressions instead of
+	binary search.
+	(XMLChar.valid_char?): rewrote to use regexp.
+	(XMLChar.valid_chardata?): ditto.
+	(XMLChar.valid_nmtoken?): ditto.
+	(XMLChar.valid_name?): ditto.
+
+Sun Jan 19 16:17:16 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser): removed constant PredefinedEntity.
+
+Sun Jan 19 16:15:41 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb: in sample script, XMLParser -> XMLParserNS.
+
+Sun Jan 19 15:58:14 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testencoding.rb (TestEncoding): replaced NameError with
+	NoMethodError.
+
+Sat Jan 18 16:02:33 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench/parser/xmlscan.rb (BenchXMLScanParserNamespace#parse): adapted to 0.2.
+
+Sat Jan 18 05:50:16 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespaceDecoration#on_stag):
+	use String#include? instead of regexp to check whether a string
+	includes a `:'.
+	(XMLNamespaceDecoration#on_attribute): ditto.
+	(XMLNamespaceDecoration#on_pi): ditto.
+	(XMLNamespaceDecoration#on_entityref): ditto.
+	(XMLNamespaceDecoration#on_attr_entityref): ditto.
+	(XMLNamespaceDecoration#on_doctype): use String#count instead of
+	String#scan to count `:' in a string.
+
+Sat Jan 18 05:36:33 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb: NSParseError is a ParseError,
+	NSNotWellFormedError is a NotWellFormedError, and NSNotValidError is a
+	NotValidError.
+
+	* lib/xmlscan/namespace.rb (NSVisitor#ns_parse_error): raises
+	NSParseError, not ParseError.
+	(NSVisitor#ns_wellformed_error): raises NSNotWellFormedError.
+	(NSVisitor#ns_valid_error): raises NSNotValidError.
+
+Sat Jan 18 03:26:43 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src: updated for 0.2.
+
+Thu Jan 16 08:12:32 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): removed XMLScanner#regexp, and
+	added XMLScanner::regexp_hash.
+	(XMLScanner#scan_chardata): use regexp hash instead of generating a new
+	regexp in each time.
+	(XMLScanner#scan_attvalue): ditto.
+	(XMLScanner#scan_cdata): ditto.
+	(XMLScanner#scan_xmldecl): ditto.
+	(XMLScanner#skip_internal_dtd): ditto.
+	(XMLScanner#scan_doctype): ditto.
+
+Tue Jan 14 11:49:40 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Source): added an instance variable @last
+	to improve parsing speed.
+	(Source#get): rewrote.
+	(Source#inspect): changed the format.
+
+Mon Jan 13 13:06:52 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/visitor.rb: require 'xmlscan/version'
+
+Sun Jan 12 13:10:43 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testall.rb: added testencoding.rb.
+
+Sun Jan 12 13:08:09 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/encoding.rb: removed ConverterCapsule class, and added
+	SimpleConverter.
+	(EncodingClass#add_converter): use SimpleConverter.
+
+	* tests/testencoding.rb (TestEncoding): likewise.
+
+Sun Jan 12 12:33:59 2003  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser#on_entityref): commented out to
+	stop replacing references to predefined entities.
+	(XMLParser#on_attr_entityref): ditto.
+
+	* tests/testparser.rb: likewise.
+
+Mon Dec 30 02:17:35 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench/xmlbench-lib.rb (XMLBench): forgot adding `public'
+	before `def setup'.
+
+Mon Dec 30 00:18:23 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench/xmlbench-lib.rb: class methods accessing class
+	variables should define in class definition.
+	(XMLBench.parsers): removed.
+
+Fri Dec 27 06:11:20 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* README: updated.
+
+Fri Dec 27 06:07:59 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* install.rb: look for sitelibdir first.
+
+Fri Dec 27 06:04:18 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testhtmlscan.rb: deftestcase 'stag' has been repeated.
+
+Fri Dec 27 05:02:26 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src, doc/conformance.rd.src: spell checking.
+
+Fri Dec 27 04:23:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* memo/CONFORMANCE: slightly updated.
+
+Fri Dec 27 02:20:52 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench/xmlbench-lib.rb: new file.
+	* samples/xmlbench/parser/chibixml.rb: new file.
+	* samples/xmlbench/parser/nqxml.rb: new file.
+	* samples/xmlbench/parser/rexml.rb: new file.
+	* samples/xmlbench/parser/xmlparser.rb: new file.
+	* samples/xmlbench/parser/xmlscan.rb: new file.
+	* samples/xmlbench/parser/xmlscan-0.0.10.rb: new file.
+	* samples/xmlbench/parser/xmlscan-chibixml.rb: new file.
+	* samples/xmlbench/parser/xmlscan-rexml.rb: new file.
+
+	* samples/xmlbench.rb: rewrote to use xmlbench-lib.rb.
+	* samples/xmlconftest.rb: ditto.
+
+Fri Dec 27 02:09:38 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_doctype): bug fixed about
+	unterminated ID literals.
+
+	* tests/testscanner.rb (TestXMLScanner): added a testcase for
+	an unterminated DOCTYPE declaration.
+
+Wed Dec 25 17:21:11 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench.rb: Object#type is obsoleted. Use Object#class
+	instead.
+
+Tue Dec 24 22:45:41 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/encoding.rb: completely rewrote.
+
+	* tests/testencoding.rb: likewise.
+
+Tue Dec 24 17:06:48 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser): rewrote. The parsing state
+	is now hard-coded in XMLParser#scan_content. ElementChecker class,
+	XMLParser#scan_chardata and XMLParser#scan_cdata were removed.
+	XMLParser#on_stag and XMLParser#on_etag are partially rewritten.
+
+	* tests/testparser.rb (TestXMLParser): new XMLParser cannot report
+	the element type of another root element.
+
+Tue Dec 24 09:42:23 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testparser.rb (TestXMLParser): added a testcase to
+	element_nesting.
+
+Tue Dec 24 09:40:57 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#inspect): changed the format.
+
+Tue Dec 24 09:35:52 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_content): store a value of
+	an instance variable to a local variable in advance for speed.
+	(XMLScanner#scan_prolog): ditto.
+
+Mon Dec 23 17:18:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): a whitespace
+	between `&' and `;' should cause an error.
+	(XMLScanner#scan_attvalue): ditto.
+
+	* tests/testscanner.rb: likewise.
+
+Mon Dec 23 16:50:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): prevent dynamic
+	variable allocation in a block.
+	(XMLScanner#scan_attvalue): ditto.
+
+Mon Dec 23 16:26:05 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): replaced
+	split(/&/n) with split('&').
+	(XMLScanner#scan_attvalue): ditto.
+
+Mon Dec 23 16:22:58 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_doctype): took out the
+	generation of regular expression to outside of the loop.
+
+Mon Dec 23 15:31:37 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): prevent dynamic
+	variable allocation in a block.
+
+Mon Dec 23 01:34:42 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* install.rb: new file.
+
+Fri Dec 20 17:49:12 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/encoding.rb: new file.
+
+	* tests/testencoding.rb: new file. testcases for encoding.rb.
+
+Fri Dec 20 02:29:54 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: in considerations for charsets,
+	charset -> character encoding.
+
+Fri Dec 20 00:39:57 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/version.rb: renamed Version to VERSION, and added
+	XMLScan::RELEASE_DATE.
+
+Wed Dec 18 12:43:28 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#kcode=): third argument of
+	Regexp::new must not be nil.
+
+Wed Dec 18 12:41:51 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestXMLScanner): added testcases for
+	XMLScanner#kcode, XMLScanner#lineno and XMLScanner#path.
+
+Wed Dec 18 03:30:37 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestXMLScanner): added
+	TestXMLScanner#test_emptyhstring and TextXMLScanner#test_nil.
+
+Wed Dec 18 03:25:07 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLSource): removed XMLSource#first_get and
+	added XMLSource#prepare.
+
+Tue Dec 10 20:15:39 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb: added 'n' flags to all $KCODE-independent
+	regular	expressions.
+
+Tue Dec 10 20:14:09 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb: added 'n' flags to all $KCODE-independent
+	regular	expressions.
+
+Tue Dec 10 20:12:15 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Source#inspect,Source#each): new methods
+	for debug.
+
+Tue Dec 10 20:05:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: added considerations for charsets.
+
+	* lib/xmlscan/scanner.rb: added 'n' flags to all $KCODE-independent
+	regular	expressions.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#regexp): new method.
+	$KCODE-dependent regular expressions are generated in run time
+	by this method.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#kcode,XMLScanner#kcode=):
+	new method.
+
+Tue Dec  3 09:20:01 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input#initialize): @src should keep original
+	source object, so don't modify @src.
+
+Tue Dec  3 08:49:57 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (PrivateArray): keep common methods (defined
+	in Kernel) public.
+
+Tue Dec  3 08:34:49 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#close_tag): a comment has
+	been contradicting the code.
+
+Mon Dec  2 23:10:12 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): use /[\S\s]*/ instead
+	of /.*/ in order to make the regex match the whole of a string even
+	if the string includes a broken character.
+
+Mon Dec  2 21:21:52 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_cdata): ?] may appear as
+	the second octet of a multi-byte character in Shift_JIS.
+	cdata[-1] == ?] should be replaced with /\]\z/ =~ cdata.
+
+Mon Oct 14 03:43:38 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#make_source): new method.
+	(XMLScanner#parse_document): use the new factory method to make an
+	instance of Source.
+
+Fri Oct 11 10:29:41 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: separated Error, Visitor, Decoration to
+	visitor.rb.
+
+	* lib/xmlscan/visitor.rb: new file. derived from scanner.rb.
+
+Thu Oct 10 13:27:04 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#initialize, XMLScanner#decorate):
+	new decoration framework.
+
+	* lib/xmlscan/namespace.rb (XMLNamespaceDecoration): renamed
+	XMLNamespace class to XMLNamespaceDecoration.
+
+	* lib/xmlscan/namespace.rb (XMLParserNS): new class. replacement of
+	namespace option for XMLParser.
+
+	* tests/testnamespace.rb (TestXMLNamespace#setup): use XMLParserNS.
+
+Thu Oct 10 13:19:19 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_xmldecl): if an unterminated
+	literal is found, call parse_error method at first, and then call
+	on_xmldecl_* method.
+
+Thu Oct 10 13:11:06 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (NSVisitor): merged NSVisitor#on_namespace
+	and NSVisitor#on_stag_end into NSVisitor#on_stag_end_ns.
+	(XMLNamespace#on_stag_end): likewise.
+
+	* tests/testnamespace.rb (TestXMLNamespace): likewise.
+
+Thu Oct 10 08:23:46 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* unstable version 0.2.0 started.
+
+Thu Oct 10 03:05:34 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* stable version 0.1.1 released.
+
+Wed Oct  9 23:40:47 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src: added subterfuge about XML Namespaces.
+
+Wed Oct  9 12:15:47 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/conformance.rd.src: added descriptions for linebreaks.
+
+	* doc/manual.rd.src: updated descriptions for XMLScan::Visitor#warning.
+
+Tue Oct  8 18:30:26 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src: updated and added explanations for HTMLScanner.
+
+Mon Oct  7 20:23:33 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/conformance.rd.src: added $Id: $.
+
+	* doc/manual.rd.src: ditto.
+
+Mon Oct  7 20:21:08 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* doc/manual.rd.src: new file.
+	* doc/conformance.rd.src: new file.
+	* doc/langsplit.rb: new file.
+	* doc/Makefile.rb: new file.
+	* doc/.cvsignore: new file.
+
+Sat Oct  5 10:40:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE, memo/CONFORMANCE: moved CONFORMANCE into memo/.
+
+	* PRODUCTIONS, memo/PRODUCTIONS: moved PRODUCTIONS into memo/.
+
+Tue Oct  1 15:27:46 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespace#on_stag): prefix `xmlns' may
+	not appear as a part of an element type name.
+
+	* tests/testnamespace.rb (TestXMLNamespace): likewise.
+
+Tue Oct  1 15:12:51 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespace): each reserved namespace
+	prefix is considered to be declared implicitly at where the prefix is
+	used, not at first.
+
+	* tests/testnamespace.rb (TestXMLNamespace): likewise.
+
+Mon Sep 30 17:23:43 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* release candidate version 0.1.0rc2 released.
+
+Mon Sep 30 17:10:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespace): don't make a hash par a
+	start tag for a namespace scope, push nil instead.
+
+Mon Sep 30 14:31:55 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespace): tune up.
+
+Mon Sep 30 10:19:23 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testnamespace.rb (TextXMLNamespace): added a testcase for
+	doubled localpart in the same namespace.
+
+Mon Sep 30 07:23:36 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testnamespace.rb (TestXMLNamespace): renamed TestXMLNamespaces
+	to TestXMLNamespace.
+
+	* tests/testnamespace.rb (TestXMLNamespace): added a testcase for
+	a triple-colon attribute.
+
+Mon Sep 30 07:21:26 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb (XMLNamespace): tune up.
+	added XMLNamespace::NamespaceDeclaration class and moved some method
+	from XMLNamespace to the new class.
+
+Mon Sep 30 00:54:57 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/rexml.rb: new file.
+
+	* samples/xmlbench.rb: added samples/rexml.rb.
+
+Sun Sep 29 15:04:21 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#on_xmldecl): new method, called
+	when the parser meets XML declaration.
+	(XMLScanner#on_xmldecl_end): new method, called when the parser meets
+	the end of XML declaration.
+	(Visitor#on_xmldecl,Visitor#on_xmldecl_end): also added.
+
+	* lib/xmlscan/htmlscan.rb: adapted to the above changes.
+
+	* tests/testscanner.rb, tests/testparser.rb: likewise.
+
+Sun Sep 29 14:14:13 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner.apply_options): raises
+	ArgumentError if an undefined option is specified.
+
+Sat Sep 28 20:47:14 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* release candidate version 0.1.0rc1 released.
+
+Sat Sep 28 19:56:50 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/xmlbench.rb: defined dummy entity resolver for
+	xmlscan-0.0.10.
+
+Sat Sep 28 19:50:43 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/chibixml.rb: new file.
+
+	* samples/xmlbench.rb: new file.
+
+	* samples/xmlconftest.rb: new file.
+
+Sat Sep 28 18:39:56 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Source#first_get): nil can be returned from
+	Source#get.
+
+Sat Sep 28 16:24:53 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: updated.
+
+Sat Sep 28 16:20:55 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/namespace.rb: new file.
+
+	* tests/testnamespace.rb: new file. testcases for namespace.rb.
+
+	* tests/testall.rb: added testnamespace.rb
+
+Sat Sep 28 14:16:05 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#decorate): new private method.
+
+Sat Sep 28 14:13:54 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Decoration): Decoration should be a class,
+	not a module.
+
+Sat Sep 28 14:07:08 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser#on_stag_end_empty): expand
+	on_stag_end_empty to on_stag_end and on_etag_end. XMLParser never
+	calls Visitor#on_stag_end_empty.
+
+	* lib/xmlscan/parser.rb (XMLParser#on_charref_hex): forward to
+	Visitor#on_charref. XMLParser never calls Visitor#on_charref_hex.
+	(XMLParser#on_attr_charref_hex): ditto.
+
+	* tests/testparser.rb: likewise.
+
+Sat Sep 28 14:01:01 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testparser.rb (TestXMLParser): added testcases for ignorable
+	spaces.
+
+Sat Sep 28 03:43:58 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#on_end_document): renamed
+	XMLScanner#on_eof to XMLScanner#on_end_document.
+	(XMLScanner#on_start_document): added new method.
+	(Visitor#on_start_document): ditto.
+
+	* lib/xmlscan/parser.rb: adapted to the above change.
+
+	* tests/testscanner.rb: adapted to the above change.
+	* tests/testparser.rb: ditto.
+	* tests/testhtmlscan.rb: ditto.
+
+Sat Sep 28 02:16:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: added quotations from ``Namespaces in XML'' Section
+	5.1-3 and their translation.
+
+Sat Sep 28 01:51:53 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: corrected mistranslation.
+
+Sat Sep 28 00:31:02 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): replaced almost all /\s/ with
+	/[ \t\n\r]/, because /\s/ matches not only #x20, #x9, #xA and #xD,
+	but also #xC.
+
+	* tests/testscanner.rb (TestXMLScanner): added testcases for checking
+	for "\f".
+
+	* PRODUCTIONS: updated.
+
+Fri Sep 27 23:45:49 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): s/expansion/option/
+
+	* lib/xmlscan/xmlchar.rb (XMLScanner): ditto.
+
+Fri Sep 27 12:08:42 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* PRODUCTIONS: updated.
+
+Fri Sep 27 12:02:55 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser#on_doctype): check whether public
+	external ID have both public ID and system ID.
+
+	* tests/testparser.rb (TestXMLParser): added testcases for doctype.
+
+Fri Sep 27 11:49:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser#on_xmldecl_version): check version.
+	(XMLParser#on_xmldecl_standalone): check either yes or no and save
+	the value.
+
+	* tests/testparser.rb (TestXMLParser): added testcases for xmldecl.
+
+Fri Sep 27 11:38:54 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/xmlchar.rb: new file.
+
+	* tests/testxmlchar.rb: new file. testcases for xmlchar.rb.
+
+	* tests/testall.rb: added testxmlchar.rb.
+
+Fri Sep 27 11:33:08 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/getxmlchar.rb: changed the format of output.
+
+Fri Sep 27 11:31:17 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#on_xmldecl_version):
+	calling this method raises RuntimeError exception.
+	(HTMLScanner#on_xmldecl_encoding): ditto.
+	(HTMLScanner#on_xmldecl_standalone): ditto.
+	(HTMLScanner#on_xmldecl_other): ditto.
+	(HTMLScanner#on_stag_end_empty): ditto.
+
+Fri Sep 27 11:29:28 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_xmldecl): check the order
+	of `version', `encoding' and `standalone'.
+	(XMLScanner#on_xmldecl): replaced by new methods;
+	XMLScanner#on_xmldecl_version, XMLScanner#on_xmldecl_encoding,
+	XMLScanner#on_xmldecl_standalone and XMLScanner#on_xmldecl_other.
+	(Visitor#on_xmldecl): ditto.
+
+	* tests/testscanner.rb (TestXMLScanner): rewrote testcases for xmldecl.
+
+	* lib/xmlscan/htmlscan.rb: adapted to the above changes.
+
+Fri Sep 27 03:21:42 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb (XMLParser#on_pi): check reserved PI target.
+
+	* tests/testparser.rb (TestXMLParser): likewise.
+
+Thu Sep 26 12:46:18 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testparser.rb: wrong filename was commented.
+
+Thu Sep 26 12:30:16 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* samples/getxmlchar.rb: new file.
+
+Thu Sep 26 12:28:20 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#initialize): corrected garbages.
+
+Thu Sep 26 12:16:35 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): added expansible framework;
+	added new methods XMLScanner::provided_expansions,
+	XMLScanner::apply_expansion and XMLScanner::apply_expansions,
+	and overrided XMLScanner::new.
+
+Thu Sep 26 07:28:22 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testparser.rb (TestXMLParser): added testcases for doubled
+	attribute.
+
+Thu Sep 26 03:07:59 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/parser.rb: new file.
+
+	* tests/testparser.rb: new file. testcase for parser.rb.
+
+	* tests/testall.rb: added testparser.rb.
+
+	* CONFORMANCE, PRODUCTIONS: updated.
+
+Thu Sep 26 00:25:22 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#warning): new method.
+	(XMLScanner#scan_internal_dtd): it is not parse error that DTD subset
+	is not supported. It should be warning.
+
+	* tests/testscanner.rb (TestVisitor,TestXMLScanner): likewise.
+
+Wed Sep 25 23:26:59 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_xml_pi): save
+	XMLScanner#scan_pi as HTMLScanner#scan_xml_pi.
+
+Wed Sep 25 23:18:41 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_etag): calls found_empty_etag
+	only when the parser meets just `</>'. `</<' is not a empty end tag.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#found_empty_etag): an empty end
+	tag is reported as character data.
+	(XMLScanner#found_empty_stag): ditto.
+
+	* tests/testscanner.rb (TestXMLScanner): added testcases for empty
+	tags.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): adapted to the above
+	changes.
+
+Wed Sep 25 08:23:49 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_bang_tag): <!> is a	legal
+	comment in SGML.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): likewise.
+
+Wed Sep 25 07:46:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: updated the translation.
+
+Wed Sep 25 07:28:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb: forgot to rename RawVisitor to Visitor in
+	sample script.
+
+Wed Sep 25 07:23:41 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input#test): bugfix.
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#get_cdata_content): new method.
+
+	* tests/testhtmlscan.rb: added testcases for CDATA content.
+
+Wed Sep 25 06:56:24 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input#test): new method.
+
+Wed Sep 25 06:46:12 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_cdata): removed.
+	HTMLScanner now parses CDATA sections, which HTML recommends to avoid
+	to use, without any warnings.
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_cdata): changed an error
+	message.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): likewise.
+
+Wed Sep 25 06:31:27 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: renamed RawVisitor to Visitor.
+
+	* tests/testscanner.rb: likewise.
+
+	* tests/visitor.rb: rewrote. new module RecordingVisitor.
+
+	* tests/testscanner.rb: use RecordingVisitor.
+
+	* tests/testhtmlscan.rb: ditto.
+
+Wed Sep 25 01:50:15 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: sample script caused errors when $VERBOSE is
+	true.
+
+	* lib/xmlscan/htmlscan.rb: ditto.
+
+Wed Sep 25 01:40:39 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): added testcases for doctype.
+
+Tue Sep 24 23:43:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb: '$id: $' is typo of '$Id: $'. fixed.
+	* tests/testhtmlscan.rb: ditto.
+	* tests/visitor.rb: ditto.
+
+Tue Sep 24 23:42:06 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestXMLScanner): added some testcases for
+	prolog.
+
+Tue Sep 24 23:37:46 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner): doesn't take care of XHTML.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): likewise.
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_prolog): added.
+	In HTML, XML declaration doesn't appear and DOCTYPE is
+	case-insensitive.
+	(HTMLScanner#found_invalid_pubsys): added. In HTML, PUBLIC and SYSTEM
+	are case-insensitive.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): added testcases for prolog
+	and doctype.
+
+Tue Sep 24 23:23:45 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#found_invalid_pubsys): added a
+	templete method called from XMLScanner#scan_doctype.
+
+	* tests/testscanner.rb (TestXMLScanner): add some testcases for
+	doctype.
+
+Tue Sep 24 23:02:21 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_prolog): improved
+	readability.
+
+Tue Sep 24 22:59:35 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_prolog): document type
+	declaration can appear only one time in a XML document.
+
+	* tests/testscanner.rb (TestXMLScanner): add testcases for the above.
+
+Tue Sep 24 22:14:28 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#scan_stag): rewrote based on
+	old XMLScanner#scan_stag. The syntax of HTML start tag is similar to
+	XML one, but is not same.
+
+	* tests/testhtmlscan.rb (TestHTMLScanner): added testcase for stag
+	and some ones for attribute.
+
+Tue Sep 24 21:45:05 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#get_until_qmark): improved.
+
+Tue Sep 24 21:25:02 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan): rewrote.
+	XMLScanner now doesn't recover foo=bar as foo="bar".
+	(XMLScanner#found_unquoted_attvalue): removed.
+	(XMLScanner#found_omitted_attvalue): removed.
+	(XMLScanner#found_lt_in_attvalue): removed.
+	(XMLScanner#found_stag_error): added.
+
+	* tests/testscanner.rb: likewise.
+
+Tue Sep 24 19:35:12 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/runtest.rb (suite): bugfix.
+
+Tue Sep 24 19:18:42 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* PRODUCTIONS: updated.
+
+Mon Sep 23 00:01:45 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#valid_error): added.
+
+	* tests/testscanner.rb (TestRawVisitor#test_method_defined): added
+	valid_error.
+
+Sun Sep 22 16:06:37 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Decoration): new mix-in.
+
+Sun Sep 22 14:32:30 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (NotValidError): new exception.
+	(RawVisitor#valid_error): added.
+
+Sun Sep 22 14:30:53 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input): removed Input#send and added
+	Input#src, Input::unwrap.
+	(Source#source, XMLScanner#source): added.
+
+Sun Sep 22 14:25:40 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* PRODUCTIONS: new file.
+
+Sun Sep 22 08:17:08 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): renamed
+	XMLScanner#scan_content to XMLScanner#scan_chardata.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_chardata): renamed
+	XMLScanner#scan_body to XMLScanner#scan_content.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_document): rename
+	XMLScanner#scan_doc to XMLScanner#scan_document.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#parse_document): rename
+	XMLScanner#parse to XMLScanner#parse_document. XMLScanner#parse
+	is alias to XMLScanner#parse_document.
+
+	* tests/testscanner.rb (TestXMLScanner): renamed testcase 'content' to
+	'chardata'.
+
+Sun Sep 22 07:58:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (RawVisitor): new mix-in.
+
+	* lib/xmlscan/scanner.rb (XMLScanner): applied Visitor pattern.
+	(XMLScanner#initialize): get visitor as first argument.
+
+	* lib/xmlscan/htmlscan.rb: likewise.
+	(HTMLScanner#on_omitted_attribute): removed. use on_attr_value(nil)
+	instead.
+
+	* tests/visitor.rb: new file.
+
+	* tests/testscanner.rb (TestRawVisitor): new test class.
+
+	* tests/testscanner.rb (TestXMLScanner): use RawVisitor instead of
+	creating subclass.
+	* tests/testhtmlscan.rb (TestHTMLScanner): ditto.
+
+Sun Sep 22 04:39:35 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_xmldecl): removed unused
+	variables.
+
+Sun Sep 22 02:22:21 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb (HTMLScanner#found_lt_in_attvalue):
+	`<' in attribute value occurs no error in HTML mode.
+	(HTMLScanner#on_stag_end_empty): empty element tag is not allowed in
+	HTML.
+
+	* tests/testhtmlscan.rb: likewise.
+
+Sun Sep 22 02:21:00 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestXMLScanner): removed deprecated method
+	on_emptyelem.
+
+Sun Sep 22 01:59:29 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb: get filename from caller instead of __FILE__.
+
+Sun Sep 22 00:14:21 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): calls on_stag_end or
+	on_stag_end_empty when parser meets the end of start tag.
+
+	* tests/testscanner.rb, tests/testhtmlscan.rb: likewise.
+
+Sat Sep 21 21:10:40 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: removed debugging codes.
+
+Sat Sep 21 20:55:56 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner): on_* method must do nothing
+	by default.
+
+Sat Sep 21 14:43:49 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): changed the behavior.
+	see the comment for on_stag in scanner.rb for details.
+
+	* tests/testscanner.rb: likewise.
+
+	* lib/xmlscan/htmlscan.rb: adapted to the above change.
+
+	* tests/testhtmlscan.rb: likewise.
+
+	* CONFORMANCE: `Unique Att Spec' is not checked by XMLScanner now.
+
+Sat Sep 21 12:59:43 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: added the description of on_attr_* method.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#on_attr_name): should do nothing
+	by default.
+	(XMLScanner#on_attr_value): ditto.
+	(XMLScanner#on_attribure): returns nil by default.
+
+Fri Sep 20 04:08:45 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/runtest.rb: improvement.
+
+Fri Sep 20 04:06:07 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb: tiny improvement.
+
+Fri Sep 20 04:05:20 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: minor change.
+
+Fri Sep 20 03:19:25 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* unstable version 0.1.0 released.
+
+Fri Sep 20 03:19:01 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/version.rb: new file.
+
+Thu Sep 19 04:28:12 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: renamed WellFormednessConstraintViolation
+	exception to NotWellFormedError.
+
+	* lib/xmlscan/scanner.rb (XMLScanner#path): fixed typo.
+
+Thu Sep 19 03:06:24 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestXMLScanner): added one testcase for
+	attribute.
+
+Thu Sep 19 03:05:16 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/htmlscan.rb: new file.
+
+	* tests/testhtmlscan.rb: new file. testcases for htmlscan.rb.
+
+	* tests/testall.rb: added require 'testhtmlscan'.
+
+Thu Sep 19 02:18:17 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb: fixed typo.
+
+Thu Sep 19 02:16:47 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/deftestcase.rb: new file. derived from tests/testscanner.rb.
+
+Thu Sep 19 01:16:00 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_comment): a comment ending in
+	`--->' is not allowed in XML 1.0 specification second edition, and
+	`-- >' is not recognized as a end of a comment.
+	(XMLScanner#found_sgml_comment): removed.
+
+	* tests/testscanner.rb (TestXMLScanner): updated testcases about
+	comments ending in `--->' or `-- >'.
+
+Wed Sep 18 14:08:02 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_comment): assumes that
+	comment is always terminated with `-->' or `-- >' even if an error
+	occurs.
+	(XMLScanner#found_sgml_comment): new method, which calls when a
+	comment terminated with `-- >' is found.
+
+	* tests/testscanner.rb: updated and added some testcases.
+
+Wed Sep 18 11:34:29 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb: renamed TestScanner to TestXMLScanner, and
+	moved ScannerForTest into inside of TestXMLScanner.
+
+Wed Sep 18 11:30:26 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#skip_internal_dtd): derived from
+	XMLScanner#scan_internal_dtd.
+
+Wed Sep 18 03:53:16 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: updated.
+
+Wed Sep 18 02:45:28 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: added Namespace constraints.
+
+Tue Sep 17 23:23:54 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#on_prolog_space): added.
+
+	* tests/testscanner.rb (TestScanner): likewise.
+
+Tue Sep 17 21:15:20 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* CONFORMANCE: updated.
+
+Tue Sep 17 20:56:26 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* tests/testscanner.rb (TestScanner): added testcases for scan_prolog.
+
+Tue Sep 17 20:55:52 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#get_plain): optimized.
+
+Tue Sep 17 20:17:30 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): improved.
+
+Tue Sep 17 10:27:45 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): improved.
+
+	* tests/testscanner.rb: added a few tests.
+
+Tue Sep 17 09:30:04 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (XMLScanner#scan_stag): doubled attribute and
+	including `<' in an attribute value is well-formedness constraint
+	violation, not parse error.
+
+	* tests/testscanner.rb: likewise.
+
+Tue Sep 17 09:24:10 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input#lineno): typo fixed.
+	(Input#path): ditto.
+
+	* lib/xmlscan/scanner.rb (TestScanner): prints error messages if
+	$VERBOSE is true.
+
+Tue Sep 17 09:19:58 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb (Input): removed old Input#close_tag.
+
+	* lib/xmlscan/scanner.rb (Input#close_tag): improved.
+
+Tue Sep 17 09:01:20 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* test.rb: new file.
+
+	* tests/runtest.rb: new file.
+
+	* tests/testall.rb: new file.
+
+	* tests/testscanner.rb: new file. testcases for scanner.rb.
+
+Tue Sep 17 09:00:40 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* lib/xmlscan/scanner.rb: rewrote.
+
+Thu Sep 12 05:41:46 2002  UENO Katsuhiro  <katsu@blue.sky.or.jp>
+
+	* restart the project.

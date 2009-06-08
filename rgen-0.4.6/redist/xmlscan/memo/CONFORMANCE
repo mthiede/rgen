@@ -1,0 +1,1249 @@
+$Id: CONFORMANCE,v 1.2 2002/12/26 19:27:02 katsu Exp $
+
+| English:
+|
+| Original English statements are all quoted from XML 1.0 specification[1],
+| Namespaces in XML[3], and its errata[4]. Japanese statements are almost
+| quoted from the Japanese translation of XML 1.0 specification[2] and
+| modified by me to adapt to the second edition. New constraints added from
+| the second edition and constraints about XML namespaces are translated
+| into Japanese by me.
+|
+| Each line which begins with `==>' at the end of each constraint is
+| displayed whether xmlscan implements that constraint or not.
+|
+| You can suppress Japanese sentences in this way:
+|
+|   ruby -ne 'print unless ~/\e/' CONFORMANCE
+
+
+Japanese / 日本語:
+
+英語の原文は XML 1.0 specification[1], Namespaces in XML[3], 及びそれの
+eratta[4]から引用した。日本語訳は大部分を XML 1.0 の日本語訳[2]から引用し、
+第2版への対応等のため若干手を加えた。XML 1.0 第2版から新たに加わった制約、
+及び名前空間に関する制約の日本語訳は拙訳である。
+
+各制約の末尾にある `==>' で始まる行は、現在の xmlscan における当該制約の
+実装状況を示す。
+
+次のようにすれば英語の文を隠すことができる。
+
+  ruby -ne 'print unless ~/^\|/' CONFORMANCE
+
+
+
+[1] Tim Bray, Jean Paoli, C.M. Sperberg-McQueen, and Eve Maler.
+    Extensible Markup Language (XML) 1.0 (Second Edition) Review Version.
+    World Wide Web Consortium, 2000.
+    (URL: http://www.w3.org/TR/2000/REC-xml-20001006-review.html)
+
+[2] 日本規格協会 INSTAC S-WG 訳 『拡張可能なマーク付け言語 (XML) 1.0』
+    (URL: http://www.fxis.co.jp/DMS/sgml/xml/wrapper-xml-19980210.html)
+
+[3] Tim Bray, Dave Hollander, Andrew Layman. Namespaces in XML.
+    World Wide Web Consortium, 1999.
+    (URL: http://www.w3.org/TR/1999/REC-xml-names-19990114/)
+
+[4] Namespaces in XML Errata, 29 April 2002. World Wide Web Consortium.
+    (URL: http://www.w3.org/XML/xml-names-19990114-errata)
+
+
+
+
+
+
+
+| 2.1 Well-Formed XML Documents
+|
+| [Definition: A textual object is a well-formed XML document if:]
+|
+|  1. Taken as a whole, it matches the production labeled document.
+|  2. It meets all the well-formedness constraints given in this specification.
+|  3. Each of the parsed entities which is referenced directly or indirectly
+|     within the document is well-formed.
+
+2.1 整形式のXML文書
+
+[Definition: あるテキストオブジェクトが、次の条件を満たすとき、
+そのテキストオブジェクトを整形式のXML文書と呼ぶ。]
+
+ a) 全体として、documentというラベルをもつ生成規則にマッチする。
+ b) この標準情報(TR)で定義するすべての整形式制約に従う。
+ c) 文書内で直接的または間接的に参照されるそれぞれの解析対象実体が整形式と
+    なる。
+
+
+
+
+| [Definition: Validating processors must[INS:[E21], at user option,:INS]
+| report violations of the constraints expressed by the declarations in the
+| DTD, and failures to fulfill the validity constraints given in this
+| specification.] To accomplish this, validating XML processors must read and
+| process the entire DTD and all external parsed entities referenced in the
+| document.
+|
+| Non-validating processors are required to check only the document entity,
+| including the entire internal DTD subset, for well-formedness. [Definition:
+| While they are not required to check the document for validity, they are
+| required to process all the declarations they read in the internal DTD subset
+| and in any parameter entity that they read, up to the first reference to a
+| parameter entity that they do not read; that is to say, they must use the
+| information in those declarations to normalize attribute values, include the
+| replacement text of internal entities, and supply default attribute values.]
+| [INS:[E33]Except when standalone="yes",:INS] they must not process entity
+| declarations or attribute-list declarations encountered after a reference
+| to a parameter entity that is not read, since the entity may have contained
+| overriding declarations.
+
+[Definition: 妥当性を検証するプロセサは、[INS:ユーザのオプション指定に
+よっては、:INS]DTD内の宣言によって示された制約への違反と、この標準情報
+(TR)が規定する妥当性制約への違反とを、すべて報告しなければならない。]
+これを実現するために、妥当性を検証するXMLプロセサは、DTD全体と文書内で
+参照されているすべての外部解析対象実体とを読み込んで処理しなければならない。
+
+妥当性を検証しないプロセサは、整形式であることを確認するために、
+DTDの内部サブセット全体を含めた文書実体を調べることだけが義務づけられている。
+[Definition: 文書の妥当性を確認する必要はないが、読み込んでいない
+パラメタ実体への参照が最初に起きるまでに読み込んだDTDの内部サブセットと
+パラメタ実体とに現れるすべての宣言を処理しなければならない。
+すなわち、属性値を正規化し、内部実体の置換テキストを取込み、
+デフォルトの属性値を与えるために、これらの宣言にある情報を使用しなければ
+ならない。]
+[INS:standalone="yes" である場合を除き、:INS]実体の宣言は上書きされる
+可能性があるので、妥当性を検証しないプロセサは、読み込んでいない
+パラメタ実体への参照より後に現れた実体宣言及び属性リスト宣言を処理しては
+ならない。
+
+
+
+
+
+
+| [INS:Parameter entity references are recognized anywhere in the DTD
+| (internal and external subsets and external parameter entities), except
+| in literals, processing instructions, comments, and the contents of
+| ignored conditional sections (see 3.4 Conditional Sections). They are also
+| recognized in entity value literals. The use of parameter entities in the
+| internal subset is restricted as described below.:INS]
+
+[INS:パラメタ実体参照はリテラル、処理命令、コメント、及び無視される
+条件付きセクション (「3.4 条件付きセクション」参照) を除き、DTD
+(内部DTDサブセット及び外部パラメタ実体) の中のどこでも認識される。
+また、リテラル実体値の中でも認識される。内部サブセット内での
+パラメタ実体の使い方は後述するように制限される。:INS]
+
+
+
+
+== パラメタ実体に関するメモ
+
+SGML では:
+
+パラメタ実体参照開始区切り子 % は
+  * DSM … 宣言部分集合又はその中のマーク区間宣言のマーク宣言の中
+  * GRP … 群の中
+  * MD  … マーク宣言の中
+  * LIT … 表記の中
+で認知する。
+
+引数実体参照は、
+  * 引数分離子ps
+  * 引数表記
+  * 群
+  * 宣言分離子ds
+の文脈に現れる。
+
+XML の用語に翻訳すると:
+
+パラメタ実体参照開始区切り子 % は
+  * DSM … DTDサブセット又はその中の条件付きセクションのキーワード
+  * GRP … 内容モデルの中
+  * MD  … マーク付け宣言の中
+  * LIT … リテラルの中
+で認知し、
+  * (条件付きセクションも含み)マーク付け宣言内の引数の間
+  * リテラル実体値
+  * 内容モデル
+  * マーク付け宣言の間
+の文脈に現れる。
+
+…ということかな？
+
+
+
+
+
+
+| Well-formedness constraint: PEs in Internal Subset
+|
+| In the internal DTD subset, parameter-entity references can occur only where
+| markup declarations can occur, not within markup declarations. (This does not
+| apply to references that occur in external parameter entities or to the
+| external subset.)
+
+Well-formedness constraint: 内部サブセット内のパラメタ実体
+
+DTDの内部サブセットでは、パラメタ実体参照は、マーク付け宣言が出現可能な
+場所だけに出現できる。マーク付け宣言の一部としては出現できない。この制約は
+外部パラメタ実体又は外部サブセットでの参照には適用しない。
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Well-formedness constraint: [E109]External Subset
+|
+| The external subset, if any, must match the production for extSubset.
+| :INS]
+
+[INS:
+Well-formedness constraint: 外部サブセット
+
+外部サブセットは、extSubset にマッチしなければならない。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Well-formedness constraint: [E109]PE Between Declarations
+|
+| The replacement text of a parameter entity reference in a DeclSep
+| must match the production extSubsetDecl.
+| :INS]
+
+[INS:
+Well-formedness constraint: 宣言間のパラメタ実体
+
+DeclSep 中のパラメタ実体参照の置換テキストは extSubsetDecl に
+マッチしなければならない。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: Element Type Match
+|
+| The Name in an element's end-tag must match the element type in the
+| start-tag.
+
+Well-formedness constraint: 要素型のマッチ
+
+要素の終了タグの名前は、その要素の開始タグにおける要素型 (の名前) と
+マッチしなければならない。
+
+ ==> Implemented in XMLScan::XMLParser.
+
+
+
+
+| Well-formedness constraint: Unique Att Spec
+|
+| No attribute name may appear more than once in the same start-tag or
+| empty-element tag.
+
+Well-formedness constraint: 属性指定の一意性
+
+開始タグ又は空要素タグでは、同一の属性名が二回以上出現してはならない。
+
+ ==> Implemented in XMLScan::XMLParser.
+
+
+
+
+| Well-formedness constraint: No External Entity References
+|
+| Attribute values cannot contain direct or indirect entity references to
+| external entities.
+
+Well-formedness constraint: 外部実体への参照がないこと
+
+属性値には、外部実体への直接的又は間接的な参照を含むことはできない。
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: No < in Attribute Values
+|
+| The replacement text of any entity referred to directly or indirectly in an
+| attribute value [DEL:(*1):DEL] must not contain a <.
+|
+| (*1) (other than "&lt;")
+
+Well-formedness constraint: 属性値に < を含まないこと
+
+属性値内で直接的又は間接的に参照する実体 [DEL:(*1):DEL] の置換テキスト
+には、< を含んではならない。
+
+(*1) ("&lt;"を除く。)
+
+ ==> Partially Implemented in XMLScan::XMLScanner.
+
+
+
+
+| Well-formedness constraint: Legal Character
+|
+| Characters referred to using character references must match the production
+| for Char.
+
+Well-formedness constraint: 使用できる文字
+
+文字参照で参照する文字は、Charの生成規則にマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: Entity Declared
+|
+| In a document without any DTD, a document with only an internal DTD subset
+| which contains no parameter entity references, or a document with
+| "standalone='yes'", [UPD:[E34]for an entity reference that does not occur
+| within the external subset or a parameter entity, the Name given in the
+| entity reference must match that in an entity declaration that does not occur
+| within the external subset or a parameter entity:UPD], except that
+| well-formed documents need not declare any of the following entities: amp,
+| lt, gt, apos, quot. [DEL:(*1):DEL] The declaration of a general entity
+| must precede any reference to it which appears in a default value in
+| an attribute-list declaration.
+|
+| Note that if entities are declared in the external subset or in external
+| parameter entities, a non-validating processor is not obligated to read and
+| process their declarations; for such documents, the rule that an entity
+| must be declared is a well-formedness constraint only if standalone='yes'.
+|
+| (*1) [E29]The declaration of a parameter entity must precede
+|      any reference to it. Similarly,
+
+Well-formedness constraint: 実体が宣言されていること
+
+DTDをもたない文書、パラメタ実体参照を含まない内部DTDサブセットだけをもつ文書、
+又は "standalone='yes'" をもつ文書において、[UPD:外部サブセット又は
+パラメタ実体内に現れない実体参照で用いる Name は、外部サブセット又は
+パラメタ実体内に現れない実体宣言とマッチしなければならない。:UPD]
+ただし、整形式の文書は、実体 amp, lt, gt, apos, quot を宣言する必要はない。
+[DEL:(*1):DEL] 一般実体の場合は、属性リスト宣言のデフォルト値内での参照より
+先に、宣言が現れなければならない。
+
+外部サブセット又は外部パラメタ実体で実体を宣言するとき、妥当性を検証しない
+プロセサが、宣言を読み、処理することを義務づけないことに注意。
+それらの文書では、実体は宣言されなければならないという規則は、
+standalone='yes' の場合のみ、整形式制約となる。
+
+(*1) パラメタ実体の場合は、宣言は、参照に先行しなければならない。同様に
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: Parsed Entity
+|
+| An entity reference must not contain the name of an unparsed entity. Unparsed
+| entities may be referred to only in attribute values declared to be of type
+| ENTITY or ENTITIES.
+
+Well-formedness constraint: 解析対象実体
+
+実体参照は、解析対象外実体の名前を含んでいてはならない。解析対象外実体は、
+ENTITY 型又は ENTITIES 型として宣言した属性値としてだけ参照できる。
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: No Recursion
+|
+| A parsed entity must not contain a recursive reference to itself, either
+| directly or indirectly.
+
+Well-formedness constraint: 再帰なし
+
+解析対象実体は、それ自体への参照を、直接にも間接にも含んではならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Well-formedness constraint: In DTD
+|
+| Parameter-entity references may only appear in the DTD.
+
+Well-formedness constraint: DTD の中
+
+パラメタ実体参照は、DTD 内にだけ、出現してよい。
+
+ ==> Not Implemented.
+
+
+
+
+
+
+
+
+
+| Validity constraint: Root Element Type
+|
+| The Name in the document type declaration must match the element type
+| of the root element.
+
+Validity constraint: ルート要素型
+
+文書型宣言におけるNameは、ルート要素の型とマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Proper Declaration/PE Nesting
+|
+| Parameter-entity replacement text must be properly nested with markup
+| declarations. That is to say, if either the first character or the last
+| character of a markup declaration (markupdecl above) is contained in the
+| replacement text for a parameter-entity reference, both must be contained in
+| the same replacement text.
+
+Validity constraint: 宣言及びパラメタ実体が厳密に入れ子をなすこと
+
+パラメタ実体の置換テキストは、マーク付け宣言内において、厳密に
+入れ子になっていなければならない。つまり、マーク付け宣言(markupdecl)の
+最初又は最後の文字が、パラメタ実体参照の指し示す置換テキストに含まれれば、
+両方とも同じ置換テキストに含まれなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Standalone Document Declaration
+|
+| The standalone document declaration must have the value "no" if any external
+| markup declarations contain declarations of:
+|
+|  a) attributes with default values, if elements to which these attributes
+|     apply appear in the document wi	thout specifications of values for these
+|     attributes, or
+|
+|  b) entities (other than amp, lt, gt, apos, quot), if references to those
+|     entities appear in the document, or
+|
+|  c) attributes with values subject to normalization, where the attribute
+|     appears in the document with a value which will change as a result of
+|     normalization, or
+|
+|  d) element types with element content, if white space occurs directly within
+|     any instance of those types.
+
+Validity constraint: スタンドアロン文書宣言
+
+スタンドアロン文書宣言は、何らかの外部マーク付け宣言が次のいずれかを
+宣言しているときは、値 "no" を取らなければならない。
+
+  a) デフォルト値付きの属性であって、この属性が適用される要素が
+     属性値を指定せずに文書内に現れるもの。
+  b) amp, lt, gt, apos, quot以外の実体であって、その実体に対する
+     参照が文書内に出現するもの。
+  c) 値が正規化の対象となる属性であって、正規化の結果として変化する値が
+     文書内で属性に指定されているもの。
+  d) 要素内容をもつ要素型であって、空白がその要素型のいずれかの
+     インスタンス内に直接現れるもの。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Element Valid
+|
+| An element is valid if there is a declaration matching elementdecl where the
+| Name matches the element type, and one of the following holds:
+|
+|  1. The declaration matches EMPTY and the element has no content.
+|
+|  2. The declaration matches children and the sequence of child elements
+|     belongs to the language generated by the regular expression in the
+|     content model, with optional white space (characters matching the
+|     nonterminal S) between [UPD:[E59]the start-tag and the first child
+|     element, between child elements, or between the last child element
+|     and the end-tag. Note that a CDATA section containing only white space
+|     does not match the nonterminal S, and hence cannot appear in these
+|     positions.:UPD]
+|
+|  3. The declaration matches Mixed and the content consists of character
+|     data and child elements whose types match names in the content model.
+|
+|  4. The declaration matches ANY, and the types of any child elements have
+|     been declared.
+
+Validity constraint: 要素の妥当性
+
+要素が妥当とは，その要素型 (の名前) とマッチするNameをもつ宣言
+(elementdeclにマッチするもの) が存在し、さらに次のいずれかの条件を満たす
+場合とする。
+
+  1. 宣言がEMPTYにマッチし、要素が内容をもたない。
+  2. 宣言がchildrenにマッチし、要素の子要素の並びが内容モデル中の正規表現に
+     よって生成される言語に属する。[UPD:開始タグと最初の子要素の間、
+     子要素の間、又は最後の子要素と終了タグの間に:UPD]空白 (非終端記号Sに
+     マッチする文字の並び) があってもよい。[UPD:空白のみを含む CDATA
+     セクションは非終端記号Sにマッチしないため、これらの位置に現れることは
+     できないことに注意。:UPD]
+  3. 宣言がMixedにマッチし、要素の内容が文字データ及び子要素からなる。
+     子要素の要素型は、要素の内容モデルに出現する名前にマッチする。
+  4. 宣言がANYにマッチし、どの子要素の要素型も宣言されている。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Attribute Value Type
+|
+| The attribute must have been declared; the value must be of the type declared
+| for it. (For attribute types, see 3.3 Attribute-List Declarations.)
+
+Validity constraint: 属性値の型
+
+属性は宣言されていなければならない。属性値の型は，その属性に対して
+宣言した型でなければならない (属性の型については，"3.3 属性リスト宣言"を
+参照)。
+
+ ==> Not Implemented.
+
+
+
+| Validity constraint: Unique Element Type Declaration
+|
+| No element type may be declared more than once.
+
+Validity constraint: 要素型宣言の一意性
+
+一つの要素型を二回以上宣言できない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Proper Group/PE Nesting
+|
+| Parameter-entity replacement text must be properly nested with [UPD:[E11]
+| parenthesized:UPD] groups. That is to say, if either of the opening or
+| closing parentheses in a choice, seq, or Mixed construct is contained in the
+| replacement text for a parameter entity, both must be contained in the same
+| replacement text.
+|
+| [UPD:[E19]For interoperability, if a parameter-entity reference appears in a
+| choice, seq, or Mixed construct, its replacement text should contain at
+| least one non-blank character, and neither the first nor last non-blank
+| character of the replacement text should be a connector (| or ,).:UPD]
+
+Validity constraint: グループ及びパラメタ実体が厳密な入れ子をなしていること
+
+パラメタ実体の置換テキストは、[UPD:かっこで囲まれた:UPD]グループによって、
+厳密な入れ子を構成しなければならない。つまり、選択、列又は混在部品に
+開きかっこ又は閉じかっこのいずれか一方がパラメタ実体の置換テキストに
+含れれば、他方も同じ置換テキストに含まれなければならない。
+
+[UPD:相互運用性のためには、パラメタ実体参照が選択、列又は混在内容に
+含まれれば、その置換テキストは少なくとも1つの非空白文字を含むことが
+望ましく、置換テキストの先頭及び末尾の空白でない文字は、コネクタ
+(| 又は ,) でない方がよい。:UPD]
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: No Duplicate Types
+|
+| The same name must not appear more than once in a single mixed-content
+| declaration.
+
+Validity constraint: 要素型の重複の禁止
+
+一つの混合内容宣言内に、同じ名前が複数回出現してはならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: ID
+|
+| Values of type ID must match the Name production. A name must not appear more
+| than once in an XML document as a value of this type; i.e., ID values must
+| uniquely identify the elements which bear them.
+
+Validity constraint: ID
+
+ID型の値は生成規則Nameにマッチしなければならない。一つのXML文書内では、
+一つの名前が、この型の値として複数回現れてはならない。つまり、IDの値は
+要素を一意に特定しなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: One ID per Element Type
+|
+| No element type may have more than one ID attribute specified.
+
+Validity constraint: 1要素ごとに一つのID
+
+要素型は複数のID属性をもってはならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: ID Attribute Default
+|
+| An ID attribute must have a declared default of #IMPLIED or #REQUIRED.
+
+Validity constraint: ID属性のデフォルト
+
+ID属性は、デフォルトとして#IMPLIED又は#REQUIREDを宣言しなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: IDREF
+|
+| Values of type IDREF must match the Name production, and values of
+| type IDREFS must match Names; each Name must match the value of an ID
+| attribute on some element in the XML document; i.e. IDREF values must
+| match the value of some ID attribute.
+
+Validity constraint: IDREF
+
+IDREF型の値は生成規則Nameにマッチしなければならない。IDREFS型の値は
+Namesにマッチしなければならない。各々のNameは、XML文書内に存在する要素の
+ID属性の値とマッチしなければならない。つまり、IDREFの値は
+あるID属性の値とマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Entity Name
+|
+| Values of type ENTITY must match the Name production, values of type
+| ENTITIES must match Names; each Name must match the name of an unparsed
+| entity declared in the DTD.
+
+Validity constraint: 実体名
+
+ENTITY型の値は、Name生成規則にマッチしなければならない。ENTITIES型の値は
+Namesにマッチしなければならない。各々のNameは、DTDで宣言する解析対象外実体と
+マッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Name Token
+|
+| Values of type NMTOKEN must match the Nmtoken production; values of type
+| NMTOKENS must match Nmtokens.
+
+Validity constraint: 名前トークン
+
+NMTOKEN型の値は、Nmtoken生成規則にマッチしなければならない。NMTOKENS型の値は
+Nmtokensにマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Notation Attributes
+|
+| Values of this type must match one of the notation names included in the
+| declaration; all notation names in the declaration must be declared.
+
+Validity constraint: 記法属性
+
+この型の値は、宣言に含まれる幾つかの記法の名前の一つとマッチしなければ
+ならない。つまり、宣言に含まれる記法名は、すべて宣言されていなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Validity constraint: [E7]One Notation Per Element Type
+|
+| No element type may have more than one NOTATION attribute specified.
+| :INS]
+
+[INS:
+Validity constraint: 1要素型ごとに1つの記法
+
+要素型は複数の NOTATION 属性をもってはならない。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Validity constraint: [E68]No Notation on Empty Element
+|
+| For compatibility, an attribute of type NOTATION must not be declared on an
+| element declared EMPTY.
+| :INS]
+
+[INS:
+Validity constraint: 空要素中に記法を含まないこと
+
+互換性のために、空要素として宣言された要素に対して、NOTATION 型の
+属性値を宣言することはできない。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Enumeration
+|
+| Values of this type must match one of the Nmtoken tokens in the declaration.
+|
+| For interoperability, the same Nmtoken should not occur more than once in the
+| enumerated attribute types of a single element type.
+
+Validity constraint: 列挙
+
+この型の値は、宣言に含まれる幾つかのNmtokenトークンの一つとマッチ
+しなければならない。
+相互運用性のためには、同じNmtokenは、一つの要素型のいくつかの列挙型の
+属性として、複数回現れない方がよい。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Required Attribute
+|
+| If the default declaration is the keyword #REQUIRED, then the attribute
+| must be specified for all elements of the type in the attribute-list
+| declaration.
+
+Validity constraint: 必須属性
+
+デフォルトの宣言が#REQUIREDキーワードの場合、属性リスト宣言で参照した
+要素型のすべての要素で、その属性を指定しなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Attribute Default Legal
+|
+| The declared default value must meet the lexical constraints of the
+| declared attribute type.
+
+Validity constraint: 属性デフォルトの正しさ
+
+宣言したデフォルト値は、宣言した属性型の字句制約を満たさなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Fixed Attribute Default
+|
+| If an attribute has a default value declared with the #FIXED keyword,
+| instances of that attribute must match the default value.
+
+Validity constraint: 固定の属性デフォルト
+
+属性が#FIXEDキーワードで宣言されたデフォルト値を持つ場合、その属性の
+インスタンスはデフォルト値にマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Validity constraint: [E90]Proper Conditional Section/PE Nesting
+|
+| If any of the "<![", "[", or "]]>" of a conditional section is contained
+| in the replacement text for a parameter-entity reference, all of them
+| must be contained in the same replacement text.
+|
+| Like the internal and external DTD subsets, a conditional section may
+| contain one or more complete declarations, comments, processing
+| instructions, or nested conditional sections, intermingled with white space.
+| :INS]
+
+[INS:
+Validity constraint: 条件セクション及びパラメタ実体が厳密な入れ子を
+                     なしていること
+
+パラメタ実体参照の置換テキストに条件セクションの "<![", "[", "]]>" のうちの
+どれかが含まれている場合は、それら全てが同じ置換テキストに含まれていなければ
+ならない。
+
+内部及び外部 DTD サブセットのように、条件セクションは完全な宣言、
+コメント、処理命令、又はネストされた条件セクションを、空白文字と共に
+1つ以上含んでもよい。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Entity Declared
+|
+| In a document with an external subset or external parameter entities with
+| "standalone='no'", the Name given in the entity reference must match that
+| in an entity declaration. For interoperability, valid documents should
+| declare the entities amp, lt, gt, apos, quot, in the form specified in 4.6
+| Predefined Entities. The declaration of a parameter entity must precede
+| any reference to it. Similarly, the declaration of a general entity must
+| precede any [UPD:[E92]attribute-list declaration containing a default value
+| with a direct or indirect reference to that general entity.:UPD]
+
+Validity constraint: 実体が宣言されていること
+
+外部サブセット又は外部パラメタ実体をもっていて、"standalone='no'"を
+もつ文書において、実体参照で用いる Name は、ある実体宣言に含まれる名前と
+マッチしなければならない。相互運用性のためには、妥当な文書は
+"4.6 定義済み実体"で指定した書式によって、実体 amp, lt, gt, apos, quotを
+宣言することが望ましい。パラメタ実体の場合は、宣言は、参照に
+先行しなければならない。同様に、一般実体の場合は、
+[UPD:その一般実体への参照を直接的又は間接的に含んでいるデフォルト値を含む
+属性リスト宣言:UPD]よりも先に、宣言が現れなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| Validity constraint: Notation Declared
+|
+| The Name must match the declared name of a notation.
+
+Validity constraint: 記法が宣言されていること
+Name は、宣言した記法の名前とマッチしなければならない。
+
+ ==> Not Implemented.
+
+
+
+
+| [INS:
+| Validity constraint: [E22]Unique Notation Name
+|
+| Only one notation declaration can declare a given Name.
+| :INS]
+
+[INS:
+Validity constraint: 記法の名前の一意性
+
+複数の記法宣言で同じ名前を宣言できない。
+:INS]
+
+ ==> Not Implemented.
+
+
+
+
+
+
+
+
+
+# from the second edition;
+
+| 3.3.3 [E70]Attribute-Value Normalization
+|
+| Before the value of an attribute is passed to the application or checked for
+| validity, the XML processor must normalize the attribute value by applying
+| the algorithm below, or by using some other method such that the value
+| passed to the application is the same as that produced by the algorithm.
+|
+|  1. All line breaks must have been normalized on input to #xA as described in
+|     2.11 End-of-Line Handling, so the rest of this algorithm operates on text
+|     normalized in this way.
+|
+|  2. Begin with a normalized value consisting of the empty string.
+|
+|  3. For each character, entity reference, or character reference in the
+|     unnormalized attribute value, beginning with the first and continuing to
+|     the last, do the following:
+|
+|      a) For a character reference, append the referenced character to the
+|         normalized value.
+|      b) For an entity reference, recursively apply step 3 of this algorithm
+|         to the replacement text of the entity.
+|      c) For a white space character (#x20, #xD, #xA, #x9), append a space
+|         character (#x20) to the normalized value.
+|      d) For another character, append the character to the normalized value.
+
+3.3.3 属性値の正規化
+
+属性の値をアプリケーションに渡す前、又は妥当性を検証する前に、XML プロセサは
+以下のアルゴリズムを適用して属性値を正規化しなければならない。又は、
+以下のアルゴリズムが生成する値と同じ値をアプリケーションに渡す他の方法を
+用いて正規化してもよい。
+
+ 1. 入力に含まれる全ての改行は、"2.11 行末の処理" で述べられているように
+    #xA に正規化されなければならない。よって、このアルゴリズムの以降の処理
+    では、このようにして正規化されたテキストを処理の対象とする。
+
+ 2. 空文字列からなる正規化された値から始める。
+
+ 3. 正規化されていない属性値内の文字、実体参照、文字参照それぞれについて、
+    先頭から末尾まで以下の操作を続ける。
+
+     a) 文字参照については、参照文字を正規化された値に追加する。
+     b) 実体参照については、その置換テキストに対してこのアルゴリズムの
+        ステップ 3 を再帰的に適用する。
+     c) 空白文字 (#x20, #xD, #xA, #x9) については、正規化された値に
+        空白文字 (#x20) を追加する。
+     d) その他の文字については、その文字を正規化された値に追加する。
+
+| If the attribute type is not CDATA, then the XML processor must further
+| process the normalized attribute value by discarding any leading and
+| trailing space (#x20) characters, and by replacing sequences of space (#x20)
+| characters by a single space (#x20) character.
+
+属性値の型が CDATA でない場合、XML プロセサは、さらに、正規化された値の
+前後のスペース文字 (#x20) を削除し、連続するスペース文字 (#x20) を 1つの
+スペース文字 (#x20) に置換しなければならない。
+
+| Note that if the unnormalized attribute value contains a character
+| reference to a white space character other than space (#x20),
+| the normalized value contains the referenced character itself (#xD,
+| #xA or #x9). This contrasts with the case where the unnormalized value
+| contains a white space character (not a reference), which is replaced
+| with a space character (#x20) in the normalized value and also contrasts
+| with the case where the unnormalized value contains an entity reference
+| whose replacement text contains a white space character; being recursively
+| processed, the white space character is replaced with a space character
+| (#x20) in the normalized value.
+
+正規化されていない属性値がスペース文字 (#x20) 以外の空白文字への文字参照を
+含んでいる場合、正規化された値に参照文字そのもの (#xD, #xA, #x9) が
+含まれることに注意せよ。これは、正規化されていない値内に (参照でない)
+空白文字が存在する場合があるということを示している。これらの空白文字は、
+正規化された値内ではスペース文字 (#x20) に置換される。また、
+正規化されていない値内に、置換テキストに空白文字を含む実体参照が存在す
+ることもあり得る。この場合、置換テキストは再帰的に処理されるため、
+正規化された値内では空白文字はスペース文字に置換される。
+
+| All attributes for which no declaration has been read should be treated by a
+| non-validating [E95]processor as if declared CDATA.
+
+妥当性を検証しないプロセサは、宣言が読み込まれていない属性は全て
+CDATA として宣言されたものとみなすのが望ましい。
+
+| Following are examples of attribute normalization. Given the following
+| declarations:
+|
+|   <!ENTITY d "&#xD;">
+|   <!ENTITY a "&#xA;">
+|   <!ENTITY da "&#xD;&#xA;">
+|
+| the attribute specifications in the left column below would be normalized to
+| the character sequences of the middle column if the attribute a is declared
+| NMTOKENS and to those of the right columns if a is declared CDATA.
+|
+|        Attribute specification        | a is NMTOKENS |    a is CDATA
+|  -------------------------------------+---------------+-------------------
+|   a="                                 | x y z         | #x20 #x20 x y z
+|                                       |               |
+|   xyz"                                |               |
+|  -------------------------------------+---------------+-------------------
+|   a="&d;&d;A&a;&a;B&da;"              | A #x20 B      | #x20 #x20 A #x20
+|                                       |               | #x20 B #x20 #x20
+|  -------------------------------------+---------------+-------------------
+|   a="&#xd;&#xd;A&#xa;&#xa;B&#xd;&#xa; | #xD #xD A #xA | #xD #xD A #xA #xA
+|                                       | #xA B #xD #xA | B #xD #xD
+|
+| Note that the last example is invalid (but well-formed) if a is declared
+| to be of type NMTOKENS.
+
+属性値の正規化の例を以下に示す。まず、次のような宣言を与える。
+
+  <!ENTITY d "&#xD;">
+  <!ENTITY a "&#xA;">
+  <!ENTITY da "&#xD;&#xA;">
+
+次の表は、右の行のように属性が与えられた場合、その属性が
+NMTOKEN として宣言されていれば真ん中の行のような文字列に正規化され、
+CDATA として宣言されていれば左の行のように正規化されることを示している。
+
+        Attribute specification        | a is NMTOKENS |    a is CDATA
+  -------------------------------------+---------------+-------------------
+   a="                                 | x y z         | #x20 #x20 x y z
+                                       |               |
+   xyz"                                |               |
+  -------------------------------------+---------------+-------------------
+   a="&d;&d;A&a;&a;B&da;"              | A #x20 B      | #x20 #x20 A #x20
+                                       |               | #x20 B #x20 #x20
+  -------------------------------------+---------------+-------------------
+   a="&#xd;&#xd;A&#xa;&#xa;B&#xd;&#xa; | #xD #xD A #xA | #xD #xD A #xA #xA
+                                       | #xA B #xD #xA | B #xD #xD
+
+a が NMTOKEN 型として宣言されていた場合は、最後の例は妥当ではない
+(整形式ではある) ことに注意せよ。
+
+ ==> Partially Implemented in XMLScan::XMLParser.
+
+
+
+
+
+
+
+
+
+
+
+# from the ``Namespaces in XML''
+
+| Namespace constraint: Reserved Prefixes and Namespace Names
+|
+| The prefix xml is by definition bound to the namespace name
+| http://www.w3.org/XML/1998/namespace. It may, but need not, be declared,
+| and must not be bound to any other namespace name. No other prefix may be
+| bound to this namespace name.
+|
+| The prefix xmlns is used only to declare namespace bindings and is by
+| definition bound to the namespace name http://www.w3.org/2000/xmlns/.
+| It must not be declared. No other prefix may be bound to this namespace
+| name.
+|
+| All other prefixes beginning with the three-letter sequence x, m, l,
+| in any case combination, are reserved. This means that
+|
+|   * users should not use them except as defined by later specifications
+|   * processors must not treat them as fatal errors.
+|
+| Though legal, it is inadvisable to use prefixed names whose LocalPart
+| begins with the letters x, m, l, as these names would be reserved if used
+| without a prefix.
+
+Namespace Constraint: 予約された接頭辞と名前空間名
+
+接頭辞 "xml" は定義により名前空間名 "http://www.w3.org/XML/1998/namespace"
+に関連付けられる。必要ではないがこれを宣言してもよく、またこの接頭辞を
+他の名前空間名にバインドしてはならない。他の接頭辞をこの名前空間名に
+関連付けてはならない。
+
+接頭辞 "xmlns" は名前空間の関連付けを宣言するためだけに用いられ、
+定義により名前空間名 "http://www.w3.org/2000/xmlns/" に関連付けられる。
+これを宣言してはならない。他の接頭辞をこの名前空間名に関連付けては
+ならない。
+
+これら以外で、大文字・小文字の組み合わせを問わず x, m, l の3文字が並んで
+始まる接頭辞は、XML 及び XML 関連規格での使用のために予約されている。
+これは次のことを意味する。
+  * 後の規格で定義されない限り、ユーザーはこれらを使用するべきではない。
+  * プロセサはこれらを致命的なエラーとして扱ってはならない。
+
+接頭辞が付き、LocalPart が x, m, l の文字で始まる名前はこの制約を
+満たしてはいるが、接頭辞無しで用いられた場合に予約された名前となって
+しまうため、そのような名前を用いるのは勧められない。
+
+ ==> Implemented in XMLScan::XMLNamespace.
+
+
+
+| Namespace Constraint: Prefix Declared
+|
+| The namespace prefix, unless it is xml or xmlns, must have been declared
+| in a namespace declaration attribute in either the start-tag of the element
+| where the prefix is used or in an an ancestor element (i.e. an element in
+| whose content the prefixed markup occurs). [DEL:(*1):DEL]
+|
+| This constraint may lead to operational difficulties in the case where the
+| namespace declaration attribute is provided, not directly in the XML document
+| entity, but via a default attribute declared in an external entity.
+| Such declarations may not be read by software which is based on a
+| non-validating XML processor. Many XML applications, presumably including
+| namespace-sensitive ones, fail to require validating processors.
+| For correct operation with such applications, namespace declarations must
+| be provided either directly or via default attributes declared in the
+| internal subset of the DTD.
+|
+| (*1) The prefix xml is by definition bound to the namespace name
+|      http://www.w3.org/XML/1998/namespace. The prefix xmlns is used
+|      only for namespace bindings and is not itself bound to any
+|      namespace name.
+
+Namespace Constraint: 接頭辞が宣言されていること
+
+"xml" 又は "xmlns" 以外の名前空間接頭辞は、その接頭辞が使用されている
+要素の開始タグかその祖先の要素 (すなわち接頭辞のついたマークアップを
+内容に持つ要素) の中で、名前空間宣言属性によって宣言されていなければ
+ならない。[DEL:(*1):DEL]
+
+この制約は、名前空間宣言属性が XML 文書実体の中に直接存在するのではなく、
+外部実体で宣言されている属性のデフォルトに存在する場合、操作上の困難を
+招くだろう。妥当性を検証しないXMLプロセサを元にしたソフトウェアは、
+そのような宣言を読み込まない。多くの XML アプリケーションは、名前空間を
+認識するものもおそらく含め、妥当性を検証するプロセサを要求することに
+失敗する。そのようなアプリケーションでの正しい操作のために、名前空間
+宣言は、文書中に直接現れるか、又は内部DTDサブセットで宣言されている
+属性のデフォルトに現れなければならない。
+
+(*1) 接頭辞 "xml" は定義により名前空間名
+     "http://www.w3.org/XML/1998/namespace" に関連付けられる。
+     接頭辞 "xmlns" は名前空間の関連付けを宣言するためだけに用いられ、
+     それ自身はどの名前空間名にも関連付けられない。
+
+ ==> Partially Implemented in XMLScan::XMLNamespace.
+
+
+
+
+
+
+
+| 5.1 Namespace Scoping
+|
+| [UPD:A namespace declaration is considered to apply to the element where
+| it is specified and its attributes, and to all elements and their attributes
+| within the content of that element, unless overridden by another namespace
+| declaration with the same NSAttName part.:UPD]
+
+5.1 名前空間のスコープ
+
+[UPD:名前空間宣言は、同じ NSAttName 部分を持つ他の名前空間宣言によって
+上書きされない限り、それが指定された要素とその属性、及びその要素の
+内容にある全ての要素とその属性に適用されるものとする。:UPD]
+
+ ==> Implemented in XMLScan::XMLNamespace.
+
+
+| 5.2 Namespace Defaulting
+|
+| [UPD:A default namespace declaration is considered to apply to the element
+| where it is specified, and to all elements within the content of that
+| element, unless overridden by another default namespace declaration.:UPD]
+
+5.2 名前空間のデフォルト
+
+[UPD:デフォルト名前空間宣言は、他のデフォルト名前空間宣言によって上書き
+されない限り、それが指定された要素及びその要素の内容にある全ての要素に
+適用されるものとする。:UPD]
+
+ ==> Implemented in XMLScan::XMLNamespace.
+
+
+| 5.3 Uniqueness of Attributes
+|
+| In XML documents conforming to this specification, no tag may contain two
+| attributes which:
+|
+|  1. have identical names, or
+|  2. have qualified names with the same local part and with prefixes which
+|     have been bound to namespace names that are identical.
+
+5.3 属性の一意性
+
+この規格に準拠した XML 文書では、どのタグも次のような属性を2つ含むことは
+できない。
+
+  1. 同一の名前を持つ。又は
+  2. 同じローカルパートと同一の名前空間名に束縛されている接頭辞からなる
+     修飾名 (qualified name) を持つ。
+
+ ==> Implemented in XMLScan::XMLNamespace.
+
+
+
+
+| 6. Conformance of Documents
+|
+| This specification applies to XML 1.0 documents. To conform to this
+| specification, a document must be well-formed according to the XML 1.0
+| specification.
+|
+| In XML documents which conform to this specification, element types and
+| attribute names must match the production for QName and must satisfy the
+| "Namespace Constraints". All other tokens in the document which are
+| required, for XML 1.0 well-formedness, to match the XML production for
+| Name, must match this specification's production for NCName.
+|
+| Definition: A document is namespace-well-formed if it conforms to this
+| specification.
+|
+| It follows that in a namespace-well-formed document
+|   * All element types and attribute names contain either zero or one colon;
+|   * No entity names, PI targets, or notation names contain any colons.
+|
+| In addition, a namespace-well-formed document may also be namespace-valid.
+|
+| Definition: A namespace-well-formed document is namespace-valid if it is
+| valid according to the XML 1.0 specification, and all tokens other than
+| element types and attribute names which are required, for XML 1.0 validity,
+| to match the XML production for Name, match this specification's production
+| for NCName.
+|
+| It follows that in a namespace-valid document
+|   * No attributes with a declared type of ID, IDREF(S), ENTITY(IES) or
+|     NOTATION contain any colons.
+
+6. 文書の適合性
+
+この規格は XML 1.0 文書に対して適用される。この規格を満足するためには、
+文書は XML 1.0 規格の言う整形式でなければならない。
+
+この規格に適合する XML 文書では、要素型と属性名は生成規則 QName に
+マッチし、かつ名前空間制約 (Namespace Constraints) を満たさなければ
+ならない。要求される文書中の他のトークンは、XML 1.0 の整形式制約のため、
+XML の生成規則 Name にマッチするために、この規格の生成規則 NCName に
+マッチしなければならない。
+
+定義: ある文書がこの規格に適合しているとき、その文書を名前空間整形式
+(namespace-well-formed) のXML文書と呼ぶ。
+
+名前空間整形式である文書は、次の条件を満たす。
+  * 全ての要素型と属性名は0個か1個のコロンを含む。
+  * 実体名、処理命令のターゲット名、及び記法名はコロンを含まない。
+
+また、名前空間整形式である文書は同時に名前空間妥当 (namespace-valid)
+であってもよい。
+
+定義: 名前空間整形式である文書が XML 1.0 規格で妥当であり、かつ
+要求される要素型と属性名を除く全てのトークンが、XML 1.0 の妥当性の
+ため、XML の生成規則 Name にマッチするために、この規格の生成規則
+NCName にマッチしているとき、その文書を名前空間妥当なXML文書と呼ぶ。
+
+名前空間妥当な文書は、次の条件を満たす。
+  * ID, IDREF, ENTITY, 及び NOTATION 型に宣言された属性はコロンを
+    含まない。

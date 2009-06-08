@@ -1,0 +1,76 @@
+== RGen - Ruby Modelling and Generator Framework
+
+RGen is a framework supporting Model Driven Software Development (MDSD).
+This means that it helps you build Metamodels, instantiate Models, modify
+and transform Models and finally generate arbitrary textual content from it.
+
+RGen features include:
+* Programmatic definition of Metamodels
+* ECore as Metametamodel with an ECore instance available for every Metamodel
+* Generator for programmatic Metamodel from ECore instance
+* Instantiation of Metamodels, i.e. creation of Models (e.g. from XML)
+* Model Transformations
+* Powerful template based generator language
+* A growing set of included Metamodels, Transformations, Generators:
+* UML 1.3 Metamodel
+* XMI 1.1 Instantiator
+* XMI 2.0 Instantiator, currently use to read ECore instances only
+
+
+= Download
+
+Get the latest release from Rubyforge:
+
+	http://rubyforge.org/frs/?group_id=1988
+
+
+= Installation
+
+Unpack the release package somewhere to your filesystem.
+Make sure the 'lib' folder is included in the search path (-I) when you run your own scripts.
+
+As of version 0.2.0 RGen is also available as a gem.
+
+
+= Getting started
+
+Change to the 'test' folder and run the test suite:
+
+	test> ruby rgen_test.rb
+
+
+= Documentation
+
+RGen is being documented using rdoc. 
+Point your browser to 'doc/index.html' to view the documentation.
+
+These are the main parts already documented:
+* RGen::MetamodelBuilder
+* RGen::Transformer
+* RGen::TemplateLanguage
+
+
+= Examples
+
+There are several examples of using RGen within the framework itself.
+
+Metamodel Definition:
+	lib/rgen/ecore/ecore.rb
+	lib/metamodels/uml13_metamodel.rb
+
+Instantiation:
+	lib/rgen/instantiator/xmi11_instantiator.rb
+	lib/rgen/instantiator/ecore_xml_instantiator.rb
+	lib/instantiators/ea_instantiator.rb
+	
+Transformations:
+	lib/rgen/ecore/ecore_transformer.rb
+	lib/transformers/uml13_to_ecore.rb
+	
+Generators:
+	lib/mmgen/metamodel_generator.rb
+
+	
+= License
+
+RGen is released under the MIT license.
