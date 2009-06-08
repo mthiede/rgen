@@ -17,7 +17,7 @@ RGenGemSpec = Gem::Specification.new do |s|
   gemfiles.include("README", "CHANGELOG", "MIT-LICENSE", "Rakefile") 
   gemfiles.exclude(/\b\.bak\b/)
   s.files = gemfiles
-  s.rdoc_options = ["--main", "README", "-x", "redist", "-x", "test", "-x", "metamodels"]
+  s.rdoc_options = ["--main", "README", "-x", "redist", "-x", "test", "-x", "metamodels", "-x", "ea_support/uml13*"]
   s.extra_rdoc_files = ["README", "CHANGELOG", "MIT-LICENSE"]
 end
 
@@ -25,6 +25,7 @@ Rake::RDocTask.new do |rd|
   rd.main = "README"
   rd.rdoc_files.include("README", "CHANGELOG", "MIT-LICENSE", "lib/**/*.rb")
   rd.rdoc_files.exclude("lib/metamodels")
+  rd.rdoc_files.exclude("lib/ea_support/uml13*")
   rd.rdoc_dir = "doc"
 end
 
