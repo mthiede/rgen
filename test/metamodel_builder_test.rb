@@ -189,6 +189,38 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [], ManyClass.ecore.eReferences.select{|r| r.many == true}
   end
   
+  def test_one_to_many_replace1
+    oc1 = OneClass.new
+    oc2 = OneClass.new
+    mc = ManyClass.new  	
+    
+    oc1.manyClasses = [mc]
+    assert_equal [mc], oc1.manyClasses
+    assert_equal [], oc2.manyClasses
+    assert_equal oc1, mc.oneClass
+    
+    oc2.manyClasses = [mc]
+    assert_equal [mc], oc2.manyClasses
+    assert_equal [], oc1.manyClasses
+    assert_equal oc2, mc.oneClass
+	end
+
+  def test_one_to_many_replace2
+    oc = OneClass.new
+    mc1 = ManyClass.new  	
+    mc2 = ManyClass.new  	
+    
+    mc1.oneClass = oc
+    assert_equal [mc1], oc.manyClasses
+    assert_equal oc, mc1.oneClass
+    assert_equal nil, mc2.oneClass
+    
+    mc2.oneClass = oc
+    assert_equal [mc1, mc2], oc.manyClasses
+    assert_equal oc, mc1.oneClass
+    assert_equal oc, mc2.oneClass
+	end
+	
   class OneClass2 < RGen::MetamodelBuilder::MMBase
   end
   class ManyClass2 < RGen::MetamodelBuilder::MMBase
@@ -247,7 +279,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_respond_to bc, :aClass
     assert_respond_to bc, :aClass=
     assert_nil bc.aClass
-    
+
     # put the AClass into the BClass
     bc.aClass = ac
     assert_equal ac, bc.aClass
@@ -273,6 +305,22 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["aClass"], BClassOO.ecore.eReferences.select{|r| r.many == false}.name
     assert_equal [], BClassOO.ecore.eReferences.select{|r| r.many == true}
   end
+  
+  def test_one_to_one_replace
+    a = AClassOO.new
+    b1 = BClassOO.new
+    b2 = BClassOO.new
+    
+    a.bClass = b1
+    assert_equal b1, a.bClass
+    assert_equal a, b1.aClass
+    assert_equal nil, b2.aClass
+  
+    a.bClass = b2
+    assert_equal b2, a.bClass
+    assert_equal nil, b1.aClass
+    assert_equal a, b2.aClass
+	end	
   
   class AClassMM < RGen::MetamodelBuilder::MMBase
   end

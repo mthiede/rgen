@@ -93,3 +93,7 @@
 * Cleaned up EA support
 * Added method to clear ecore metamodel reflection cache
 * Improved overriding of metamodel features in reopened classes
+
+=0.5.1
+
+* Fixed metamodel builder bug: _register at one-side did not unregister from the element referenced by the old value

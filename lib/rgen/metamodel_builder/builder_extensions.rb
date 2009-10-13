@@ -270,7 +270,6 @@ module BuilderExtensions
 	def _build_one_methods(props, other_props=nil)
 		name = props.value(:name)
 		other_role = other_props && other_props.value(:name)
-		other_kind = other_props && ( other_props.many? ? :many : :one )
 
 		if props.value(:derived)
 			build_derived_method(name, props, :one)
@@ -301,7 +300,7 @@ module BuilderExtensions
 					<%= type_check_code("val", props) %>
 					oldval = @<%= name %>
 					@<%= name %> = val
-					<% if other_role && other_kind %>
+					<% if other_role %>
 						oldval._unregister<%= firstToUpper(other_role) %>(self) unless oldval.nil?
 						val._register<%= firstToUpper(other_role) %>(self) unless val.nil?
 					<% end %>
@@ -309,6 +308,9 @@ module BuilderExtensions
 				alias set<%= firstToUpper(name) %> <%= name %>=
 
 				def _register<%= firstToUpper(name) %>(val)
+					<% if other_role %>
+						@<%= name %>._unregister<%= firstToUpper(other_role) %>(self) unless @<%= name %>.nil?
+					<% end %>
 					@<%= name %> = val
 				end
         
@@ -327,7 +329,6 @@ module BuilderExtensions
 	def _build_many_methods(props, other_props=nil)
 		name = props.value(:name)
 		other_role = other_props && other_props.value(:name)
-		other_kind = other_props && ( other_props.many? ? :many : :one )
 
 		if props.value(:derived)
 			build_derived_method(name, props, :many)
@@ -351,7 +352,7 @@ module BuilderExtensions
 					return if val.nil? || @<%= name %>.any?{|e| e.object_id == val.object_id} 
 					<%= type_check_code("val", props) %>
 					@<%= name %>.push val
-					<% if other_role && other_kind %>
+					<% if other_role %>
 						val._register<%= firstToUpper(other_role) %>(self)
 					<% end %>
 				end
@@ -361,7 +362,7 @@ module BuilderExtensions
 					@<%= name %>.each_with_index do |e,i|
 						if e.object_id == val.object_id
 							@<%= name %>.delete_at(i)
-    						<% if other_role && other_kind %>
+    						<% if other_role %>
 								val._unregister<%= firstToUpper(other_role) %>(self)
     						<% end %>
 							return
