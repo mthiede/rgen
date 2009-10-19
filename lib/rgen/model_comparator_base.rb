@@ -4,7 +4,7 @@ module RGen
 	
 class ModelComparatorBase
 	
-	CompareSpec = Struct.new(:identifier, :recurse, :filter)
+	CompareSpec = Struct.new(:identifier, :recurse, :filter, :ignore_features, :display_name, :sort)
 	INDENT = "  "	
 
 	class << self
@@ -26,21 +26,21 @@ class ModelComparatorBase
 		result = []
 		aById = as.select{|e| useElement?(e)}.inject({}){|r, e| r[elementIdentifier(e)] = e; r}
 		bById = bs.select{|e| useElement?(e)}.inject({}){|r, e| r[elementIdentifier(e)] = e; r}
-		onlyA = (aById.keys - bById.keys).sort.collect{|id| aById[id]}
-		onlyB = (bById.keys - aById.keys).sort.collect{|id| bById[id]}
-		aAndB = (aById.keys & bById.keys).sort.collect{|id| [aById[id], bById[id]]}
+		onlyA = sortElements((aById.keys - bById.keys).collect{|id| aById[id]})
+		onlyB = sortElements((bById.keys - aById.keys).collect{|id| bById[id]})
+		aAndB = sortElements((aById.keys & bById.keys).collect{|id| [aById[id], bById[id]]})
 		onlyA.each do |e|
-			result << "- #{elementIdentifier(e)}"
+			result << "- #{elementDisplayName(e)}"
 		end
 		onlyB.each do |e|
-			result << "+ #{elementIdentifier(e)}"
+			result << "+ #{elementDisplayName(e)}"
 		end
 		if recursive
 			aAndB.each do |ab|
 				a, b = *ab
 				r = compareElements(a, b)
 				if r.size > 0
-					result << "#{elementIdentifier(a)}"
+					result << "#{elementDisplayName(a)}"
 					result += r.collect{|l| INDENT+l}
 				end
 			end
@@ -48,12 +48,28 @@ class ModelComparatorBase
 		result
 	end
 	
+	def sortElements(elements)
+		elements.sort do |a,b|
+			r = a.class.name <=> b.class.name
+			r = compareSpec(a).sort.call(a,b) if r == 0 && compareSpec(a) && compareSpec(a).sort
+			r
+		end
+	end
+	
+	def elementDisplayName(e)
+		if compareSpec(e) && compareSpec(e).display_name
+			compareSpec(e).display_name.call(e)
+		else
+			elementIdentifier(e)
+		end
+	end
+	
 	def compareElements(a, b)
 		result = []
 		if a.class != b.class
-			result << "Class: #{a.class} <-> #{b.class}"
+			result << "Class: #{a.class} -> #{b.class}"
 		else
-			a.class.ecore.eAllStructuralFeatures.each do |f|
+			a.class.ecore.eAllStructuralFeatures.reject{|f| f.derived || compareSpec(a).andand.ignore_features.andand.include?(f.name.to_sym)}.each do |f|
 				va, vb = a.getGeneric(f.name), b.getGeneric(f.name)
 				if f.is_a?(RGen::ECore::EAttribute)
 					r = compareValues(f.name, va, vb)
@@ -73,7 +89,7 @@ class ModelComparatorBase
 	
 	def compareValues(name, val1, val2)
 		result = nil
-		result = "[#{name}] #{val1} <-> #{val2}" if val1 != val2
+		result = "[#{name}] #{val1} -> #{val2}" if val1 != val2
 		result
 	end
 	
