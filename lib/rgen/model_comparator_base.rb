@@ -28,7 +28,7 @@ class ModelComparatorBase
 		bById = bs.select{|e| useElement?(e)}.inject({}){|r, e| r[elementIdentifier(e)] = e; r}
 		onlyA = sortElements((aById.keys - bById.keys).collect{|id| aById[id]})
 		onlyB = sortElements((bById.keys - aById.keys).collect{|id| bById[id]})
-		aAndB = sortElements((aById.keys & bById.keys).collect{|id| [aById[id], bById[id]]})
+		aAndB = sortElementPairs((aById.keys & bById.keys).collect{|id| [aById[id], bById[id]]})
 		onlyA.each do |e|
 			result << "- #{elementDisplayName(e)}"
 		end
@@ -46,6 +46,15 @@ class ModelComparatorBase
 			end
 		end
 		result
+	end
+	
+	def sortElementPairs(pairs)
+		pairs.sort do |x,y|
+			a, b = x[0], y[0]
+			r = a.class.name <=> b.class.name
+			r = compareSpec(a).sort.call(a,b) if r == 0 && compareSpec(a) && compareSpec(a).sort
+			r
+		end
 	end
 	
 	def sortElements(elements)

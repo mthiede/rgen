@@ -26,6 +26,7 @@ require 'rgen/environment'
 require 'rgen/model_builder/model_serializer'
 require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/model_builder'
+require 'model_builder/statemachine_metamodel'
 
 class ModelSerializerTest < Test::Unit::TestCase
   def test_ecore_internal
