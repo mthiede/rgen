@@ -94,6 +94,7 @@
 * Added method to clear ecore metamodel reflection cache
 * Improved overriding of metamodel features in reopened classes
 
-=0.5.1
+=0.5.1 (Nov 10th, 2009)
 
 * Fixed metamodel builder bug: _register at one-side did not unregister from the element referenced by the old value
+* Added helper class for building simple model comparators
