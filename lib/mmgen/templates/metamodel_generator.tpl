@@ -60,15 +60,15 @@
 <% end %>
 
 <% define 'Attribute', :for => EAttribute do |rootp| %>
-	<% if upperBound == 1%>
-	has_attr '<%= name %>', <%nows%>
+	<% if upperBound == 1%>has_attr<% else %>has_many_attr<% end %> '<%= name %>', <%nows%>
 	<% if eType.is_a?(EEnum) %><%nows%>
 		<%= eType.qualifiedClassifierName(rootp) %><%nows%>
 	<% else %><%nows%>
 		<%= eType && eType.instanceClass.to_s %><%nows%>
 	<% end %><%nows%>
 	<% for p in RGen::MetamodelBuilder::AttributeDescription.propertySet %>
-		<% unless p == :name || p == :upperBound || RGen::MetamodelBuilder::AttributeDescription.default_value(p) == getGeneric(p) %>
+		<% unless p == :name || (p == :upperBound && (upperBound == 1 || upperBound == -1)) || 
+      RGen::MetamodelBuilder::AttributeDescription.default_value(p) == getGeneric(p) %>
 	    	, :<%=p%> => <%nows%>
 	    	<% if getGeneric(p).is_a?(String) %>
 	    		"<%= getGeneric(p) %>"<%nows%>
@@ -80,7 +80,6 @@
 		<% end %>
 	<% end %>
 	<%ws%><% expand 'annotations::Annotations' %><%nl%>
-	<% end %>
 <% end %>
 
 <% define 'EnumTypes', :for => EPackage do %>

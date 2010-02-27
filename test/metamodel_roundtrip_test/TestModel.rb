@@ -15,6 +15,7 @@ module HouseMetamodel
   class Person < RGen::MetamodelBuilder::MMBase
     annotation       'complexity' => '1', 'date_created' => '2006-06-27 08:34:23', 'date_modified' => '2006-06-27 08:34:26', 'ea_ntype' => '0', 'ea_stype' => 'Class', 'gentype' => 'Java', 'isSpecification' => 'false', 'package' => 'EAPK_A1B83D59_CAE1_422c_BA5F_D3624D7156AD', 'package_name' => 'HouseMetamodel', 'phase' => '1.0', 'status' => 'Proposed', 'style' => 'BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;', 'tagged' => '0', 'version' => '1.0'
   	has_attr 'sex', SexEnum
+    has_many_attr 'nicknames', String
   end
   
   class House < RGen::MetamodelBuilder::MMBase
