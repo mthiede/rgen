@@ -3,6 +3,8 @@
 * Ecore build in types (EString, ...) do not work in ECore instantiator, define your own EDatatype instead
 * ECore datatypes in RGen::ECore should use Java like instanceClassNames
 * overloading of transformation rules not working correctly
+* with \r\n in templates, empty lines appear in output
+* <%nl%> after <%nows%> creates no indentation (<%nl%> in another template in same file)
 
 =Major issues 
 * XML instantiator documentation
@@ -18,9 +20,15 @@
   - Support primitive types as instances of DataType (which basically have a name) instead of tagged values
     (this should also be working with EA 7, the tagged values are just add on)
   - Support more UML metamodel features in the transformers
+* Model Serializer:
+  - make "name" attribute configurable
+  - convert chars in string into something Ruby compatible (e.g newline to \n)
+  - add missing export of child role (:as => ) if more than one child roles are possible
+  - make sure 1-to-n references are serialized at the 1-side
 
 =Minor Issues
 * allow definition of templates from within regular code
 * indexed find in environment
 * XMI Instantiator fixmap: add element names to make feature names unique
 * no error for expand '..', :forach => (foreach misspelled)
+* With JRuby (1.3.1) exceptions raised in templates have a short or no backtrace
