@@ -73,6 +73,76 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["extended", "simple"], enum.eLiterals.name.sort
   end
   
+  class ManyAttrClass < RGen::MetamodelBuilder::MMBase
+    has_many_attr 'literals', String
+    has_many_attr 'bools', Boolean
+    has_many_attr 'integers', Integer
+    has_many_attr 'enums', RGen::MetamodelBuilder::DataTypes::Enum.new([:a, :b, :c])
+    has_many_attr 'limitTest', Integer, :upperBound => 2
+  end
+
+  def test_many_attr
+    o = ManyAttrClass.new
+
+    assert_respond_to o, :literals
+    assert_respond_to o, :addLiterals
+    assert_respond_to o, :removeLiterals
+
+    assert_raise(StandardError) do
+      o.addLiterals(1)
+    end
+
+    assert_equal [], o.literals
+    o.addLiterals("a")
+    assert_equal ["a"], o.literals
+    o.addLiterals("b")
+    assert_equal ["a", "b"], o.literals
+    # check for duplicates works by object identity, so there can be two strings "b"
+    o.addLiterals("b")
+    assert_equal ["a", "b", "b"], o.literals
+    # but the same string object "a" can only occur once
+    o.addLiterals(o.literals.first)
+    assert_equal ["a", "b", "b"], o.literals
+    # removing works by object identity, so providing a new string won't delete an existing one
+    o.removeLiterals("a")
+    assert_equal ["a", "b", "b"], o.literals
+    theA = o.literals.first
+    o.removeLiterals(theA)
+    assert_equal ["b", "b"], o.literals
+    # removing something which is not present has no effect
+    o.removeLiterals(theA)
+    assert_equal ["b", "b"], o.literals
+    o.removeLiterals(o.literals.first)
+    assert_equal ["b"], o.literals
+    o.removeLiterals(o.literals.first)
+    assert_equal [], o.literals
+  
+    # setting multiple elements at a time
+    o.literals = ["a", "b", "c"]
+    assert_equal ["a", "b", "c"], o.literals
+    # can only take arrays
+    assert_raise(StandardError) do
+      o.literals = "a"
+    end
+ 
+    o.bools = [true, false, true, false]
+    assert_equal [true, false], o.bools
+
+    o.integers = [1, 2, 2, 3, 3]
+    assert_equal [1, 2, 3], o.integers
+
+    o.enums = [:a, :a, :b, :c, :c]
+    assert_equal [:a, :b, :c], o.enums
+
+    lit = ManyAttrClass.ecore.eAttributes.find{|a| a.name == "literals"}
+    assert lit.is_a?(RGen::ECore::EAttribute)
+    assert lit.many
+
+    lim = ManyAttrClass.ecore.eAttributes.find{|a| a.name == "limitTest"}
+    assert lit.many
+    assert_equal 2, lim.upperBound
+  end
+
   class ClassA < RGen::MetamodelBuilder::MMBase
     # metamodel accessors must work independent of the ==() method
     module ClassModule

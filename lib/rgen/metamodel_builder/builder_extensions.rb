@@ -36,6 +36,15 @@ module BuilderExtensions
       end
     end
     
+	# Add an attribute which can hold a single value.
+	# 'role' specifies the name which is used to access the attribute.
+	# 'target_class' specifies the type of objects which can be held by this attribute.
+	# If no target class is given, String will be default.
+	# 
+	# This class method adds the following instance methods, where 'role' is to be 
+	# replaced by the given role name:
+	# 	class#role	# getter
+	# 	class#role=(value)	# setter
 	def has_attr(role, target_class=nil, raw_props={}, &block)
 		props = AttributeDescription.new(target_class, _ownProps(raw_props).merge({
 			:name=>role, :upperBound=>1}))
@@ -43,11 +52,31 @@ module BuilderExtensions
 		FeatureBlockEvaluator.eval(block, props)
 		_build_internal(props)
 	end
-	
-	# Add a single attribute or unidirectional association.
+  
+ 	# Add an attribute which can hold multiple values.
 	# 'role' specifies the name which is used to access the attribute.
 	# 'target_class' specifies the type of objects which can be held by this attribute.
 	# If no target class is given, String will be default.
+	# 
+	# This class method adds the following instance methods, where 'role' is to be 
+	# replaced by the given role name:
+	# 	class#addRole(value)	
+	# 	class#removeRole(value)
+	# 	class#role	# getter, returns an array
+	# 	class#role= # setter, sets multiple values at once
+	# Note that the first letter of the role name is turned into an uppercase 
+	# for the add and remove methods.
+	def has_many_attr(role, target_class=nil, raw_props={}, &block)
+		props = AttributeDescription.new(target_class, _setManyUpperBound(_ownProps(raw_props).merge({
+			:name=>role})))
+		raise "No opposite available" unless _oppositeProps(raw_props).empty?
+		FeatureBlockEvaluator.eval(block, props)
+		_build_internal(props)
+	end
+	
+	# Add a single unidirectional association.
+	# 'role' specifies the name which is used to access the association.
+	# 'target_class' specifies the type of objects which can be held by this association.
 	# 
 	# This class method adds the following instance methods, where 'role' is to be 
 	# replaced by the given role name:
@@ -245,7 +274,7 @@ module BuilderExtensions
 	# 
 	def _build_internal(props1, props2=nil)
 		_add_metamodel_description(props1)
-		if props1.is_a?(ReferenceDescription) && props1.many?
+		if props1.many?
 			_build_many_methods(props1, props2)
 		else
 			_build_one_methods(props1, props2)
