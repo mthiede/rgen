@@ -9,6 +9,12 @@ class JsonSerializer
     @separator = opts[:separator] || "/"
     @leadingSeparator = opts.has_key?(:leadingSeparator) ? opts[:leadingSeparator] : true 
     @featureFilter = opts[:featureFilter]
+    @identifierProvider = opts[:identifierProvider]
+  end
+
+  def elementIdentifier(element)
+    ident = @identifierProvider && @identifierProvider.call(element)
+    ident || qualifiedElementName(element)
   end
 
   # simple identifier calculation based on qualified names
@@ -16,17 +22,17 @@ class JsonSerializer
   # * containment relations must be bidirectionsl
   # * local name stored in single attribute +@identAttrName+ for all classes
   #
-  def elementIdentifier(element)
+  def qualifiedElementName(element)
     return @elementIdentifiers[element] if @elementIdentifiers[element]
     localIdent = ((element.respond_to?(@identAttrName) && element.getGeneric(@identAttrName)) || "").strip
     parentRef = element.class.ecore.eAllReferences.select{|r| r.eOpposite && r.eOpposite.containment}.first
     parent = parentRef && element.getGeneric(parentRef.name)
     if parent
       if localIdent.size > 0
-        parentIdent = elementIdentifier(parent)
+        parentIdent = qualifiedElementName(parent)
         result = parentIdent + @separator + localIdent
       else
-        result = elementIdentifier(parent)
+        result = qualifiedElementName(parent)
       end
     else
       result = (@leadingSeparator ? @separator : "") + localIdent
