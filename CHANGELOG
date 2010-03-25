@@ -106,4 +106,5 @@
 * Added QualifiedNameResolver instantiation helper
 * Added reference proxy support
 * Added more generic access methods on metaclasses
+* Added ReferenceResolver resolver mixin
 

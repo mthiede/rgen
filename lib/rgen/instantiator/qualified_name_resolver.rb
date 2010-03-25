@@ -1,8 +1,13 @@
+require 'rgen/instantiator/reference_resolver'
+
 module RGen
 
 module Instantiator
 
+# This is a resolver resolving element identifiers which are qualified names.
 class QualifiedNameResolver
+  include ReferenceResolver
+
   attr_reader :nameAttribute
   attr_reader :separator
   attr_reader :leadingSeparator
@@ -17,12 +22,12 @@ class QualifiedNameResolver
     @childReferences = {}
   end
 
-  def elementByQName(qualifiedName)
+  def resolveIdentifier(qualifiedName)
     return @elementByQName[qualifiedName] if @elementByQName.has_key?(qualifiedName)
     path = qualifiedName.split(separator).reject{|s| s == ""}
     if path.size > 1
       parentQName = (leadingSeparator ? separator : "") + path[0..-2].join(separator)
-      parents = elementByQName(parentQName)
+      parents = resolveIdentifier(parentQName)
       parents = [parents].compact unless parents.is_a?(Array)
       children = parents.collect{|p| allNamedChildren(p)}.flatten
     elsif path.size == 1

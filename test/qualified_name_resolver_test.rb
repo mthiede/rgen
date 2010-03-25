@@ -39,44 +39,44 @@ class QualifiedNameResolverTest < Test::Unit::TestCase
   def test_customNameAttribute
     model = testModel2
     res = RGen::Instantiator::QualifiedNameResolver.new(model, :nameAttribute => "cname")
-    assert_equal model[0], res.elementByQName("/Root1")
-    assert_equal model[0].children[0], res.elementByQName("/Root1/Sub11")
+    assert_equal model[0], res.resolveIdentifier("/Root1")
+    assert_equal model[0].children[0], res.resolveIdentifier("/Root1/Sub11")
   end
 
   def test_customSeparator
     model = testModel
     res = RGen::Instantiator::QualifiedNameResolver.new(model, :separator => "|")
-    assert_equal model[0], res.elementByQName("|Root1")
-    assert_nil res.elementByQName("/Root1")
-    assert_equal model[0].children[0], res.elementByQName("|Root1|Sub11")
+    assert_equal model[0], res.resolveIdentifier("|Root1")
+    assert_nil res.resolveIdentifier("/Root1")
+    assert_equal model[0].children[0], res.resolveIdentifier("|Root1|Sub11")
   end
 
   def test_noLeadingSeparator
     model = testModel
     res = RGen::Instantiator::QualifiedNameResolver.new(model, :leadingSeparator => false)
-    assert_equal model[0], res.elementByQName("Root1")
-    assert_nil res.elementByQName("/Root1")
-    assert_equal model[0].children[0], res.elementByQName("Root1/Sub11")
+    assert_equal model[0], res.resolveIdentifier("Root1")
+    assert_nil res.resolveIdentifier("/Root1")
+    assert_equal model[0].children[0], res.resolveIdentifier("Root1/Sub11")
   end
     
 	def test_resolve
     model = testModel
     res = RGen::Instantiator::QualifiedNameResolver.new(model)
-    assert_equal model[0], res.elementByQName("/Root1")
+    assert_equal model[0], res.resolveIdentifier("/Root1")
     # again
-    assert_equal model[0], res.elementByQName("/Root1")
-    assert_equal model[0].children[0], res.elementByQName("/Root1/Sub11")
+    assert_equal model[0], res.resolveIdentifier("/Root1")
+    assert_equal model[0].children[0], res.resolveIdentifier("/Root1/Sub11")
     # again
-    assert_equal model[0].children[0], res.elementByQName("/Root1/Sub11")
-    assert_equal model[0].children[1], res.elementByQName("/Root1/Sub12")
-    assert_equal model[0].children[1].children[0], res.elementByQName("/Root1/Sub12/Sub121")
-    assert_equal model[1], res.elementByQName("/Root2")
-    assert_equal model[1].children[0], res.elementByQName("/Root2/Sub21")
-    assert_equal model[1].children[0].children[0], res.elementByQName("/Root2/Sub21/Sub211")
+    assert_equal model[0].children[0], res.resolveIdentifier("/Root1/Sub11")
+    assert_equal model[0].children[1], res.resolveIdentifier("/Root1/Sub12")
+    assert_equal model[0].children[1].children[0], res.resolveIdentifier("/Root1/Sub12/Sub121")
+    assert_equal model[1], res.resolveIdentifier("/Root2")
+    assert_equal model[1].children[0], res.resolveIdentifier("/Root2/Sub21")
+    assert_equal model[1].children[0].children[0], res.resolveIdentifier("/Root2/Sub21/Sub211")
     # duplicate name yields two result elements
-    assert_equal [model[2], model[3]], res.elementByQName("/Root3")
-    assert_equal nil, res.elementByQName("/RootX")
-    assert_equal nil, res.elementByQName("/Root1/SubX")
+    assert_equal [model[2], model[3]], res.resolveIdentifier("/Root3")
+    assert_equal nil, res.resolveIdentifier("/RootX")
+    assert_equal nil, res.resolveIdentifier("/Root1/SubX")
   end
 
 end

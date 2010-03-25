@@ -16,4 +16,5 @@ require 'ea_serializer_test'
 require 'model_builder_test'
 require 'method_delegation_test'
 require 'concrete_support_test'
+require 'reference_resolver_test'
 
