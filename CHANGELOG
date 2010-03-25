@@ -105,4 +105,5 @@
 * Concrete support (ecore to concrete, concrete json serializer)
 * Added QualifiedNameResolver instantiation helper
 * Added reference proxy support
+* Added more generic access methods on metaclasses
 

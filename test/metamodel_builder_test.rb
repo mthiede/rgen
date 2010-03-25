@@ -668,4 +668,24 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [e2], e1.bClasses
     assert_equal [e1], e2.aClasses
   end
+  
+  def test_genericAccess
+    e1 = OneClass.new
+    e2 = ManyClass.new
+    e3 = OneClass.new
+    e4 = ManyClass.new
+    # use on "many" feature
+    e1.setOrAddGeneric("manyClasses", e2)
+    assert_equal [e2], e1.manyClasses
+    assert_equal [e2], e1.getGeneric("manyClasses")
+    assert_equal [e2], e1.getGenericAsArray("manyClasses")
+    # use on "one" feature
+    e2.setOrAddGeneric("oneClass", e3)
+    assert_equal e3, e2.oneClass
+    assert_equal e3, e2.getGeneric("oneClass")
+    assert_equal [e3], e2.getGenericAsArray("oneClass")
+    assert_nil e4.getGeneric("oneClass")
+    assert_equal [], e4.getGenericAsArray("oneClass")
+  end
+
 end

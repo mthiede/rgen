@@ -30,9 +30,27 @@ module BuilderRuntime
 		send("#{role}=",value)
 	end
 
+  def hasManyMethods(role)
+    respond_to?("add#{firstToUpper(role)}")
+  end
+
+  def setOrAddGeneric(role, value)
+    if hasManyMethods(role)
+      addGeneric(role, value)
+    else
+      setGeneric(role, value)
+    end
+  end
+
 	def getGeneric(role)
 		send("#{role}")
 	end
+
+  def getGenericAsArray(role)
+    result = getGeneric(role)
+    result = [result].compact unless result.is_a?(Array)
+    result
+  end
 
 	def _assignmentTypeError(target, value, expected)
 		text = ""
