@@ -192,6 +192,17 @@ module MetamodelBuilder
 	  end
 	end
 	
+  # Instances of the proxy class can be used as values in any reference feature
+  # They can be used instead of the real target elements in case references should be resolved later on
+  class MMProxy
+    # The +targetIdentifer+ is an object identifying the element the proxy represents
+    attr_accessor :targetIdentifier
+
+    def initialize(ident=nil)
+      @targetIdentifier = ident
+    end
+  end
+
 end
 
 end

@@ -563,5 +563,109 @@ class MetamodelBuilderTest < Test::Unit::TestCase
 		somePackage = SomePackage.ecore
 		assert_equal somePackage.eSubpackages.first.object_id, subPackage.object_id
 	end
-  
+
+  def test_proxy
+    p = RGen::MetamodelBuilder::MMProxy.new("test")
+    assert_equal "test", p.targetIdentifier
+    p.targetIdentifier = 123
+    assert_equal 123, p.targetIdentifier
+  end
+ 
+  def test_proxies_has_one
+    e = HasOneTestClass.new 
+    proxy = RGen::MetamodelBuilder::MMProxy.new
+    e.classA = proxy
+    assert_equal proxy, e.classA
+    a = ClassA.new 
+    # displace proxy
+    e.classA = a
+    assert_equal a, e.classA
+    # displace by proxy
+    e.classA = proxy
+    assert_equal proxy, e.classA
+  end
+
+  def test_proxies_has_many
+    e = HasManyTestClass.new
+    proxy = RGen::MetamodelBuilder::MMProxy.new
+    e.addClassA(proxy)
+    assert_equal [proxy], e.classA 
+    # again
+    e.addClassA(proxy)
+    assert_equal [proxy], e.classA 
+    proxy2 = RGen::MetamodelBuilder::MMProxy.new
+    e.addClassA(proxy2)
+    assert_equal [proxy, proxy2], e.classA 
+    e.removeClassA(proxy)
+    assert_equal [proxy2], e.classA
+    # again
+    e.removeClassA(proxy)
+    assert_equal [proxy2], e.classA 
+    e.removeClassA(proxy2)
+    assert_equal [], e.classA 
+  end
+
+  def test_proxies_one_to_one
+    ea = AClassOO.new
+    eb = BClassOO.new
+    proxy1 = RGen::MetamodelBuilder::MMProxy.new
+    proxy2 = RGen::MetamodelBuilder::MMProxy.new
+    ea.bClass = proxy1
+    eb.aClass = proxy2
+    assert_equal proxy1, ea.bClass
+    assert_equal proxy2, eb.aClass
+    # displace proxies
+    ea.bClass = eb
+    assert_equal eb, ea.bClass
+    assert_equal ea, eb.aClass
+    # displace by proxy
+    ea.bClass = proxy1
+    assert_equal proxy1, ea.bClass
+    assert_nil eb.aClass
+  end
+
+  def test_proxies_one_to_many
+    eo = OneClass.new
+    em = ManyClass.new
+    proxy1 = RGen::MetamodelBuilder::MMProxy.new
+    proxy2 = RGen::MetamodelBuilder::MMProxy.new
+    eo.addManyClasses(proxy1)
+    assert_equal [proxy1], eo.manyClasses
+    em.oneClass = proxy2
+    assert_equal proxy2, em.oneClass
+    # displace proxies at many side
+    # adding em will set em.oneClass to eo and displace the proxy from em.oneClass
+    eo.addManyClasses(em)
+    assert_equal [proxy1, em], eo.manyClasses
+    assert_equal eo, em.oneClass
+    eo.removeManyClasses(proxy1)
+    assert_equal [em], eo.manyClasses
+    assert_equal eo, em.oneClass
+    # displace by proxy
+    em.oneClass = proxy2
+    assert_equal [], eo.manyClasses
+    assert_equal proxy2, em.oneClass
+    # displace proxies at one side
+    em.oneClass = eo
+    assert_equal [em], eo.manyClasses
+    assert_equal eo, em.oneClass
+  end
+
+  def test_proxies_many_to_many
+    e1 = AClassMM.new
+    e2 = BClassMM.new
+    proxy1 = RGen::MetamodelBuilder::MMProxy.new
+    proxy2 = RGen::MetamodelBuilder::MMProxy.new
+    e1.addBClasses(proxy1)
+    e2.addAClasses(proxy2)
+    assert_equal [proxy1], e1.bClasses
+    assert_equal [proxy2], e2.aClasses
+    e1.addBClasses(e2)
+    assert_equal [proxy1, e2], e1.bClasses
+    assert_equal [proxy2, e1], e2.aClasses
+    e1.removeBClasses(proxy1) 
+    e2.removeAClasses(proxy2) 
+    assert_equal [e2], e1.bClasses
+    assert_equal [e1], e2.aClasses
+  end
 end
