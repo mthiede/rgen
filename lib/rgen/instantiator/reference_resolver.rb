@@ -27,7 +27,7 @@ module ReferenceResolver
       elsif target
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
       else
-        problens << "identifier #{ur.proxy.targetIdentifier} not found"
+        problems << "identifier #{ur.proxy.targetIdentifier} not found"
       end
     end
   end   

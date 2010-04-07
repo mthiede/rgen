@@ -14,7 +14,7 @@ class JsonSerializer
 
   def elementIdentifier(element)
     ident = @identifierProvider && @identifierProvider.call(element)
-    ident || qualifiedElementName(element)
+    ident || (element.is_a?(RGen::MetamodelBuilder::MMProxy) && element.targetIdentifier) || qualifiedElementName(element)
   end
 
   # simple identifier calculation based on qualified names
