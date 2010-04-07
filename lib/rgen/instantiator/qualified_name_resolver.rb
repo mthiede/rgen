@@ -61,7 +61,7 @@ class QualifiedNameResolver
 
   def allNamedChildren(element)
     childReferences(element.class).collect do |r|
-      element.getGeneric(r.name).collect do |c|
+      element.getGenericAsArray(r.name).collect do |c|
         if c.respond_to?(nameAttribute)
           c
         else

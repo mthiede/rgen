@@ -18,6 +18,11 @@ class QualifiedNameResolverTest < Test::Unit::TestCase
     contains_many 'children', TestNode2, "parent"
   end
 
+  class TestNode3 < RGen::MetamodelBuilder::MMBase
+    has_attr 'name', String
+    contains_one 'child', TestNode3, "parent"
+  end
+
   def testModel
     [TestNode.new(:name => "Root1", :children => [
       TestNode.new(:name => "Sub11"),
@@ -34,6 +39,12 @@ class QualifiedNameResolverTest < Test::Unit::TestCase
   def testModel2
     [TestNode2.new(:cname => "Root1", :children => [
       TestNode2.new(:cname => "Sub11")])]
+  end
+
+  def testModel3
+    [TestNode3.new(:name => "Root1", :child =>
+      TestNode3.new(:name => "Sub11", :child =>
+        TestNode3.new(:name => "Sub111")))]
   end
 
   def test_customNameAttribute
@@ -77,6 +88,14 @@ class QualifiedNameResolverTest < Test::Unit::TestCase
     assert_equal [model[2], model[3]], res.resolveIdentifier("/Root3")
     assert_equal nil, res.resolveIdentifier("/RootX")
     assert_equal nil, res.resolveIdentifier("/Root1/SubX")
+  end
+
+  def test_oneChild
+    model = testModel3
+    res = RGen::Instantiator::QualifiedNameResolver.new(model)
+    assert_equal model[0], res.resolveIdentifier("/Root1")
+    assert_equal model[0].child, res.resolveIdentifier("/Root1/Sub11")
+    assert_equal model[0].child.child, res.resolveIdentifier("/Root1/Sub11/Sub111")
   end
 
 end
