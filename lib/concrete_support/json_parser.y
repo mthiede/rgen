@@ -57,12 +57,17 @@ module ConcreteSupport
 				when /\A([-+]?\d+\.\d+)/
 					str = $'
 					@q << [:FLOAT, ParserToken.new(line, file, $1)]
-				when /\A"([^"]*)"/
+				when /\A"((?:[^"\\]|\\"|\\\\|\\[^"\\])*)"/
 					str = $'
-					@q << [:STRING, ParserToken.new(line, file, $1)]
+          sval = $1
+          sval.gsub!('\\\\','\\')
+          sval.gsub!('\\"','"')
+					@q << [:STRING, ParserToken.new(line, file, sval)]
 				when /\A(\{|\}|\[|\]|,|:|true|false)/
 					str = $'
 					@q << [$1, ParserToken.new(line, file, $1)]
+        else
+          raise "parse error in line #{line} on "+str[0..20].inspect+"..."
 			end
 		end
 		@q.push [false, ParserToken.new(line, file, '$end')]

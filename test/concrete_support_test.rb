@@ -30,6 +30,44 @@ class ConcreteSupportTest < Test::Unit::TestCase
       ser.serialize(env.find(:class => ConcreteMMM::Class))        
     end
   end
+
+  module TestMM
+    extend RGen::MetamodelBuilder::ModuleExtension
+    class TestNode < RGen::MetamodelBuilder::MMBase
+      has_attr 'text', String
+      contains_many 'childs', TestNode, 'parent'
+    end
+  end
+
+  class StringWriter < String
+    alias write concat
+  end
+
+  def test_json_serializer
+    testModel = TestMM::TestNode.new(:text => "some text", :childs => [
+      TestMM::TestNode.new(:text => "child")])
+
+    output = StringWriter.new
+    ser = JsonSerializer.new(output)
+
+    assert_equal %q({ "_class": "TestNode", "text": "some text", "childs": [ 
+  { "_class": "TestNode", "text": "child" }] }), ser.serialize(testModel)
+  end
+
+  def test_json_serializer_escapes
+    testModel = TestMM::TestNode.new(:text => %q(some " \ \" text))
+    output = StringWriter.new
+    ser = JsonSerializer.new(output)
+
+    assert_equal %q({ "_class": "TestNode", "text": "some \" \\ \\\" text" }), ser.serialize(testModel) 
+  end
    
+  def test_json_instantiator_escapes
+    env = RGen::Environment.new
+    inst = JsonInstantiator.new(env, TestMM)
+    inst.instantiate(%q({ "_class": "TestNode", "text": "some \" \\ \\\\\" text" }))
+    assert_equal %q(some " \ \" text), env.elements.first.text
+  end
+
 end
 	
