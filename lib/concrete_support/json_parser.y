@@ -51,12 +51,12 @@ module ConcreteSupport
 					line +=1
 				when /\A\s+/
 					str = $'
-				when /\A([-+]?\d+)/
-					str = $'
-					@q << [:INTEGER, ParserToken.new(line, file, $1)]
 				when /\A([-+]?\d+\.\d+)/
 					str = $'
 					@q << [:FLOAT, ParserToken.new(line, file, $1)]
+				when /\A([-+]?\d+)/
+					str = $'
+					@q << [:INTEGER, ParserToken.new(line, file, $1)]
 				when /\A"((?:[^"\\]|\\"|\\\\|\\[^"\\])*)"/
 					str = $'
           sval = $1

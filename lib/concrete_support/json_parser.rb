@@ -13,7 +13,7 @@ module ConcreteSupport
 
 class JsonParser < Racc::Parser
 
-module_eval <<'..end json_parser.y modeval..id0ef751da66', 'json_parser.y', 36
+module_eval <<'..end json_parser.y modeval..ide26d63b04a', 'json_parser.y', 36
 
 	ParserToken = Struct.new(:line, :file, :value)
 
@@ -32,12 +32,12 @@ module_eval <<'..end json_parser.y modeval..id0ef751da66', 'json_parser.y', 36
 					line +=1
 				when /\A\s+/
 					str = $'
-				when /\A([-+]?\d+)/
-					str = $'
-					@q << [:INTEGER, ParserToken.new(line, file, $1)]
 				when /\A([-+]?\d+\.\d+)/
 					str = $'
 					@q << [:FLOAT, ParserToken.new(line, file, $1)]
+				when /\A([-+]?\d+)/
+					str = $'
+					@q << [:INTEGER, ParserToken.new(line, file, $1)]
 				when /\A"((?:[^"\\]|\\"|\\\\|\\[^"\\])*)"/
 					str = $'
           sval = $1
@@ -60,7 +60,7 @@ module_eval <<'..end json_parser.y modeval..id0ef751da66', 'json_parser.y', 36
     r
 	end
 	
-..end json_parser.y modeval..id0ef751da66
+..end json_parser.y modeval..ide26d63b04a
 
 ##### racc 1.4.5 generates ###
 

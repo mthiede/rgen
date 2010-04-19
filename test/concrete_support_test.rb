@@ -35,6 +35,8 @@ class ConcreteSupportTest < Test::Unit::TestCase
     extend RGen::MetamodelBuilder::ModuleExtension
     class TestNode < RGen::MetamodelBuilder::MMBase
       has_attr 'text', String
+      has_attr 'integer', Integer
+      has_attr 'float', Float
       contains_many 'childs', TestNode, 'parent'
     end
   end
@@ -69,5 +71,32 @@ class ConcreteSupportTest < Test::Unit::TestCase
     assert_equal %q(some " \ \" text), env.elements.first.text
   end
 
+  def test_json_serializer_integer
+    testModel = TestMM::TestNode.new(:integer => 7)
+    output = StringWriter.new
+    ser = JsonSerializer.new(output)
+    assert_equal %q({ "_class": "TestNode", "integer": 7 }), ser.serialize(testModel) 
+  end
+
+  def test_json_instantiator_integer
+    env = RGen::Environment.new
+    inst = JsonInstantiator.new(env, TestMM)
+    inst.instantiate(%q({ "_class": "TestNode", "integer": 7 }))
+    assert_equal 7, env.elements.first.integer
+  end
+
+  def test_json_serializer_float
+    testModel = TestMM::TestNode.new(:float => 1.23)
+    output = StringWriter.new
+    ser = JsonSerializer.new(output)
+    assert_equal %q({ "_class": "TestNode", "float": 1.23 }), ser.serialize(testModel) 
+  end
+
+  def test_json_instantiator_float
+    env = RGen::Environment.new
+    inst = JsonInstantiator.new(env, TestMM)
+    inst.instantiate(%q({ "_class": "TestNode", "float": 1.23 }))
+    assert_equal 1.23, env.elements.first.float
+  end
 end
 	
