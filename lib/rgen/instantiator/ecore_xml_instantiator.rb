@@ -115,30 +115,39 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
     desc.split(/\s+/).collect do |r|
       if r =~ /^#\/\d*\/([\w\/]+)/
         find_in_context(context, $1.split('/'))
-      end
-      end.compact
-    end
-    
-    def find_in_context(context, desc_elements)
-      if context.is_a?(EPackage)
-        r = (context.eClassifiers + context.eSubpackages).find{|c| c.name == desc_elements.first}
-      elsif context.is_a?(EClass)
-        r = context.eStructuralFeatures.find{|s| s.name == desc_elements.first}
-      else
-        raise StandardError.new("Don't know how to find #{desc_elements.join('/')} in context #{context}")
-      end
-      if r
-        if desc_elements.size > 1
-          find_in_context(r, desc_elements[1..-1])
-        else
-          r
+      elsif r =~ /#\/\/(\w+)$/
+        case $1
+          when "EString";     RGen::ECore::EString
+          when "EInt";        RGen::ECore::EInt
+          when "EBoolean";    RGen::ECore::EBoolean
+          when "EFloat";      RGen::ECore::EFloat
+          when "EJavaObject"; RGen::ECore::EJavaObject
+          when "EJavaClass";  RGen::ECore::EJavaClass
         end
-      else
-        log WARN, "Can not follow path, element #{desc_elements.first} not found within #{context}(#{context.name})"
       end
+    end.compact
+  end
+  
+  def find_in_context(context, desc_elements)
+    if context.is_a?(EPackage)
+      r = (context.eClassifiers + context.eSubpackages).find{|c| c.name == desc_elements.first}
+    elsif context.is_a?(EClass)
+      r = context.eStructuralFeatures.find{|s| s.name == desc_elements.first}
+    else
+      raise StandardError.new("Don't know how to find #{desc_elements.join('/')} in context #{context}")
     end
-    
-    def log(level, msg)
-      puts %w(INFO WARN ERROR)[level] + ": " + msg if level >= @loglevel
+    if r
+      if desc_elements.size > 1
+        find_in_context(r, desc_elements[1..-1])
+      else
+        r
+      end
+    else
+      log WARN, "Can not follow path, element #{desc_elements.first} not found within #{context}(#{context.name})"
     end
   end
+  
+  def log(level, msg)
+    puts %w(INFO WARN ERROR)[level] + ": " + msg if level >= @loglevel
+  end
+end
