@@ -7,7 +7,9 @@ module Serializer
 class XMI20Serializer < XMLSerializer
 
 	def serialize(rootElement)
+		@referenceStrings = {}
 		buildReferenceStrings(rootElement, "#/")
+    addBuiltinReferenceStrings
 		attrs = attributeHash(rootElement)
 		attrs['xmi:version'] = "2.0"
 		attrs['xmlns:xmi'] = "http://www.omg.org/XMI"
@@ -36,7 +38,7 @@ class XMI20Serializer < XMLSerializer
 			val = element.getGeneric(a.name)
 			result[a.name] = val unless val.nil? || val == ""
 		end
-		eAllReferences(element).select{|r| !r.containment && !r.derived}.each do |r|
+		eAllReferences(element).select{|r| !r.containment && !(r.eOpposite && r.eOpposite.containment) && !r.derived}.each do |r|
 			targetElements = element.getGeneric(r.name)
 			targetElements = [targetElements] unless targetElements.is_a?(Array)
 			val = targetElements.collect{|te| @referenceStrings[te]}.compact.join(' ')
@@ -46,12 +48,21 @@ class XMI20Serializer < XMLSerializer
 	end
 	
 	def buildReferenceStrings(element, string)
-		@referenceStrings ||= {}
 		@referenceStrings[element] = string
 		eachReferencedElement(element, containmentReferences(element)) do |r,te|
 			buildReferenceStrings(te, string+"/"+te.name) if te.respond_to?(:name)
 		end
 	end
+
+  def addBuiltinReferenceStrings
+    pre = "ecore:EDataType http://www.eclipse.org/emf/2002/Ecore"
+    @referenceStrings[RGen::ECore::EString] = pre+"#//EString"
+    @referenceStrings[RGen::ECore::EInt] = pre+"#//EInt"
+    @referenceStrings[RGen::ECore::EFloat] = pre+"#//EFloat"
+    @referenceStrings[RGen::ECore::EBoolean] = pre+"#//EBoolean"
+    @referenceStrings[RGen::ECore::EJavaObject] = pre+"#//EJavaObject"
+    @referenceStrings[RGen::ECore::EJavaClass] = pre+"#//EJavaClass"
+  end
 
 end
 
