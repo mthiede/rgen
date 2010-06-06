@@ -13,6 +13,9 @@ class JsonInstantiator
     @parser = JsonParser.new(self)
   end
 
+  # creates the elements described by the json string +str+
+  # returns an array of RGen::Instantiator::ReferenceResolver::UnresolvedReference
+  # describing the references which could not be resolved
   def instantiate(str)
     root = @parser.parse(str)
     resolver = RGen::Instantiator::QualifiedNameResolver.new(root, @options)
