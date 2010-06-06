@@ -59,7 +59,7 @@ class ECoreToConcrete < RGen::Transformer
     elsif eType == EBoolean
       @primitiveType[eType] = @env_out.new(ConcreteMMM::Datatype, :name => "Boolean")
     else
-      raise "unsupported datatype: #{eType.name}"
+      # ignore unsupported datatype
     end
   end
 
