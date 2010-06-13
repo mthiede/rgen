@@ -8,12 +8,14 @@ require 'racc/parser'
 
 
 
-module ConcreteSupport
+module RGen
+
+module Instantiator
 
 
 class JsonParser < Racc::Parser
 
-module_eval <<'..end json_parser.y modeval..ide26d63b04a', 'json_parser.y', 36
+module_eval <<'..end json_parser.y modeval..ide42306a0dd', 'json_parser.y', 38
 
 	ParserToken = Struct.new(:line, :file, :value)
 
@@ -60,7 +62,7 @@ module_eval <<'..end json_parser.y modeval..ide26d63b04a', 'json_parser.y', 36
     r
 	end
 	
-..end json_parser.y modeval..ide26d63b04a
+..end json_parser.y modeval..ide42306a0dd
 
 ##### racc 1.4.5 generates ###
 
@@ -317,6 +319,8 @@ module_eval <<'.,.,', 'json_parser.y', 26
 
 end   # class JsonParser
 
+
+end
 
 end
 

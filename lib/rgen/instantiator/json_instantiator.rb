@@ -1,7 +1,9 @@
 require 'rgen/instantiator/qualified_name_resolver'
-require 'concrete_support/json_parser'
+require 'rgen/instantiator/json_parser'
 
-module ConcreteSupport
+module RGen
+
+module Instantiator
 
 class JsonInstantiator
 
@@ -14,11 +16,11 @@ class JsonInstantiator
   end
 
   # creates the elements described by the json string +str+
-  # returns an array of RGen::Instantiator::ReferenceResolver::UnresolvedReference
+  # returns an array of ReferenceResolver::UnresolvedReference
   # describing the references which could not be resolved
   def instantiate(str)
     root = @parser.parse(str)
-    resolver = RGen::Instantiator::QualifiedNameResolver.new(root, @options)
+    resolver = QualifiedNameResolver.new(root, @options)
     resolver.resolveReferences(@unresolvedReferences)
   end
 
@@ -37,7 +39,7 @@ class JsonInstantiator
           idents = hash[k]
           hash[k] = idents.collect do |i|
             proxy = RGen::MetamodelBuilder::MMProxy.new(i)
-            urefs << RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(nil, k, proxy)
+            urefs << ReferenceResolver::UnresolvedReference.new(nil, k, proxy)
             proxy
           end
         else
@@ -45,7 +47,7 @@ class JsonInstantiator
           ident = ident.first if ident.is_a?(Array)
           proxy = RGen::MetamodelBuilder::MMProxy.new(ident)
           hash[k] = proxy
-          urefs << RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(nil, k, proxy)
+          urefs << ReferenceResolver::UnresolvedReference.new(nil, k, proxy)
         end
       elsif f.eType.is_a?(RGen::ECore::EEnum)
         hash[k] = hash[k].to_sym
@@ -72,3 +74,6 @@ class JsonInstantiator
 end
 
 end
+
+end
+

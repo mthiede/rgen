@@ -1,4 +1,6 @@
-module ConcreteSupport
+module RGen
+
+module Serializer
 
 class JsonSerializer
 
@@ -110,6 +112,8 @@ class JsonSerializer
   def write(s)
     @writer.write(s) 
   end
+end
+
 end
 
 end

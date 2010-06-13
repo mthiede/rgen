@@ -30,7 +30,9 @@ end
 
 ---- header
 
-module ConcreteSupport
+module RGen
+
+module Instantiator
 
 ---- inner
 
@@ -80,6 +82,8 @@ module ConcreteSupport
 	end
 	
 ---- footer
+
+end
 
 end
 
