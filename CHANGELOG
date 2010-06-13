@@ -107,4 +107,6 @@
 * Added reference proxy support
 * Added more generic access methods on metaclasses
 * Added ReferenceResolver resolver mixin
+* Fixed ecore xml instantiator and serializer to handle references to builtin datatypes correctly
+* Fixed bug in ecore xml serializer to not output references which are opposites of containment references
 
