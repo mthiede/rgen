@@ -17,4 +17,5 @@ require 'model_builder_test'
 require 'method_delegation_test'
 require 'concrete_support_test'
 require 'reference_resolver_test'
+require 'qualified_name_resolver_test'
 
