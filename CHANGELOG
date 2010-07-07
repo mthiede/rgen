@@ -110,3 +110,7 @@
 * Fixed ecore xml instantiator and serializer to handle references to builtin datatypes correctly
 * Fixed bug in ecore xml serializer to not output references which are opposites of containment references
 
+=0.5.3
+
+* Fixed string escaping in JSON instantiator and serializer
+

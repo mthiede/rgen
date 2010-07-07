@@ -64,6 +64,11 @@ module Instantiator
           sval = $1
           sval.gsub!('\\\\','\\')
           sval.gsub!('\\"','"')
+          sval.gsub!('\\n',"\n")
+          sval.gsub!('\\r',"\r")
+          sval.gsub!('\\t',"\t")
+          sval.gsub!('\\f',"\f")
+          sval.gsub!('\\b',"\b")
 					@q << [:STRING, ParserToken.new(line, file, sval)]
 				when /\A(\{|\}|\[|\]|,|:|true|false)/
 					str = $'

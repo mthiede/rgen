@@ -101,7 +101,8 @@ class JsonSerializer
 
   def attributeValue(value, a)
     if a.eType == RGen::ECore::EString || a.eType.is_a?(RGen::ECore::EEnum)
-      "\""+value.to_s.gsub('"','\\"').gsub('\\','\\\\')+"\""
+      "\""+value.to_s.gsub('\\','\\\\\\\\').gsub('"','\\"').gsub("\n","\\n").gsub("\r","\\r").
+        gsub("\t","\\t").gsub("\f","\\f").gsub("\b","\\b")+"\""
     else
       value.to_s
     end

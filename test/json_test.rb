@@ -46,18 +46,26 @@ class JsonTest < Test::Unit::TestCase
   end
 
   def test_json_serializer_escapes
-    testModel = TestMM::TestNode.new(:text => %q(some " \ \" text))
+    testModel = TestMM::TestNode.new(:text => %Q(some " \\ \\" text \r xx \n xx \r\n xx \t xx \b xx \f))
     output = StringWriter.new
     ser = RGen::Serializer::JsonSerializer.new(output)
 
-    assert_equal %q({ "_class": "TestNode", "text": "some \" \\ \\\" text" }), ser.serialize(testModel) 
+    assert_equal %q({ "_class": "TestNode", "text": "some \" \\\\ \\\\\" text \r xx \n xx \r\n xx \t xx \b xx \f" }),
+      ser.serialize(testModel) 
   end
    
   def test_json_instantiator_escapes
     env = RGen::Environment.new
     inst = RGen::Instantiator::JsonInstantiator.new(env, TestMM)
-    inst.instantiate(%q({ "_class": "TestNode", "text": "some \" \\ \\\\\" text" }))
-    assert_equal %q(some " \ \" text), env.elements.first.text
+    inst.instantiate(%q({ "_class": "TestNode", "text": "some \" \\\\ \\\\\" text \r xx \n xx \r\n xx \t xx \b xx \f" }))
+    assert_equal %Q(some " \\ \\" text \r xx \n xx \r\n xx \t xx \b xx \f), env.elements.first.text
+  end
+
+  def test_json_instantiator_escape_single_backslash
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMM)
+    inst.instantiate(%q({ "_class": "TestNode", "text": "a single \\ will be just itself" }))
+    assert_equal %q(a single \\ will be just itself), env.elements.first.text
   end
 
   def test_json_serializer_integer

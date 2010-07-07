@@ -15,7 +15,7 @@ module Instantiator
 
 class JsonParser < Racc::Parser
 
-module_eval <<'..end json_parser.y modeval..ide42306a0dd', 'json_parser.y', 38
+module_eval <<'..end json_parser.y modeval..id3d5fb611e2', 'json_parser.y', 38
 
 	ParserToken = Struct.new(:line, :file, :value)
 
@@ -45,6 +45,11 @@ module_eval <<'..end json_parser.y modeval..ide42306a0dd', 'json_parser.y', 38
           sval = $1
           sval.gsub!('\\\\','\\')
           sval.gsub!('\\"','"')
+          sval.gsub!('\\n',"\n")
+          sval.gsub!('\\r',"\r")
+          sval.gsub!('\\t',"\t")
+          sval.gsub!('\\f',"\f")
+          sval.gsub!('\\b',"\b")
 					@q << [:STRING, ParserToken.new(line, file, sval)]
 				when /\A(\{|\}|\[|\]|,|:|true|false)/
 					str = $'
@@ -62,7 +67,7 @@ module_eval <<'..end json_parser.y modeval..ide42306a0dd', 'json_parser.y', 38
     r
 	end
 	
-..end json_parser.y modeval..ide42306a0dd
+..end json_parser.y modeval..id3d5fb611e2
 
 ##### racc 1.4.5 generates ###
 
