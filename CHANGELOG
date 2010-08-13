@@ -99,7 +99,7 @@
 * Fixed metamodel builder bug: _register at one-side did not unregister from the element referenced by the old value
 * Added helper class for building simple model comparators
 
-=0.5.2 ( )
+=0.5.2 (Jun 13th, 2010)
 
 * Added has_many_attr to metamodel builder, support for "many" attributes
 * Added JSON support (json instantiator and serializer)
@@ -110,7 +110,7 @@
 * Fixed ecore xml instantiator and serializer to handle references to builtin datatypes correctly
 * Fixed bug in ecore xml serializer to not output references which are opposites of containment references
 
-=0.5.3
+=0.5.3 (Aug 13th, 2010)
 
 * Fixed string escaping in JSON instantiator and serializer
 * Fixed order of eClassifiers and eSubpackages within an EPackage created by reflection on a RGen module
