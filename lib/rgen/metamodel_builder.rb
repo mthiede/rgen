@@ -1,6 +1,7 @@
 # RGen Framework
 # (c) Martin Thiede, 2006
 
+require 'rgen/metamodel_builder/constant_order_helper'
 require 'rgen/metamodel_builder/builder_runtime'
 require 'rgen/metamodel_builder/builder_extensions'
 require 'rgen/metamodel_builder/module_extension'

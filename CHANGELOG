@@ -113,4 +113,5 @@
 =0.5.3
 
 * Fixed string escaping in JSON instantiator and serializer
+* Fixed order of eClassifiers and eSubpackages within an EPackage created by reflection on a RGen module
 

@@ -266,6 +266,7 @@ module BuilderExtensions
 	
 	def inherited(c)
 	  c.send(:include, c.const_set(:ClassModule, Module.new))
+    MetamodelBuilder::ConstantOrderHelper.classCreated(c)
 	end
 		
 	protected

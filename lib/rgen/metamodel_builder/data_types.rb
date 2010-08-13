@@ -21,6 +21,7 @@ module DataTypes
 	  
 	  # Creates a new named enum type object consisting of the elements passed as arguments.
 	  def initialize(params)
+      MetamodelBuilder::ConstantOrderHelper.enumCreated(self)
 	  	if params.is_a?(Array)
 		    @literals = params
 	  		@name = "anonymous"
