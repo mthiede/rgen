@@ -18,6 +18,27 @@ class JsonTest < Test::Unit::TestCase
     end
   end
 
+  module TestMMData
+    extend RGen::MetamodelBuilder::ModuleExtension
+    # class "Data" exists in the standard Ruby namespace
+    class Data < RGen::MetamodelBuilder::MMBase
+      has_attr 'notTheBuiltin', String
+    end
+  end
+
+  module TestMMSubpackage
+    extend RGen::MetamodelBuilder::ModuleExtension
+    module SubPackage
+      extend RGen::MetamodelBuilder::ModuleExtension
+      class Data < RGen::MetamodelBuilder::MMBase
+        has_attr 'notTheBuiltin', String
+      end
+      class Data2 < RGen::MetamodelBuilder::MMBase
+        has_attr 'data2', String
+      end
+    end
+  end
+
   class StringWriter < String
     alias write concat
   end
@@ -94,6 +115,42 @@ class JsonTest < Test::Unit::TestCase
     inst = RGen::Instantiator::JsonInstantiator.new(env, TestMM)
     inst.instantiate(%q({ "_class": "TestNode", "float": 1.23 }))
     assert_equal 1.23, env.elements.first.float
+  end
+
+  def test_json_instantiator_conflict_builtin
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMMData)
+    inst.instantiate(%q({ "_class": "Data", "notTheBuiltin": "for sure" }))
+    assert_equal "for sure", env.elements.first.notTheBuiltin
+  end
+
+  def test_json_serializer_subpacakge
+    testModel = TestMMSubpackage::SubPackage::Data2.new(:data2 => "xxx")
+    output = StringWriter.new
+    ser = RGen::Serializer::JsonSerializer.new(output)
+    assert_equal %q({ "_class": "Data2", "data2": "xxx" }), ser.serialize(testModel) 
+  end
+
+  def test_json_instantiator_builtin_in_subpackage
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMMSubpackage)
+    inst.instantiate(%q({ "_class": "Data", "notTheBuiltin": "for sure" }))
+    assert_equal "for sure", env.elements.first.notTheBuiltin
+  end
+
+  def test_json_instantiator_subpackage
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMMSubpackage)
+    inst.instantiate(%q({ "_class": "Data2", "data2": "something" }))
+    assert_equal "something", env.elements.first.data2
+  end
+
+  def test_json_instantiator_subpackage_no_shortname_opt
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMMSubpackage, :short_class_names => false)
+    assert_raise RuntimeError do
+      inst.instantiate(%q({ "_class": "Data2", "data2": "something" }))
+    end
   end
 end
 	

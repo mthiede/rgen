@@ -121,4 +121,5 @@
 * Fixed undeterministic order of attributes in XMI serializers
 * Fixed ModelSerializer to always serialize the to-one part of bidirectional 1:N references
 * Fixed ModelSerializer to add :as => in case of ambiguous child roles
+* Made JsonInstantiator search subpackages for unqualified class names
 
