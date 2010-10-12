@@ -20,8 +20,12 @@ class XMLSerializer
   def startTag(tag, attributes={})
     @textContent = false
     handleLastStartTag(false, true)
-    @lastStartTag = " "*@indent*INDENT_SPACE +
-    	"<#{tag} "+attributes.keys.collect{|k| "#{k}=\"#{attributes[k]}\""}.join(" ")
+    if attributes.is_a?(Hash)
+      attrString = attributes.keys.collect{|k| "#{k}=\"#{attributes[k]}\""}.join(" ")
+    else
+      attrString = attributes.collect{|pair| "#{pair[0]}=\"#{pair[1]}\""}.join(" ")
+    end
+    @lastStartTag = " "*@indent*INDENT_SPACE + "<#{tag} "+attrString
     @indent += 1
   end
   

@@ -19,10 +19,10 @@ class XMI11Serializer < XMLSerializer
   end
   
   def serialize(rootElement, headerInfo=nil)
-    attrs = {}
-    attrs['xmi.version'] = "1.1"
-    attrs['xmlns:'+@namespaceShortcut] = @namespaceUrl if @namespaceUrl
-    attrs['timestamp'] = Time.now.to_s
+    attrs = []
+    attrs << ['xmi.version', "1.1"]
+    attrs << ['xmlns:'+@namespaceShortcut, @namespaceUrl] if @namespaceUrl
+    attrs << ['timestamp', Time.now.to_s]
     startTag("XMI", attrs)
     if headerInfo
       startTag("XMI.header")
@@ -56,7 +56,7 @@ class XMI11Serializer < XMLSerializer
   
   def writeElement(element)
     tag = @namespacePrefix + element.class.ecore.name
-    attrs = attributeHash(element)
+    attrs = attributeValues(element)
     startTag(tag, attrs)
     containmentReferences(element).each do |r|
       roletag = @namespacePrefix + r.eContainingClass.name + "." + r.name
@@ -77,22 +77,21 @@ class XMI11Serializer < XMLSerializer
     endTag(tag)
   end
 
-  def attributeHash(element)
-    result = {"xmi.id" => xmiId(element)}
+  def attributeValues(element)
+    result = [["xmi.id", xmiId(element)]]
     eAllAttributes(element).select{|a| !a.derived}.each do |a|
       val = element.getGeneric(a.name)
-      result[a.name] = val unless val.nil? || val == ""
+      result << [a.name, val] unless val.nil? || val == ""
     end
     eAllReferences(element).each do |r|
       next if r.derived
       next if r.containment
       next if r.eOpposite && r.eOpposite.containment && xmiLevel(element).nil?
       next if r.eOpposite && r.many && !r.eOpposite.many
-      targetElements = element.getGeneric(r.name)
-      targetElements = [targetElements] unless targetElements.is_a?(Array)
+      targetElements = element.getGenericAsArray(r.name)
       targetElements.compact!
       val = targetElements.collect{|te| xmiId(te)}.compact.join(' ')
-      result[r.name] = val unless val == ""
+      result << [r.name, val] unless val == ""
     end
     result  
   end

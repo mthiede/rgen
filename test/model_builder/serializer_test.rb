@@ -36,29 +36,26 @@ class ModelSerializerTest < Test::Unit::TestCase
     end
   end
   
-  def xxx_test_ecore_original
-    env = RGen::Environment.new
-    File.open(File.dirname(__FILE__)+"/Ecore.ecore") { |f|
-      ECoreXMLInstantiator.new(env,ECoreXMLInstantiator::ERROR).instantiate(f.read)
-    }
-    serializeEcore(env, "ecore", File.dirname(__FILE__)+"/ecore_original.rb")
-    b = nil
-    env2 = RGen::Environment.new
-    RGen::ModelBuilder.build(RGen::ECore, env2) do
-      b = binding
+  def test_roundtrip
+    testModel = %{\
+statemachine "Airconditioner" do
+  state "Off", :kind => :START
+  compositeState "On" do
+    state "Heating", :outgoingTransition => ["_Transition2"], :incomingTransition => ["_Transition1"]
+    state "Cooling", :outgoingTransition => ["_Transition1"], :incomingTransition => ["_Transition2"]
+    state "Dumm"
+  end
+  transition "_Transition1"
+  transition "_Transition2"
+end
+}
+    sm = RGen::ModelBuilder.build(StatemachineMetamodel) do
+      eval(testModel)
     end
-    File.open(File.dirname(__FILE__)+"/ecore_original.rb") do |f|
-      eval(f.read, b)
-    end
-    serializeEcore(env2, "ecore", File.dirname(__FILE__)+"/ecore_original_regenerated.rb")    
+    f = StringIO.new
+    serializer = RGen::ModelBuilder::ModelSerializer.new(f, StatemachineMetamodel.ecore)
+    serializer.serialize(sm)
+    assert_equal testModel, f.string
   end
   
-  def serializeEcore(env, rootPackageName, fileName)
-    env.find(:class => RGen::ECore::EClass).each {|c| c.eOperations = []}
-    env.find(:class => RGen::ECore::EModelElement).each {|e| e.eAnnotations = []}
-    File.open(fileName,"w") do |f|
-      serializer = RGen::ModelBuilder::ModelSerializer.new(f, RGen::ECore.ecore)
-      serializer.serialize(env.find(:class => RGen::ECore::EPackage, :name => rootPackageName))
-    end
-  end
 end

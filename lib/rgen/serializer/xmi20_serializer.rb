@@ -10,11 +10,11 @@ class XMI20Serializer < XMLSerializer
 		@referenceStrings = {}
 		buildReferenceStrings(rootElement, "#/")
     addBuiltinReferenceStrings
-		attrs = attributeHash(rootElement)
-		attrs['xmi:version'] = "2.0"
-		attrs['xmlns:xmi'] = "http://www.omg.org/XMI"
-		attrs['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
-		attrs['xmlns:ecore'] = "http://www.eclipse.org/emf/2002/Ecore" 
+		attrs = attributeValues(rootElement)
+		attrs << ['xmi:version', "2.0"]
+		attrs << ['xmlns:xmi', "http://www.omg.org/XMI"]
+		attrs << ['xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance"]
+		attrs << ['xmlns:ecore', "http://www.eclipse.org/emf/2002/Ecore" ]
 		tag = "ecore:"+rootElement.class.ecore.name
 		startTag(tag, attrs)
 		writeComposites(rootElement)
@@ -23,8 +23,8 @@ class XMI20Serializer < XMLSerializer
 	
 	def writeComposites(element)
 		eachReferencedElement(element, containmentReferences(element)) do |r,te|
-			attrs = attributeHash(te)
-			attrs['xsi:type'] = "ecore:"+te.class.ecore.name
+			attrs = attributeValues(te)
+			attrs << ['xsi:type', "ecore:"+te.class.ecore.name]
 			tag = r.name
 			startTag(tag, attrs)
 			writeComposites(te)
@@ -32,17 +32,16 @@ class XMI20Serializer < XMLSerializer
 		end
 	end
 
-	def attributeHash(element)
-		result = {}
+	def attributeValues(element)
+		result = [] 
 		eAllAttributes(element).select{|a| !a.derived}.each do |a|
 			val = element.getGeneric(a.name)
-			result[a.name] = val unless val.nil? || val == ""
+			result << [a.name, val] unless val.nil? || val == ""
 		end
 		eAllReferences(element).select{|r| !r.containment && !(r.eOpposite && r.eOpposite.containment) && !r.derived}.each do |r|
-			targetElements = element.getGeneric(r.name)
-			targetElements = [targetElements] unless targetElements.is_a?(Array)
+			targetElements = element.getGenericAsArray(r.name)
 			val = targetElements.collect{|te| @referenceStrings[te]}.compact.join(' ')
-			result[r.name] = val unless val.nil? || val == ""
+			result << [r.name, val] unless val.nil? || val == ""
 		end
 		result	
 	end

@@ -31,7 +31,7 @@ class ModelSerializer
     cmd = className[0..0].downcase+className[1..-1]
     args = ["\"#{@internalElementName[element]}\""]
     namePath = namePath + [@internalElementName[element]]
-    childs = {}
+    childs = [] 
     eAllStructuralFeatures(element).each do |f|
       next if f.derived
       if f.is_a?(RGen::ECore::EAttribute)
@@ -50,11 +50,11 @@ class ModelSerializer
         if cs.is_a?(Array)
           cs.compact!
           rcs = cs.select{|c| serializeChild?(c, namePath)}
-          childs[f] = rcs unless rcs.empty?
+          childs << [f, rcs] unless rcs.empty?
           refString = serializeReference(element, f, cs-rcs)
         else
           if cs && serializeChild?(cs, namePath)
-            childs[f] = [cs]
+            childs << [f, [cs]]
           else
             refString = serializeReference(element, f, cs)
           end
@@ -67,7 +67,8 @@ class ModelSerializer
     if childs.size > 0
       @writable.write " do\n"
       oldPackage, @currentPackage = @currentPackage, element.class.ecore.ePackage
-      childs.each_pair do |f,cs|
+      childs.each do |pair|
+        f, cs = pair
         cs.each {|c| serializeElement(c, f, namePath, indent+1) }
       end
       @currentPackage = oldPackage
