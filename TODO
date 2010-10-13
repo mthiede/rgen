@@ -23,7 +23,6 @@
 * Model Serializer:
   - make "name" attribute configurable
   - convert chars in string into something Ruby compatible (e.g newline to \n)
-  - add missing export of child role (:as => ) if more than one child roles are possible
 
 =Minor Issues
 * allow definition of templates from within regular code

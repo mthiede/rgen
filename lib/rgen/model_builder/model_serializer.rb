@@ -62,6 +62,8 @@ class ModelSerializer
         args << ":#{f.name} => #{refString}" if refString
       end
     end
+
+    args << ":as => :#{viaRef.name}" if viaRef && containmentRefs(viaRef.eContainingClass, element.class.ecore).size > 1
     cmd = elementPackage(element)+"."+cmd if elementPackage(element).size > 0
     @writable.write "  " * indent + cmd + " " + args.join(", ")
     if childs.size > 0
@@ -203,6 +205,19 @@ class ModelSerializer
     @eAllStructuralFeatures[element.class] ||= element.class.ecore.eAllStructuralFeatures
   end
     
+  def eAllReferences(eClass)
+    @eAllReferences ||= {}
+    @eAllReferences[eClass] ||= eClass.eAllReferences
+  end
+    
+  def containmentRefs(contextClass, eClass)
+    @containmentRefs ||= {}
+    @containmentRefs[[contextClass, eClass]] ||=
+      eAllReferences(contextClass).select do |r| 
+        r.containment && (eClass.eAllSuperTypes << eClass).include?(r.eType)
+      end
+  end
+
 end
 
 end
