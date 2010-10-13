@@ -119,3 +119,4 @@
 
 * Fixed undeterministic order of child elements in ModelSerializer
 * Fixed undeterministic order of attributes in XMI serializers
+* Fixed ModelSerializer to always serialize the to-one part of bidirectional 1:N references

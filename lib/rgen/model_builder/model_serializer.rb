@@ -97,21 +97,29 @@ class ModelSerializer
   def serializeReference(element, ref, value)
     if value.is_a?(Array)
       value = value.compact
-      value = value.select{|v| compareWithOppositeReference(element, v) > 0} if ref.eOpposite
+      value = value.select{|v| compareWithOppositeReference(ref, element, v) > 0} if ref.eOpposite
       qualNames = value.collect do |v|
         relativeQualifiedElementName(v, element).join(".")
       end
       !qualNames.empty? && ("[" + qualNames.collect { |v| "\"#{v}\"" }.join(", ") + "]")
-    elsif value && (!ref.eOpposite || compareWithOppositeReference(element, value) > 0)
+    elsif value && (!ref.eOpposite || compareWithOppositeReference(ref, element, value) > 0)
       qualName = relativeQualifiedElementName(value, element).join(".")
       ("\"#{qualName}\"")        
     end
   end
   
-  def compareWithOppositeReference(element, target)
+  # descide which part of a bidirectional reference get serialized
+  def compareWithOppositeReference(ref, element, target)
+    result = 0
+    # first try to make the reference from the many side to the one side
+    result = -1 if ref.many && !ref.eOpposite.many
+    result = 1 if !ref.many && ref.eOpposite.many
+    return result if result != 0
+    # for 1:1 or many:many perfer, shorter references
     result = relativeQualifiedElementName(element, target).size <=> 
       relativeQualifiedElementName(target, element).size
     return result if result != 0
+    # there just needs to be a descision, use class name or object_id
     result = element.class.name <=> target.class.name
     return result if result != 0
     element.object_id <=> target.object_id    

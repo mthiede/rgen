@@ -24,7 +24,6 @@
   - make "name" attribute configurable
   - convert chars in string into something Ruby compatible (e.g newline to \n)
   - add missing export of child role (:as => ) if more than one child roles are possible
-  - make sure 1-to-n references are serialized at the 1-side
 
 =Minor Issues
 * allow definition of templates from within regular code
