@@ -688,4 +688,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [], e4.getGenericAsArray("oneClass")
   end
 
+  class AbstractClass < RGen::MetamodelBuilder::MMBase
+    abstract
+  end
+   
+  def test_abstract
+    assert_raise StandardError do
+      AbstractClass.new
+    end
+  end
+
 end

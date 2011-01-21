@@ -123,3 +123,7 @@
 * Fixed ModelSerializer to add :as => in case of ambiguous child roles
 * Made JsonInstantiator search subpackages for unqualified class names
 
+=0.5.5
+
+* Added exception when trying to instantiate abstract class
+

@@ -185,6 +185,7 @@ module MetamodelBuilder
 		extend RGen::ECore::ECoreInstantiator
 		
 		def initialize(arg=nil)
+			raise StandardError.new("Class #{self.class} is abstract") if self.class._abstract_class 
 	    arg.each_pair { |k,v| setGeneric(k, v) } if arg.is_a?(Hash)
 		end
     
