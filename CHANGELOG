@@ -126,4 +126,5 @@
 =0.5.5
 
 * Added exception when trying to instantiate abstract class
+* Replaced xmlscan by dependency to nokogiri
 

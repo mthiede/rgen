@@ -13,11 +13,11 @@ RGenGemSpec = Gem::Specification.new do |s|
   s.has_rdoc = true
   s.authors = ["Martin Thiede"]
   gemfiles = Rake::FileList.new
-  gemfiles.include("{lib,test,redist}/**/*")
+  gemfiles.include("{lib,test}/**/*")
   gemfiles.include("README", "CHANGELOG", "MIT-LICENSE", "Rakefile") 
   gemfiles.exclude(/\b\.bak\b/)
   s.files = gemfiles
-  s.rdoc_options = ["--main", "README", "-x", "redist", "-x", "test", "-x", "metamodels", "-x", "ea_support/uml13*"]
+  s.rdoc_options = ["--main", "README", "-x", "test", "-x", "metamodels", "-x", "ea_support/uml13*"]
   s.extra_rdoc_files = ["README", "CHANGELOG", "MIT-LICENSE"]
 end
 
