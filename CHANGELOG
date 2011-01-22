@@ -127,4 +127,5 @@
 
 * Added exception when trying to instantiate abstract class
 * Replaced xmlscan by dependency to nokogiri
+* Made RGen work with Ruby 1.9
 

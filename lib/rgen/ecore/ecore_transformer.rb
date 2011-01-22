@@ -66,7 +66,7 @@ class ECoreTransformer < Transformer
   transform MetamodelBuilder::Intermediate::Annotation, :to => EAnnotation do
     { :source => source,
       :details => details.keys.collect do |k|
-        e = EStringToStringMapEntry.new
+        e = RGen::ECore::EStringToStringMapEntry.new
         e.key = k
         e.value = details[k]
         e
@@ -78,7 +78,7 @@ class ECoreTransformer < Transformer
     { :name => name, 
       :instanceClassName => @enumParentModule && @enumParentModule[@current_object] && @enumParentModule[@current_object].name+"::"+name,
       :eLiterals => literals.collect do |l|
-        lit = EEnumLiteral.new
+        lit = RGen::ECore::EEnumLiteral.new
         lit.name = l.to_s
         lit
       end }

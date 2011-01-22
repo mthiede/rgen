@@ -46,7 +46,7 @@ class << self
   end
   
   def createDelegatingMethod(object, method)
-    if object.methods.include?(method.to_s)
+    if hasMethod(object, method)
       object.instance_eval <<-END
         class << self
           alias #{aliasMethodName(method)} #{method}
@@ -71,7 +71,7 @@ class << self
   end
 
   def removeDelegatingMethod(object, method)
-    if object.methods.include?(aliasMethodName(method))
+    if hasMethod(object, aliasMethodName(method))
       # there is an aliased original, restore it
       object.instance_eval <<-END
         class << self
@@ -89,6 +89,16 @@ class << self
     end
   end
   
+  def hasMethod(object, method)
+    # in Ruby 1.9, #methods returns symbols
+    if object.methods.first.is_a?(Symbol)
+      method = method.to_sym
+    else
+      method = method.to_s
+    end
+    object.methods.include?(method)
+  end
+
   def aliasMethodName(method)
     "#{method}_delegate_original"
   end    

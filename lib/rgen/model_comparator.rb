@@ -27,10 +27,18 @@ def _modelEqual_internal(a, b, featureIgnoreList, path)
       puts "#{path.inspect}\n  Array size differs: #{a.size} vs. #{b.size}"
       return false 
     end
-    as = a
-    as = a.sort if a.all?{|o| o.respond_to?('<=>')}
-    bs = b
-    bs = b.sort if b.all?{|o| o.respond_to?('<=>')}
+    begin
+      # in Ruby 1.9 every object has the <=> operator but the default one returns
+      # nil and thus sorting won't work (ArgumentError)
+      as = a.sort
+    rescue ArgumentError, NoMethodError
+      as = a
+    end
+    begin
+      bs = b.sort
+    rescue ArgumentError, NoMethodError
+      bs = b
+    end
     a.each_index do |i|
       return false unless _modelEqual_internal(as[i], bs[i], featureIgnoreList, path+[i])
     end

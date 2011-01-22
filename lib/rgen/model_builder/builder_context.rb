@@ -25,6 +25,22 @@ class BuilderContext
     ConstPathElement.new(const, self)
   end
   
+  # in Ruby 1.9.0 and 1.9.1 #instance_eval looks up constants in the calling scope
+  # that's why const_missing needs to be prepared in BuilderContext, too 
+  class << self
+    def currentBuilderContext=(bc)
+     @@currentBuilderContext = bc
+    end
+
+    def const_missing(name)
+      if @@currentBuilderContext
+        ConstPathElement.new(name, @@currentBuilderContext)
+      else
+        super
+      end
+    end
+  end
+
   class CommandResolver
     def initialize(rootPackage, extensionsModule, builderContext)
       @extensionFactory = ExtensionContainerFactory.new(rootPackage, extensionsModule, builderContext)

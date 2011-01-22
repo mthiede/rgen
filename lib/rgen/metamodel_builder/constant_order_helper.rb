@@ -38,7 +38,7 @@ ConstantOrderHelper = Class.new do
   def classCreated(c)
     handlePendingEnum
     cont = containerModule(c)
-    name = c.name.split("::").last
+    name = (c.name || "").split("::").last
     return unless cont.respond_to?(:_constantOrder) && !cont._constantOrder.include?(name)
     cont._constantOrder << name
   end
@@ -46,7 +46,7 @@ ConstantOrderHelper = Class.new do
   def moduleCreated(m)
     handlePendingEnum
     cont = containerModule(m)
-    name = m.name.split("::").last
+    name = (m.name || "").split("::").last
     return unless cont.respond_to?(:_constantOrder) && !cont._constantOrder.include?(name)
     cont._constantOrder << name
     @currentModule = m
@@ -60,7 +60,7 @@ ConstantOrderHelper = Class.new do
   private
 
   def containerModule(m)
-    containerName = m.name.split("::")[0..-2].join("::")
+    containerName = (m.name || "").split("::")[0..-2].join("::")
     containerName.empty? ? nil : eval(containerName, TOPLEVEL_BINDING)
   end 
 
@@ -72,7 +72,7 @@ ConstantOrderHelper = Class.new do
         newConstants = m.constants - m._constantOrder
         const = newConstants.find{|c| m.const_get(c).object_id == @pendingEnum.object_id}
         if const
-          m._constantOrder << const
+          m._constantOrder << const.to_s
           break
         end
       end

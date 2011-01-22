@@ -77,7 +77,7 @@ class MetamodelReflectionTest < Test::Unit::TestCase
   
     TestMM1::Module11.extend(RGen::MetamodelBuilder::ModuleExtension)
     # this is a critical case: because of the previous extension of Module11 which is in a different
-    # hierarchy, DataType7 is looked for in Module11 and its parents; finally it is not
+    # hierarchy, DataType21 is looked for in Module11 and its parents; finally it is not
     # found and the definition is ignored for order calculation
     DataType21 = RGen::MetamodelBuilder::DataTypes::Enum.new(:name => "DataType21", :literals => {:b => 1})
 
@@ -111,7 +111,8 @@ class MetamodelReflectionTest < Test::Unit::TestCase
     assert_equal ["Class11", "DataType11", "Class12", "Class13"], TestMM1.ecore.eClassifiers.name
     assert_equal ["DataType111", "DataType112", "Class111", "DataType113", "DataType114", "DataType115", "DataType116", "Class112"], TestMM1::Module11.ecore.eClassifiers.name
     assert_equal ["Class1122", "Class1121"], TestMM1::Module11::Module112.ecore.eClassifiers.name
-    assert_equal ["DataType22", "DataType21"], TestMM2.ecore.eClassifiers.name
+    # no classifiers in TestMM2._constantOrder, so the datatypes can appear in arbitrary order
+    assert_equal ["DataType21","DataType22"], TestMM2.ecore.eClassifiers.name.sort
   end
 
   def test_subpackage_order

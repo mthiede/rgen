@@ -11,12 +11,17 @@ module ModelBuilder
     bc = BuilderContext.new(package, builderMethodsModule, resolver, env)
     contextModule = eval("Module.nesting", block.binding).first
     MethodDelegation.registerDelegate(bc, contextModule, "const_missing")
+    BuilderContext.currentBuilderContext = bc
+    begin
     #RubyProf.start
-    bc.instance_eval(&block)
+      bc.instance_eval(&block)
     #prof = RubyProf.stop
     #File.open("profile_flat.txt","w+") do |f|
     #  RubyProf::FlatPrinter.new(prof).print(f, 0)
     # end
+    ensure
+      BuilderContext.currentBuilderContext = nil
+    end
     MethodDelegation.unregisterDelegate(bc, contextModule, "const_missing")
     #puts "Resolving..."
     resolver.resolve(bc.toplevelElements)
