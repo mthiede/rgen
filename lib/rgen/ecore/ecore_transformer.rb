@@ -31,13 +31,13 @@ class ECoreTransformer < Transformer
   end
   
   transform Module, :to => EPackage, :if => :convert?  do
-  	@enumParentModule ||= {}
+    @enumParentModule ||= {}
     _constants = _constantOrder + (constants - _constantOrder)
-  	_constants.select {|c| const_get(c).is_a?(MetamodelBuilder::DataTypes::Enum)}.
-  		each {|c| @enumParentModule[const_get(c)] = @current_object}
+    _constants.select {|c| const_get(c).is_a?(MetamodelBuilder::DataTypes::Enum)}.
+      each {|c| @enumParentModule[const_get(c)] = @current_object}
     { :name => name.gsub(/.*::(\w+)$/,'\1'),
       :eClassifiers => trans(_constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Class) || 
-	      (c.is_a?(MetamodelBuilder::DataTypes::Enum) && c != MetamodelBuilder::DataTypes::Boolean) }),
+        (c.is_a?(MetamodelBuilder::DataTypes::Enum) && c != MetamodelBuilder::DataTypes::Boolean) }),
       :eSuperPackage => trans(name =~ /(.*)::\w+$/ ? eval($1) : nil),
       :eSubpackages => trans(_constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Module) && !c.is_a?(Class)}),
       :eAnnotations => trans(_annotations)
@@ -48,15 +48,15 @@ class ECoreTransformer < Transformer
     @current_object.respond_to?(:ecore) && @current_object != RGen::MetamodelBuilder::MMBase
   end
   
-  transform MetamodelBuilder::AttributeDescription, :to => EAttribute do
-    Hash[*MetamodelBuilder::AttributeDescription.propertySet.collect{|p| [p, value(p)]}.flatten].merge({
+  transform MetamodelBuilder::Intermediate::Attribute, :to => EAttribute do
+    Hash[*MetamodelBuilder::Intermediate::Attribute.properties.collect{|p| [p, value(p)]}.flatten].merge({
       :eType => (etype == :EEnumerable ? trans(impl_type) : RGen::ECore.const_get(etype)),
       :eAnnotations => trans(annotations)
     })
   end
   
-  transform MetamodelBuilder::ReferenceDescription, :to => EReference do
-    Hash[*MetamodelBuilder::ReferenceDescription.propertySet.collect{|p| [p, value(p)]}.flatten].merge({
+  transform MetamodelBuilder::Intermediate::Reference, :to => EReference do
+    Hash[*MetamodelBuilder::Intermediate::Reference.properties.collect{|p| [p, value(p)]}.flatten].merge({
       :eType => trans(impl_type),
       :eOpposite => trans(opposite),
       :eAnnotations => trans(annotations)
