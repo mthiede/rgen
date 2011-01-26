@@ -123,11 +123,12 @@
 * Fixed ModelSerializer to add :as => in case of ambiguous child roles
 * Made JsonInstantiator search subpackages for unqualified class names
 
-=0.5.5
+=0.6.0
 
 * Added exception when trying to instantiate abstract class
 * Replaced xmlscan by dependency to nokogiri
 * Made RGen work with Ruby 1.9
 * Cleaned up intermediate attribute and reference description, improvement of metamodel load time
 * Added optional data property for MMProxy
+* Added ECoreToRuby which can create Ruby classes and modules from ECore models in memory (without metamodel generator)
 
