@@ -199,9 +199,12 @@ module MetamodelBuilder
   class MMProxy
     # The +targetIdentifer+ is an object identifying the element the proxy represents
     attr_accessor :targetIdentifier
+    # +data+ is optional additional information to be associated with the proxy
+    attr_accessor :data
 
-    def initialize(ident=nil)
+    def initialize(ident=nil, data=nil)
       @targetIdentifier = ident
+      @data = data
     end
   end
 

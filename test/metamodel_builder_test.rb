@@ -569,6 +569,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal "test", p.targetIdentifier
     p.targetIdentifier = 123
     assert_equal 123, p.targetIdentifier
+    p.data = "additional info"
+    assert_equal "additional info", p.data
+    q = RGen::MetamodelBuilder::MMProxy.new("ident", "data")
+    assert_equal "data", q.data
   end
  
   def test_proxies_has_one

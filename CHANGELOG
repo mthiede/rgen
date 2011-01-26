@@ -129,4 +129,5 @@
 * Replaced xmlscan by dependency to nokogiri
 * Made RGen work with Ruby 1.9
 * Cleaned up intermediate attribute and reference description, improvement of metamodel load time
+* Added optional data property for MMProxy
 
