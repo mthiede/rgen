@@ -458,6 +458,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     has_attr "othersubname"
     has_many "classCs", ClassC
   end
+
+  class SubSubClass < RGen::MetamodelBuilder::MMMultiple(SomeSubClass, OtherSubClass)
+    has_attr "subsubname"
+  end
   
   def test_inheritance
     assert_equal ["name"], SomeSuperClass.ecore.eAllAttributes.name
@@ -466,6 +470,12 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["classAs", "classBs"], SomeSubClass.ecore.eAllReferences.name.sort
     assert_equal ["name", "othersubname"], OtherSubClass.ecore.eAllAttributes.name.sort
     assert_equal ["classAs", "classCs"], OtherSubClass.ecore.eAllReferences.name.sort
+    assert SomeSubClass.new.is_a?(SomeSuperClass)
+    assert_equal ["name", "othersubname", "subname", "subsubname"], SubSubClass.ecore.eAllAttributes.name.sort
+    assert_equal ["classAs", "classBs", "classCs"], SubSubClass.ecore.eAllReferences.name.sort
+    assert SubSubClass.new.is_a?(SomeSuperClass)
+    assert SubSubClass.new.is_a?(SomeSubClass)
+    assert SubSubClass.new.is_a?(OtherSubClass)
   end
   
   module AnnotatedModule 
