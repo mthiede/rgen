@@ -8,7 +8,7 @@ module ECore
 # This transformer creates an ECore model from Ruby classes built
 # by RGen::MetamodelBuilder.
 # 
-class ECoreTransformer < Transformer
+class RubyToECore < Transformer
   
   transform Class, :to => EClass, :if => :convert? do
     { :name => name.gsub(/.*::(\w+)$/,'\1'),

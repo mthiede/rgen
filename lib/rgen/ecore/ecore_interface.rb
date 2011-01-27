@@ -10,7 +10,7 @@ module ECore
 module ECoreInterface
   
   # This method will lazily build to ECore model element belonging to the calling
-  # class or module using ECoreTransformer.
+  # class or module using RubyToECore.
   # Alternatively, the ECore model element can be provided up front. This is used
   # when the Ruby metamodel classes and modules are created from ECore.
   # 
@@ -19,8 +19,8 @@ module ECoreInterface
       @ecore
     else
       unless defined?(@@transformer)
-        require 'rgen/ecore/ecore_transformer'
-        @@transformer = ECoreTransformer.new
+        require 'rgen/ecore/ruby_to_ecore'
+        @@transformer = RubyToECore.new
       end
       @@transformer.trans(self)
     end
@@ -32,8 +32,8 @@ module ECoreInterface
   # Beware, the ecore cache is global, i.e. for all metamodels.
   #
   def self.clear_ecore_cache
-    require 'rgen/ecore/ecore_transformer'
-    @@transformer = ECoreTransformer.new
+    require 'rgen/ecore/ruby_to_ecore'
+    @@transformer = RubyToECore.new
   end
 
   def _set_ecore_internal(ecore) # :nodoc:
