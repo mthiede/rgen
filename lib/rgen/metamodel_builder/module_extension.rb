@@ -1,4 +1,4 @@
-require 'rgen/ecore/ecore_instantiator'
+require 'rgen/ecore/ecore_interface'
 require 'rgen/metamodel_builder/intermediate/annotation'
 
 module RGen
@@ -8,7 +8,7 @@ module MetamodelBuilder
 # This module is used to extend modules which should be
 # part of RGen metamodels
 module ModuleExtension
-  include RGen::ECore::ECoreInstantiator
+  include RGen::ECore::ECoreInterface
   
   def annotation(hash)
     _annotations << Intermediate::Annotation.new(hash)

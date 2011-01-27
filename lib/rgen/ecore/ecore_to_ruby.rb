@@ -9,6 +9,7 @@ class ECoreToRuby
   def initialize
     @modules = {}
     @classifiers = {}
+    @features_added = {}
   end
 
   def create_module(epackage)
@@ -27,6 +28,7 @@ class ECoreToRuby
         create_enum(c)
       end
     end
+    m._set_ecore_internal(epackage)
 
     create_module(epackage.eSuperPackage).const_set(epackage.name, m) if epackage.eSuperPackage
     m
@@ -37,8 +39,22 @@ class ECoreToRuby
 
     c = Class.new(super_class(eclass)) do
       abstract if eclass.abstract
+      class << self
+        attr_accessor :_ecore_to_ruby
+      end
+    end
+    c::ClassModule.module_eval do
+      def method_missing(m, *args)
+        if self.class._ecore_to_ruby.add_features(self.class.ecore)
+          send(m, *args)
+        else
+          super
+        end
+      end
     end
     @classifiers[eclass] = c
+    c._set_ecore_internal(eclass)
+    c._ecore_to_ruby = self
 
     create_module(eclass.ePackage).const_set(eclass.name, c)
     c
@@ -85,8 +101,10 @@ class ECoreToRuby
   end
 
   def add_features(eclass)
+    return false if @features_added[eclass]
     c = @classifiers[eclass]
     eclass.eStructuralFeatures.each do |f|
+      puts "adding feature #{eclass.name}##{f.name}"
       w1 = FeatureWrapper.new(f, @classifiers) 
       w2 = FeatureWrapper.new(f.eOpposite, @classifiers) if f.is_a?(RGen::ECore::EReference) && f.eOpposite
       c.module_eval do
@@ -97,6 +115,11 @@ class ECoreToRuby
         end
       end
     end
+    @features_added[eclass] = true
+    eclass.eSuperTypes.each do |t|
+      add_features(t)
+    end
+    true
   end
 
   def super_class(eclass)

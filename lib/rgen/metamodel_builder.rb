@@ -7,7 +7,7 @@ require 'rgen/metamodel_builder/builder_extensions'
 require 'rgen/metamodel_builder/module_extension'
 require 'rgen/metamodel_builder/data_types'
 require 'rgen/metamodel_builder/mm_multiple'
-require 'rgen/ecore/ecore_instantiator'
+require 'rgen/ecore/ecore_interface'
 
 module RGen
 
@@ -182,7 +182,7 @@ module MetamodelBuilder
 		include DataTypes
 		extend BuilderExtensions
 		extend ModuleExtension
-		extend RGen::ECore::ECoreInstantiator
+		extend RGen::ECore::ECoreInterface
 		
 		def initialize(arg=nil)
 			raise StandardError.new("Class #{self.class} is abstract") if self.class._abstract_class 

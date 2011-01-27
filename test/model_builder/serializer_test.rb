@@ -19,7 +19,7 @@ require 'rgen/ecore/ecore'
 #  end
 #end
 #
-#RGen::ECore::ECoreInstantiator.clear_ecore_cache
+#RGen::ECore::ECoreInterface.clear_ecore_cache
 #RGen::ECore::EString.ePackage = RGen::ECore.ecore
 
 require 'rgen/environment'
