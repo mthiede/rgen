@@ -131,4 +131,5 @@
 * Cleaned up intermediate attribute and reference description, improvement of metamodel load time
 * Added optional data property for MMProxy
 * Added ECoreToRuby which can create Ruby classes and modules from ECore models in memory (without metamodel generator)
+* Added TextSerializer, refactored out QualifiedNameProvider and OppositeReferenceFilter
 
