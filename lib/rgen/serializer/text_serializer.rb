@@ -90,7 +90,7 @@ class TextSerializer
     comment = @comment_provider && @comment_provider.call(element)
     if comment
       comment.split(/\r?\n/).each do |l|
-        write("# #{l}")
+        write("##{l}")
       end
     end
     headline = clazz.name

@@ -108,7 +108,7 @@ TestNode "unlabled", both, unquoted: unquoted, none: "none"
     testModel = TestMMComment::TestNode.new(
       :comment => "this is a comment",
       :childs => [TestMMComment::TestNode.new(
-        :comment => "comment of a child node")])
+        :comment => "comment of a child node\n  multiline")])
 
     output = StringWriter.new
     RGen::Serializer::TextSerializer.new(
@@ -119,9 +119,10 @@ TestNode "unlabled", both, unquoted: unquoted, none: "none"
       }).serialize(testModel, output)
 
     assert_equal %Q(\
-# this is a comment
+#this is a comment
 TestNode {
-  # comment of a child node
+  #comment of a child node
+  #  multiline
   TestNode
 }
 ), output 
