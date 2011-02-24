@@ -23,18 +23,27 @@ class TextInstantiatorTest < Test::Unit::TestCase
     end
   end
 
-  module TestMMSingle
+  module TestMM2
     extend RGen::MetamodelBuilder::ModuleExtension
     class TestNode < RGen::MetamodelBuilder::MMBase
       contains_one 'singleChild', TestNode, 'parent'
     end
+    class TestNode2 < RGen::MetamodelBuilder::MMBase
+    end
+    class TestNode3 < RGen::MetamodelBuilder::MMBase
+    end
+    class TestNode4 < TestNode
+    end
+    TestNode.contains_one 'singleChild2a', TestNode2, 'parentA'
+    TestNode.contains_one 'singleChild2b', TestNode2, 'parentB'
   end
 
-  module TestMMLineno
+  module TestMMLinenoFilename
     extend RGen::MetamodelBuilder::ModuleExtension
     class TestNode < RGen::MetamodelBuilder::MMBase
       has_attr 'text', String
       has_attr 'lineno', Integer
+      has_attr 'filename', String
       contains_many 'childs', TestNode, 'parent'
     end
   end
@@ -116,7 +125,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
         TestNode text: "node3"
       }
       TestNode text: "node4"
-    ), TestMMLineno, :line_number_setter => "lineno=")
+    ), TestMMLinenoFilename, :line_number_setter => "lineno=")
     assert_no_problems(problems)
     assert_equal 2, env.find(:text => "node1").first.lineno
     assert_equal 3, env.find(:text => "node2").first.lineno
@@ -142,6 +151,13 @@ class TextInstantiatorTest < Test::Unit::TestCase
       TestNode a problem here 
     ), TestMM, :file_name => "some_file")
     assert_equal ["some_file"], problems.collect{|p| p.file}
+  end
+
+  def test_file_name_setter
+    env, problems = instantiate(%Q(
+      TestNode text: A
+    ), TestMMLinenoFilename, :file_name => "some_file", :file_name_setter => "filename=")
+    assert_equal "some_file", env.elements.first.filename 
   end
 
   #
@@ -424,7 +440,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
           TestNode
         ]
       }
-    ), TestMMSingle)
+    ), TestMM2)
     assert_problems([
       /only one child allowed in role 'singleChild'/i,
     ], problems)
@@ -438,10 +454,53 @@ class TextInstantiatorTest < Test::Unit::TestCase
         singleChild:
           TestNode
       }
-    ), TestMMSingle)
+    ), TestMM2)
     assert_problems([
       /only one child allowed in role 'singleChild'/i,
     ], problems)
+  end
+
+  def test_wrong_child_role
+    env, problems = instantiate(%Q(
+      TestNode {
+        singleChild:
+          TestNode2
+      }
+    ), TestMM2)
+    assert_problems([
+      /role 'singleChild' can not take a TestNode2, expected TestNode/i,
+    ], problems)
+  end
+
+  def test_wrong_child
+    env, problems = instantiate(%Q(
+      TestNode {
+        TestNode3
+      }
+    ), TestMM2)
+    assert_problems([
+      /this kind of element can not be contained here/i,
+    ], problems)
+  end
+
+  def test_ambiguous_child_role
+    env, problems = instantiate(%Q(
+      TestNode {
+        TestNode2
+      }
+    ), TestMM2)
+    assert_problems([
+      /role of element is ambiguous, use a role label/i,
+    ], problems)
+  end
+
+  def test_non_ambiguous_child_role_subclass
+    env, problems = instantiate(%Q(
+      TestNode {
+        TestNode4
+      }
+    ), TestMM2)
+    assert_no_problems(problems)
   end
 
   def test_not_a_single_child3
@@ -450,7 +509,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
         TestNode
         TestNode
       }
-    ), TestMMSingle)
+    ), TestMM2)
     assert_problems([
       /only one child allowed in role 'singleChild'/i,
     ], problems)

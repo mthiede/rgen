@@ -168,7 +168,7 @@ class TextInstantiator
       expected_type = valid_target_types(feature)
       children.each do |c|
         if !expected_type.include?(c.class.ecore)
-          problem("Role #{role} can not take a #{c.class.ecore.name}, expected #{expected_type.name.join(", ")}", line_number(c))
+          problem("Role '#{role}' can not take a #{c.class.ecore.name}, expected #{expected_type.name.join(", ")}", line_number(c))
         else
           element.setOrAddGeneric(feature.name, c)
         end
@@ -260,7 +260,7 @@ class TextInstantiator
       end
     end
     @containment_by_target_type_cache[[clazz, type]] =
-      ([type]+type.eAllSuperTypes).inject([]){|m,t| m + (map[t] || []) }
+      ([type]+type.eAllSuperTypes).inject([]){|m,t| m + (map[t] || []) }.uniq
   end
 
   def valid_target_types(feature)
