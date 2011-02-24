@@ -189,6 +189,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
   end
 
   def test_references
+    unresolved_refs = []
     env, problems = instantiate(%Q(
       TestNode text: "root" {
         TestNode related: /
@@ -204,9 +205,9 @@ class TextInstantiatorTest < Test::Unit::TestCase
         TestNode related: some/reference/
         TestNode related: some/reference
       }
-    ), TestMM)
+    ), TestMM, :unresolved_refs => unresolved_refs)
     assert_no_problems(problems)
-    assert_equal [ 
+    ref_targets = [ 
       "/",
       "//",
       "/some",
@@ -219,7 +220,9 @@ class TextInstantiatorTest < Test::Unit::TestCase
       "/some/reference/",
       "some/reference/",
       "some/reference"
-    ], env.find(:text => "root").first.childs.collect{|c| c.related.targetIdentifier}
+    ]
+    assert_equal ref_targets, env.find(:text => "root").first.childs.collect{|c| c.related.targetIdentifier}
+    assert_equal ref_targets, unresolved_refs.collect{|ur| ur.proxy.targetIdentifier}
   end
 
   def test_references_many
@@ -473,24 +476,24 @@ class TextInstantiatorTest < Test::Unit::TestCase
     env = RGen::Environment.new
     inst = RGen::Instantiator::TextInstantiator.new(env, mm, options)
     problems = []
-    inst.instantiate(text, problems)
+    inst.instantiate(text, options.merge({:problems => problems}))
     return env, problems
   end
   
   def assert_no_problems(problems)
-    assert problems.empty?, problems.collect{|p| "#{p[0]}, line: #{p[1]}"}
+    assert problems.empty?, problems.collect{|p| "#{p.message}, line: #{p.line}"}
   end
 
   def assert_problems(expected, problems)
     remaining = problems.dup
     probs = []
     expected.each do |e|
-      p = problems.find{|p| p[0] =~ e}
+      p = problems.find{|p| p.message =~ e}
       probs << "expected problem not present: #{e}" if !p
       remaining.delete(p)
     end
     remaining.each do |p|
-      probs << "unexpected problem: #{p[0]}, line: #{p[1]}"
+      probs << "unexpected problem: #{p.message}, line: #{p.line}"
     end
     assert probs.empty?, probs.join("\n")
   end

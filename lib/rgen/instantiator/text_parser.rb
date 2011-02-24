@@ -12,11 +12,11 @@ class Parser
     @visitor = visitor
     @tokens = tokenize(str, @reference_regexp)
     while next_token
-      parse_statement
+      parse_statement(true)
     end
   end
 
-  def parse_statement
+  def parse_statement(is_root=false)
     comment = parse_comment 
     command = consume(:identifier)
     arg_list = []
@@ -26,7 +26,7 @@ class Parser
       parse_statement_block(element_list)
     end
     consume(:newline)
-    @visitor.call(command, arg_list, element_list, comment)
+    @visitor.call(command, arg_list, element_list, comment, is_root)
   end
 
   def parse_comment

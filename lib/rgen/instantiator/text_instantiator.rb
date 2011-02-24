@@ -1,4 +1,5 @@
 require 'rgen/ecore/ecore_ext'
+require 'rgen/instantiator/reference_resolver'
 require 'rgen/instantiator/text_parser'
 
 module RGen
@@ -6,6 +7,10 @@ module RGen
 module Instantiator
 
 class TextInstantiator
+
+  # a problem found during instantiation
+  # if the file is not known, it will be nil
+  InstantiatorProblem = Struct.new(:message, :file, :line)
 
   # Creates a TextInstantiator. Valid +options+ are:
   #
@@ -58,11 +63,29 @@ class TextInstantiator
     @containment_by_target_type_cache = {}
   end
 
-  def instantiate(str, problems=[])
+  # instantiate +str+, +options+ include:
+  #
+  #  :problems:
+  #    an array to which problems will be appended
+  #  
+  #  :unresolved_refs:
+  #    an array to which unresolved references will be appended
+  # 
+  #  :root_elements:
+  #    an array which will hold the root elements
+  #
+  #  :file_name:
+  #    name of the file being instantiated, used in error descriptions
+  #
+  def instantiate(str, options={})
     @line_numbers = {}
-    @problems = problems
+    @problems = options[:problems] || []
+    @unresolved_refs = options[:unresolved_refs]
+    @root_elements = options[:root_elements] || []
+    @file_name = options[:file_name]
     parser = Parser.new(@reference_regexp)
     begin
+      @root_elements.clear
       parser.parse(str) do |*args|
         create_element(*args)
       end
@@ -71,7 +94,7 @@ class TextInstantiator
     end
   end
 
-  def create_element(command, arg_list, element_list, comments)
+  def create_element(command, arg_list, element_list, comments, is_root)
     clazz = @classes[command.value]  
     if !clazz 
       problem("Unknown command '#{command.value}'", command.line)
@@ -82,6 +105,7 @@ class TextInstantiator
       return
     end
     element = @env.new(clazz)
+    @root_elements << element if is_root
     unlabled_args = unlabled_arguments(clazz.ecore)
     di_index = 0
     defined_args = {}
@@ -191,7 +215,13 @@ class TextInstantiator
           element.setOrAddGeneric(feature.name, v.value.to_sym)
         end
       elsif feature.is_a?(RGen::ECore::EReference)
-        element.setOrAddGeneric(feature.name, RGen::MetamodelBuilder::MMProxy.new(v.value))
+        proxy = RGen::MetamodelBuilder::MMProxy.new(v.value)
+        if @unresolved_refs
+          @unresolved_refs << 
+            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(
+              element, feature.name, proxy, :file => @file_name, :line => line)
+        end
+        element.setOrAddGeneric(feature.name, proxy)
       else
         element.setOrAddGeneric(feature.name, v.value)
       end
@@ -264,7 +294,7 @@ class TextInstantiator
   end
 
   def problem(msg, line)
-    @problems << [msg, line] 
+    @problems << InstantiatorProblem.new(msg, @file_name, line) 
   end
 
 end

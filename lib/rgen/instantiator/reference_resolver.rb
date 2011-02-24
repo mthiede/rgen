@@ -11,7 +11,7 @@ module ReferenceResolver
   # optionally the +file+ and +line+ of the reference may be specified
   class UnresolvedReference 
     attr_reader :element, :featureName, :proxy, :file, :line
-    def initialize(element, feature_name, proxy, options={})
+    def initialize(element, featureName, proxy, options={})
       @element = element
       @featureName = featureName
       @proxy = proxy
