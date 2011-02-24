@@ -117,7 +117,7 @@ class Parser
   end
 
   def parse_value
-    consume(:identifier, :integer, :float, :string, :true, :false, :reference)
+    consume(:identifier, :integer, :float, :string, :boolean, :reference)
   end
 
   def next_token
@@ -183,7 +183,7 @@ class Parser
               gsub('\\b',"\b"), idx)
           when /\A(?:true|false)\b/
             str = $'
-            result << Token.new($&.to_sym, $& == "true", idx)
+            result << Token.new(:boolean, $& == "true", idx)
           when /\A([a-zA-Z_]\w*)\b(?:\s*:)?/
             str = $'
             if $&[-1] == ?: 

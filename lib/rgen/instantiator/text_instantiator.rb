@@ -282,7 +282,7 @@ class TextInstantiator
       { RGen::ECore::EString => [:string, :identifier],
         RGen::ECore::EInt => [:integer],
         RGen::ECore::EFloat => [:float],
-        RGen::ECore::EBoolean => [:true, :false],
+        RGen::ECore::EBoolean => [:boolean]
       }[feature.eType] 
     end
   end

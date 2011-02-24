@@ -515,6 +515,20 @@ class TextInstantiatorTest < Test::Unit::TestCase
     ], problems)
   end
 
+  def test_unknown_argument
+    env, problems = instantiate(%Q(
+      TestNode unknown: "some text"
+    ), TestMM)
+    assert_problems([/unknown argument 'unknown'/i], problems)
+  end
+
+  def test_attribute_in_child_reference
+    env, problems = instantiate(%Q(
+      TestNode singleChild: "some text"
+    ), TestMM2)
+    assert_problems([/argument 'singleChild' can only take child elements/i], problems)
+  end
+
   def test_arguments_duplicate
     env, problems = instantiate(%Q(
       TestNode text: "some text", text: "more text"
@@ -527,6 +541,38 @@ class TextInstantiatorTest < Test::Unit::TestCase
       TestNode text: "some text", "more text"
     ), TestMM, :unlabled_arguments => proc {|c| ["text"]})
     assert_problems([/argument 'text' already defined/i], problems)
+  end
+
+  def test_multiple_arguments_in_non_many_attribute
+    env, problems = instantiate(%Q(
+      TestNode text: ["text1", "text2"]
+    ), TestMM)
+    assert_problems([/argument 'text' can take only one value/i], problems)
+  end
+
+  def test_wrong_argument_type
+    env, problems = instantiate(%Q(
+      TestNode text: 1 
+      TestNode integer: "text" 
+      TestNode integer: true 
+      TestNode integer: 1.2 
+      TestNode integer: a 
+      TestNode integer: /a 
+      TestNode enum: 1 
+      TestNode enum: x 
+      TestNode related: 1
+    ), TestMM)
+    assert_problems([
+      /argument 'text' can not take a integer, expected string/i,
+      /argument 'integer' can not take a string, expected integer/i,
+      /argument 'integer' can not take a boolean, expected integer/i,
+      /argument 'integer' can not take a float, expected integer/i,
+      /argument 'integer' can not take a identifier, expected integer/i,
+      /argument 'integer' can not take a reference, expected integer/i,
+      /argument 'enum' can not take a integer, expected identifier/i,
+      /argument 'enum' can not take value x, expected A, B/i,
+      /argument 'related' can not take a integer, expected reference, identifier/i
+    ], problems)
   end
 
   #
