@@ -448,6 +448,20 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_equal 7, env.elements.first.integer
   end
 
+  def test_integer_hex
+    env, problems = instantiate(%q(
+      TestNode text: root {
+        TestNode integer: 0x7 
+        TestNode integer: 0X7 
+        TestNode integer: 0x007 
+        TestNode integer: 0x77
+        TestNode integer: 0xabCDEF
+      }
+    ), TestMM)
+    assert_no_problems(problems)
+    assert_equal [7, 7, 7, 0x77, 0xABCDEF], env.find(:text => "root").first.childs.collect{|c| c.integer}
+  end
+
   def test_float
     env, problems = instantiate(%q(
       TestNode float: 1.23 

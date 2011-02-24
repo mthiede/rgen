@@ -165,6 +165,9 @@ class Parser
           when /\A[-+]?\d+\.\d+\b/
             str = $'
             result << Token.new(:float, $&.to_f, idx)
+          when /\A0[xX][0-9a-fA-F]+\b/
+            str = $'
+            result << Token.new(:integer, $&.to_i(16), idx)
           when /\A[-+]?\d+\b/
             str = $'
             result << Token.new(:integer, $&.to_i, idx)
