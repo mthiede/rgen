@@ -31,6 +31,11 @@ class TextInstantiator
   #     if the method is not present on an element, no line number will be set
   #     default: no line number setting
   #
+  #  :file_name_setter:
+  #     the name of a method which will be called on each element to set the current file (e.g. :file=)
+  #     note that the file name must be provided to +instantiate+ using the file name option
+  #     default: no file name setter
+  #
   #  :short_class_names:
   #     if true, the metamodel is searched for classes by unqualified class name recursively
   #     if false, classes can only be found in the root package, not in subpackages 
@@ -50,6 +55,7 @@ class TextInstantiator
     @unlabled_arguments = options[:unlabled_arguments]
     @comment_handler = options[:comment_handler]
     @line_number_setter = options[:line_number_setter]
+    @file_name_setter = options[:file_name_setter]
     @reference_regexp = options[:reference_regexp] || /\A\w*(\/\w*)+/
     @classes = {}
     ((!options.has_key?(:short_class_names) || options[:short_class_names]) ?
@@ -131,6 +137,7 @@ class TextInstantiator
       end
     end
     set_line_number(element, command.line)
+    set_file_name(element)
     if comments.size > 0
       add_comment(element, comments.collect{|c| c.value}.join("\n"))
     end
@@ -289,6 +296,12 @@ class TextInstantiator
     @line_numbers[element] = line
     if @line_number_setter && element.respond_to?(@line_number_setter)
       element.send(@line_number_setter, line)
+    end
+  end
+
+  def set_file_name(element)
+    if @file_name && @file_name_setter && element.respond_to?(@file_name_setter)
+      element.send(@file_name_setter, @file_name)
     end
   end
 
