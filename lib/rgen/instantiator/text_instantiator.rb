@@ -94,6 +94,8 @@ class TextInstantiator
     end
   end
 
+  private
+
   def create_element(command, arg_list, element_list, comments, is_root)
     clazz = @classes[command.value]  
     if !clazz 
@@ -151,8 +153,9 @@ class TextInstantiator
       if children.size == 0
         return
       end
-      if element.getGenericAsArray(role).size > 0 && !feature.many
-        problem("Only one child allowed in role #{role}", line_number(children[0]))
+      if !feature.many && 
+        (element.getGenericAsArray(role).size > 0 || children.size > 1)
+        problem("Only one child allowed in role '#{role}'", line_number(children[0]))
         return
       end
       expected_type = valid_target_types(feature)
@@ -178,7 +181,7 @@ class TextInstantiator
       end
       feature = feature[0]
       if element.getGenericAsArray(feature.name).size > 0 && !feature.many
-        problem("Only one child allowed in role #{feature.name}", line_number(child))
+        problem("Only one child allowed in role '#{feature.name}'", line_number(child))
         return
       end
       element.setOrAddGeneric(feature.name, child)

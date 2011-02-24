@@ -183,7 +183,7 @@ class Parser
               gsub('\\b',"\b"), idx)
           when /\A(?:true|false)\b/
             str = $'
-            result << Token.new($&.to_sym, nil, idx)
+            result << Token.new($&.to_sym, $& == "true", idx)
           when /\A([a-zA-Z_]\w*)\b(?:\s*:)?/
             str = $'
             if $&[-1] == ?: 

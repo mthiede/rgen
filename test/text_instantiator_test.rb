@@ -10,13 +10,23 @@ class TextInstantiatorTest < Test::Unit::TestCase
   module TestMM
     extend RGen::MetamodelBuilder::ModuleExtension
     class TestNode < RGen::MetamodelBuilder::MMBase
+      SomeEnum = RGen::MetamodelBuilder::DataTypes::Enum.new([:A, :B])
       has_attr 'text', String
       has_attr 'integer', Integer
+      has_attr 'boolean', Boolean
+      has_attr 'enum', SomeEnum
       has_many_attr 'nums', Integer
       has_attr 'float', Float
       has_one 'related', TestNode
       has_many 'others', TestNode
       contains_many 'childs', TestNode, 'parent'
+    end
+  end
+
+  module TestMMSingle
+    extend RGen::MetamodelBuilder::ModuleExtension
+    class TestNode < RGen::MetamodelBuilder::MMBase
+      contains_one 'singleChild', TestNode, 'parent'
     end
   end
 
@@ -77,6 +87,67 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_equal 2, env.elements.size
   end
 
+  def test_comment
+    env, problems = instantiate(%Q(
+      # comment 1
+      TestNode text: "some text" {
+        childs: [
+          # comment 2
+          TestNode text: "child"
+          # comment 3
+          TestNode text: "child2"
+        ]
+      }
+      ), TestMM)
+    assert_no_problems(problems)
+    assert_model_simple(env)
+  end
+
+  # 
+  # options
+  # 
+
+  def test_line_number_setter
+    env, problems = instantiate(%q(
+      TestNode text: "node1" {
+        TestNode text: "node2"
+
+        #some comment
+        TestNode text: "node3"
+      }
+      TestNode text: "node4"
+    ), TestMMLineno, :line_number_setter => "lineno=")
+    assert_no_problems(problems)
+    assert_equal 2, env.find(:text => "node1").first.lineno
+    assert_equal 3, env.find(:text => "node2").first.lineno
+    assert_equal 6, env.find(:text => "node3").first.lineno
+    assert_equal 8, env.find(:text => "node4").first.lineno
+  end
+
+  def test_root_elements
+    root_elements = []
+    env, problems = instantiate(%Q(
+      TestNode text: A
+      TestNode text: B
+      TestNode text: C
+    ), TestMM, :root_elements => root_elements)
+    assert_no_problems(problems)
+    assert_equal ["A", "B", "C"], root_elements.text
+  end
+
+  def test_file_name_option
+    env, problems = instantiate(%Q(
+      TestNode text: A
+      TestNode text: B
+      TestNode a problem here 
+    ), TestMM, :file_name => "some_file")
+    assert_equal ["some_file"], problems.collect{|p| p.file}
+  end
+
+  #
+  # children with role
+  #
+
   def test_child_role
     env, problems = instantiate(%Q(
       TestNode text: "some text" {
@@ -130,21 +201,9 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_model_simple(env)
   end
 
-  def test_comment
-    env, problems = instantiate(%Q(
-      # comment 1
-      TestNode text: "some text" {
-        childs: [
-          # comment 2
-          TestNode text: "child"
-          # comment 3
-          TestNode text: "child2"
-        ]
-      }
-      ), TestMM)
-    assert_no_problems(problems)
-    assert_model_simple(env)
-  end
+  #
+  # whitespace
+  # 
 
   def test_whitespace1
     env, problems = instantiate(%Q(
@@ -187,6 +246,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_no_problems(problems)
     assert_model_simple(env)
   end
+
+  #
+  # references
+  # 
 
   def test_references
     unresolved_refs = []
@@ -259,6 +322,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
      ], env.find(:text => "root").first.childs.collect{|c| c.related.targetIdentifier}
   end
 
+  #
+  # unlabled arguments
+  # 
+
   def test_unlabled_arguments
     env, problems = instantiate(%Q(
       TestNode "some text", [1,2] {
@@ -292,6 +359,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_model_simple(env, :with_nums)
   end
 
+  #
+  # problems
+  # 
+
   def test_unexpected_end_of_file
     env, problems = instantiate(%Q(
       TestNode text: "some text" {
@@ -311,6 +382,13 @@ class TextInstantiatorTest < Test::Unit::TestCase
       TestNode
     ), TestMMAbstract)
     assert_problems([/unknown command 'TestNode'.*abstract/i], problems)
+  end
+
+  def test_unexpected_unlabled_argument
+    env, problems = instantiate(%Q(
+      TestNode "more text"
+    ), TestMM)
+    assert_problems([/unexpected unlabled argument, 0 unlabled arguments expected/i], problems)
   end
 
   def test_unknown_child_role
@@ -338,11 +416,44 @@ class TextInstantiatorTest < Test::Unit::TestCase
     ], problems)
   end
 
-  def test_unexpected_unlabled_argument
+  def test_not_a_single_child
     env, problems = instantiate(%Q(
-      TestNode "more text"
-    ), TestMM)
-    assert_problems([/unexpected unlabled argument, 0 unlabled arguments expected/i], problems)
+      TestNode {
+        singleChild: [
+          TestNode
+          TestNode
+        ]
+      }
+    ), TestMMSingle)
+    assert_problems([
+      /only one child allowed in role 'singleChild'/i,
+    ], problems)
+  end
+
+  def test_not_a_single_child2
+    env, problems = instantiate(%Q(
+      TestNode {
+        singleChild:
+          TestNode
+        singleChild:
+          TestNode
+      }
+    ), TestMMSingle)
+    assert_problems([
+      /only one child allowed in role 'singleChild'/i,
+    ], problems)
+  end
+
+  def test_not_a_single_child3
+    env, problems = instantiate(%Q(
+      TestNode {
+        TestNode
+        TestNode
+      }
+    ), TestMMSingle)
+    assert_problems([
+      /only one child allowed in role 'singleChild'/i,
+    ], problems)
   end
 
   def test_arguments_duplicate
@@ -358,6 +469,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
     ), TestMM, :unlabled_arguments => proc {|c| ["text"]})
     assert_problems([/argument 'text' already defined/i], problems)
   end
+
+  #
+  # comment handler
+  # 
 
   def test_comment_handler
     proc_calls = 0
@@ -392,22 +507,9 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_problems([/element can not take a comment/], problems)
   end
 
-  def test_line_number_setter
-    env, problems = instantiate(%q(
-      TestNode text: "node1" {
-        TestNode text: "node2"
-
-        #some comment
-        TestNode text: "node3"
-      }
-      TestNode text: "node4"
-    ), TestMMLineno, :line_number_setter => "lineno=")
-    assert_no_problems(problems)
-    assert_equal 2, env.find(:text => "node1").first.lineno
-    assert_equal 3, env.find(:text => "node2").first.lineno
-    assert_equal 6, env.find(:text => "node3").first.lineno
-    assert_equal 8, env.find(:text => "node4").first.lineno
-  end
+  #
+  # subpackages
+  #
 
   def test_subpackage
     env, problems = instantiate(%q(
@@ -423,6 +525,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
     ), TestMMSubpackage, :short_class_names => false)
     assert_problems([/Unknown command 'TestNodeSub'/], problems)
   end
+
+  #
+  # values
+  # 
 
   def test_escapes
     env, problems = instantiate(%q(
@@ -470,6 +576,32 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_equal 1.23, env.elements.first.float
   end
 
+  def test_boolean
+    env, problems = instantiate(%q(
+      TestNode text: root {
+        TestNode boolean: true 
+        TestNode boolean: false 
+      }
+    ), TestMM)
+    assert_no_problems(problems)
+    assert_equal [true, false], env.find(:text => "root").first.childs.collect{|c| c.boolean}
+  end
+
+  def test_enum
+    env, problems = instantiate(%q(
+      TestNode text: root {
+        TestNode enum: A 
+        TestNode enum: B 
+      }
+    ), TestMM)
+    assert_no_problems(problems)
+    assert_equal [:A, :B], env.find(:text => "root").first.childs.collect{|c| c.enum}
+  end
+
+  #
+  # conflicts with builtins
+  # 
+
   def test_conflict_builtin
     env, problems = instantiate(%q(
       Data notTheBuiltin: "for sure" 
@@ -485,6 +617,8 @@ class TextInstantiatorTest < Test::Unit::TestCase
     assert_no_problems(problems)
     assert_equal "for sure", env.elements.first.notTheBuiltin
   end
+
+  private
 
   def instantiate(text, mm, options={})
     env = RGen::Environment.new
