@@ -12,9 +12,11 @@ class TextSerializer
   # Creates a TextSerializer. Valid +options+ are:
   #
   #  :identifier_provider:
-  #     a Proc which receives an element and should return this element's identifier as a string
+  #     a Proc which receives an element and its containing element and should return 
+  #     the element's identifier as a string
   #     default: identifiers calculated by QualifiedNameProvider
-  #              in this case options to QualifiedNameProvider may be provided and will be passed through
+  #              in this case options to QualifiedNameProvider may be provided and will 
+  #              be passed through
   #
   #  :feature_provider:
   #     a Proc which receives an EClass and should return a subset of this EClass's features
@@ -26,6 +28,7 @@ class TextSerializer
   #     a Proc which receives an EClass and should return this EClass's features which are to be
   #     serialized without lables in the given order and before all labled arguments
   #     the features must also occur in :feature_provider if :feature_provider is provided
+  #     if unlabled arguments are not part of the current class's features, they will be ignored
   #     default: no unlabled arguments
   #
   #  :unquoted_arguments: 
@@ -189,7 +192,7 @@ class TextSerializer
   def unlabled_arguments(clazz)
     return @unlabled_arguments_cache[clazz] if @unlabled_arguments_cache[clazz] 
     if @unlabled_arguments
-      @unlabled_arguments_cache[clazz] = (@unlabled_arguments.call(clazz) || []) - containments(clazz)
+      @unlabled_arguments_cache[clazz] = (@unlabled_arguments.call(clazz) || []) & non_containments(clazz)
     else
       @unlabled_arguments_cache[clazz] = []
     end

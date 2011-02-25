@@ -107,15 +107,20 @@ TestNode "unlabled", both, unquoted: unquoted, none: "none"
   def test_comment_provider
     testModel = TestMMComment::TestNode.new(
       :comment => "this is a comment",
-      :childs => [TestMMComment::TestNode.new(
-        :comment => "comment of a child node\n  multiline")])
+      :childs => [
+        TestMMComment::TestNode.new(:comment => "comment of a child node\n  multiline"),
+        TestMMComment::TestNode.new(:comment => "don't show")])
 
     output = StringWriter.new
     RGen::Serializer::TextSerializer.new(
       :comment_provider => proc { |e| 
-        c = e.comment
-        e.comment = nil
-        c
+        if e.comment != "don't show"
+          c = e.comment
+          e.comment = nil
+          c
+        else
+          nil
+        end
       }).serialize(testModel, output)
 
     assert_equal %Q(\
@@ -124,6 +129,7 @@ TestNode {
   #comment of a child node
   #  multiline
   TestNode
+  TestNode comment: "don't show"
 }
 ), output 
   end
