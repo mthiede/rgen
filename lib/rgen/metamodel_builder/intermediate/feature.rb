@@ -21,6 +21,10 @@ class Feature
     value(:upperBound) > 1 || value(:upperBound) == -1
   end
 
+  def reference?
+    is_a?(Reference)
+  end
+
   protected
 
   def check(props)

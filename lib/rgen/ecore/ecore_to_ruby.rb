@@ -51,6 +51,10 @@ class ECoreToRuby
           super
         end
       end
+      def respond_to?(m)
+        self.class._ecore_to_ruby.add_features(self.class.ecore)
+        super
+      end
     end
     @classifiers[eclass] = c
     c._set_ecore_internal(eclass)
@@ -81,6 +85,9 @@ class ECoreToRuby
     def many
       @efeature.many
     end
+    def reference?
+      @efeature.is_a?(RGen::ECore::EReference)
+    end
     def opposite
       @efeature.eOpposite
     end
@@ -96,6 +103,10 @@ class ECoreToRuby
         Float
       elsif etype.name == "EBoolean"
         RGen::MetamodelBuilder::DataTypes::Boolean
+      elsif etype.name == "ERubyObject"
+        Object
+      else
+        raise "unknown type: #{etype.name}" 
       end
     end
   end
@@ -104,7 +115,6 @@ class ECoreToRuby
     return false if @features_added[eclass]
     c = @classifiers[eclass]
     eclass.eStructuralFeatures.each do |f|
-      puts "adding feature #{eclass.name}##{f.name}"
       w1 = FeatureWrapper.new(f, @classifiers) 
       w2 = FeatureWrapper.new(f.eOpposite, @classifiers) if f.is_a?(RGen::ECore::EReference) && f.eOpposite
       c.module_eval do

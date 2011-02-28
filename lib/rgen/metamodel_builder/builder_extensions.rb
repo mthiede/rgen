@@ -285,8 +285,8 @@ module BuilderExtensions
       props1.opposite, props2.opposite = props2, props1
       other_class = props1.impl_type      
       other_class._add_metamodel_description(props2)
-      raise "Internal error: second description must be a Intermediate::Reference" \
-        unless props2.is_a?(Intermediate::Reference)
+      raise "Internal error: second description must be a reference description" \
+        unless props2.reference?
       if props2.many?
         other_class._build_many_methods(props2, props1)
       else
@@ -307,11 +307,11 @@ module BuilderExtensions
       @@one_read_builder ||= ERB.new <<-CODE
       
         def <%= name %>
-          <% if props.is_a?(Intermediate::Attribute) && props.value(:defaultValueLiteral) %>
-          <% defVal = props.value(:defaultValueLiteral) %>
-          <% defVal = '"'+defVal+'"' if props.impl_type == String %>
-          <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
-          @<%= name %>.nil? ? <%= defVal %> : @<%= name %>
+          <% if !props.reference? && props.value(:defaultValueLiteral) %>
+            <% defVal = props.value(:defaultValueLiteral) %>
+            <% defVal = '"'+defVal+'"' if props.impl_type == String %>
+            <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
+            @<%= name %>.nil? ? <%= defVal %> : @<%= name %>
           <% else %>
             @<%= name %>
           <% end %>
