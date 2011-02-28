@@ -734,7 +734,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
   end
   
   def assert_no_problems(problems)
-    assert problems.empty?, problems.collect{|p| "#{p.message}, line: #{p.line}"}
+    assert problems.empty?, problems.collect{|p| "#{p.message}, line: #{p.line}"}.join("\n")
   end
 
   def assert_problems(expected, problems)
