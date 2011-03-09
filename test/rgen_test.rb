@@ -20,6 +20,5 @@ require 'reference_resolver_test'
 require 'qualified_name_resolver_test'
 require 'metamodel_order_test'
 require 'metamodel_from_ecore_test'
-require 'text_serializer_test'
-require 'text_instantiator_test'
+require 'rtext_test'
 

@@ -1,6 +1,4 @@
-module RGen
-
-module Instantiator
+module RText 
 
 class Parser
 
@@ -212,7 +210,4 @@ class Parser
 end
 
 end
-
-end
-
 

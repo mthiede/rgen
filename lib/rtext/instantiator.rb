@@ -1,75 +1,25 @@
 require 'rgen/ecore/ecore_ext'
 require 'rgen/instantiator/reference_resolver'
-require 'rgen/instantiator/text_parser'
+require 'rtext/parser'
 
-module RGen
+module RText
 
-module Instantiator
+class Instantiator
 
-class TextInstantiator
-
-  # a problem found during instantiation
+  # A problem found during instantiation
   # if the file is not known, it will be nil
   InstantiatorProblem = Struct.new(:message, :file, :line)
 
-  # Creates a TextInstantiator. Valid +options+ are:
+  # Creates an instantiator for RText::Language +language+ 
   #
-  #  :unlabled_arguments: 
-  #     a Proc which receives an EClass and should return the names of the features which are expected
-  #     to be serialized without lables in the given order and before all labled arguments
-  #     default: no unlabled arguments
-  #
-  #  :comment_handler: 
-  #     a Proc which will be invoked when a new element has been instantiated
-  #     receives an element and the comment as a string
-  #     it should add the comment to the element and return true
-  #     if the element can take no comment, it should return false
-  #     default: no handling of comments 
-  #  
-  #  :line_number_setter:
-  #     the name of a method which will be called on each element to set the line number (e.g. :line=)
-  #     if the method is not present on an element, no line number will be set
-  #     default: no line number setting
-  #
-  #  :file_name_setter:
-  #     the name of a method which will be called on each element to set the current file (e.g. :file=)
-  #     note that the file name must be provided to +instantiate+ using the file name option
-  #     default: no file name setter
-  #
-  #  :short_class_names:
-  #     if true, the metamodel is searched for classes by unqualified class name recursively
-  #     if false, classes can only be found in the root package, not in subpackages 
-  #     default: true
-  #
-  #  :reference_regexp:
-  #     a Regexp which is used by the tokenizer for identifying references 
-  #     it must only match at the beginning of a string, i.e. it should start with \A
-  #     it must be built in a way that does not match other language constructs
-  #     in particular it must not match identifiers (word characters not starting with a digit)
-  #     identifiers can always be used where references are expected
-  #     default: word characters separated by at least one slash (/) 
-  #     
-  #
-  def initialize(env, mm, options={})
-    @env = env
-    @unlabled_arguments = options[:unlabled_arguments]
-    @comment_handler = options[:comment_handler]
-    @line_number_setter = options[:line_number_setter]
-    @file_name_setter = options[:file_name_setter]
-    @reference_regexp = options[:reference_regexp] || /\A\w*(\/\w*)+/
-    @classes = {}
-    ((!options.has_key?(:short_class_names) || options[:short_class_names]) ?
-      mm.ecore.eAllClasses : mm.ecore.eClasses).each do |c|
-        raise "ambiguous class name #{c.name}" if @classes[c.name]
-        @classes[c.name] = c.instanceClass
-      end
-    @unlabled_arguments_cache = {}
-    @feature_by_name_cache = {}
-    @valid_target_types_cache = {}
-    @containment_by_target_type_cache = {}
+  def initialize(language)
+    @lang = language
   end
 
   # instantiate +str+, +options+ include:
+  #
+  #  :env:
+  #    environment to which model elements will be added
   #
   #  :problems:
   #    an array to which problems will be appended
@@ -81,15 +31,16 @@ class TextInstantiator
   #    an array which will hold the root elements
   #
   #  :file_name:
-  #    name of the file being instantiated, used in error descriptions
+  #    name of the file being instantiated
   #
   def instantiate(str, options={})
     @line_numbers = {}
+    @env = options[:env]
     @problems = options[:problems] || []
     @unresolved_refs = options[:unresolved_refs]
     @root_elements = options[:root_elements] || []
     @file_name = options[:file_name]
-    parser = Parser.new(@reference_regexp)
+    parser = Parser.new(@lang.reference_regexp)
     begin
       @root_elements.clear
       parser.parse(str) do |*args|
@@ -103,7 +54,7 @@ class TextInstantiator
   private
 
   def create_element(command, arg_list, element_list, comments, is_root)
-    clazz = @classes[command.value]  
+    clazz = @lang.command_classes[command.value]  
     if !clazz 
       problem("Unknown command '#{command.value}'", command.line)
       return
@@ -112,9 +63,10 @@ class TextInstantiator
       problem("Unknown command '#{command.value}' (metaclass is abstract)", command.line)
       return
     end
-    element = @env.new(clazz)
+    element = clazz.new
+    @env << element if @env
     @root_elements << element if is_root
-    unlabled_args = unlabled_arguments(clazz.ecore)
+    unlabled_args = @lang.unlabled_arguments(clazz.ecore).name
     di_index = 0
     defined_args = {}
     arg_list.each do |a|
@@ -146,7 +98,7 @@ class TextInstantiator
 
   def add_children(element, children, role, role_line)
     if role
-      feature = feature_by_name(element.class.ecore, role)
+      feature = @lang.feature_by_name(element.class.ecore, role)
       if !feature
         problem("Unknown child role '#{role}'", role_line)
         return
@@ -165,7 +117,7 @@ class TextInstantiator
         problem("Only one child allowed in role '#{role}'", line_number(children[0]))
         return
       end
-      expected_type = valid_target_types(feature)
+      expected_type = @lang.concrete_types(feature.eType)
       children.each do |c|
         if !expected_type.include?(c.class.ecore)
           problem("Role '#{role}' can not take a #{c.class.ecore.name}, expected #{expected_type.name.join(", ")}", line_number(c))
@@ -177,7 +129,7 @@ class TextInstantiator
       raise "if there is no role, children must not be an Array" if children.is_a?(Array)
       child = children
       return if child.nil?
-      feature = containment_by_target_type(element.class.ecore, child.class.ecore)
+      feature = @lang.containments_by_target_type(element.class.ecore, child.class.ecore)
       if feature.size == 0
         problem("This kind of element can not be contained here", line_number(child))
         return
@@ -196,7 +148,7 @@ class TextInstantiator
   end
 
   def set_argument(element, name, value, defined_args, line)
-    feature = feature_by_name(element.class.ecore, name)
+    feature = @lang.feature_by_name(element.class.ecore, name)
     if !feature
       problem("Unknown argument '#{name}'", line)
       return
@@ -240,37 +192,13 @@ class TextInstantiator
   end
 
   def add_comment(element, comment)
-    if @comment_handler && !@comment_handler.call(element, comment)
+    if @lang.comment_handler && !@lang.comment_handler.call(element, comment)
       problem("This kind of element can not take a comment", line_number(element))
     end
   end
 
   def is_labeled(a)
     a.is_a?(Array) && a[0].respond_to?(:kind) && a[0].kind == :label
-  end
-
-  def containment_by_target_type(clazz, type)
-    return @containment_by_target_type_cache[[clazz, type]] \
-      if @containment_by_target_type_cache[[clazz, type]]
-    map = {}
-    clazz.eAllReferences.select{|r| r.containment}.each do |r|
-      valid_target_types(r).each do |t|
-        map[t] ||= []
-        map[t] << r
-      end
-    end
-    @containment_by_target_type_cache[[clazz, type]] =
-      ([type]+type.eAllSuperTypes).inject([]){|m,t| m + (map[t] || []) }.uniq
-  end
-
-  def valid_target_types(feature)
-    @valid_target_types_cache[feature] ||=
-      ([feature.eType] + feature.eType.eAllSubTypes).select{|t| !t.abstract}
-  end
-
-  def feature_by_name(clazz, name)
-    @feature_by_name_cache[[clazz, name]] ||=
-      clazz.eAllStructuralFeatures.find{|f| f.name == name}
   end
 
   def expected_token_kind(feature)
@@ -287,21 +215,17 @@ class TextInstantiator
     end
   end
 
-  def unlabled_arguments(clazz)
-    @unlabled_arguments_cache[clazz] ||=
-      @unlabled_arguments ? (@unlabled_arguments[clazz] || []) : []
-  end
-
   def set_line_number(element, line)
     @line_numbers[element] = line
-    if @line_number_setter && element.respond_to?(@line_number_setter)
-      element.send(@line_number_setter, line)
+    if @lang.line_number_attribute && element.respond_to?("#{@lang.line_number_attribute}=")
+      element.send("#{@lang.line_number_attribute}=", line)
     end
   end
 
   def set_file_name(element)
-    if @file_name && @file_name_setter && element.respond_to?(@file_name_setter)
-      element.send(@file_name_setter, @file_name)
+    if @file_name && 
+      @lang.file_name_attribute && element.respond_to?("#{@lang.file_name_attribute}=")
+        element.send("#{@lang.file_name_attribute}=", @file_name)
     end
   end
 
@@ -316,7 +240,4 @@ class TextInstantiator
 end
 
 end
-
-end
-
 

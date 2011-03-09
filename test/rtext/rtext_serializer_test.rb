@@ -1,11 +1,12 @@
-$:.unshift File.join(File.dirname(__FILE__),"..","lib")
+$:.unshift File.join(File.dirname(__FILE__),"..","..","lib")
 
 require 'test/unit'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
-require 'rgen/serializer/text_serializer'
+require 'rtext/serializer'
+require 'rtext/language'
 
-class TextTest < Test::Unit::TestCase
+class RTextSerializerTest < Test::Unit::TestCase
 
   class StringWriter < String
     alias write concat
@@ -26,7 +27,7 @@ class TextTest < Test::Unit::TestCase
       TestMM::TestNode.new(:text => "child")])
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output)
+    serialize(testModel, output)
 
     assert_equal %Q(\
 TestNode text: "some text" {
@@ -57,10 +58,9 @@ TestNode text: "some text" {
       :childs3 => [TestMMFeatureProvider::TestNode.new(:attr1 => "child3")])
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new(
+    serialize(testModel, output,
       :feature_provider => proc {|clazz| 
-        clazz.eAllStructuralFeatures.reject{|f| f.name =~ /parent|2$/}.reverse}
-    ).serialize(testModel, output)
+        clazz.eAllStructuralFeatures.reject{|f| f.name =~ /parent|2$/}.reverse})
 
     assert_equal %Q(\
 TestNode attr3: "attr3", attr1: "attr1" {
@@ -86,10 +86,10 @@ TestNode attr3: "attr3", attr1: "attr1" {
     testModel = TestMMUnlabledUnquoted::TestNode.new(:unlabled => "unlabled", :unquoted => "unquoted", :both => "both", :none => "none")
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new(
-      :unlabled_arguments => proc {|clazz| clazz.eAttributes.select{|a| a.name == "unlabled" || a.name == "both"}},
-      :unquoted_arguments => proc {|clazz| clazz.eAttributes.select{|a| a.name == "unquoted" || a.name == "both"}}
-    ).serialize(testModel, output)
+    serialize(testModel, output,
+      :unlabled_arguments => proc {|clazz| ["unlabled", "both"]},
+      :unquoted_arguments => proc {|clazz| ["unquoted", "both"]}
+    )
 
     assert_equal %Q(\
 TestNode "unlabled", both, unquoted: unquoted, none: "none"
@@ -112,7 +112,7 @@ TestNode "unlabled", both, unquoted: unquoted, none: "none"
         TestMMComment::TestNode.new(:comment => "don't show")])
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new(
+    serialize(testModel, output,
       :comment_provider => proc { |e| 
         if e.comment != "don't show"
           c = e.comment
@@ -121,7 +121,7 @@ TestNode "unlabled", both, unquoted: unquoted, none: "none"
         else
           nil
         end
-      }).serialize(testModel, output)
+      })
 
     assert_equal %Q(\
 #this is a comment
@@ -139,7 +139,7 @@ TestNode {
       TestMM::TestNode.new(:text => "child")])
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new(:indent_string => "____").serialize(testModel, output)
+    serialize(testModel, output, :indent_string => "____")
 
     assert_equal %Q(\
 TestNode {
@@ -168,12 +168,12 @@ ____TestNode text: "child"
     testModel[0].refOne = testModel[1]
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new(
+    serialize(testModel, output,
       :identifier_provider => proc{|e, context| 
         assert_equal testModel[0], context
         "/target/ref"
       }
-    ).serialize(testModel, output) 
+    )
 
     assert_equal %Q(\
 TestNode name: "Source", refOne: /target/ref
@@ -201,7 +201,7 @@ TestNode name: "Target"
     testModel[0].addRefMany(RGen::MetamodelBuilder::MMProxy.new("/some/ref"))
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output)
+    serialize(testModel, output)
 
     assert_equal %Q(\
 TestNode name: "Source", refMany: [/Target/A, /Target/B, /some/ref], refOne: /Target/A/A1, refOneBi: /Target/A/A1
@@ -229,7 +229,7 @@ TestNode name: "Target" {
       has_attr 'text', String
     end
     class TestNodeE < RGen::MetamodelBuilder::MMMultiple(TestNodeC, TestNodeD)
-      has_attr 'text', String
+      has_attr 'text2', String
     end
     class TestNode < RGen::MetamodelBuilder::MMBase
       has_attr 'text', String
@@ -239,6 +239,7 @@ TestNode name: "Target" {
       contains_many 'childs4', TestNodeB, 'parent4'
       contains_one 'child5', TestNodeC, 'parent5'
       contains_many 'childs6', TestNodeD, 'parent6'
+      contains_one 'child7', TestNodeE, 'parent7'
     end
   end
 
@@ -252,11 +253,12 @@ TestNode name: "Target" {
       :child3 => TestMMChildRole::TestNodeA.new(:text => "child3"),
       :childs4 => [TestMMChildRole::TestNodeB.new(:text => "child4")],
       :child5 => TestMMChildRole::TestNodeC.new(:text => "child5"),
-      :childs6 => [TestMMChildRole::TestNodeD.new(:text => "child6")]
+      :childs6 => [TestMMChildRole::TestNodeD.new(:text => "child6")],
+      :child7 => TestMMChildRole::TestNodeE.new(:text2 => "child7")
       )
 
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output)
+    serialize(testModel, output)
 
     assert_equal %Q(\
 TestNode {
@@ -268,10 +270,10 @@ TestNode {
   ]
   TestNodeA text: "child3"
   TestNodeB text: "child4"
-  child5:
-    TestNodeC text: "child5"
-  childs6:
-    TestNodeD text: "child6"
+  TestNodeC text: "child5"
+  TestNodeD text: "child6"
+  child7:
+    TestNodeE text2: "child7"
 }
 ), output 
   end
@@ -279,7 +281,7 @@ TestNode {
   def test_escapes
     testModel = TestMM::TestNode.new(:text => %Q(some " \\ \\" text \r xx \n xx \r\n xx \t xx \b xx \f))
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output) 
+    serialize(testModel, output) 
 
     assert_equal %q(TestNode text: "some \" \\\\ \\\\\" text \r xx \n xx \r\n xx \t xx \b xx \f")+"\n", output
   end
@@ -287,14 +289,14 @@ TestNode {
   def test_integer
     testModel = TestMM::TestNode.new(:integer => 7)
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output) 
+    serialize(testModel, output) 
     assert_equal %q(TestNode integer: 7)+"\n", output
   end
 
   def test_float
     testModel = TestMM::TestNode.new(:float => 1.23)
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output) 
+    serialize(testModel, output) 
     assert_equal %q(TestNode float: 1.23)+"\n", output 
   end
 
@@ -322,9 +324,18 @@ TestNode {
   def test_subpackage
     testModel = TestMMSubpackage::SubPackage::Data2.new(:data2 => "xxx")
     output = StringWriter.new
-    RGen::Serializer::TextSerializer.new.serialize(testModel, output) 
+    serialize(testModel, output) 
     assert_equal %q(Data2 data2: "xxx")+"\n", output
   end
+
+  def serialize(model, output, options={})
+    # metamodel is just a dummy, it is not used for serialization
+    mm = TestMM
+    lang = RText::Language.new(mm.ecore, options)
+    ser = RText::Serializer.new(lang)
+    ser.serialize(model, output)
+  end
+
 
 end
 

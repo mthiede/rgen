@@ -1,11 +1,12 @@
-$:.unshift File.join(File.dirname(__FILE__),"..","lib")
+$:.unshift File.join(File.dirname(__FILE__),"..","..","lib")
 
 require 'test/unit'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
-require 'rgen/instantiator/text_instantiator'
+require 'rtext/instantiator'
+require 'rtext/language'
 
-class TextInstantiatorTest < Test::Unit::TestCase
+class RTextInstantiatorTest < Test::Unit::TestCase
 
   module TestMM
     extend RGen::MetamodelBuilder::ModuleExtension
@@ -125,7 +126,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
         TestNode text: "node3"
       }
       TestNode text: "node4"
-    ), TestMMLinenoFilename, :line_number_setter => "lineno=")
+    ), TestMMLinenoFilename, :line_number_attribute => "lineno")
     assert_no_problems(problems)
     assert_equal 2, env.find(:text => "node1").first.lineno
     assert_equal 3, env.find(:text => "node2").first.lineno
@@ -156,7 +157,7 @@ class TextInstantiatorTest < Test::Unit::TestCase
   def test_file_name_setter
     env, problems = instantiate(%Q(
       TestNode text: A
-    ), TestMMLinenoFilename, :file_name => "some_file", :file_name_setter => "filename=")
+    ), TestMMLinenoFilename, :file_name => "some_file", :file_name_attribute => "filename")
     assert_equal "some_file", env.elements.first.filename 
   end
 
@@ -727,9 +728,10 @@ class TextInstantiatorTest < Test::Unit::TestCase
 
   def instantiate(text, mm, options={})
     env = RGen::Environment.new
-    inst = RGen::Instantiator::TextInstantiator.new(env, mm, options)
+    lang = RText::Language.new(mm.ecore, options)
+    inst = RText::Instantiator.new(lang)
     problems = []
-    inst.instantiate(text, options.merge({:problems => problems}))
+    inst.instantiate(text, options.merge({:env => env, :problems => problems}))
     return env, problems
   end
   
