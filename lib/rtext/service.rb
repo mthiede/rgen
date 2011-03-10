@@ -11,6 +11,7 @@ class Service
     @completer = RText::Completer.new(lang) 
     @instantiator = RText::Instantiator.new(lang)
     @timeout = options[:timeout] || 60
+    @ref_target_provider = options[:ref_target_provider]
   end
 
   def run
@@ -62,7 +63,7 @@ class Service
 
   def complete(lines)
     current_line = lines.pop
-    options = @completer.complete(current_line, proc {|i| lines[-i]})
+    options = @completer.complete(current_line, proc {|i| lines[-i]}, @ref_target_provider)
     options.collect { |o|
       "#{o.text};#{o.extra}\n"
     }

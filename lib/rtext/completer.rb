@@ -23,7 +23,12 @@ class Completer
   #    1 is the line just above the current one, 2 is the second line above, etc.
   #    the proc must return the line as a string or nil if there is no more line
   #
-  def complete(linestart, prev_line_provider)
+  #  +ref_target_provider+
+  #    a proc which receives a EReference and a constext element and should return
+  #    the possible target elements of the reference
+  #    note, that the context element may be nil if this information is unavailable
+  #
+  def complete(linestart, prev_line_provider, ref_target_provider=nil)
     # command
     if linestart =~ /^\s*(\w*)$/ 
       prefix = $1
@@ -36,12 +41,44 @@ class Completer
     # attribute
     elsif linestart =~ /^\s*(\w+)\s+(?:[^,]+,)*\s*(\w*)$/
       command, prefix = $1, $2
-      clazz = @lang.root_epackage.eAllClasses.find{|c| c.name == command}
+      clazz = @lang.class_by_command(command).ecore
       if clazz
         features = @lang.labled_arguments(clazz)
         features = features.select{|f| f.name.index(prefix) == 0} if prefix
         features.sort{|a,b| a.name <=> b.name}.collect do |f| 
           CompletionOption.new("#{f.name}:", "<#{f.eType.name}>")
+        end
+      else
+        []
+      end
+    # value
+    elsif linestart =~ /\s*(\w+)\s+(?:[^,]+,)*\s*(\w+):\s*(\S*)$/
+      command, fn, prefix = $1, $2, $3
+      clazz = @lang.class_by_command(command).ecore
+      feature = clazz && @lang.non_containments(clazz).find{|f| f.name == fn}
+      if feature
+        if feature.is_a?(RGen::ECore::EReference)
+          if ref_target_provider
+            ref_target_provider.call(feature, nil).collect do |t|
+              CompletionOption.new(@lang.identifier_provider.call(t, nil), "<#{t.class.ecore.name}>")
+            end
+          else
+            []
+          end
+        elsif feature.eType.is_a?(RGen::ECore::EEnum)
+          feature.eType.eLiterals.collect do |l|
+            CompletionOption.new("#{l.name}")
+          end 
+        elsif feature.eType == RGen::ECore::EString
+          [ CompletionOption.new("\"\"") ]
+        elsif feature.eType == RGen::ECore::EInt
+          (0..4).collect{|i| CompletionOption.new("#{i}") }
+        elsif feature.eType == RGen::ECore::EFloat
+          (0..4).collect{|i| CompletionOption.new("#{i}.0") }
+        elsif feature.eType == RGen::ECore::EBoolean
+          [true, false].collect{|b| CompletionOption.new("#{b}") }
+        else
+          []
         end
       else
         []

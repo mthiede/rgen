@@ -99,7 +99,6 @@ class Language
   end
 
   attr_reader :root_epackage
-  attr_reader :command_classes
   attr_reader :reference_regexp
   attr_reader :identifier_provider
   attr_reader :line_number_attribute
@@ -107,6 +106,10 @@ class Language
   attr_reader :comment_handler
   attr_reader :comment_provider
   attr_reader :indent_string
+
+  def class_by_command(command)
+    @command_classes[command]
+  end
 
   def containments(clazz)
     features(clazz).select{|f| f.is_a?(RGen::ECore::EReference) && f.containment}

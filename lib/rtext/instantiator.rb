@@ -54,7 +54,7 @@ class Instantiator
   private
 
   def create_element(command, arg_list, element_list, comments, is_root)
-    clazz = @lang.command_classes[command.value]  
+    clazz = @lang.class_by_command(command.value)  
     if !clazz 
       problem("Unknown command '#{command.value}'", command.line)
       return
