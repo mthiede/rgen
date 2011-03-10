@@ -1,6 +1,8 @@
 require 'andand'
 
 module RGen
+
+module Util
 	
 class ModelComparatorBase
 	
@@ -135,3 +137,6 @@ class ModelComparatorBase
 end
 
 end
+
+end
+

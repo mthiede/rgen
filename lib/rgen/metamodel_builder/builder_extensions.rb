@@ -16,7 +16,7 @@ module MetamodelBuilder
 # See MetamodelBuilder for an example.
 # 
 module BuilderExtensions
-  include NameHelper
+  include Util::NameHelper
 
   class FeatureBlockEvaluator
     def self.eval(block, props1, props2=nil)

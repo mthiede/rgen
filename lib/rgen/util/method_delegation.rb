@@ -1,4 +1,6 @@
 module RGen
+
+module Util
   
 module MethodDelegation
 
@@ -107,3 +109,6 @@ end
 end
 
 end
+
+end
+

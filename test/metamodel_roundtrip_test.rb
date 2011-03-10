@@ -2,7 +2,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
 require 'test/unit'
 require 'rgen/array_extensions'
-require 'rgen/model_comparator'
+require 'rgen/util/model_comparator'
 require 'mmgen/metamodel_generator'
 require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/serializer/xmi20_serializer'
@@ -12,7 +12,7 @@ class MetamodelRoundtripTest < Test::Unit::TestCase
   TEST_DIR = File.dirname(__FILE__)+"/metamodel_roundtrip_test"
   
   include MMGen::MetamodelGenerator
-  include RGen::ModelComparator
+  include RGen::Util::ModelComparator
   
   module Regenerated
     Inside = binding

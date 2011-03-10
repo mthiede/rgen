@@ -1,7 +1,7 @@
 # RGen Framework
 # (c) Martin Thiede, 2006
 
-require 'rgen/name_helper'
+require 'rgen/util/name_helper'
 
 module RGen
 
@@ -11,7 +11,7 @@ module MetamodelBuilder
 # The methods provided by this module are used by the methods generated
 # by the class methods of MetamodelBuilder::BuilderExtensions
 module BuilderRuntime
-	include NameHelper
+	include Util::NameHelper
 	
 	def is_a?(c)
     return super unless c.const_defined?(:ClassModule)

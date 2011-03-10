@@ -1,5 +1,7 @@
 module RGen
 
+module Util
+
 module ModelDumper
 
 	def dump(obj=nil)
@@ -22,3 +24,6 @@ module ModelDumper
 end
 
 end
+
+end
+

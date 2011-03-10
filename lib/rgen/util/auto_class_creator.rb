@@ -5,6 +5,8 @@ require 'rgen/metamodel_builder'
 
 module RGen
 
+module Util
+
 class Base
 	extend MetamodelBuilder
 	def initialize(env=nil)
@@ -54,3 +56,6 @@ module AutoClassCreator
 end
 
 end
+
+end
+

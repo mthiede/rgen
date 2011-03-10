@@ -1,7 +1,7 @@
 $:.unshift File.dirname(__FILE__) + "/../lib"
 
 require 'test/unit'
-require 'rgen/method_delegation'
+require 'rgen/util/method_delegation'
 
 class MethodDelegationTest < Test::Unit::TestCase
   include RGen
@@ -82,12 +82,12 @@ class MethodDelegationTest < Test::Unit::TestCase
   
   def test_const_missing
     surroundingModule = Module.nesting.first
-    MethodDelegation.registerDelegate(ConstPathElement, surroundingModule, "const_missing")
+    Util::MethodDelegation.registerDelegate(ConstPathElement, surroundingModule, "const_missing")
     
     assert_equal "SomeArbitraryConst", SomeArbitraryConst.to_s
     assert_equal "AnotherConst::A::B::C", AnotherConst::A::B::C.to_s
     
-    MethodDelegation.unregisterDelegate(ConstPathElement, surroundingModule, "const_missing")
+    Util::MethodDelegation.unregisterDelegate(ConstPathElement, surroundingModule, "const_missing")
     assert_raise NameError do 
       SomeArbitraryConst
     end
@@ -97,8 +97,8 @@ class MethodDelegationTest < Test::Unit::TestCase
     delegate1 = TestDelegate.new
     delegate2 = TestDelegate.new
     
-    MethodDelegation.registerDelegate(delegate1, delegator, method)
-    MethodDelegation.registerDelegate(delegate2, delegator, method)
+    Util::MethodDelegation.registerDelegate(delegate1, delegator, method)
+    Util::MethodDelegation.registerDelegate(delegate2, delegator, method)
     
     assert delegator.respond_to?(:_methodDelegates)
     if newMethod
@@ -145,8 +145,8 @@ class MethodDelegationTest < Test::Unit::TestCase
     assert_equal 2, delegate2.callcount
     
     # calling unregister with a non existing method has no effect
-    MethodDelegation.unregisterDelegate(delegate1, delegator, "xxx")
-    MethodDelegation.unregisterDelegate(delegate1, delegator, method)
+    Util::MethodDelegation.unregisterDelegate(delegate1, delegator, "xxx")
+    Util::MethodDelegation.unregisterDelegate(delegate1, delegator, method)
     
     checkCallOriginal(delegator, method, originalResult, newMethod)
     # delegate1 not called any more
@@ -154,7 +154,7 @@ class MethodDelegationTest < Test::Unit::TestCase
     # delegate2 is still called
     assert_equal 3, delegate2.callcount
     
-    MethodDelegation.unregisterDelegate(delegate2, delegator, method)
+    Util::MethodDelegation.unregisterDelegate(delegate2, delegator, method)
     
     checkCallOriginal(delegator, method, originalResult, newMethod)
     # both delegates not called any more

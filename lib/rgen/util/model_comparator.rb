@@ -2,6 +2,8 @@ require 'rgen/ecore/ecore'
 
 module RGen
 
+module Util
+
 module ModelComparator
 
 # This method compares to models regarding equality
@@ -61,4 +63,6 @@ end
 end
 
 end
-    
+
+end
+ 

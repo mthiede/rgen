@@ -8,7 +8,7 @@ module Instantiator
 # Derive your own instantiator from this class or use it as is.
 # 
 class DefaultXMLInstantiator < NodebasedXMLInstantiator
-	include NameHelper
+	include Util::NameHelper
 
 	NamespaceDescriptor = Struct.new(:prefix, :target)
 	

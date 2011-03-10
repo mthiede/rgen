@@ -3,6 +3,8 @@
 
 module RGen
 
+module Util
+
 module NameHelper
 
 	def normalize(name)
@@ -35,3 +37,6 @@ module NameHelper
 end
 
 end
+
+end
+

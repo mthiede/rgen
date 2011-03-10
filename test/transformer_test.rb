@@ -4,7 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","test")
 require 'test/unit'
 require 'rgen/transformer'
 require 'rgen/environment'
-require 'rgen/model_comparator'
+require 'rgen/util/model_comparator'
 require 'metamodels/uml13_metamodel'
 require 'testmodel/class_model_checker'
 
@@ -236,7 +236,7 @@ class TransformerTest < Test::Unit::TestCase
 	MODEL_DIR = File.join(File.dirname(__FILE__),"testmodel")
 
 	include Testmodel::ClassModelChecker
-    include RGen::ModelComparator
+    include RGen::Util::ModelComparator
 	
 	def test_copyTransformer
 		envIn = RGen::Environment.new

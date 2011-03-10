@@ -134,4 +134,5 @@
 * Refactored out QualifiedNameProvider and OppositeReferenceFilter
 * Added RText support
 * Extended Instantiator::ReferenceResolver and changed it into a class
+* Moved utilities into util folder/module
 
