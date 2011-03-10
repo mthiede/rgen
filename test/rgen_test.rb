@@ -21,4 +21,5 @@ require 'qualified_name_resolver_test'
 require 'metamodel_order_test'
 require 'metamodel_from_ecore_test'
 require 'rtext_test'
+require 'util_test'
 
