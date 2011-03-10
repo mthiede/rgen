@@ -12,17 +12,40 @@ class ReferenceResolverTest < Test::Unit::TestCase
     has_many 'others', TestNode
   end
 
-  class TestResolver
-    include RGen::Instantiator::ReferenceResolver
-    def initialize(nodeA, nodeB, nodeC)
-      @nodeA, @nodeB, @nodeC = nodeA, nodeB, nodeC
-    end
-    def resolveIdentifier(ident)
-      {:a => @nodeA, :b => @nodeB, :c => @nodeC}[ident] 
-    end
+  def test_identifier_resolver
+    nodeA, nodeB, nodeC, unresolved_refs = create_model
+    resolver = RGen::Instantiator::ReferenceResolver.new(
+      :identifier_resolver => proc do |ident|
+        {:a => nodeA, :b => nodeB, :c => nodeC}[ident]
+      end)
+    resolver.resolve(unresolved_refs)
+    check_model(nodeA, nodeB, nodeC)
   end
 
-  def test_simple
+  def test_add_identifier
+    nodeA, nodeB, nodeC, unresolved_refs = create_model
+    resolver = RGen::Instantiator::ReferenceResolver.new
+    resolver.add_identifier(:a, nodeA)
+    resolver.add_identifier(:b, nodeB)
+    resolver.add_identifier(:c, nodeC)
+    resolver.resolve(unresolved_refs)
+    check_model(nodeA, nodeB, nodeC)
+  end
+
+  def test_problems
+    nodeA, nodeB, nodeC, unresolved_refs = create_model
+    resolver = RGen::Instantiator::ReferenceResolver.new(
+      :identifier_resolver => proc do |ident|
+        {:a => [nodeA, nodeB], :c => nodeC}[ident]
+      end)
+    problems = []
+    resolver.resolve(unresolved_refs, problems)
+    assert_equal ["identifier b not found", "identifier a not uniq"], problems
+  end
+
+  private
+
+  def create_model
     nodeA = TestNode.new(:name => "NodeA")
     nodeB = TestNode.new(:name => "NodeB")
     nodeC = TestNode.new(:name => "NodeC")
@@ -31,13 +54,15 @@ class ReferenceResolverTest < Test::Unit::TestCase
     aProxy = RGen::MetamodelBuilder::MMProxy.new(:a) 
     cProxy = RGen::MetamodelBuilder::MMProxy.new(:c) 
     nodeB.others = [aProxy, cProxy] 
-    unresolvedReferences = [
+    unresolved_refs = [
       RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(nodeA, "other", bProxy),
       RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(nodeB, "others", aProxy),
       RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(nodeB, "others", cProxy)
     ]
-    resolver = TestResolver.new(nodeA, nodeB, nodeC)
-    resolver.resolveReferences(unresolvedReferences)
+    return nodeA, nodeB, nodeC, unresolved_refs
+  end
+
+  def check_model(nodeA, nodeB, nodeC)
     assert_equal nodeB, nodeA.other
     assert_equal [], nodeA.others
     assert_equal nil, nodeB.other

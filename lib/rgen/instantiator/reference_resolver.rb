@@ -2,50 +2,88 @@ module RGen
 
 module Instantiator
 
-# This module is meant to be mixed into a resolver class providing the method +resolveIdentifier+
-module ReferenceResolver
+# The ReferenceResolver can be used to resolve unresolved references, i.e. instances
+# of class UnresolvedReference
+#
+# There are two ways how this can be used:
+#  1. the identifiers and associated model elements are added upfront using +add_identifier+
+#  2. register an :identifier_resolver with the constructor, which will be invoked 
+#     for every unresolved identifier
+#
+class ReferenceResolver
  
   # Instances of this class represent information about not yet resolved references.
-  # This consists of the +element+ and metamodel +featureName+ which hold/is to hold the reference
-  # and the proxy +object+ which is the placeholder for the reference.
+  # This consists of the +element+ and metamodel +feature_name+ which hold/is to hold the 
+  # reference and the +proxy+ object which is the placeholder for the reference.
   # optionally the +file+ and +line+ of the reference may be specified
+  #
   class UnresolvedReference 
-    attr_reader :element, :featureName, :proxy, :line
-    attr_accessor :file
-    def initialize(element, featureName, proxy, options={})
+    attr_reader :feature_name, :proxy, :line
+    attr_accessor :element, :file
+    def initialize(element, feature_name, proxy, options={})
       @element = element
-      @featureName = featureName
+      @feature_name = feature_name
       @proxy = proxy
       @file = options[:file]
       @line = options[:line]
     end
   end
 
-  # tries to resolve the given +unresolvedReferences+
-  # if resolution is successful, the proxy object will be removed
-  # otherwise there will be an error description in +problems+
+  # Create a reference resolver, options:
+  #
+  #  :identifier_resolver:
+  #    a proc which is called with an identifier and which should return the associated element
+  #    in case the identifier is not uniq, the proc may return multiple values
+  #    default: lookup element in internal map
+  #
+  def initialize(options={})
+    @identifier_resolver = options[:identifier_resolver]
+    @identifier_map = {}
+  end
+
+  # Add an +identifer+ / +element+ pair which will be used for looking up unresolved identifers
+  def add_identifier(ident, element)
+    map_entry = @identifier_map[ident]
+    if map_entry 
+      if map_entry.is_a?(Array)
+        map_entry << element
+      else
+        @identifier_map[ident] = [map_entry, element]
+      end
+    else 
+      @identifier_map[ident] = element
+    end
+  end
+
+  # Tries to resolve the given +unresolved_refs+
+  # if resolution is successful, the proxy object will be removed, otherwise there will be an 
+  # error description in +problems+
   # returns an array of the references which are still unresolved
-  def resolveReferences(unresolvedReferences, problems=[])
-    stillUnresolvedReferences = []
-    unresolvedReferences.each do |ur|
-      target = resolveIdentifier(ur.proxy.targetIdentifier)
+  def resolve(unresolved_refs, problems=[])
+    still_unresolved_refs = []
+    unresolved_refs.each do |ur|
+      if @identifier_resolver
+        target = @identifier_resolver.call(ur.proxy.targetIdentifier)
+      else
+        target = @identifier_map[ur.proxy.targetIdentifier]
+      end
       if target && !target.is_a?(Array)
-        if ur.element.hasManyMethods(ur.featureName)
-          ur.element.removeGeneric(ur.featureName, ur.proxy)
-          ur.element.addGeneric(ur.featureName, target)
+        if ur.element.hasManyMethods(ur.feature_name)
+          ur.element.removeGeneric(ur.feature_name, ur.proxy)
+          ur.element.addGeneric(ur.feature_name, target)
         else
           # this will replace the proxy
-          ur.element.setGeneric(ur.featureName, target)
+          ur.element.setGeneric(ur.feature_name, target)
         end
       elsif target
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
-        stillUnresolvedReferences << ur
+        still_unresolved_refs << ur
       else
         problems << "identifier #{ur.proxy.targetIdentifier} not found"
-        stillUnresolvedReferences << ur
+        still_unresolved_refs << ur
       end
     end
-    stillUnresolvedReferences
+    still_unresolved_refs
   end   
 
 end

@@ -14,6 +14,7 @@ class JsonTest < Test::Unit::TestCase
       has_attr 'text', String
       has_attr 'integer', Integer
       has_attr 'float', Float
+      has_one 'other', TestNode
       contains_many 'childs', TestNode, 'parent'
     end
   end
@@ -151,6 +152,20 @@ class JsonTest < Test::Unit::TestCase
     assert_raise RuntimeError do
       inst.instantiate(%q({ "_class": "Data2", "data2": "something" }))
     end
+  end
+
+  def test_json_instantiator_references
+    env = RGen::Environment.new
+    inst = RGen::Instantiator::JsonInstantiator.new(env, TestMM, :nameAttribute => "text")
+    inst.instantiate(%q([
+    { "_class": "TestNode", "text": "A", "childs": [ 
+      { "_class": "TestNode", "text": "B" } ]},
+    { "_class": "TestNode", "text": "C", "other": "/A/B"}]
+    ))
+    nodeA = env.find(:class => TestMM::TestNode, :text => "A").first
+    nodeC = env.find(:class => TestMM::TestNode, :text => "C").first
+    assert_equal 1, nodeA.childs.size
+    assert_equal nodeA.childs[0], nodeC.other 
   end
 end
 	

@@ -133,4 +133,5 @@
 * Added ECoreToRuby which can create Ruby classes and modules from ECore models in memory (without metamodel generator)
 * Refactored out QualifiedNameProvider and OppositeReferenceFilter
 * Added RText support
+* Extended Instantiator::ReferenceResolver and changed it into a class
 

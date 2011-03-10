@@ -6,7 +6,6 @@ module Instantiator
 
 # This is a resolver resolving element identifiers which are qualified names.
 class QualifiedNameResolver
-  include ReferenceResolver
 
   attr_reader :nameAttribute
   attr_reader :separator
@@ -20,6 +19,7 @@ class QualifiedNameResolver
     @elementByQName = {}
     @visitedQName = {}
     @childReferences = {}
+    @resolverDelegate = ReferenceResolver.new(:identifier_resolver => method(:resolveIdentifier))
   end
 
   def resolveIdentifier(qualifiedName)
@@ -55,6 +55,10 @@ class QualifiedNameResolver
       @visitedQName[parentQName] = true
     end
     @elementByQName[qualifiedName] ||= nil
+  end
+
+  def resolveReferences(unresolvedReferences, problems=[])
+    @resolverDelegate.resolve(unresolvedReferences, problems)
   end
 
   private
