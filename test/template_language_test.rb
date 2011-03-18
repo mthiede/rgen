@@ -153,4 +153,11 @@ class TemplateContainerTest < Test::Unit::TestCase
     File.open(OUTPUT_DIR+"/expected_result3.txt") {|f| expected = f.read}
     assert_equal expected, tc.expand('no_backslash_r_test::Test', :for => :dummy).to_s
   end
+
+  def test_callback_indent
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal("|before callback\r\n   |in callback\r\n|after callback\r\n   |after iinc\r\n",
+     tc.expand('callback_indent_test/a::caller', :for => :dummy))
+  end
 end

@@ -136,4 +136,5 @@
 * Extended Instantiator::ReferenceResolver and changed it into a class
 * Moved utilities into util folder/module
 * Added FileCacheMap
+* Fixed template language bug: indenting not correct after callback into same template container and iinc/idec
 

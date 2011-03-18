@@ -143,6 +143,7 @@ module RGen
       def _expand(template, args, params)
         raise StandardError.new("expand :for argument evaluates to nil") if params.has_key?(:for) && params[:for].nil?
         context = params[:for]
+        old_indent = @indent
         @indent = params[:indent] || @indent
         noIndentNextLine = params[:_noIndentNextLine] || 
           (@output.is_a?(OutputHandler) && @output.noIndentNextLine) || 
@@ -163,6 +164,7 @@ module RGen
         end
         _direct_concat(local_output) unless params[:_evalOnly]
         @context = old_context if old_context
+        @indent = old_indent
         local_output.to_s
       end
       
