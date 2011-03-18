@@ -8,6 +8,7 @@ class Service
 
   # Creates an RText frontend support service
   def initialize(lang, options={})
+    @lang = lang
     @completer = RText::Completer.new(lang) 
     @instantiator = RText::Instantiator.new(lang)
     @timeout = options[:timeout] || 60
@@ -72,12 +73,33 @@ class Service
   def check(lines)
     file_name = lines.shift
     problems = []
+    urefs = []
+    env = RGen::Environment.new
     File.open(file_name) do |f|
-      @instantiator.instantiate(f.read, :problems => problems)
+      @instantiator.instantiate(f.read, 
+        :env => env,
+        :unresolved_refs => urefs,
+        :problems => problems)
     end
-    problems.collect { |p|
+    result = problems.collect { |p|
       "#{file_name}:#{p.line}:#{p.message}\n"  
     }
+    resolver = RGen::Instantiator::ReferenceResolver.new
+    identifiers = {}
+    env.elements.each do |e|
+      if ident = @lang.identifier_provider.call(e, nil)
+        resolver.add_identifier(ident, e)
+        if identifiers[ident]
+          line = (@lang.line_number_attribute && e.send(@lang.line_number_attribute)) || 1
+          result << "#{file_name}:#{line}:duplicate identifier #{ident}\n"
+        end
+        identifiers[ident] = true
+      end
+    end
+    urefs = resolver.resolve(urefs)
+    result += urefs.collect do |ur|
+      "#{file_name}:#{ur.line}:unresolved reference #{ur.proxy.targetIdentifier}\n"
+    end
   end
 
 end

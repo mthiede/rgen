@@ -41,9 +41,9 @@ class Completer
     # attribute
     elsif linestart =~ /^\s*(\w+)\s+(?:[^,]+,)*\s*(\w*)$/
       command, prefix = $1, $2
-      clazz = @lang.class_by_command(command).ecore
+      clazz = @lang.class_by_command(command)
       if clazz
-        features = @lang.labled_arguments(clazz)
+        features = @lang.labled_arguments(clazz.ecore)
         features = features.select{|f| f.name.index(prefix) == 0} if prefix
         features.sort{|a,b| a.name <=> b.name}.collect do |f| 
           CompletionOption.new("#{f.name}:", "<#{f.eType.name}>")
@@ -54,8 +54,8 @@ class Completer
     # value
     elsif linestart =~ /\s*(\w+)\s+(?:[^,]+,)*\s*(\w+):\s*(\S*)$/
       command, fn, prefix = $1, $2, $3
-      clazz = @lang.class_by_command(command).ecore
-      feature = clazz && @lang.non_containments(clazz).find{|f| f.name == fn}
+      clazz = @lang.class_by_command(command)
+      feature = clazz && @lang.non_containments(clazz.ecore).find{|f| f.name == fn}
       if feature
         if feature.is_a?(RGen::ECore::EReference)
           if ref_target_provider
