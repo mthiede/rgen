@@ -67,15 +67,16 @@ class ReferenceResolver
       else
         target = @identifier_map[ur.proxy.targetIdentifier]
       end
-      if target && !target.is_a?(Array)
+      target = [target].compact unless target.is_a?(Array)
+      if target.size == 1
         if ur.element.hasManyMethods(ur.feature_name)
           ur.element.removeGeneric(ur.feature_name, ur.proxy)
-          ur.element.addGeneric(ur.feature_name, target)
+          ur.element.addGeneric(ur.feature_name, target[0])
         else
           # this will replace the proxy
-          ur.element.setGeneric(ur.feature_name, target)
+          ur.element.setGeneric(ur.feature_name, target[0])
         end
-      elsif target
+      elsif target.size > 1
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
         still_unresolved_refs << ur
       else
