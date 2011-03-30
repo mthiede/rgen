@@ -15,17 +15,14 @@ class ReferenceResolver
   # Instances of this class represent information about not yet resolved references.
   # This consists of the +element+ and metamodel +feature_name+ which hold/is to hold the 
   # reference and the +proxy+ object which is the placeholder for the reference.
-  # optionally the +file+ and +line+ of the reference may be specified
   #
   class UnresolvedReference 
-    attr_reader :feature_name, :proxy, :line
-    attr_accessor :element, :file
+    attr_reader :feature_name, :proxy
+    attr_accessor :element
     def initialize(element, feature_name, proxy, options={})
       @element = element
       @feature_name = feature_name
       @proxy = proxy
-      @file = options[:file]
-      @line = options[:line]
     end
   end
 

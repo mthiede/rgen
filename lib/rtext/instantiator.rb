@@ -180,8 +180,7 @@ class Instantiator
         proxy = RGen::MetamodelBuilder::MMProxy.new(v.value)
         if @unresolved_refs
           @unresolved_refs << 
-            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(
-              element, feature.name, proxy, :file => @file_name, :line => line)
+            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(element, feature.name, proxy)
         end
         element.setOrAddGeneric(feature.name, proxy)
       else
