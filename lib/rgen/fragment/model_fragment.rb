@@ -7,11 +7,11 @@ module Fragment
 # A model fragment is a list of root model elements associated with a location (e.g. a file)
 #
 # Optionally, an arbitrary data object may be associated with the fragment. The data object
-# will be stored in the cache. Subclasses of Fragment may use the data object to associate
-# more data, e.g. by providing a Hash.
+# will also be stored in the cache.
 #
 # If an element within the fragment changes or if the fragement is connected or disconnected 
 # this must be indicated to the fragment by calling +changed+ or +refs_changed+ respectively.
+# This will normally be taken care of by a FragmentedModel.
 #
 class ModelFragment
   attr_reader :root_elements
@@ -20,7 +20,7 @@ class ModelFragment
   
   # Create a model fragment
   #
-  #  :data:
+  #  :data
   #    data object associated with this fragment
   #
   def initialize(location, options={})
@@ -87,7 +87,7 @@ class ModelFragment
   #
   def build_index(identifier_provider)
     @index = elements.collect { |e|
-      ident = identifier_provider && identifier_provider.call(e)
+      ident = identifier_provider && identifier_provider.call(e, nil)
       ident && !ident.empty? ? [ident, e] : nil 
     }.compact
   end
@@ -105,7 +105,7 @@ class ModelFragment
   # change to unresolved references
   #
   # TODO: make sure reference order is preserved
-  def unresolve(reference_selector)
+  def unresolve(reference_selector, identifier_provider)
     @unresolved_refs = []
     elements_hash = {}
     elements.each{|e| elements_hash[e] = true}
@@ -115,18 +115,18 @@ class ModelFragment
           @unresolved_refs << 
             RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, t)
         elsif !elements_hash[t]
-          if r.many?
+          if r.many
             e.removeGeneric(r.name, t)
           else
             e.setGeneric(r.name, nil)
           end
           if !r.eOpposite || reference_selector.call(r)
-            proxy = RGen::MetamodelBuilder::MMProxy.new(t.qualifiedName, t.class.ecore.name)
+            proxy = RGen::MetamodelBuilder::MMProxy.new(identifier_provider.call(t), t.class.ecore.name)
             e.setOrAddGeneric(r.name, proxy)
             @unresolved_refs << 
               RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, proxy)
           else
-            proxy = RGen::MetamodelBuilder::MMProxy.new(e.qualifiedName, e.class.ecore.name)
+            proxy = RGen::MetamodelBuilder::MMProxy.new(identifier_provider.call(e), e.class.ecore.name)
             t.setOrAddGeneric(r.eOpposite.name, proxy)
           end
         end

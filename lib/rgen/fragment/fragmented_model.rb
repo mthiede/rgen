@@ -1,3 +1,5 @@
+require 'rgen/instantiator/reference_resolver'
+
 module RGen
 
 module Fragment
@@ -19,23 +21,19 @@ module Fragment
 #
 class FragmentedModel
   attr_reader :fragments
+  attr_reader :environment
 
   # Creates a fragmented model. Options:
   #
-  #  :env: 
+  #  :env 
   #    environment which will be updated as model elements are added and removed
   #
-  #  :reference_selector:
-  #    is used to descide which part of a bidirectional reference will be replaced 
-  #    by an unresolved reference when a fragment is removed
-  #    _required_ when fragments are to be removed, see ModelFragment#unresolve
-  #
   def initialize(options={})
-    @env = options[:env]
-    @reference_selector = options[:reference_selector]
+    @environment = options[:env]
     @fragments = []
     @index = nil
     @unresolved_refs = nil
+    @ref_has_uref = {}
   end
 
   # Add a fragment.
@@ -43,7 +41,7 @@ class FragmentedModel
   def add_fragment(fragment)
     invalidate_cache
     @fragments << fragment
-    fragment.elements.each{|e| @env << e} if @env
+    fragment.elements.each{|e| @environment << e} if @environment
   end
 
   # Removes the fragment. The fragment will be unresolved using unresolve_fragment.
@@ -53,7 +51,7 @@ class FragmentedModel
     invalidate_cache
     @fragments.delete(fragment)
     unresolve_fragment(fragment)
-    fragment.elements.each{|e| @env.delete(e)} if @env
+    fragment.elements.each{|e| @environment.delete(e)} if @environment
   end
 
   # Remove all references between this fragment and all other fragments.
@@ -62,9 +60,13 @@ class FragmentedModel
   # defines for which reference and unresolved reference and proxy will be created
   #
   def unresolve_fragment(fragment)
-    raise "unresolve fragment without a reference selector" unless @reference_selector
     invalidate_urefs
-    fragment.unresolve(@reference_selector)
+    fragment.unresolve(proc {|ref|
+      @ref_has_uref.has_key?([ref.eContainingClass, ref.name])
+    }, lambda {|element|
+      index.each_pair{|i,e| return i if e.object_id == element.object_id}
+      nil
+    })
     @fragments.each do |f| 
       f.refs_changed if f != fragment
     end
@@ -78,7 +80,11 @@ class FragmentedModel
   def resolve
     urefs = []
     @fragments.each{|f| urefs.concat(f.unresolved_refs)}
-    resolver = RGen::Instantiator::Resolver.new(
+    urefs.each do |ur|
+      # remember that an unresolved reference was seen for the EReference
+      @ref_has_uref[[ur.element.class.ecore, ur.feature_name]] = true
+    end
+    resolver = RGen::Instantiator::ReferenceResolver.new(
       :identifier_resolver => proc do |ident|
         index[ident]
       end)
