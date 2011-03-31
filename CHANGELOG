@@ -138,4 +138,5 @@
 * Added FileCacheMap
 * Fixed template language bug: indenting not correct after callback into same template container and iinc/idec
 * Added support for fragmented models
+* Added FileChangeDetector utility
 
