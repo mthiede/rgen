@@ -30,3 +30,8 @@
 * XMI Instantiator fixmap: add element names to make feature names unique
 * no error for expand '..', :forach => (foreach misspelled)
 * With JRuby (1.3.1) exceptions raised in templates have a short or no backtrace
+
+
+* extended constraint checks (feature bounds)
+* class filter in RText language
+* root classes for RText language
