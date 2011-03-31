@@ -14,21 +14,21 @@ class Completer
 
   # Provides completion options
   #
-  #  +linestart+ 
+  #  :linestart
   #    the content of the current line before the cursor
   #
-  #  +prev_line_provider+ 
+  #  :prev_line_provider
   #    is a proc which must return lines above the current line
   #    it receives an index parameter in the range 1..n
   #    1 is the line just above the current one, 2 is the second line above, etc.
   #    the proc must return the line as a string or nil if there is no more line
   #
-  #  +ref_target_provider+
-  #    a proc which receives a EReference and a constext element and should return
-  #    the possible target elements of the reference
+  #  :ref_completion_option_provider
+  #    a proc which receives a EReference and a context element and should return
+  #    the possible completion options as CompletionOption objects 
   #    note, that the context element may be nil if this information is unavailable
   #
-  def complete(linestart, prev_line_provider, ref_target_provider=nil)
+  def complete(linestart, prev_line_provider, ref_completion_option_provider=nil)
     # command
     if linestart =~ /^\s*(\w*)$/ 
       prefix = $1
@@ -58,10 +58,8 @@ class Completer
       feature = clazz && @lang.non_containments(clazz.ecore).find{|f| f.name == fn}
       if feature
         if feature.is_a?(RGen::ECore::EReference)
-          if ref_target_provider
-            ref_target_provider.call(feature, nil).collect do |t|
-              CompletionOption.new(@lang.identifier_provider.call(t, nil), "<#{t.class.ecore.name}>")
-            end
+          if ref_completion_option_provider
+            ref_completion_option_provider.call(feature, nil)
           else
             []
           end

@@ -18,19 +18,19 @@ class Instantiator
 
   # instantiate +str+, +options+ include:
   #
-  #  :env:
+  #  :env
   #    environment to which model elements will be added
   #
-  #  :problems:
+  #  :problems
   #    an array to which problems will be appended
   #  
-  #  :unresolved_refs:
+  #  :unresolved_refs
   #    an array to which unresolved references will be appended
   # 
-  #  :root_elements:
+  #  :root_elements
   #    an array which will hold the root elements
   #
-  #  :file_name:
+  #  :file_name
   #    name of the file being instantiated
   #
   def instantiate(str, options={})
@@ -177,7 +177,7 @@ class Instantiator
           element.setOrAddGeneric(feature.name, v.value.to_sym)
         end
       elsif feature.is_a?(RGen::ECore::EReference)
-        proxy = RGen::MetamodelBuilder::MMProxy.new(v.value)
+        proxy = RGen::MetamodelBuilder::MMProxy.new(@lang.qualify_reference(v.value, element))
         if @unresolved_refs
           @unresolved_refs << 
             RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(element, feature.name, proxy)
