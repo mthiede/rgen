@@ -48,7 +48,7 @@ class FileCacheMap
 
   # store data +value_data+ associated with file +key_path+
   def store_data(key_path, value_data)
-    data = calc_sha1(keyData(key_path)) + "\n" + value_data
+    data = calc_sha1_keydata(key_path) + "\n" + value_data
     data = calc_sha1(data) + "\n" + data
     cf = cache_file(key_path)
     FileUtils.mkdir(File.dirname(cf)) unless File.exist?(File.dirname(cf))
