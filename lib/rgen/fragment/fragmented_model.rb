@@ -61,12 +61,9 @@ class FragmentedModel
   #
   def unresolve_fragment(fragment)
     invalidate_urefs
-    fragment.unresolve(proc {|ref|
-      @ref_has_uref.has_key?([ref.eContainingClass, ref.name])
-    }, lambda {|element|
-      index.each_pair{|i,e| return i if e.object_id == element.object_id}
-      nil
-    })
+    fragment.unresolve(
+      proc {|ref| @ref_has_uref.has_key?([ref.eContainingClass, ref.name])},
+      lambda {|element| reverse_index[element] })
     @fragments.each do |f| 
       f.refs_changed if f != fragment
     end
@@ -114,10 +111,25 @@ class FragmentedModel
     @index
   end
 
+  # Returns the overall reverse index.
+  # This is a Hash mapping elements to their identifier.
+  #
+  def reverse_index
+    return @reverse_index if @reverse_index
+    @reverse_index = {}
+    index.each_pair do |ident, elements|
+      elements.each do |e|
+        @reverse_index[e] = ident
+      end
+    end
+    @reverse_index
+  end
+
   private
 
   def invalidate_cache
     @index = nil
+    @reverse_index = nil
     @unresolved_refs = nil
   end
 
