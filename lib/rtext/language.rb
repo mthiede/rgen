@@ -17,15 +17,15 @@ class Language
   #     default: all features filtered using OppositeReferenceFilter 
   #
   #  :unlabled_arguments
-  #     a Proc which receives an EClass and should return this EClass's features which are to be
-  #     serialized without lables in the given order and before all labled arguments
+  #     a Proc which receives an EClass and should return this EClass's feature names which are
+  #     to be serialized without lables in the given order and before all labled arguments
   #     the features must also occur in :feature_provider if :feature_provider is provided
   #     if unlabled arguments are not part of the current class's features, they will be ignored
   #     default: no unlabled arguments
   #
   #  :unquoted_arguments
-  #     a Proc which receives an EClass and should return this EClass's string typed attributes
-  #     which are to be serialized without quotes
+  #     a Proc which receives an EClass and should return this EClass's string typed attribute
+  #     names which are to be serialized without quotes.
   #     note that the user must take care to use unquoted arguments only if the values are parsable without quotes
   #     the features must also occur in :feature_provider if :feature_provider is provided
   #     default: no unquoted arguments
@@ -74,10 +74,10 @@ class Language
   #     default: no file name
   #
   #  :comment_handler 
-  #     a Proc which will be invoked when a new element has been instantiated
-  #     receives an element and the comment as a string
-  #     it should add the comment to the element and return true
-  #     if the element can take no comment, it should return false
+  #     a Proc which will be invoked when a new element has been instantiated. receives an 
+  #     element, the comment as a string, and the environment to which the element has been
+  #     added to. then environment may be nil.  it should add the comment to the element and 
+  #     return true. if the element can take no comment, it should return false.
   #     default: no handling of comments 
   #  
   #  :comment_provider

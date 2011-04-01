@@ -191,7 +191,7 @@ class Instantiator
   end
 
   def add_comment(element, comment)
-    if @lang.comment_handler && !@lang.comment_handler.call(element, comment)
+    if @lang.comment_handler && !@lang.comment_handler.call(element, comment, @env)
       problem("This kind of element can not take a comment", line_number(element))
     end
   end
