@@ -1,3 +1,4 @@
+require 'rgen/environment'
 require 'rgen/util/file_change_detector'
 require 'rgen/fragment/model_fragment'
 require 'rtext/instantiator'
@@ -32,8 +33,18 @@ class DefaultLoader
     @fragment_by_file = {}
   end
 
-  def load
+  # Loads or reloads model fragments from files using the file patterns specified in the 
+  # constructor. Options:
+  #
+  #  :before_load
+  #    a proc which is called before a file is actually loaded, receives the fragment to load
+  #    into and a symbol indicating the kind of loading: :load, :load_cached, :load_update_cache
+  #    default: no before load proc
+  # 
+  def load(options={})
+    @before_load_proc = options[:before_load]
     @change_detector.check_files(Dir.glob(@patterns))
+    @model.resolve
   end
 
   private
@@ -43,7 +54,6 @@ class DefaultLoader
     load_fragment_cached(fragment)
     @model.add_fragment(fragment)
     @fragment_by_file[file] = fragment
-    @model.resolve
   end
 
   def file_removed(file)
@@ -59,10 +69,14 @@ class DefaultLoader
   def load_fragment_cached(fragment)
     if @cache
       if @cache.load(fragment) == :invalid
+        @before_load_proc && @before_load_proc.call(fragment, :load_update_cache)
         load_fragment(fragment)
         @cache.store(fragment)
+      else
+        @before_load_proc && @before_load_proc.call(fragment, :load_cached)
       end
     else
+      @before_load_proc && @before_load_proc.call(fragment, :load)
       load_fragment(fragment)
     end
   end

@@ -17,7 +17,8 @@ class DefaultServiceProvider
     if @model.environment
       targets = @model.environment.find(:class => reference.eType.instanceClass)
     else
-      targets = @model.index.values.flatten.select{|e| e.is_a?(reference.eType.instanceClass)}
+      clazz = reference.eType.instanceClass
+      targets = @model.index.values.flatten.select{|e| e.is_a?(clazz)}
     end
     targets.collect{|t| 
       ReferenceCompletionOption.new(
@@ -57,7 +58,7 @@ class DefaultServiceProvider
   def get_open_element_choices(pattern)
     result = []
     @model.index.each_pair do |ident, elements|
-      if ident.split(/\W/).any?{|p| p.index(pattern) == 0}
+      if ident.split(/\W/).last.index(pattern) == 0
         elements.each do |e|
           if @lang.file_name(e)
             result << OpenElementChoice.new("#{ident} [#{e.class.ecore.name}]",
