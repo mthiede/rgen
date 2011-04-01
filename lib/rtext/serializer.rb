@@ -10,10 +10,25 @@ class Serializer
     @lang = language
   end
 
-  # Serialize +elements+ to +writer+
+  # Serialize +elements+ to +writer+. Options:
   #
-  def serialize(elements, writer)
+  #  :set_line_number
+  #    if set to true, the serializer will try to update the line number attribute of model
+  #    elements, while they are serialized, given that they have the line_number_attribute
+  #    specified in the RText::Language
+  #    default: don't set line number
+  #
+  #  :fragment_ref
+  #    an object referencing a fragment, this will be set on all model elements while they
+  #    are serialized, given that they have the fragment_ref_attribute specified in the
+  #    RText::Language
+  #    default: don't set fragment reference
+  #
+  def serialize(elements, writer, options={})
     @writer = writer
+    @set_line_number = options[:set_line_number]
+    @fragment_ref = options[:fragment_ref]
+    @line_number = 1
     @indent = 0
     if elements.is_a?(Array)
       serialize_elements(elements)
@@ -31,6 +46,8 @@ class Serializer
   end
   
   def serialize_element(element)
+    set_fragment_ref(element)
+    set_line_number(element, @line_number) if @set_line_number
     clazz = element.class.ecore
     # the comment provider may modify the element
     comment = @lang.comment_provider && @lang.comment_provider.call(element)
@@ -118,8 +135,22 @@ class Serializer
     end
   end
 
+  def set_line_number(element, line)
+    if @lang.line_number_attribute && element.respond_to?("#{@lang.line_number_attribute}=")
+      element.send("#{@lang.line_number_attribute}=", line)
+    end
+  end
+
+  def set_fragment_ref(element)
+    if @fragment_ref && 
+      @lang.fragment_ref_attribute && element.respond_to?("#{@lang.fragment_ref_attribute}=")
+        element.send("#{@lang.fragment_ref_attribute}=", @fragment_ref)
+    end
+  end
+
   def write(str)
     @writer.write(@lang.indent_string * @indent + str + "\n")
+    @line_number += 1
   end
 
   def iinc

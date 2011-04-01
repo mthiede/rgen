@@ -6,6 +6,10 @@ class DefaultServiceProvider
     @lang = language
     @model = fragmented_model
     @loader = model_loader 
+    @element_name_index = nil
+    @model.add_fragment_change_listener(proc {|fragment, kind|
+      @element_name_index = nil
+    })
   end
 
   def load_model
@@ -32,8 +36,9 @@ class DefaultServiceProvider
     identifier = @lang.qualify_reference(identifier, context)
     targets = @model.index[identifier]
     targets && targets.each do |e|
-      if @lang.file_name(e)
-        result << ReferenceTarget.new(@lang.file_name(e), @lang.line_number(e))
+      if @lang.fragment_ref(e)
+        path = File.expand_path(@lang.fragment_ref(e).fragment.location)
+        result << ReferenceTarget.new(path, @lang.line_number(e))
       end
     end
     result
@@ -57,17 +62,33 @@ class DefaultServiceProvider
   OpenElementChoice = Struct.new(:display_name, :file, :line)
   def get_open_element_choices(pattern)
     result = []
-    @model.index.each_pair do |ident, elements|
+    sub_index = element_name_index[pattern[0..0].downcase]
+    sub_index && sub_index.each_pair do |ident, elements|
       if ident.split(/\W/).last.index(pattern) == 0
         elements.each do |e|
-          if @lang.file_name(e)
-            result << OpenElementChoice.new("#{ident} [#{e.class.ecore.name}]",
-              @lang.file_name(e), @lang.line_number(e))
+          if @lang.fragment_ref(e)
+            name = ident[ident.rindex(/\W/)+1..-1]
+            scope = ident[0..ident.rindex(/\W/)-1]
+            display_name = "#{name} [#{e.class.ecore.name}]"
+            display_name += " - #{scope}" if scope.size > 0
+            path = File.expand_path(@lang.fragment_ref(e).fragment.location)
+            result << OpenElementChoice.new(display_name, path, @lang.line_number(e))
           end
         end
       end
     end
     result.sort{|a,b| a.display_name <=> b.display_name}
+  end
+
+  def element_name_index
+    return @element_name_index if @element_name_index
+    @element_name_index = {}
+    @model.index.each_pair do |ident, elements|
+      key = ident.split(/\W/).last[0..0].downcase
+      @element_name_index[key] ||= {} 
+      @element_name_index[key][ident] = elements
+    end
+    @element_name_index
   end
 
 end

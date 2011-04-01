@@ -34,6 +34,18 @@ class FragmentedModel
     @index = nil
     @unresolved_refs = nil
     @ref_has_uref = {}
+    @fragment_change_listeners = []
+  end
+
+  # Adds a proc which is called when a fragment is added or removed
+  # The proc receives the fragment and one of :added, :removed
+  #
+  def add_fragment_change_listener(listener)
+    @fragment_change_listeners << listener
+  end
+
+  def remove_fragment_change_listener(listener)
+    @fragment_change_listeners.delete(listener)
   end
 
   # Add a fragment.
@@ -42,6 +54,7 @@ class FragmentedModel
     invalidate_cache
     @fragments << fragment
     fragment.elements.each{|e| @environment << e} if @environment
+    @fragment_change_listeners.each{|l| l.call(fragment, :added)}
   end
 
   # Removes the fragment. The fragment will be unresolved using unresolve_fragment.
@@ -52,6 +65,7 @@ class FragmentedModel
     @fragments.delete(fragment)
     unresolve_fragment(fragment)
     fragment.elements.each{|e| @environment.delete(e)} if @environment
+    @fragment_change_listeners.each{|l| l.call(fragment, :removed)}
   end
 
   # Remove all references between this fragment and all other fragments.

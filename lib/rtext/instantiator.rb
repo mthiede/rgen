@@ -31,7 +31,10 @@ class Instantiator
   #    an array which will hold the root elements
   #
   #  :file_name
-  #    name of the file being instantiated
+  #    name of the file being instantiated, will be set on model elements
+  #
+  #  :fragment_ref
+  #    object which references the fragment being instantiated, will be set on model elements 
   #
   def instantiate(str, options={})
     @line_numbers = {}
@@ -40,6 +43,7 @@ class Instantiator
     @unresolved_refs = options[:unresolved_refs]
     @root_elements = options[:root_elements] || []
     @file_name = options[:file_name]
+    @fragment_ref = options[:fragment_ref]
     parser = Parser.new(@lang.reference_regexp)
     begin
       @root_elements.clear
@@ -90,6 +94,7 @@ class Instantiator
     end
     set_line_number(element, command.line)
     set_file_name(element)
+    set_fragment_ref(element)
     if comments.size > 0
       add_comment(element, comments.collect{|c| c.value}.join("\n"))
     end
@@ -225,6 +230,13 @@ class Instantiator
     if @file_name && 
       @lang.file_name_attribute && element.respond_to?("#{@lang.file_name_attribute}=")
         element.send("#{@lang.file_name_attribute}=", @file_name)
+    end
+  end
+
+  def set_fragment_ref(element)
+    if @fragment_ref && 
+      @lang.fragment_ref_attribute && element.respond_to?("#{@lang.fragment_ref_attribute}=")
+        element.send("#{@lang.fragment_ref_attribute}=", @fragment_ref)
     end
   end
 

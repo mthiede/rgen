@@ -23,7 +23,7 @@ class Service
     last_time = Time.now
     loop do
       begin
-        msg, from = socket.recvfrom_nonblock(65535)
+        msg, from = socket.recvfrom_nonblock(65000)
       rescue Errno::EWOULDBLOCK
         sleep(0.01)
         break if (Time.now - last_time) > @timeout
@@ -51,7 +51,7 @@ class Service
         response = []
       end
       response.unshift("#{invocation_id}\n")
-      response = limit_lines(response, 65535).join
+      response = limit_lines(response, 65000).join
       p response
       socket.send(response, 0, from[2], from[1])
     end

@@ -16,8 +16,17 @@ module Fragment
 class ModelFragment
   attr_reader :root_elements
   attr_reader :index
-  attr_accessor :location, :data
+  attr_accessor :location, :fragment_ref, :data
   
+  # A FragmentRef serves as a single target object for elements which need to reference the
+  # fragment they are contained in. The FragmentRef references the fragment it is contained in.
+  # The FragmentRef is separate from the fragment itself, to allow storing it in a marshal dump
+  # independently of the fragment.
+  #
+  class FragmentRef
+    attr_accessor :fragment
+  end
+
   # Create a model fragment
   #
   #  :data
@@ -25,6 +34,8 @@ class ModelFragment
   #
   def initialize(location, options={})
     @location = location
+    @fragment_ref = FragmentRef.new
+    @fragment_ref.fragment = self
     @data = options[:data]
   end
 
@@ -143,7 +154,7 @@ class ModelFragment
     end
     @unresolved_refs = resolver.resolve(unresolved_refs)
   end
-     
+
   private
 
   def each_reference_target(element)

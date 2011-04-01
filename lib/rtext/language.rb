@@ -66,12 +66,15 @@ class Language
   #              must be globally unique
   #
   #  :line_number_attribute
-  #     the name of the EAttribute which will be used to associate the line number with a model element
+  #     the name of the attribute which will be used to associate the line number with a model element
   #     default: no line number
   #
   #  :file_name_attribute
-  #     the name of the EAttribute which will be used to associate the file name with a model element
+  #     the name of the attribute which will be used to associate the file name with a model element
   #     default: no file name
+  #
+  #  :fragment_ref_attribute
+  #     the name of the attribute which will be used to associate a model fragment with a model element
   #
   #  :comment_handler 
   #     a Proc which will be invoked when a new element has been instantiated. receives an 
@@ -110,6 +113,7 @@ class Language
     @reference_qualifier = options[:reference_qualifier]
     @line_number_attribute = options[:line_number_attribute]
     @file_name_attribute = options[:file_name_attribute]
+    @fragment_ref_attribute = options[:fragment_ref_attribute]
     @comment_handler = options[:comment_handler]
     @comment_provider = options[:comment_provider]
     @indent_string = options[:indent_string] || "  "
@@ -120,6 +124,7 @@ class Language
   attr_reader :identifier_provider
   attr_reader :line_number_attribute
   attr_reader :file_name_attribute
+  attr_reader :fragment_ref_attribute
   attr_reader :comment_handler
   attr_reader :comment_provider
   attr_reader :indent_string
@@ -173,6 +178,10 @@ class Language
 
   def line_number(element)
     @line_number_attribute && element.respond_to?(@line_number_attribute) && element.send(@line_number_attribute)
+  end
+
+  def fragment_ref(element)
+    @fragment_ref_attribute && element.respond_to?(@fragment_ref_attribute) && element.send(@fragment_ref_attribute)
   end
 
   def qualify_reference(identifier, element)

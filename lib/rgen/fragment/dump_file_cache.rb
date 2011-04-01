@@ -22,14 +22,19 @@ class DumpFileCache
   # Note that the fragment must not be connected to other fragments by resolved references
   # unresolve the fragment if necessary
   def store(fragment)
+    fref = fragment.fragment_ref
+    # temporarily remove the reference to the fragment to avoid dumping the fragment
+    fref.fragment = nil
     @cache_map.store_data(fragment.location,
       Marshal.dump({
         :root_elements => fragment.root_elements,
         :elements => fragment.elements,
         :index => fragment.index,
         :unresolved_refs => fragment.unresolved_refs,
+        :fragment_ref => fref,
         :data => fragment.data
       }))
+    fref.fragment = fragment
   end
 
   def load(fragment)
@@ -41,6 +46,12 @@ class DumpFileCache
       :index => header[:index],
       :unresolved_refs => header[:unresolved_refs])
     fragment.data = header[:data]
+    if header[:fragment_ref]
+      fragment.fragment_ref = header[:fragment_ref]
+      fragment.fragment_ref.fragment = fragment
+    else
+      raise "no fragment_ref in fragment loaded from cache"
+    end
   end
 
 end
