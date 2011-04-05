@@ -24,11 +24,12 @@ class Completer
   #    the proc must return the line as a string or nil if there is no more line
   #
   #  :ref_completion_option_provider
-  #    a proc which receives a EReference and a context element and should return
+  #    a proc which receives a EReference and should return
   #    the possible completion options as CompletionOption objects 
   #    note, that the context element may be nil if this information is unavailable
   #
-  def complete(linestart, prev_line_provider, ref_completion_option_provider=nil)
+  def complete(line, linepos, prev_line_provider, ref_completion_option_provider=nil)
+    linestart = line[0..linepos-1]
     # command
     if linestart =~ /^\s*(\w*)$/ 
       prefix = $1
@@ -59,7 +60,7 @@ class Completer
       if feature
         if feature.is_a?(RGen::ECore::EReference)
           if ref_completion_option_provider
-            ref_completion_option_provider.call(feature, nil)
+            ref_completion_option_provider.call(feature)
           else
             []
           end

@@ -1,5 +1,6 @@
 require 'socket'
 require 'rtext/completer'
+require 'rtext/context_element_builder'
 
 module RText
 
@@ -31,7 +32,6 @@ class Service
       end
       last_time = Time.now
       lines = msg.split(/\r?\n/)
-      lines << "" if msg[-1] == ?\n
       cmd = lines.shift
       invocation_id = lines.shift
       response = nil
@@ -90,10 +90,13 @@ class Service
   end
 
   def complete(lines)
+    linepos = lines.shift.to_i
+    context = ContextElementBuilder.build_context_element(@lang, lines, linepos)
+    puts @lang.identifier_provider.call(context, nil)
     current_line = lines.pop
-    options = @completer.complete(current_line, 
+    options = @completer.complete(current_line, linepos, 
       proc {|i| lines[-i]}, 
-      proc {|ref, context| 
+      proc {|ref| 
         @service_provider.get_reference_completion_options(ref, context).collect {|o|
           Completer::CompletionOption.new(o.identifier, "<#{o.type}>")}
       })
@@ -112,6 +115,7 @@ class Service
 
   def get_reference_targets(lines)
     linepos = lines.shift.to_i
+    context = ContextElementBuilder.build_context_element(@lang, lines, linepos)
     current_line = lines.last
     result = []
     if current_line[linepos..linepos] =~ /[\w\/]/
@@ -119,8 +123,7 @@ class Service
       ident_end = (current_line.index(/[^\w\/]/, linepos) || current_line.size)-1
       ident = current_line[ident_start..ident_end]
       result << "#{ident_start};#{ident_end}\n"
-      # TODO: context
-      @service_provider.get_reference_targets(ident, nil).each do |t|
+      @service_provider.get_reference_targets(ident, context).each do |t|
         result << "#{t.file};#{t.line}\n"
       end
     end
