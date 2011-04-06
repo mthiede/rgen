@@ -53,6 +53,11 @@ class Instantiator
     rescue Parser::Error => e
       problem(e.message, e.line)
     end
+    if @unresolved_refs
+      @unresolved_refs.each do |ur|
+        ur.proxy.targetIdentifier = @lang.qualify_reference(ur.proxy.targetIdentifier, ur.element)
+      end
+    end
   end
 
   private
@@ -182,7 +187,7 @@ class Instantiator
           element.setOrAddGeneric(feature.name, v.value.to_sym)
         end
       elsif feature.is_a?(RGen::ECore::EReference)
-        proxy = RGen::MetamodelBuilder::MMProxy.new(@lang.qualify_reference(v.value, element))
+        proxy = RGen::MetamodelBuilder::MMProxy.new(v.value)
         if @unresolved_refs
           @unresolved_refs << 
             RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(element, feature.name, proxy)

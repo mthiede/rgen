@@ -47,7 +47,7 @@ class DefaultServiceProvider
   Problem = Struct.new(:severity, :line, :message)
   def get_problems(file)
     load_model
-    fragment = @model.fragments.find{|f| f.location == file}
+    fragment = @model.fragments.find{|f| File.expand_path(f.location) == file}
     return [] unless fragment
     result = []
     fragment.data[:problems].each do |p|
