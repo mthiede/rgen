@@ -112,11 +112,18 @@ class ModelFragment
   # if it returns true, the MMProxy object will be created in the direction
   # of the EReference provided, otherwise it will be created for the opposite reference 
   #
-  # be sure to call +refs_changed+ on all fragments connected as their references may
-  # change to unresolved references
+  # +identifier_provider+ is a proc which is called with an element and should return
+  # the identifier of that element
+  #
+  # +fragment_provider+ is a proc which is called with an element and should return the
+  # fragment in which this element is contained in. if the fragment can not be retrieved
+  # the proc may return null. the fragment information is required for updating the
+  # unresolved references of that fragment. in case this information is not available for
+  # one or more elements, +refs_changed+ must be called on all fragments which might be
+  # affected
   #
   # TODO: make sure reference order is preserved
-  def unresolve(reference_selector, identifier_provider)
+  def unresolve(reference_selector, identifier_provider, fragment_provider)
     @unresolved_refs = []
     elements_hash = {}
     elements.each{|e| elements_hash[e] = true}
@@ -139,6 +146,11 @@ class ModelFragment
           else
             proxy = RGen::MetamodelBuilder::MMProxy.new(identifier_provider.call(e), e.class.ecore.name)
             t.setOrAddGeneric(r.eOpposite.name, proxy)
+            target_fragment = fragment_provider && fragment_provider.call(t)
+            if target_fragment
+              target_fragment.add_unresolved_ref(
+                RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(t, r.eOpposite.name, proxy))
+            end
           end
         end
       end
@@ -153,6 +165,22 @@ class ModelFragment
       resolver.add_identifier(i[0], i[1])
     end
     @unresolved_refs = resolver.resolve(unresolved_refs)
+  end
+
+  # remove unresolved references from the unresolved references cache
+  # this method must be used with care, in order to keep the cache consistent
+  #
+  def remove_unresolved_refs(unresolved_refs)
+    @unresolved_refs -= unresolved_refs
+  end
+
+  protected
+
+  # add an unresolved reference to the unresolved references cache
+  # this method must be used with care, in order to keep the cache consistent
+  #
+  def add_unresolved_ref(unresolved_ref)
+    @unresolved_refs << unresolved_ref
   end
 
   private

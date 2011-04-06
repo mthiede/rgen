@@ -43,8 +43,9 @@ class DefaultLoader
   # 
   def load(options={})
     @before_load_proc = options[:before_load]
-    @change_detector.check_files(Dir.glob(@patterns))
-    @model.resolve
+    files = Dir.glob(@patterns)
+    @change_detector.check_files(files)
+    @model.resolve(method(:fragment_provider))
   end
 
   private
@@ -57,13 +58,18 @@ class DefaultLoader
   end
 
   def file_removed(file)
-    @model.remove_fragment(@fragment_by_file[file])
+    @model.remove_fragment(@fragment_by_file[file], method(:fragment_provider))
     @fragment_by_file.delete(file)
   end
 
   def file_changed(file)
     file_removed(file)
     file_added(file)
+  end
+
+  def fragment_provider(element)
+    fr = @lang.fragment_ref(element)
+    fr && fr.fragment
   end
 
   def load_fragment_cached(fragment)

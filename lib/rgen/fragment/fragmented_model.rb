@@ -58,28 +58,41 @@ class FragmentedModel
   end
 
   # Removes the fragment. The fragment will be unresolved using unresolve_fragment.
+  # If a +fragment_provider+ is given it will be faster, see unresolve_fragment.
   #
-  def remove_fragment(fragment)
+  def remove_fragment(fragment, fragment_provider=nil)
     raise "fragment not part of model" unless @fragments.include?(fragment)
     invalidate_cache
     @fragments.delete(fragment)
-    unresolve_fragment(fragment)
+    unresolve_fragment(fragment, fragment_provider)
     fragment.elements.each{|e| @environment.delete(e)} if @environment
     @fragment_change_listeners.each{|l| l.call(fragment, :removed)}
   end
 
   # Remove all references between this fragment and all other fragments.
   # The references will be replaced with unresolved references (MMProxy objects).
-  # For bidirectional references, the reference selector provided to the constructor
-  # defines for which reference and unresolved reference and proxy will be created
   #
-  def unresolve_fragment(fragment)
+  # If a +fragment_provider+ is given, the unresolve step can be performed
+  # much more efficiently. The fragment provider is a proc which receives a model
+  # element and must return the fragment in which the element is contained or
+  # null in case this information is not available. If the fragment is known
+  # for all elements which are disconnected in one unresolve step, this step will 
+  # be significantly faster.
+  #
+  def unresolve_fragment(fragment, fragment_provider=nil)
     invalidate_urefs
+    unknown_fragments = false
     fragment.unresolve(
       proc {|ref| @ref_has_uref.has_key?([ref.eContainingClass, ref.name])},
-      lambda {|element| reverse_index[element] })
-    @fragments.each do |f| 
-      f.refs_changed if f != fragment
+      proc {|element| reverse_index[element] },
+      proc {|element| 
+        frag = fragment_provider && fragment_provider.call(element)
+        unknown_fragments = true unless frag
+        frag})
+    if unknown_fragments
+      @fragments.each do |f| 
+        f.refs_changed if f != fragment
+      end
     end
   end
 
@@ -87,8 +100,10 @@ class FragmentedModel
   # It is assumed that references within fragments have already been resolved.
   # This method can be called several times. 
   # It will updated the overall unresolved references.
+  # If +fragment_provider+ is given future resolve steps will be faster since
+  # unresolved reference caches can be reused, see unresolve_fragment
   #
-  def resolve
+  def resolve(fragment_provider=nil)
     urefs = []
     @fragments.each{|f| urefs.concat(f.unresolved_refs)}
     urefs.each do |ur|
@@ -100,7 +115,28 @@ class FragmentedModel
         index[ident]
       end)
     @unresolved_refs = resolver.resolve(urefs)
-    @fragments.each{|f| f.refs_changed}
+    if fragment_provider
+      unknown_fragments = false
+      urefs_by_fragment = {}
+      (urefs - @unresolved_refs).each do |ur|
+        fr = fragment_provider.call(ur.element)
+        if fr
+          urefs_by_fragment[fr] ||= []
+          urefs_by_fragment[fr] << ur
+        else
+          unknown_fragments = true
+        end
+      end
+      if unknown_fragments
+        @fragments.each{|f| f.refs_changed}
+      else
+        urefs_by_fragment.each_pair do |fr, urefs|
+          fr.remove_unresolved_refs(urefs)
+        end
+      end
+    else
+      @fragments.each{|f| f.refs_changed}
+    end
     @unresolved_refs
   end
 
