@@ -99,7 +99,8 @@ class DefaultLoader
         :unresolved_refs => urefs,
         :problems => problems,
         :root_elements => root_elements,
-        :fragment_ref => fragment.fragment_ref)
+        :fragment_ref => fragment.fragment_ref,
+        :file_name => fragment.location)
     end
     fragment.data = {:problems => problems}
     fragment.set_root_elements(root_elements,
