@@ -123,8 +123,14 @@ class Service
       ident_end = (current_line.index(/[^\w\/]/, linepos) || current_line.size)-1
       ident = current_line[ident_start..ident_end]
       result << "#{ident_start};#{ident_end}\n"
-      @service_provider.get_reference_targets(ident, context).each do |t|
-        result << "#{t.file};#{t.line}\n"
+      if current_line[0..linepos+1] =~ /^\s*\w+$/
+        @service_provider.get_referencing_elements(ident, context).each do |t|
+          result << "#{t.file};#{t.line};#{t.display_name}\n"
+        end
+      else
+        @service_provider.get_reference_targets(ident, context).each do |t|
+          result << "#{t.file};#{t.line};#{t.display_name}\n"
+        end
       end
     end
     result

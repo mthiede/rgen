@@ -30,15 +30,37 @@ class DefaultServiceProvider
       sort{|a,b| a.identifier <=> b.identifier}
   end
 
-  ReferenceTarget = Struct.new(:file, :line)
+  ReferenceTarget = Struct.new(:file, :line, :display_name)
   def get_reference_targets(identifier, context)
     result = []
     identifier = @lang.qualify_reference(identifier, context)
     targets = @model.index[identifier]
-    targets && targets.each do |e|
-      if @lang.fragment_ref(e)
-        path = File.expand_path(@lang.fragment_ref(e).fragment.location)
-        result << ReferenceTarget.new(path, @lang.line_number(e))
+    targets && targets.each do |t|
+      if @lang.fragment_ref(t)
+        path = File.expand_path(@lang.fragment_ref(t).fragment.location)
+        result << ReferenceTarget.new(path, @lang.line_number(t), "#{identifier} [#{t.class.ecore.name}]")
+      end
+    end
+    result
+  end
+
+  def get_referencing_elements(identifier, context)
+    result = []
+    targets = @model.index[@lang.identifier_provider.call(context, nil)]
+    if targets && targets.size == 1
+      target = targets.first
+      elements = target.class.ecore.eAllReferences.select{|r|
+        r.eOpposite && !r.containment && !r.eOpposite.containment}.collect{|r|
+          target.getGenericAsArray(r.name)}.flatten
+      elements.each do |e|
+        if @lang.fragment_ref(e)
+          path = File.expand_path(@lang.fragment_ref(e).fragment.location)
+          display_name = ""
+          ident = @lang.identifier_provider.call(e, nil)
+          display_name += "#{ident} " if ident
+          display_name += "[#{e.class.ecore.name}]"
+          result << ReferenceTarget.new(path, @lang.line_number(e), display_name)
+        end
       end
     end
     result
