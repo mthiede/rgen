@@ -10,6 +10,8 @@ module Util
 #
 class FileChangeDetector
 
+  FileInfo = Struct.new(:timestamp, :digest)
+
   # Create a FileChangeDetector, options include:
   #
   #  :file_added
@@ -25,31 +27,36 @@ class FileChangeDetector
     @file_added = options[:file_added]
     @file_removed = options[:file_removed]
     @file_changed = options[:file_changed]
-    @files_with_digest = {}
+    @file_info = {}
   end
 
   # Checks if any of the files has changed compared to the last call of check_files.
   # When called for the first time on a new object, all files will be reported as being added.
   # 
   def check_files(files)
-    files_before = @files_with_digest.keys
+    files_before = @file_info.keys
     used_files = {} 
     files.each do |file|
       used_files[file] = true
-      digest = calc_digest(file)
-      if @files_with_digest[file]
-        if @files_with_digest[file] != digest
-          @files_with_digest[file] = digest 
-          @file_changed && @file_changed.call(file)
+      if @file_info[file]
+        if @file_info[file].timestamp != File.atime(file)
+          @file_info[file].timestamp = File.atime(file)
+          digest = calc_digest(file)
+          if @file_info[file].digest != digest
+            @file_info[file].digest = digest 
+            @file_changed && @file_changed.call(file)
+          end
         end
       else
-        @files_with_digest[file] = digest
+        @file_info[file] = FileInfo.new
+        @file_info[file].timestamp = File.atime(file)
+        @file_info[file].digest = calc_digest(file)
         @file_added && @file_added.call(file)
       end
     end
     files_before.each do |file|
       if !used_files[file]
-        @files_with_digest.delete(file)
+        @file_info.delete(file)
         @file_deleted && @file_deleted.call(file)
       end
     end

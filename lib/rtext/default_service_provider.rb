@@ -66,17 +66,22 @@ class DefaultServiceProvider
     result
   end
 
+  FileProblems = Struct.new(:file, :problems)
   Problem = Struct.new(:severity, :line, :message)
-  def get_problems(file)
+  def get_problems
     load_model
-    fragment = @model.fragments.find{|f| File.expand_path(f.location) == file}
-    return [] unless fragment
     result = []
-    fragment.data[:problems].each do |p|
-      result << Problem.new("Error", p.line, p.message)
-    end
-    fragment.unresolved_refs.each do |ur|
-      result << Problem.new("Error", @lang.line_number(ur.element), "unresolved reference #{ur.proxy.targetIdentifier}")
+    @model.fragments.each do |fragment|
+      fp = FileProblems.new(File.expand_path(fragment.location), [])
+      result << fp
+      if fragment.data && fragment.data[:problems]
+        fragment.data[:problems].each do |p|
+          fp.problems << Problem.new("Error", p.line, p.message)
+        end
+      end
+      fragment.unresolved_refs.each do |ur|
+        fp.problems << Problem.new("Error", @lang.line_number(ur.element), "unresolved reference #{ur.proxy.targetIdentifier}")
+      end
     end
     result
   end
@@ -84,13 +89,20 @@ class DefaultServiceProvider
   OpenElementChoice = Struct.new(:display_name, :file, :line)
   def get_open_element_choices(pattern)
     result = []
+    return result unless pattern
     sub_index = element_name_index[pattern[0..0].downcase]
     sub_index && sub_index.each_pair do |ident, elements|
       if ident.split(/\W/).last.index(pattern) == 0
         elements.each do |e|
           if @lang.fragment_ref(e)
-            name = ident[ident.rindex(/\W/)+1..-1]
-            scope = ident[0..ident.rindex(/\W/)-1]
+            non_word_index = ident.rindex(/\W/)
+            if non_word_index
+              name = ident[non_word_index+1..-1]
+              scope = ident[0..non_word_index-1]
+            else
+              name = ident
+              scope = ""
+            end
             display_name = "#{name} [#{e.class.ecore.name}]"
             display_name += " - #{scope}" if scope.size > 0
             path = File.expand_path(@lang.fragment_ref(e).fragment.location)

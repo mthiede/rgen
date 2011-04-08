@@ -52,6 +52,8 @@ class Instantiator
       end
     rescue Parser::Error => e
       problem(e.message, e.line)
+      @unresolved_refs.clear if @unresolved_refs
+      @root_elements.clear
     end
     if @unresolved_refs
       @unresolved_refs.each do |ur|

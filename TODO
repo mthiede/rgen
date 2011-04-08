@@ -35,3 +35,7 @@
 * extended constraint checks (feature bounds)
 * class filter in RText language
 * root classes for RText language
+* command/class aliases in RText language
+* language variants (different root classes depending on file type)
+* reference name in reference_qualifier
+

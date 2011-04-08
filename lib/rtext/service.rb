@@ -94,6 +94,7 @@ class Service
     context = ContextElementBuilder.build_context_element(@lang, lines, linepos)
     puts @lang.identifier_provider.call(context, nil)
     current_line = lines.pop
+    current_line ||= ""
     options = @completer.complete(current_line, linepos, 
       proc {|i| lines[-i]}, 
       proc {|ref| 
@@ -106,11 +107,15 @@ class Service
   end
 
   def get_problems(lines)
-    file_name = lines.shift
     # TODO: severity
-    @service_provider.get_problems(file_name).collect do |p|
-      "#{p.line};#{p.message}\n"
+    result = []
+    @service_provider.get_problems.each do |fp|
+      result << fp.file+"\n"
+      fp.problems.each do |p| 
+        result << "#{p.line};#{p.message}\n"
+      end
     end
+    result
   end
 
   def get_reference_targets(lines)

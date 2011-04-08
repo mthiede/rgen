@@ -46,7 +46,7 @@ module ContextElementBuilder
   def fix_context(context_lines)
     context_lines = context_lines.dup
     line = context_lines.last
-    return nil if is_non_element_line(line)
+    return nil if line.nil? || is_non_element_line(line)
     context_lines << strip_curly_brace(context_lines.pop)
     pos_leaf_element = context_lines.size-1
     num_elements = 1

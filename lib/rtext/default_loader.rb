@@ -7,34 +7,44 @@ module RText
 
 # Loads RText files into a FragmentedModel.
 #
-# A glob pattern specifies the files which should be loaded. The load method can be called
-# to load and to reload the model. If files have not changed, the model will not be changed.
+# A glob pattern or file provider specifies the files which should be loaded. The load method
+# can be called to load and to reload the model. If files have not changed, the model will not 
+# be changed.
 #
 # Optionally, the loader can use a fragment cache to speed up loading.
 #
 class DefaultLoader
 
   # Create a default loader for +language+, loading into +fragmented_model+.
-  # It will find files by +patterns+ which is a glob pattern or an Array of glob patterns 
-  # (see Dir.glob). Options:
+  # It will find files by either by evaluating the glob pattern given with +:pattern+ 
+  # (see Dir.glob) or by means of a +file_provider+. Options:
+  #
+  #  :pattern
+  #    a glob pattern or an array of glob patterns
+  #    alternatively, a +:file_provider+ may be specified
+  #
+  #  :file_provider
+  #    a proc which is called without any arguments and should return the files to load
+  #    this is an alternative to providing +:pattern+
   #
   #  :cache
   #    a fragment cache to be used for loading
   #
-  def initialize(language, fragmented_model, patterns, options={})
+  def initialize(language, fragmented_model, options={})
     @lang = language
     @model = fragmented_model
-    @patterns = patterns
     @change_detector = RGen::Util::FileChangeDetector.new(
       :file_added => method(:file_added),
       :file_removed => method(:file_removed),
       :file_changed => method(:file_changed))
     @cache = options[:cache]
     @fragment_by_file = {}
+    pattern = options[:pattern]
+    @file_provider = options[:file_provider] || proc { Dir.glob(pattern) }
   end
 
-  # Loads or reloads model fragments from files using the file patterns specified in the 
-  # constructor. Options:
+  # Loads or reloads model fragments from files using the file patterns or file provider 
+  # specified in the constructor. Options:
   #
   #  :before_load
   #    a proc which is called before a file is actually loaded, receives the fragment to load
@@ -43,7 +53,7 @@ class DefaultLoader
   # 
   def load(options={})
     @before_load_proc = options[:before_load]
-    files = Dir.glob(@patterns)
+    files = @file_provider.call 
     @change_detector.check_files(files)
     @model.resolve(method(:fragment_provider))
   end
