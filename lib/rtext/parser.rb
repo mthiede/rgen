@@ -9,6 +9,7 @@ class Parser
   def parse(str, &visitor)
     @visitor = visitor
     @tokens = tokenize(str, @reference_regexp)
+    @last_line = @tokens.last.line 
     while next_token
       parse_statement(true)
     end
@@ -132,7 +133,7 @@ class Parser
   def consume(*args)
     t = @tokens.shift
     if t.nil?
-      raise Error.new("Unexpected end of file, expected #{args.join(", ")}", nil)
+      raise Error.new("Unexpected end of file, expected #{args.join(", ")}", @last_line)
     end
     if args.include?(t.kind)
       t
