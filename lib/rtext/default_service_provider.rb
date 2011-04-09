@@ -71,16 +71,20 @@ class DefaultServiceProvider
   def get_problems
     load_model
     result = []
-    @model.fragments.each do |fragment|
-      fp = FileProblems.new(File.expand_path(fragment.location), [])
-      result << fp
+    @model.fragments.sort{|a,b| a.location <=> b.location}.each do |fragment|
+      problems = []
       if fragment.data && fragment.data[:problems]
         fragment.data[:problems].each do |p|
-          fp.problems << Problem.new("Error", p.line, p.message)
+          problems << Problem.new("Error", p.line, p.message)
         end
       end
       fragment.unresolved_refs.each do |ur|
-        fp.problems << Problem.new("Error", @lang.line_number(ur.element), "unresolved reference #{ur.proxy.targetIdentifier}")
+        # TODO: where do these proxies come from?
+        next unless ur.proxy.targetIdentifier
+        problems << Problem.new("Error", @lang.line_number(ur.element), "unresolved reference #{ur.proxy.targetIdentifier}")
+      end
+      if problems.size > 0
+        result << FileProblems.new(File.expand_path(fragment.location), problems)
       end
     end
     result
