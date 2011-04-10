@@ -9,22 +9,31 @@ module Fragment
 # Optionally, an arbitrary data object may be associated with the fragment. The data object
 # will also be stored in the cache.
 #
-# If an element within the fragment changes or if the fragement is connected or disconnected 
-# this must be indicated to the fragment by calling +changed+ or +refs_changed+ respectively.
-# This will normally be taken care of by a FragmentedModel.
+# If an element within the fragment changes this must be indicated to the fragment by calling
+# +changed+. 
 #
 class ModelFragment
   attr_reader :root_elements
-  attr_reader :index
   attr_accessor :location, :fragment_ref, :data
   
   # A FragmentRef serves as a single target object for elements which need to reference the
   # fragment they are contained in. The FragmentRef references the fragment it is contained in.
-  # The FragmentRef is separate from the fragment itself, to allow storing it in a marshal dump
+  # The FragmentRef is separate from the fragment itself to allow storing it in a marshal dump
   # independently of the fragment.
   #
   class FragmentRef
     attr_accessor :fragment
+  end
+
+  # A ResolvedReference wraps an unresolved reference after it has been resolved.
+  # It also holds the target element to which it has been resolved, i.e. with which the proxy
+  # object has been replaced.
+  #
+  class ResolvedReference
+    attr_reader :uref, :target
+    def initialize(uref, target)
+      @uref, @target = uref, target
+    end
   end
 
   # Create a model fragment
@@ -37,9 +46,10 @@ class ModelFragment
     @fragment_ref = FragmentRef.new
     @fragment_ref.fragment = self
     @data = options[:data]
+    @resolved_refs = nil 
   end
 
-  # Set the root elements, normally done by a instantiator.
+  # Set the root elements, normally done by an instantiator.
   #
   # For optimization reasons the instantiator of the fragment may provide data explicitly which
   # is normally derived by the fragment itself. In this case it is essential that this
@@ -50,22 +60,20 @@ class ModelFragment
     @elements = options[:elements]
     @index = options[:index]
     @unresolved_refs = options[:unresolved_refs]
+    @resolved_refs = nil 
   end
 
-  # must be called when any of the elements in this fragment has been changed
+  # Must be called when any of the elements in this fragment has been changed
+  #
   def changed
     @elements = nil
     @index = nil
     @unresolved_refs = nil
+    @resolved_refs = nil 
   end
 
-  # must be called when an unresolved references of this fragment has been resolved
-  # or when a new unresolved reference has been added 
-  def refs_changed
-    @unresolved_refs = nil
-  end
-
-  # returns all elements within this fragment
+  # Returns all elements within this fragment
+  #
   def elements
     return @elements if @elements
     @elements = []
@@ -74,10 +82,20 @@ class ModelFragment
     end
     @elements
   end
+  
+  # Returns the index of the element contained in this fragment.
+  # On a new or changed fragment, the index must be built first using build_index.
+  #
+  def index
+    raise "index does not exist, call build_index first" unless @index
+    @index
+  end
 
-  # returns all unresolved references within this fragment, i.e. references to MMProxy objects
+  # Returns all unresolved references within this fragment, i.e. references to MMProxy objects
+  #
   def unresolved_refs
     return @unresolved_refs if @unresolved_refs
+    @resolved_refs = nil 
     @unresolved_refs = []
     elements.each do |e|
       each_reference_target(e) do |r, t|
@@ -103,87 +121,82 @@ class ModelFragment
     }.compact
   end
 
-  # disconnects elements within this fragment from elements outside of this fragment
-  # by replacing references with MMProxy objects, i.e. unresolved references 
+  # Resolves local references (within this fragment) as far as possible
   #
-  # +reference_selector+ is a proc which is called to descide for which part of a 
-  # bidirectional reference a MMProxy object will be created;
-  # the proc receives an EReference;
-  # if it returns true, the MMProxy object will be created in the direction
-  # of the EReference provided, otherwise it will be created for the opposite reference 
-  #
-  # +identifier_provider+ is a proc which is called with an element and should return
-  # the identifier of that element
-  #
-  # +fragment_provider+ is a proc which is called with an element and should return the
-  # fragment in which this element is contained in. if the fragment can not be retrieved
-  # the proc may return null. the fragment information is required for updating the
-  # unresolved references of that fragment. in case this information is not available for
-  # one or more elements, +refs_changed+ must be called on all fragments which might be
-  # affected
-  #
-  # TODO: make sure reference order is preserved
-  def unresolve(reference_selector, identifier_provider, fragment_provider)
-    @unresolved_refs = []
-    elements_hash = {}
-    elements.each{|e| elements_hash[e] = true}
-    elements.each do |e|
-      each_reference_target(e) do |r, t|
-        if t.is_a?(RGen::MetamodelBuilder::MMProxy)
-          @unresolved_refs << 
-            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, t)
-        elsif !elements_hash[t]
-          if r.many
-            e.removeGeneric(r.name, t)
-          else
-            e.setGeneric(r.name, nil)
-          end
-          if !r.eOpposite || reference_selector.call(r)
-            proxy = RGen::MetamodelBuilder::MMProxy.new(identifier_provider.call(t), t.class.ecore.name)
-            e.setOrAddGeneric(r.name, proxy)
-            @unresolved_refs << 
-              RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, proxy)
-          else
-            proxy = RGen::MetamodelBuilder::MMProxy.new(identifier_provider.call(e), e.class.ecore.name)
-            t.setOrAddGeneric(r.eOpposite.name, proxy)
-            target_fragment = fragment_provider && fragment_provider.call(t)
-            if target_fragment
-              target_fragment.add_unresolved_ref(
-                RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(t, r.eOpposite.name, proxy))
-            end
-          end
-        end
-      end
-    end       
-  end
-
-  # resolves local references (within this fragment) as far as possible
   def resolve_local
     resolver = RGen::Instantiator::ReferenceResolver.new
-    raise "index does not exist, call build_index first" unless index
     index.each do |i|
       resolver.add_identifier(i[0], i[1])
     end
     @unresolved_refs = resolver.resolve(unresolved_refs)
   end
 
-  # remove unresolved references from the unresolved references cache
-  # this method must be used with care, in order to keep the cache consistent
+  # Resolves references to external fragments using the external_index provided.
+  # The external index must be a Hash mapping identifiers uniquely to model elements.
   #
-  def remove_unresolved_refs(unresolved_refs)
-    @unresolved_refs -= unresolved_refs
+  # If a +fragment_provider+ is given, the resolve step can be reverted later on 
+  # by a call to unresolve_external or unresolve_external_fragment. The fragment provider
+  # is a proc which receives a model element and must reseturn the fragment in which it is
+  # contained.
+  #
+  def resolve_external(external_index, fragment_provider=nil)
+    resolver = RGen::Instantiator::ReferenceResolver.new(
+      :identifier_resolver => proc {|ident| external_index[ident] })
+    if fragment_provider
+      @resolved_refs ||= {}
+      on_resolve = proc { |ur, target|
+        target_fragment = fragment_provider.call(target)
+        raise "unknown target fragment" unless target_fragment
+        raise "can resolve local reference in resolve_external, call resolve_local first" \
+          if target_fragment == self
+        @resolved_refs[target_fragment] ||= []
+        @resolved_refs[target_fragment] << ResolvedReference.new(ur, target)
+      } 
+      @unresolved_refs = resolver.resolve(unresolved_refs, :on_resolve => on_resolve)
+    else
+      @unresolved_refs = resolver.resolve(unresolved_refs)
+    end
   end
 
-  protected
+  # Unresolve outgoing references to all external fragments, i.e. references which used to
+  # be represented by an unresolved reference from within this fragment.
+  # Note, that there may be more references to external fragments due to references which 
+  # were represented by unresolved references from within other fragments.
+  # 
+  def unresolve_external
+    raise "can not unresolve, missing fragment information" unless @resolved_refs
+    rrefs = @resolved_refs.values.flatten
+    @resolved_refs = {}
+    unresolve_refs(rrefs)
+  end
 
-  # add an unresolved reference to the unresolved references cache
-  # this method must be used with care, in order to keep the cache consistent
+  # Like unresolve_external but only unresolve references to external fragment +fragment+
   #
-  def add_unresolved_ref(unresolved_ref)
-    @unresolved_refs << unresolved_ref
+  def unresolve_external_fragment(fragment)
+    raise "can not unresolve, missing fragment information" unless @resolved_refs
+    rrefs = @resolved_refs[fragment]
+    @resolved_refs.delete(fragment)
+    unresolve_refs(rrefs) if rrefs
   end
 
   private
+
+  # Turns resolved references +rrefs+ back into unresolved references
+  #
+  def unresolve_refs(rrefs)
+    rrefs.each do |rr|
+      ur = rr.uref
+      refs = ur.element.getGeneric(ur.feature_name)
+      if refs.is_a?(Array)
+        index = refs.index(rr.target)
+        ur.element.removeGeneric(ur.feature_name, rr.target)
+        ur.element.addGeneric(ur.feature_name, ur.proxy, index)
+      else
+        ur.element.setGeneric(ur.feature_name, ur.proxy)
+      end
+      @unresolved_refs << ur
+    end
+  end
 
   def each_reference_target(element)
     non_containment_references(element.class).each do |r|

@@ -68,7 +68,7 @@ class DefaultLoader
   end
 
   def file_removed(file)
-    @model.remove_fragment(@fragment_by_file[file], method(:fragment_provider))
+    @model.remove_fragment(@fragment_by_file[file])
     @fragment_by_file.delete(file)
   end
 
