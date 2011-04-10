@@ -588,7 +588,7 @@ class RTextInstantiatorTest < Test::Unit::TestCase
       #comment
       #  multiline
       TestNode text: "node2"
-    ), TestMM, :comment_handler => proc {|e,c|
+    ), TestMM, :comment_handler => proc {|e,c,env|
       proc_calls += 1
       if e.text == "node1"
         assert_equal "comment", c
@@ -607,7 +607,7 @@ class RTextInstantiatorTest < Test::Unit::TestCase
     env, problems = instantiate(%Q(
       #comment
       TestNode
-    ), TestMM, :comment_handler => proc {|e,c|
+    ), TestMM, :comment_handler => proc {|e,c,env|
       false
     })
     assert_problems([/element can not take a comment/], problems)
