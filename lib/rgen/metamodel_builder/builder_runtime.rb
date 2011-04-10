@@ -18,8 +18,8 @@ module BuilderRuntime
     kind_of?(c::ClassModule)
 	end
 	
-	def addGeneric(role, value)
-		send("add#{firstToUpper(role)}",value)
+	def addGeneric(role, value, index=-1)
+		send("add#{firstToUpper(role)}",value, index)
 	end
 	
 	def removeGeneric(role, value)

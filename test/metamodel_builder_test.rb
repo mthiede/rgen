@@ -264,6 +264,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal 2, lim.upperBound
   end
 
+  def test_many_attr_insert
+    o = mm::ManyAttrClass.new
+    o.addLiterals("a")
+    o.addLiterals("b", 0)
+    o.addLiterals("c", 1)
+    assert_equal ["b", "c", "a"], o.literals
+  end
+
   def test_has_one
     sc = mm::HasOneTestClass.new
     assert_respond_to sc, :classA
@@ -311,6 +319,21 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
     assert_equal [], mm::HasManyTestClass.ecore.eReferences.select{|r| r.many == false}
     assert_equal ["classA"], mm::HasManyTestClass.ecore.eReferences.select{|r| r.many == true}.name
+  end
+
+  def test_has_many_insert
+    o = mm::HasManyTestClass.new
+    ca1 = mm::ClassA.new
+    ca2 = mm::ClassA.new
+    ca3 = mm::ClassA.new
+    ca4 = mm::ClassA.new
+    ca5 = mm::ClassA.new
+    o.addClassA(ca1)
+    o.addClassA(ca2)
+    o.addClassA(ca3,0)
+    o.addClassA(ca4,1)
+    o.addGeneric("classA",ca5,2)
+    assert_equal [ca3, ca4, ca5, ca1, ca2], o.classA
   end
   
   def test_one_to_many
@@ -382,6 +405,18 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal oc, mc2.oneClass
 	end
 	
+  def test_one_to_many_insert
+    oc = mm::OneClass.new
+    mc1 = mm::ManyClass.new  	
+    mc2 = mm::ManyClass.new  	
+
+    oc.addManyClasses(mc1, 0)
+    oc.addManyClasses(mc2, 0)
+    assert_equal [mc2, mc1], oc.manyClasses
+    assert_equal oc, mc1.oneClass
+    assert_equal oc, mc2.oneClass
+  end
+
   def test_one_to_many2
     oc = mm::OneClass2.new
     assert_respond_to oc, :manyClasses
@@ -517,6 +552,23 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal  ["aClasses"], mm::BClassMM.ecore.eReferences.select{|r| r.many == true}.name
   end
   
+  def test_many_to_many_insert
+    ac1 = mm::AClassMM.new
+    ac2 = mm::AClassMM.new
+    bc1= mm::BClassMM.new
+    bc2= mm::BClassMM.new
+
+    ac1.addBClasses(bc1)
+    ac1.addBClasses(bc2, 0)
+    ac2.addBClasses(bc1)
+    ac2.addBClasses(bc2, 0)
+
+    assert_equal [bc2, bc1], ac1.bClasses
+    assert_equal [bc2, bc1], ac2.bClasses
+    assert_equal [ac1, ac2], bc1.aClasses
+    assert_equal [ac1, ac2], bc2.aClasses
+  end
+   
   def test_inheritance
     assert_equal ["name"], mm::SomeSuperClass.ecore.eAllAttributes.name
     assert_equal ["classAs"], mm::SomeSuperClass.ecore.eAllReferences.name

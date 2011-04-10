@@ -53,14 +53,14 @@ module BuilderExtensions
     _build_internal(props)
   end
   
-   # Add an attribute which can hold multiple values.
+  # Add an attribute which can hold multiple values.
   # 'role' specifies the name which is used to access the attribute.
   # 'target_class' specifies the type of objects which can be held by this attribute.
   # If no target class is given, String will be default.
   # 
   # This class method adds the following instance methods, where 'role' is to be 
   # replaced by the given role name:
-  #   class#addRole(value)  
+  #   class#addRole(value, index=-1)  
   #   class#removeRole(value)
   #   class#role  # getter, returns an array
   #   class#role= # setter, sets multiple values at once
@@ -98,7 +98,7 @@ module BuilderExtensions
   # 
   # This class method adds the following instance methods, where 'role' is to be 
   # replaced by the given role name:
-  #   class#addRole(value)  
+  #   class#addRole(value, index=-1)  
   #   class#removeRole(value)
   #   class#role  # getter, returns an array
   # Note that the first letter of the role name is turned into an uppercase 
@@ -138,7 +138,7 @@ module BuilderExtensions
   # 
   # This class method adds the following instance methods where 'ownRole' and
   # 'targetRole' are to be replaced by the given role names:
-  #   own_class#addOwnRole(value)
+  #   own_class#addOwnRole(value, index=-1)
   #   own_class#removeOwnRole(value)
   #   own_class#ownRole
   #   target_class#targetRole
@@ -187,7 +187,7 @@ module BuilderExtensions
   # 
   # This class method adds the following instance methods where 'ownRole' and
   # 'targetRole' are to be replaced by the given role names:
-  #   own_class#addOwnRole(value)
+  #   own_class#addOwnRole(value, index=-1)
   #   own_class#removeOwnRole(value)
   #   own_class#ownRole
   #   target_class#addTargetRole
@@ -377,11 +377,11 @@ module BuilderExtensions
     if props.value(:changeable)
       @@many_write_builder ||= ERB.new <<-CODE
     
-        def add<%= firstToUpper(name) %>(val)
+        def add<%= firstToUpper(name) %>(val, index=-1)
           @<%= name %> = [] unless @<%= name %>
           return if val.nil? || @<%= name %>.any?{|e| e.object_id == val.object_id} 
           <%= type_check_code("val", props) %>
-          @<%= name %>.push val
+          @<%= name %>.insert(index, val)
           <% if other_role %>
             val._register<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMProxy)
           <% end %>
