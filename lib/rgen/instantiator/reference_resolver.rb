@@ -19,7 +19,7 @@ class ReferenceResolver
   class UnresolvedReference 
     attr_reader :feature_name, :proxy
     attr_accessor :element
-    def initialize(element, feature_name, proxy, options={})
+    def initialize(element, feature_name, proxy)
       @element = element
       @feature_name = feature_name
       @proxy = proxy
@@ -52,11 +52,19 @@ class ReferenceResolver
     end
   end
 
-  # Tries to resolve the given +unresolved_refs+
-  # if resolution is successful, the proxy object will be removed, otherwise there will be an 
-  # error description in +problems+
-  # returns an array of the references which are still unresolved
-  def resolve(unresolved_refs, problems=[])
+  # Tries to resolve the given +unresolved_refs+. If resolution is successful, the proxy object
+  # will be removed, otherwise there will be an error description in the problems array.
+  # Returns an array of the references which are still unresolved. Options:
+  # 
+  #  :problems
+  #    an array to which problems will be appended
+  #
+  #  :on_resolve
+  #    a proc which will be called for every sucessful resolution, receives the unresolved
+  #    reference as well as to new target element
+  #
+  def resolve(unresolved_refs, options={})
+    problems = options[:problems] || []
     still_unresolved_refs = []
     unresolved_refs.each do |ur|
       if @identifier_resolver
@@ -66,13 +74,16 @@ class ReferenceResolver
       end
       target = [target].compact unless target.is_a?(Array)
       if target.size == 1
-        if ur.element.hasManyMethods(ur.feature_name)
+        refs = ur.element.getGeneric(ur.feature_name)
+        if refs.is_a?(Array) 
+          index = refs.index(ur.proxy)
           ur.element.removeGeneric(ur.feature_name, ur.proxy)
-          ur.element.addGeneric(ur.feature_name, target[0])
+          ur.element.addGeneric(ur.feature_name, target[0], index)
         else
           # this will replace the proxy
           ur.element.setGeneric(ur.feature_name, target[0])
         end
+        options[:on_resolve] && options[:on_resolve].call(ur, target[0])
       elsif target.size > 1
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
         still_unresolved_refs << ur

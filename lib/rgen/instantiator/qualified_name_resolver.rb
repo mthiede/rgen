@@ -58,7 +58,7 @@ class QualifiedNameResolver
   end
 
   def resolveReferences(unresolvedReferences, problems=[])
-    @resolverDelegate.resolve(unresolvedReferences, problems)
+    @resolverDelegate.resolve(unresolvedReferences, :problems => problems)
   end
 
   private

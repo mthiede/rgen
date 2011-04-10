@@ -39,8 +39,24 @@ class ReferenceResolverTest < Test::Unit::TestCase
         {:a => [nodeA, nodeB], :c => nodeC}[ident]
       end)
     problems = []
-    resolver.resolve(unresolved_refs, problems)
+    resolver.resolve(unresolved_refs, :problems => problems)
     assert_equal ["identifier b not found", "identifier a not uniq"], problems
+  end
+
+  def test_on_resolve_proc
+    nodeA, nodeB, nodeC, unresolved_refs = create_model
+    resolver = RGen::Instantiator::ReferenceResolver.new
+    resolver.add_identifier(:a, nodeA)
+    resolver.add_identifier(:b, nodeB)
+    resolver.add_identifier(:c, nodeC)
+    data = []
+    resolver.resolve(unresolved_refs, 
+      :on_resolve => proc {|ur, e| data << [ ur, e ]})
+    assert data[0][0].is_a?(RGen::Instantiator::ReferenceResolver::UnresolvedReference)
+    assert_equal nodeA, data[0][0].element 
+    assert_equal "other", data[0][0].feature_name 
+    assert_equal :b, data[0][0].proxy.targetIdentifier 
+    assert_equal nodeB, data[0][1]
   end
 
   private
