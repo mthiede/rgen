@@ -8,6 +8,8 @@ class Service
   PortRangeStart = 9001
   PortRangeEnd   = 9100
 
+  FlushInterval  = 1
+
   # Creates an RText frontend support service
   def initialize(lang, service_provider, options={})
     @lang = lang
@@ -21,16 +23,21 @@ class Service
     puts "RText service, listening on port #{socket.addr[1]}"
     $stdout.flush
 
-    last_time = Time.now
+    last_access_time = Time.now
+    last_flush_time = Time.now
     loop do
       begin
         msg, from = socket.recvfrom_nonblock(65000)
       rescue Errno::EWOULDBLOCK
         sleep(0.01)
-        break if (Time.now - last_time) > @timeout
+        break if (Time.now - last_access_time) > @timeout
         retry
       end
-      last_time = Time.now
+      if Time.now > last_flush_time + FlushInterval
+        $stdout.flush
+        last_flush_time = Time.now
+      end
+      last_access_time = Time.now
       lines = msg.split(/\r?\n/)
       cmd = lines.shift
       invocation_id = lines.shift
