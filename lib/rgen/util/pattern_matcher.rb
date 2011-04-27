@@ -76,22 +76,40 @@ class PatternMatcher
     proxied_args = connection_points.collect{|a| Proxy.new(a)}
     temp_env = RGen::Environment.new
     pattern_root = evaluate_pattern(name, temp_env, proxied_args)
-    env.find(:class => pattern_root.class).each do |e|
+    candidates = candidates_via_connection_points(pattern_root, connection_points)
+    candidates ||= env.find(:class => pattern_root.class)
+    candidates.each do |e|
       matched = match(pattern_root, e)
       return Match.new(e, matched) if matched 
     end
     nil
   end
 
+  def candidates_via_connection_points(pattern_root, connection_points)
+    @candidates_via_connection_points_refs ||= {}
+    refs = (@candidates_via_connection_points_refs[pattern_root.class] ||= 
+      pattern_root.class.ecore.eAllReferences.reject{|r| r.derived || r.many || !r.eOpposite})
+    candidates = nil 
+    refs.each do |r|
+      t = pattern_root.getGeneric(r.name)
+      cp = t.is_a?(Proxy) && connection_points.find{|cp| cp.object_id == t._target.object_id}
+      if cp
+        elements = cp.getGenericAsArray(r.eOpposite.name)
+        candidates = elements if candidates.nil? || elements.size < candidates.size 
+      end
+    end
+    candidates
+  end
+
   def match(pat_element, test_element, visited={})
     return true if visited[test_element]
     #p [pat_element.class, test_element.class]
     visited[test_element] = true
-    unless pat_element.class.ecore == test_element.class.ecore
+    unless pat_element.class == test_element.class
       match_failed(f, "wrong class")
       return false 
     end
-    pat_element.class.ecore.eAllStructuralFeatures.reject{|f| f.derived}.each do |f|
+    all_structural_features(pat_element).each do |f|
       if f.is_a?(RGen::ECore::EAttribute)
         unless pat_element.getGeneric(f.name) == test_element.getGeneric(f.name)
           match_failed(f, "wrong argument")
@@ -143,6 +161,13 @@ class PatternMatcher
         element.setGeneric(f.name, nil)
       end
     end
+  end
+
+  def all_structural_features(element)
+    @all_structural_features ||= {}
+    return @all_structural_features[element.class] if @all_structural_features[element.class]
+    @all_structural_features[element.class] = 
+     element.class.ecore.eAllStructuralFeatures.reject{|f| f.derived}
   end
 
 end
