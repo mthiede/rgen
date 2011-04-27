@@ -3,7 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 require 'test/unit'
 require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
-require 'rgen/model_dumper'
+require 'rgen/util/model_dumper'
 require 'xml_instantiator_test/simple_xmi_ecore_instantiator'
 require 'xml_instantiator_test/simple_ecore_model_checker'
 
@@ -22,7 +22,7 @@ class XMLInstantiatorTest < Test::Unit::TestCase
 
   XML_DIR = File.join(File.dirname(__FILE__),"testmodel")
   
-  include RGen::ModelDumper
+  include RGen::Util::ModelDumper
   
   class MyInstantiator < RGen::Instantiator::DefaultXMLInstantiator
   

@@ -1,11 +1,11 @@
-require 'rgen/name_helper'
+require 'rgen/util/name_helper'
 
 module RGen
   
   module ECore
     
     module EPackage::ClassModule
-      include RGen::NameHelper
+      include RGen::Util::NameHelper
       
       def moduleName
         firstToUpper(name)
@@ -58,7 +58,7 @@ module RGen
     end
     
     module EClassifier::ClassModule
-      include RGen::NameHelper
+      include RGen::Util::NameHelper
       def classifierName
         firstToUpper(name)			
       end

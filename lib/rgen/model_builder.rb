@@ -1,5 +1,5 @@
 require 'rgen/model_builder/builder_context'
-require 'rgen/method_delegation'
+require 'rgen/util/method_delegation'
 #require 'ruby-prof'
 
 module RGen
@@ -10,7 +10,7 @@ module ModelBuilder
     resolver = ReferenceResolver.new
     bc = BuilderContext.new(package, builderMethodsModule, resolver, env)
     contextModule = eval("Module.nesting", block.binding).first
-    MethodDelegation.registerDelegate(bc, contextModule, "const_missing")
+    Util::MethodDelegation.registerDelegate(bc, contextModule, "const_missing")
     BuilderContext.currentBuilderContext = bc
     begin
     #RubyProf.start
@@ -22,7 +22,7 @@ module ModelBuilder
     ensure
       BuilderContext.currentBuilderContext = nil
     end
-    MethodDelegation.unregisterDelegate(bc, contextModule, "const_missing")
+    Util::MethodDelegation.unregisterDelegate(bc, contextModule, "const_missing")
     #puts "Resolving..."
     resolver.resolve(bc.toplevelElements)
     bc.toplevelElements
