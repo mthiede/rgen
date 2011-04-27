@@ -141,4 +141,5 @@
 * Added FileChangeDetector utility
 * Added CachedGlob utility
 * Added index parameter to model element add methods
+* Added MMGeneric
  

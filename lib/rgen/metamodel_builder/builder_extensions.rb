@@ -331,15 +331,15 @@ module BuilderExtensions
           oldval = @<%= name %>
           @<%= name %> = val
           <% if other_role %>
-            oldval._unregister<%= firstToUpper(other_role) %>(self) unless oldval.nil? || oldval.is_a?(MMProxy)
-            val._register<%= firstToUpper(other_role) %>(self) unless val.nil? || val.is_a?(MMProxy)
+            oldval._unregister<%= firstToUpper(other_role) %>(self) unless oldval.nil? || oldval.is_a?(MMGeneric)
+            val._register<%= firstToUpper(other_role) %>(self) unless val.nil? || val.is_a?(MMGeneric)
           <% end %>
         end 
         alias set<%= firstToUpper(name) %> <%= name %>=
 
         def _register<%= firstToUpper(name) %>(val)
           <% if other_role %>
-            @<%= name %>._unregister<%= firstToUpper(other_role) %>(self) unless @<%= name %>.nil? || @<%= name %>.is_a?(MMProxy)
+            @<%= name %>._unregister<%= firstToUpper(other_role) %>(self) unless @<%= name %>.nil? || @<%= name %>.is_a?(MMGeneric)
           <% end %>
           @<%= name %> = val
         end
@@ -383,7 +383,7 @@ module BuilderExtensions
           <%= type_check_code("val", props) %>
           @<%= name %>.insert(index, val)
           <% if other_role %>
-            val._register<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMProxy)
+            val._register<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMGeneric)
           <% end %>
         end
         
@@ -393,7 +393,7 @@ module BuilderExtensions
             if e.object_id == val.object_id
               @<%= name %>.delete_at(i)
               <% if other_role %>
-                val._unregister<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMProxy)
+                val._unregister<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMGeneric)
               <% end %>
               return
             end
@@ -458,10 +458,10 @@ module BuilderExtensions
   def type_check_code(varname, props)
     code = ""
     if props.impl_type.is_a?(Class)
-      code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMProxy)\n"
+      code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMGeneric)\n"
       expected = props.impl_type.to_s
     elsif props.impl_type.is_a?(RGen::MetamodelBuilder::DataTypes::Enum)
-      code << "unless #{varname}.nil? || [#{props.impl_type.literals_as_strings.join(',')}].include?(#{varname})\n"
+      code << "unless #{varname}.nil? || [#{props.impl_type.literals_as_strings.join(',')}].include?(#{varname}) || #{varname}.is_a?(MMGeneric)\n"
       expected = "["+props.impl_type.literals_as_strings.join(',')+"]"
     else
       raise StandardError.new("Unkown type "+props.impl_type.to_s)
