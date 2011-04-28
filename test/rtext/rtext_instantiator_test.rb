@@ -677,9 +677,13 @@ class RTextInstantiatorTest < Test::Unit::TestCase
   def test_float
     env, problems = instantiate(%q(
       TestNode float: 1.23 
+      TestNode float: 1.23e-08 
+      TestNode float: 1.23e+10 
     ), TestMM)
     assert_no_problems(problems)
-    assert_equal 1.23, env.elements.first.float
+    assert_equal 1.23, env.elements[0].float
+    assert_equal 1.23e-08, env.elements[1].float
+    assert_equal 1.23e+10, env.elements[2].float
   end
 
   def test_boolean

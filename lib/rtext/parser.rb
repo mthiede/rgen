@@ -161,7 +161,7 @@ class Parser
           when reference_regexp
             str = $'
             result << Token.new(:reference, $&, idx)
-          when /\A[-+]?\d+\.\d+\b/
+          when /\A[-+]?\d+\.\d+(?:e[+-]\d+)?\b/
             str = $'
             result << Token.new(:float, $&.to_f, idx)
           when /\A0[xX][0-9a-fA-F]+\b/

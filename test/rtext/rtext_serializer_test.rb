@@ -300,6 +300,13 @@ TestNode {
     assert_equal %q(TestNode float: 1.23)+"\n", output 
   end
 
+  def test_float2
+    testModel = TestMM::TestNode.new(:float => 1.23e-08)
+    output = StringWriter.new
+    serialize(testModel, output) 
+    assert_equal %q(TestNode float: 1.23e-08)+"\n", output 
+  end
+
   module TestMMData
     extend RGen::MetamodelBuilder::ModuleExtension
     # class "Data" exists in the standard Ruby namespace
