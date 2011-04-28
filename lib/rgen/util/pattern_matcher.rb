@@ -11,6 +11,8 @@ module Util
 #
 class PatternMatcher
 
+  Match = Struct.new(:root, :elements, :bound_values)
+
   def initialize
     @patterns = {} 
   end
@@ -24,7 +26,6 @@ class PatternMatcher
 
   def find_pattern(env, name, *connection_points)
     match = find_pattern_internal(env, name, *connection_points)
-    match && match.root
   end
 
   def insert_pattern(env, name, *connection_points)
@@ -38,7 +39,7 @@ class PatternMatcher
         disconnect_element(e)
         env.delete(e)
       end
-      match.root
+      match
     else
       nil
     end
@@ -71,16 +72,31 @@ class PatternMatcher
     end
   end
 
-  Match = Struct.new(:root, :elements)
+  class Bindable < RGen::MetamodelBuilder::MMGeneric
+    attr_reader :value
+    def initialize
+      @bound = false
+      @value = nil
+    end
+    def bound?
+      @bound
+    end
+    def bind(value)
+      @value = value
+      @bound = true
+    end
+  end
+
   def find_pattern_internal(env, name, *connection_points)
     proxied_args = connection_points.collect{|a| Proxy.new(a)}
     temp_env = RGen::Environment.new
-    pattern_root = evaluate_pattern(name, temp_env, proxied_args)
+    bindables = (1..(num_pattern_variables(name) - connection_points.size)).collect{|i| Bindable.new}
+    pattern_root = evaluate_pattern(name, temp_env, proxied_args+bindables)
     candidates = candidates_via_connection_points(pattern_root, connection_points)
     candidates ||= env.find(:class => pattern_root.class)
     candidates.each do |e|
       matched = match(pattern_root, e)
-      return Match.new(e, matched) if matched 
+      return Match.new(e, matched, bindables.collect{|b| b.value}) if matched 
     end
     nil
   end
@@ -110,28 +126,39 @@ class PatternMatcher
       return false 
     end
     all_structural_features(pat_element).each do |f|
-      if f.is_a?(RGen::ECore::EAttribute)
-        unless pat_element.getGeneric(f.name) == test_element.getGeneric(f.name)
-          match_failed(f, "wrong argument")
-          return false 
-        end
-      else
-        pat_targets = pat_element.getGenericAsArray(f.name)
-        test_targets = test_element.getGenericAsArray(f.name)
-        unless pat_targets.size == test_targets.size
-          match_failed(f, "wrong size")
-          return false 
-        end
-        pat_targets.each_with_index do |pt,i|
-          tt = test_targets[i]
-          if pt.is_a?(Proxy)
-            unless pt._target.object_id == tt.object_id
-              match_failed(f, "wrong object_id (#{pt._target.shortName} vs #{tt.shortName}")
+      pat_values = pat_element.getGenericAsArray(f.name)
+      test_values = test_element.getGenericAsArray(f.name)
+      unless pat_values.size == test_values.size
+        match_failed(f, "wrong size")
+        return false 
+      end
+      pat_values.each_with_index do |pv,i|
+        tv = test_values[i]
+        if pv.is_a?(Bindable)
+          if pv.bound?
+            unless pv.value == tv
+              match_failed(f, "value does not match bound value")
               return false 
             end
           else
-            unless match(pt, tt, visited)
+            pv.bind(tv)
+          end
+        else
+          if f.is_a?(RGen::ECore::EAttribute)
+            unless pv == tv 
+              match_failed(f, "wrong attribute value")
               return false 
+            end
+          else
+            if pv.is_a?(Proxy)
+              unless pv._target.object_id == tv.object_id
+                match_failed(f, "wrong target object")
+                return false 
+              end
+            else
+              unless match(pv, tv, visited)
+                return false 
+              end
             end
           end
         end
@@ -142,6 +169,11 @@ class PatternMatcher
 
   def match_failed(f, msg)
     #puts "match failed #{f.eContainingClass.name}##{f.name}: #{msg}"
+  end
+
+  def num_pattern_variables(name)
+    prok = @patterns[name]
+    prok.arity - 1
   end
 
   def evaluate_pattern(name, env, connection_points)
