@@ -652,6 +652,15 @@ class RTextInstantiatorTest < Test::Unit::TestCase
     assert_equal %q(a single \\ will be just itself), env.elements.first.text
   end
 
+  def test_string_umlauts
+    env, problems = instantiate(%q(
+      TestNode text: "ä, ö, ü"
+    ), TestMM)
+    assert_no_problems(problems)
+    puts env.elements.first.text
+    assert_equal %q(ä, ö, ü), env.elements.first.text
+  end
+
   def test_integer
     env, problems = instantiate(%q(
       TestNode integer: 7 
