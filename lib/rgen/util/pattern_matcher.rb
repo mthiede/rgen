@@ -15,6 +15,7 @@ class PatternMatcher
 
   def initialize
     @patterns = {} 
+    @insert_mode = false
   end
 
   def add_pattern(name, &block)
@@ -29,7 +30,10 @@ class PatternMatcher
   end
 
   def insert_pattern(env, name, *connection_points)
+    @insert_mode = true
     root = evaluate_pattern(name, env, connection_points)
+    @insert_mode = false
+    root
   end
 
   def remove_pattern(env, name, *connection_points)
@@ -42,6 +46,23 @@ class PatternMatcher
       match
     else
       nil
+    end
+  end
+
+  def lazy(&block)
+    if @insert_mode
+      block.call
+    else
+      Lazy.new(&block)
+    end
+  end
+
+  class Lazy < RGen::MetamodelBuilder::MMGeneric
+    def initialize(&block)
+      @block = block
+    end
+    def _eval
+      @block.call
     end
   end
 
@@ -73,17 +94,22 @@ class PatternMatcher
   end
 
   class Bindable < RGen::MetamodelBuilder::MMGeneric
-    attr_reader :value
     def initialize
       @bound = false
       @value = nil
     end
-    def bound?
+    def _bound?
       @bound
     end
-    def bind(value)
+    def _bind(value)
       @value = value
       @bound = true
+    end
+    def _value
+      @value
+    end
+    def to_s
+      @value.to_s
     end
   end
 
@@ -96,7 +122,7 @@ class PatternMatcher
     candidates ||= env.find(:class => pattern_root.class)
     candidates.each do |e|
       matched = match(pattern_root, e)
-      return Match.new(e, matched, bindables.collect{|b| b.value}) if matched 
+      return Match.new(e, matched, bindables.collect{|b| b._value}) if matched 
     end
     nil
   end
@@ -116,13 +142,40 @@ class PatternMatcher
     end
     candidates
   end
+  
+  def match(pat_element, test_element)
+    visited = {}
+    check_later = []
+    return false unless match_internal(pat_element, test_element, visited, check_later)
+    while cl = check_later.shift
+      pv, tv = cl.lazy._eval, cl.value
+      if cl.feature.is_a?(RGen::ECore::EAttribute)
+        unless pv == tv
+          match_failed(cl.feature, "wrong attribute value (lazy)")
+          return false 
+        end
+      else
+        if pv.is_a?(Proxy)
+          unless pv._target.object_id == tv.object_id
+            match_failed(f, "wrong target object")
+            return false 
+          end
+        else
+          unless match_internal(pv, tv, visited, check_later)
+            return false 
+          end
+        end
+      end
+    end
+    visited.keys
+  end
 
-  def match(pat_element, test_element, visited={})
+  CheckLater = Struct.new(:feature, :lazy, :value)
+  def match_internal(pat_element, test_element, visited, check_later)
     return true if visited[test_element]
-    #p [pat_element.class, test_element.class]
     visited[test_element] = true
     unless pat_element.class == test_element.class
-      match_failed(f, "wrong class")
+      match_failed(nil, "wrong class: #{pat_element.class} vs #{test_element.class}")
       return false 
     end
     all_structural_features(pat_element).each do |f|
@@ -134,14 +187,16 @@ class PatternMatcher
       end
       pat_values.each_with_index do |pv,i|
         tv = test_values[i]
-        if pv.is_a?(Bindable)
-          if pv.bound?
-            unless pv.value == tv
+        if pv.is_a?(Lazy)
+          check_later << CheckLater.new(f, pv, tv)
+        elsif pv.is_a?(Bindable)
+          if pv._bound?
+            unless pv._value == tv
               match_failed(f, "value does not match bound value")
               return false 
             end
           else
-            pv.bind(tv)
+            pv._bind(tv)
           end
         else
           if f.is_a?(RGen::ECore::EAttribute)
@@ -156,7 +211,7 @@ class PatternMatcher
                 return false 
               end
             else
-              unless match(pv, tv, visited)
+              unless match_internal(pv, tv, visited, check_later)
                 return false 
               end
             end
@@ -164,11 +219,11 @@ class PatternMatcher
         end
       end
     end
-    visited.keys
+    true
   end
 
   def match_failed(f, msg)
-    #puts "match failed #{f.eContainingClass.name}##{f.name}: #{msg}"
+    #puts "match failed #{f&&f.eContainingClass.name}##{f&&f.name}: #{msg}"
   end
 
   def num_pattern_variables(name)
