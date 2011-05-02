@@ -162,7 +162,7 @@ class PatternMatcher
             return false 
           end
         else
-          unless match_internal(pv, tv, visited, check_later)
+          unless (pv.nil? && tv.nil?) || (!pv.nil? && !tv.nil? && match_internal(pv, tv, visited, check_later))
             return false 
           end
         end
@@ -180,8 +180,11 @@ class PatternMatcher
       return false 
     end
     all_structural_features(pat_element).each do |f|
-      pat_values = pat_element.getGenericAsArray(f.name)
-      test_values = test_element.getGenericAsArray(f.name)
+      pat_values = pat_element.getGeneric(f.name)
+      # nil values must be kept to support size check with Bindables
+      pat_values = [ pat_values ] unless pat_values.is_a?(Array)
+      test_values = test_element.getGeneric(f.name)
+      test_values = [ test_values] unless test_values.is_a?(Array)
       unless pat_values.size == test_values.size
         match_failed(f, "wrong size")
         return false 
@@ -212,7 +215,7 @@ class PatternMatcher
                 return false 
               end
             else
-              unless match_internal(pv, tv, visited, check_later)
+              unless (pv.nil? && tv.nil?) || (!pv.nil? && !tv.nil? && match_internal(pv, tv, visited, check_later))
                 return false 
               end
             end
