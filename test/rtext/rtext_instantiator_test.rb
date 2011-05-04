@@ -114,6 +114,11 @@ class RTextInstantiatorTest < Test::Unit::TestCase
     assert_model_simple(env)
   end
 
+  def test_empty
+    env, problems = instantiate("", TestMM)
+    assert_no_problems(problems)
+  end
+
   # 
   # options
   # 

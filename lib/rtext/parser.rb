@@ -9,7 +9,7 @@ class Parser
   def parse(str, &visitor)
     @visitor = visitor
     @tokens = tokenize(str, @reference_regexp)
-    @last_line = @tokens.last.line 
+    @last_line = @tokens.last && @tokens.last.line 
     while next_token
       parse_statement(true)
     end
