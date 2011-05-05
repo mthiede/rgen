@@ -1,3 +1,4 @@
+# coding: binary
 $:.unshift File.join(File.dirname(__FILE__),"..","..","lib")
 
 require 'test/unit'
@@ -657,7 +658,6 @@ class RTextInstantiatorTest < Test::Unit::TestCase
       TestNode text: "ä, ö, ü"
     ), TestMM)
     assert_no_problems(problems)
-    puts env.elements.first.text
     assert_equal %q(ä, ö, ü), env.elements.first.text
   end
 

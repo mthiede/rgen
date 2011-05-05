@@ -304,7 +304,7 @@ TestNode {
     testModel = TestMM::TestNode.new(:float => 1.23e-08)
     output = StringWriter.new
     serialize(testModel, output) 
-    assert_equal %q(TestNode float: 1.23e-08)+"\n", output 
+    assert output =~ /TestNode float: 1.23e-0?08\n/ 
   end
 
   module TestMMData
