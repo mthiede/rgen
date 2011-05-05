@@ -15,10 +15,12 @@ class ReferenceResolver
   # Instances of this class represent information about not yet resolved references.
   # This consists of the +element+ and metamodel +feature_name+ which hold/is to hold the 
   # reference and the +proxy+ object which is the placeholder for the reference.
+  # If the reference could not be resolved because the target type does not match the
+  # feature type, the flag +target_type_error+ will be set.
   #
   class UnresolvedReference 
     attr_reader :feature_name, :proxy
-    attr_accessor :element
+    attr_accessor :element, :target_type_error
     def initialize(element, feature_name, proxy)
       @element = element
       @feature_name = feature_name
@@ -54,6 +56,8 @@ class ReferenceResolver
 
   # Tries to resolve the given +unresolved_refs+. If resolution is successful, the proxy object
   # will be removed, otherwise there will be an error description in the problems array.
+  # In case the resolved target element's type is not valid for the given feature, the 
+  # +target_type_error+ flag will be set on the unresolved reference.
   # Returns an array of the references which are still unresolved. Options:
   # 
   #  :problems
@@ -78,10 +82,31 @@ class ReferenceResolver
         if refs.is_a?(Array) 
           index = refs.index(ur.proxy)
           ur.element.removeGeneric(ur.feature_name, ur.proxy)
-          ur.element.addGeneric(ur.feature_name, target[0], index)
+          begin
+            ur.element.addGeneric(ur.feature_name, target[0], index)
+          rescue StandardError => e
+            if is_type_error?(e)
+              ur.element.addGeneric(ur.feature_name, ur.proxy, index)
+              ur.target_type_error = true
+              problems << type_error_message(target[0])
+              still_unresolved_refs << ur
+            else
+              raise
+            end
+          end
         else
-          # this will replace the proxy
-          ur.element.setGeneric(ur.feature_name, target[0])
+          begin
+            # this will replace the proxy
+            ur.element.setGeneric(ur.feature_name, target[0])
+          rescue StandardError => e
+            if is_type_error?(e)
+              ur.target_type_error = true
+              problems << type_error_message(target[0])
+              still_unresolved_refs << ur
+            else
+              raise
+            end
+          end
         end
         options[:on_resolve] && options[:on_resolve].call(ur, target[0])
       elsif target.size > 1
@@ -94,6 +119,16 @@ class ReferenceResolver
     end
     still_unresolved_refs
   end   
+
+  private
+
+  def is_type_error?(e)
+    e.message =~ /Can not use a .* where a .* is expected/
+  end
+
+  def type_error_message(target)
+    "invalid target type #{target.class}"
+  end
 
 end
 

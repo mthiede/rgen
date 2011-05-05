@@ -12,14 +12,19 @@ class ReferenceResolverTest < Test::Unit::TestCase
     has_many 'others', TestNode
   end
 
+  class TestNode2 < RGen::MetamodelBuilder::MMBase
+    has_attr 'name', String
+  end
+
   def test_identifier_resolver
     nodeA, nodeB, nodeC, unresolved_refs = create_model
     resolver = RGen::Instantiator::ReferenceResolver.new(
       :identifier_resolver => proc do |ident|
         {:a => nodeA, :b => nodeB, :c => nodeC}[ident]
       end)
-    resolver.resolve(unresolved_refs)
+    urefs = resolver.resolve(unresolved_refs)
     check_model(nodeA, nodeB, nodeC)
+    assert urefs.empty?
   end
 
   def test_add_identifier
@@ -28,8 +33,9 @@ class ReferenceResolverTest < Test::Unit::TestCase
     resolver.add_identifier(:a, nodeA)
     resolver.add_identifier(:b, nodeB)
     resolver.add_identifier(:c, nodeC)
-    resolver.resolve(unresolved_refs)
+    urefs = resolver.resolve(unresolved_refs)
     check_model(nodeA, nodeB, nodeC)
+    assert urefs.empty?
   end
 
   def test_problems
@@ -39,8 +45,10 @@ class ReferenceResolverTest < Test::Unit::TestCase
         {:a => [nodeA, nodeB], :c => nodeC}[ident]
       end)
     problems = []
-    resolver.resolve(unresolved_refs, :problems => problems)
+    urefs = resolver.resolve(unresolved_refs, :problems => problems)
     assert_equal ["identifier b not found", "identifier a not uniq"], problems
+    assert_equal 2, urefs.size
+    assert urefs.all?{|ur| !ur.target_type_error}
   end
 
   def test_on_resolve_proc
@@ -57,6 +65,24 @@ class ReferenceResolverTest < Test::Unit::TestCase
     assert_equal "other", data[0][0].feature_name 
     assert_equal :b, data[0][0].proxy.targetIdentifier 
     assert_equal nodeB, data[0][1]
+  end
+
+  def test_target_type_error
+    nodeA, nodeB, nodeC, unresolved_refs = create_model
+    resolver = RGen::Instantiator::ReferenceResolver.new(
+      :identifier_resolver => proc do |ident|
+        {:a => TestNode2.new, :b => TestNode2.new, :c => nodeC}[ident]
+      end)
+    problems = []
+    urefs = resolver.resolve(unresolved_refs, :problems => problems)
+    assert_equal 2, problems.size
+    assert problems[0] =~ /invalid target type .*TestNode2/
+    assert problems[1] =~ /invalid target type .*TestNode2/
+    assert_equal 2, urefs.uniq.size
+    assert urefs[0].target_type_error
+    assert urefs[1].target_type_error
+    assert urefs.any?{|ur| ur.proxy.object_id == nodeA.other.object_id}
+    assert urefs.any?{|ur| ur.proxy.object_id == nodeB.others[0].object_id}
   end
 
   private
