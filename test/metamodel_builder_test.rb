@@ -223,13 +223,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["a", "b", "b"], o.literals
     # but the same string object "a" can only occur once
     o.addLiterals(o.literals.first)
-    assert_equal ["a", "b", "b"], o.literals
+    assert_equal ["a", "b", "b", "a"], o.literals
     # removing works by object identity, so providing a new string won't delete an existing one
     o.removeLiterals("a")
-    assert_equal ["a", "b", "b"], o.literals
+    assert_equal ["a", "b", "b", "a"], o.literals
     theA = o.literals.first
     o.removeLiterals(theA)
-    assert_equal ["b", "b"], o.literals
+    assert_equal ["b", "b", "a"], o.literals
     # removing something which is not present has no effect
     o.removeLiterals(theA)
     assert_equal ["b", "b"], o.literals
@@ -247,13 +247,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
  
     o.bools = [true, false, true, false]
-    assert_equal [true, false], o.bools
+    assert_equal [true, false, true, false], o.bools
 
     o.integers = [1, 2, 2, 3, 3]
-    assert_equal [1, 2, 3], o.integers
+    assert_equal [1, 2, 2, 3, 3], o.integers
 
     o.enums = [:a, :a, :b, :c, :c]
-    assert_equal [:a, :b, :c], o.enums
+    assert_equal [:a, :a, :b, :c, :c], o.enums
 
     lit = mm::ManyAttrClass.ecore.eAttributes.find{|a| a.name == "literals"}
     assert lit.is_a?(RGen::ECore::EAttribute)
