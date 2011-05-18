@@ -113,12 +113,16 @@ class PatternMatcher
     end
   end
 
+  TempEnv = RGen::Environment.new
+  class << TempEnv
+    def <<(el); end
+  end
+
   def find_pattern_internal(env, name, *connection_points)
     proxied_args = connection_points.collect{|a| 
       a.is_a?(RGen::MetamodelBuilder::MMBase) ?  Proxy.new(a) : a }
-    temp_env = RGen::Environment.new
     bindables = (1..(num_pattern_variables(name) - connection_points.size)).collect{|i| Bindable.new}
-    pattern_root = evaluate_pattern(name, temp_env, proxied_args+bindables)
+    pattern_root = evaluate_pattern(name, TempEnv, proxied_args+bindables)
     candidates = candidates_via_connection_points(pattern_root, connection_points)
     candidates ||= env.find(:class => pattern_root.class)
     candidates.each do |e|
@@ -245,7 +249,7 @@ class PatternMatcher
 
   def disconnect_element(element)
     return if element.nil?
-    element.class.ecore.eAllStructuralFeatures.reject{|f| f.derived}.each do |f|
+    all_structural_features(element).each do |f|
       if f.many
         element.setGeneric(f.name, [])
       else
