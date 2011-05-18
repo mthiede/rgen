@@ -8,6 +8,8 @@ class Environment
 		@elements = {}
 		@subClasses = {}
 		@subClassesUpdated = {}
+    @deleted = {}
+    @deletedClasses = {}
 	end
 	
 	# Add a model element. Returns the environment so <code><<</code> can be chained.
@@ -22,19 +24,21 @@ class Environment
 
 	# Removes model element from environment.
 	def delete(el)
-		return unless @elements[el.class]
-		@elements[el.class].delete(el)
+    @deleted[el] = true
+    @deletedClasses[el.class] = true
 	end
 		
 	# Iterates each element
 	#
 	def each(&b)
+    removeDeleted
 		@elements.values.flatten.each(&b)
 	end
 	
 	# Return the elements of the environment as an array
 	#
 	def elements
+    removeDeleted
 		@elements.values.flatten
 	end
 	
@@ -57,6 +61,7 @@ class Environment
 	# class. In this case an array of possible classes can optionally be given.
 	# 
 	def find(desc)
+    removeDeleted
 		result = []
 		classes = desc[:class] if desc[:class] and desc[:class].is_a?(Array)
 		classes = [ desc[:class] ] if !classes and desc[:class]
@@ -79,6 +84,14 @@ class Environment
 	end
 	
 	private
+
+  def removeDeleted
+    @deletedClasses.keys.each do |c|
+      @elements[c].reject!{|e| @deleted[e]}
+    end
+    @deletedClasses.clear
+    @deleted.clear
+  end
 	
 	def updateSubClasses(clazz)
 		return if @subClassesUpdated[clazz]

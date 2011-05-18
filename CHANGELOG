@@ -143,4 +143,5 @@
 * Added index parameter to model element add methods
 * Added MMGeneric
 * Modified has_many_attr to allow the same value in the same attribute multiple times 
+* Made Environment#delete faster on large models
 
