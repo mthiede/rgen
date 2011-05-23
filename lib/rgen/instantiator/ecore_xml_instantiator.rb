@@ -14,6 +14,7 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
     @env = env
     @rolestack = []
     @elementstack = []
+    @element_by_id = {}
     @loglevel = loglevel
   end
   
@@ -38,6 +39,10 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
     eClass = RGen::ECore.ecore.eClassifiers.find{|c| c.name == class_name}
     if eClass
       obj = RGen::ECore.const_get(class_name).new
+      if attributes["xmi:id"]
+        @element_by_id[attributes["xmi:id"]] = obj
+        attributes.delete("xmi:id")
+      end
       if eRef
         if eRef.many
           @elementstack.last.addGeneric(eRef.name, obj)
@@ -51,6 +56,10 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
       log WARN, "Class not found: #{class_name}"
       @elementstack.push nil
     end
+
+    attributes.each_pair do |attr, value|
+      set_attribute_internal(attr, value)
+    end
   end
   
   def end_tag(prefix, tag)
@@ -60,6 +69,10 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
   ResolverDescription = Struct.new(:object, :attribute, :value)
   
   def set_attribute(attr, value)
+    # do nothing, already handled by start_tag/set_attribute_internal
+  end
+
+  def set_attribute_internal(attr, value)
     return unless @elementstack.last
     eFeat = eAllStructuralFeatures(@elementstack.last).find{|a| a.name == attr}
     if eFeat.is_a?(EReference)
@@ -113,7 +126,9 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
   
   def find_referenced(context, desc)
     desc.split(/\s+/).collect do |r|
-      if r =~ /^#\/\d*\/([\w\/]+)/
+      if r =~ /^#([^\/]+)$/
+        @element_by_id[$1]
+      elsif r =~ /^#\/\d*\/([\w\/]+)/
         find_in_context(context, $1.split('/'))
       elsif r =~ /#\/\/(\w+)$/
         case $1

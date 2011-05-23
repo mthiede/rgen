@@ -93,6 +93,14 @@ module RGen
     class EDataType < EClassifier
       has_attr 'serializable', Boolean
     end
+
+    class EGenericType < EDataType
+      has_one 'eClassifier', EDataType
+    end
+
+    class ETypeArgument < EModelElement
+      has_one 'eClassifier', EDataType
+    end
     
     class EEnum < EDataType
     end
@@ -200,5 +208,7 @@ module RGen
   
   ECore::EAttribute.has_one 'eAttributeType', ECore::EDataType, :lowerBound=>1, :derived=>true
   ECore::EReference.has_one 'eReferenceType', ECore::EClass, :lowerBound=>1, :derived=>true
+  ECore::EParameter.contains_one 'eGenericType', ECore::EGenericType, 'eParameter'
+  ECore::EGenericType.contains_many 'eTypeArguments', ECore::ETypeArgument, 'eGenericType'
   
 end
