@@ -78,7 +78,7 @@ class Attribute < Feature
   end
   
   def self.properties
-    Properties.keys
+    Properties.keys.sort{|a,b| a.to_s <=> b.to_s}
   end
 
   def initialize(type, props)
@@ -138,7 +138,7 @@ class Reference < Feature
   end
   
   def self.properties
-    Properties.keys
+    Properties.keys.sort{|a,b| a.to_s <=> b.to_s}
   end
 
   def initialize(type, props)
