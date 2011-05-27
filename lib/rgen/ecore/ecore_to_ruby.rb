@@ -10,27 +10,37 @@ class ECoreToRuby
     @modules = {}
     @classifiers = {}
     @features_added = {}
+    @in_create_module = false
   end
 
   def create_module(epackage)
     return @modules[epackage] if @modules[epackage]
     
+    top = (@in_create_module == false)
+    @in_create_module = true
+
     m = Module.new do
       extend RGen::MetamodelBuilder::ModuleExtension
     end
     @modules[epackage] = m
 
     epackage.eSubpackages.each{|p| create_module(p)}
-    epackage.eClassifiers.each do |c| 
-      if c.is_a?(RGen::ECore::EClass)
-        create_class(c)
-      elsif c.is_a?(RGen::ECore::EEnum)
-        create_enum(c)
-      end
-    end
     m._set_ecore_internal(epackage)
 
     create_module(epackage.eSuperPackage).const_set(epackage.name, m) if epackage.eSuperPackage
+
+    # create classes only after all modules have been created
+    # otherwise classes may be created multiple times
+    if top
+      epackage.eAllClassifiers.each do |c| 
+        if c.is_a?(RGen::ECore::EClass)
+          create_class(c)
+        elsif c.is_a?(RGen::ECore::EEnum)
+          create_enum(c)
+        end
+      end
+      @in_create_module = false
+    end
     m
   end
 
@@ -43,6 +53,13 @@ class ECoreToRuby
         attr_accessor :_ecore_to_ruby
       end
     end
+    class << eclass
+      attr_accessor :instanceClass
+      def instanceClassName
+        instanceClass.to_s
+      end
+    end
+    eclass.instanceClass = c
     c::ClassModule.module_eval do
       def method_missing(m, *args)
         if self.class._ecore_to_ruby.add_features(self.class.ecore)
@@ -51,9 +68,10 @@ class ECoreToRuby
           super
         end
       end
+      alias _respond_to respond_to?
       def respond_to?(m)
         self.class._ecore_to_ruby.add_features(self.class.ecore)
-        super
+        _respond_to(m)
       end
     end
     @classifiers[eclass] = c
@@ -95,18 +113,13 @@ class ECoreToRuby
       etype = @efeature.eType
       if etype.is_a?(RGen::ECore::EClass) || etype.is_a?(RGen::ECore::EEnum)
         @classifiers[etype]
-      elsif etype.name == "EString"
-        String
-      elsif etype.name == "EInt"
-        Integer
-      elsif etype.name == "EFloat"
-        Float
-      elsif etype.name == "EBoolean"
-        RGen::MetamodelBuilder::DataTypes::Boolean
-      elsif etype.name == "ERubyObject"
-        Object
       else
-        raise "unknown type: #{etype.name}" 
+        ic = etype.instanceClass
+        if ic
+          ic
+        else
+          raise "unknown type: #{etype.name}" 
+        end
       end
     end
   end
