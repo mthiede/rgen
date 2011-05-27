@@ -218,11 +218,11 @@ class Instantiator
     elsif feature.eType.is_a?(RGen::ECore::EEnum)
       [:identifier]
     else
-      { RGen::ECore::EString => [:string, :identifier],
-        RGen::ECore::EInt => [:integer],
-        RGen::ECore::EFloat => [:float],
-        RGen::ECore::EBoolean => [:boolean]
-      }[feature.eType] 
+      { String => [:string, :identifier],
+        Integer => [:integer],
+        Float => [:float],
+        RGen::MetamodelBuilder::DataTypes::Boolean => [:boolean]
+      }[feature.eType.instanceClass] 
     end
   end
 

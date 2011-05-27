@@ -49,6 +49,7 @@ class Serializer
     set_fragment_ref(element)
     set_line_number(element, @line_number) if @set_line_number
     clazz = element.class.ecore
+
     # the comment provider may modify the element
     comment = @lang.comment_provider && @lang.comment_provider.call(element)
     if comment
@@ -107,18 +108,18 @@ class Serializer
     values = element.getGenericAsArray(feature.name).compact
     result = []
     values.each do |v|
-      if feature.eType == RGen::ECore::EInt
+      if feature.eType.instanceClass == Integer
         result << v.to_s
-      elsif feature.eType == RGen::ECore::EString
+      elsif feature.eType.instanceClass == String
         if @lang.unquoted?(feature)
           result << v.to_s
         else
           result << "\"#{v.gsub("\\","\\\\\\\\").gsub("\"","\\\"").gsub("\n","\\n").
             gsub("\r","\\r").gsub("\t","\\t").gsub("\f","\\f").gsub("\b","\\b")}\""
         end
-      elsif feature.eType == RGen::ECore::EBoolean
+      elsif feature.eType.instanceClass == RGen::MetamodelBuilder::DataTypes::Boolean
         result << v.to_s
-      elsif feature.eType == RGen::ECore::EFloat
+      elsif feature.eType.instanceClass == Float
         result << v.to_s
       elsif feature.eType.is_a?(RGen::ECore::EEnum)
         result << v.to_s  
