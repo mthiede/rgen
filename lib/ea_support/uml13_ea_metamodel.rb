@@ -259,7 +259,7 @@ end
 
 class UML13EA::AssociationEnd < RGen::MetamodelBuilder::MMMultiple(UML13EA::ModelElement, UML13EA::XmiIdProvider)
    has_attr 'isNavigable', Boolean, :defaultValueLiteral => "false" 
-   has_attr 'isOrdered', Boolean, :defaultValueLiteral => "unordered" 
+   has_attr 'isOrdered', Boolean, :defaultValueLiteral => "false" 
    has_attr 'aggregation', UML13EA::AggregationKind, :defaultValueLiteral => "none" 
    has_attr 'targetScope', UML13EA::ScopeKind, :defaultValueLiteral => "instance" 
    has_attr 'changeable', UML13EA::ChangeableKind, :defaultValueLiteral => "changeable" 

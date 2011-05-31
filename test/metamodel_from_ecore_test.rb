@@ -28,5 +28,18 @@ class MetamodelFromEcoreTest < MetamodelBuilderTest
   def mm
     MetamodelFromEcore
   end
+
+  # alternative implementation for dynamic variant
+  def test_bad_default_value_literal
+    package = RGen::ECore::EPackage.new(:name => "Package1", :eClassifiers => [
+      RGen::ECore::EClass.new(:name => "Class1", :eStructuralFeatures => [
+        RGen::ECore::EAttribute.new(:name => "value", :eType => RGen::ECore::EInt, :defaultValueLiteral => "x")])])
+    mod = RGen::ECore::ECoreToRuby.new.create_module(package)
+    obj = mod::Class1.new
+    # the error is raised only when the feature is lazily constructed
+    assert_raise StandardError do
+      obj.value
+    end
+  end
 end
 

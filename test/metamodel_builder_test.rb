@@ -13,12 +13,15 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       KindType = RGen::MetamodelBuilder::DataTypes::Enum.new([:simple, :extended])
       has_attr 'name' # default is String
       has_attr 'stringWithDefault', String, :defaultValueLiteral => "xtest"
+      has_attr 'integerWithDefault', Integer, :defaultValueLiteral => "123"
+      has_attr 'floatWithDefault', Float, :defaultValueLiteral => "0.123"
+      has_attr 'boolWithDefault', Boolean, :defaultValueLiteral => "true"
       has_attr 'anything', Object
       has_attr 'allowed', RGen::MetamodelBuilder::DataTypes::Boolean
       has_attr 'kind', KindType
       has_attr 'kindWithDefault', KindType, :defaultValueLiteral => "extended"
     end
-    
+
     class ManyAttrClass < RGen::MetamodelBuilder::MMBase
       has_many_attr 'literals', String
       has_many_attr 'bools', Boolean
@@ -161,6 +164,9 @@ class MetamodelBuilderTest < Test::Unit::TestCase
 
     assert_equal "xtest", sc.stringWithDefault
     assert_equal :extended, sc.kindWithDefault
+    assert_equal 123, sc.integerWithDefault
+    assert_equal 0.123, sc.floatWithDefault
+    assert_equal true, sc.boolWithDefault
     
     sc.anything = :asymbol
     assert_equal :asymbol, sc.anything
@@ -770,6 +776,70 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   def test_abstract
     assert_raise StandardError do
       mm::AbstractClass.new
+    end
+  end
+
+  module BadDefaultValueLiteralContainer
+    Test1 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'integerWithDefault', Integer, :defaultValueLiteral => "1.1"
+      end
+    end
+    Test2 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'integerWithDefault', Integer, :defaultValueLiteral => "x"
+      end
+    end
+    Test3 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'boolWithDefault', Boolean, :defaultValueLiteral => "1"
+      end
+    end
+    Test4 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'floatWithDefault', Float, :defaultValueLiteral => "1"
+      end
+    end
+    Test5 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'floatWithDefault', Float, :defaultValueLiteral => "true"
+      end
+    end
+    Test6 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        kindType = RGen::MetamodelBuilder::DataTypes::Enum.new([:simple, :extended])
+        has_attr 'enumWithDefault', kindType, :defaultValueLiteral => "xxx"
+      end
+    end
+    Test7 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        kindType = RGen::MetamodelBuilder::DataTypes::Enum.new([:simple, :extended])
+        has_attr 'enumWithDefault', kindType, :defaultValueLiteral => "7"
+      end
+    end
+  end
+
+  def test_bad_default_value_literal
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test1.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test2.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test3.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test4.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test5.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test6.call
+    end
+    assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test7.call
     end
   end
 

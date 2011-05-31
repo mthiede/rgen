@@ -309,6 +309,7 @@ module BuilderExtensions
         def <%= name %>
           <% if !props.reference? && props.value(:defaultValueLiteral) %>
             <% defVal = props.value(:defaultValueLiteral) %>
+            <% check_default_value_literal(defVal, props) %>
             <% defVal = '"'+defVal+'"' if props.impl_type == String %>
             <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
             @<%= name %>.nil? ? <%= defVal %> : @<%= name %>
@@ -453,6 +454,29 @@ module BuilderExtensions
       
     CODE
     self::ClassModule.module_eval(@@derived_builder.result(binding))
+  end
+
+  def check_default_value_literal(literal, props)
+    return if literal.nil? || props.impl_type == String
+    if props.impl_type == Integer
+      unless literal =~ /^\d+$/
+        raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected an Integer")
+      end
+    elsif props.impl_type == Float
+      unless literal =~ /^\d+\.\d+$/
+        raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected a Float")
+      end
+    elsif props.impl_type == RGen::MetamodelBuilder::DataTypes::Boolean
+      unless ["true", "false"].include?(literal)
+        raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected true or false")
+      end
+    elsif props.impl_type.is_a?(RGen::MetamodelBuilder::DataTypes::Enum)
+      unless props.impl_type.literals.include?(literal.to_sym)
+        raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected one of #{props.impl_type.literals_as_strings.join(', ')}")
+      end
+    else
+      raise StandardError.new("Unkown type "+props.impl_type.to_s)
+    end
   end
   
   def type_check_code(varname, props)
