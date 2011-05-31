@@ -181,7 +181,7 @@ module RGen
     
     EString = EDataType.new(:name => "EString", :instanceClassName => "String")
     EInt = EDataType.new(:name => "EInt", :instanceClassName => "Integer")
-    EBoolean = EDataType.new(:name => "EBoolean", :instanceClassName => "RGen::MetamodelBuilder::DataTypes::Boolean")
+    EBoolean = EDataType.new(:name => "EBoolean", :instanceClassName => "Boolean")
     EFloat = EDataType.new(:name => "EFloat", :instanceClassName => "Float")
     ERubyObject = EDataType.new(:name => "ERubyObject", :instanceClassName => "Object")
     EJavaObject = EDataType.new(:name => "EJavaObject")
