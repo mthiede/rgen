@@ -61,11 +61,12 @@ class ECoreToRuby
     end
     eclass.instanceClass = c
     c::ClassModule.module_eval do
+      alias _method_missing method_missing
       def method_missing(m, *args)
         if self.class._ecore_to_ruby.add_features(self.class.ecore)
           send(m, *args)
         else
-          super
+          _method_missing(m, *args)
         end
       end
       alias _respond_to respond_to?
