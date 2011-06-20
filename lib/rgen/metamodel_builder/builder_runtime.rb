@@ -19,19 +19,19 @@ module BuilderRuntime
 	end
 	
 	def addGeneric(role, value, index=-1)
-		send("add#{firstToUpper(role)}",value, index)
+		send("add#{firstToUpper(role.to_s)}",value, index)
 	end
 	
 	def removeGeneric(role, value)
-		send("remove#{firstToUpper(role)}",value)
+		send("remove#{firstToUpper(role.to_s)}",value)
 	end
 	
 	def setGeneric(role, value)
-		send("#{role}=",value)
+		send("set#{firstToUpper(role.to_s)}",value)
 	end
 
   def hasManyMethods(role)
-    respond_to?("add#{firstToUpper(role)}")
+    respond_to?("add#{firstToUpper(role.to_s)}")
   end
 
   def setOrAddGeneric(role, value)
@@ -43,7 +43,7 @@ module BuilderRuntime
   end
 
 	def getGeneric(role)
-		send("#{role}")
+		send("get#{firstToUpper(role.to_s)}")
 	end
 
   def getGenericAsArray(role)
