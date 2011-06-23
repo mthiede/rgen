@@ -25,8 +25,8 @@ class Language
   #
   #  :unquoted_arguments
   #     a Proc which receives an EClass and should return this EClass's string typed attribute
-  #     names which are to be serialized without quotes.
-  #     note that the user must take care to use unquoted arguments only if the values are parsable without quotes
+  #     names which are to be serialized without quotes. input data my still be quoted.
+  #     the serializer will take care to insert quotes if the data is not a valid identifier
   #     the features must also occur in :feature_provider if :feature_provider is provided
   #     default: no unquoted arguments
   #

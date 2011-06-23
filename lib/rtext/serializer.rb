@@ -111,7 +111,7 @@ class Serializer
       if feature.eType.instanceClass == Integer
         result << v.to_s
       elsif feature.eType.instanceClass == String
-        if @lang.unquoted?(feature)
+        if @lang.unquoted?(feature) && v.to_s =~ /^[a-zA-Z_]\w*$/ && v.to_s != "true" && v.to_s != "false"
           result << v.to_s
         else
           result << "\"#{v.gsub("\\","\\\\\\\\").gsub("\"","\\\"").gsub("\n","\\n").

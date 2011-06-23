@@ -83,7 +83,15 @@ TestNode attr3: "attr3", attr1: "attr1" {
   end
 
   def test_unlabled_unquoted
-    testModel = TestMMUnlabledUnquoted::TestNode.new(:unlabled => "unlabled", :unquoted => "unquoted", :both => "both", :none => "none")
+    testModel = [
+      TestMMUnlabledUnquoted::TestNode.new(:unlabled => "unlabled", :unquoted => "unquoted", :both => "both", :none => "none"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "no identifier"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "true"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "333"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "33.3"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "5x"),
+      TestMMUnlabledUnquoted::TestNode.new(:unquoted => "//")
+    ]
 
     output = StringWriter.new
     serialize(testModel, output,
@@ -93,6 +101,12 @@ TestNode attr3: "attr3", attr1: "attr1" {
 
     assert_equal %Q(\
 TestNode "unlabled", both, unquoted: unquoted, none: "none"
+TestNode unquoted: "no identifier"
+TestNode unquoted: "true"
+TestNode unquoted: "333"
+TestNode unquoted: "33.3"
+TestNode unquoted: "5x"
+TestNode unquoted: "//"
 ), output 
   end
   
