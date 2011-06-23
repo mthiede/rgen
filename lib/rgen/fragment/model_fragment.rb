@@ -10,7 +10,7 @@ module Fragment
 # will also be stored in the cache.
 #
 # If an element within the fragment changes this must be indicated to the fragment by calling
-# +changed+. 
+# +mark_changed+. 
 #
 class ModelFragment
   attr_reader :root_elements
@@ -47,6 +47,7 @@ class ModelFragment
     @fragment_ref.fragment = self
     @data = options[:data]
     @resolved_refs = nil 
+    @changed = false
   end
 
   # Set the root elements, normally done by an instantiator.
@@ -61,15 +62,23 @@ class ModelFragment
     @index = options[:index]
     @unresolved_refs = options[:unresolved_refs]
     @resolved_refs = nil 
+    @changed = false
   end
 
   # Must be called when any of the elements in this fragment has been changed
   #
-  def changed
+  def mark_changed
+    @changed = true
     @elements = nil
     @index = nil
     @unresolved_refs = nil
     @resolved_refs = nil 
+  end
+
+  # Indicates whether the fragment has been changed or not
+  #
+  def changed?
+    @changed
   end
 
   # Returns all elements within this fragment
