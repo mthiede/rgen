@@ -403,7 +403,7 @@ module BuilderExtensions
         
         def <%= name %>=(val)
           return if val.nil?
-          raise _assignmentTypeError(self, val, Array) unless val.is_a? Array
+          raise _assignmentTypeError(self, val, Enumerable) unless val.is_a? Enumerable
           get<%= firstToUpper(name) %>.each {|e|
             remove<%= firstToUpper(name) %>(e)
           }
@@ -440,7 +440,7 @@ module BuilderExtensions
           unless respond_to?(:<%= name+"_derived" %>)
         val = <%= name %>_derived
         <% if kind == :many %>
-          raise _assignmentTypeError(self,val,Array) unless val && val.is_a?(Array)
+          raise _assignmentTypeError(self,val,Enumerable) unless val && val.is_a?(Enumerable)
           val.each do |v|
             <%= type_check_code("v", props) %>
           end

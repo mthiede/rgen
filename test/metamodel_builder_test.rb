@@ -247,9 +247,9 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     # setting multiple elements at a time
     o.literals = ["a", "b", "c"]
     assert_equal ["a", "b", "c"], o.literals
-    # can only take arrays
+    # can only take enumerables
     assert_raise(StandardError) do
-      o.literals = "a"
+      o.literals = 1
     end
  
     o.bools = [true, false, true, false]

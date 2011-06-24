@@ -145,4 +145,5 @@
 * Modified has_many_attr to allow the same value in the same attribute multiple times 
 * Made Environment#delete faster on large models
 * Added type check of ecore defaultValueLiteral content in MetamodelBuilder
+* Many-feature setters can work with an Enumerable instead of an Array
 
