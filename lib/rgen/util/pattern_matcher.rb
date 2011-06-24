@@ -94,12 +94,18 @@ class PatternMatcher
   end
 
   class Bindable < RGen::MetamodelBuilder::MMGeneric
+    # by being an Enumerable, Bindables can be used for many-features as well
+    include Enumerable
     def initialize
       @bound = false
       @value = nil
+      @many = false
     end
     def _bound?
       @bound
+    end
+    def _many?
+      @many
     end
     def _bind(value)
       @value = value
@@ -111,6 +117,16 @@ class PatternMatcher
     def to_s
       @value.to_s
     end
+    # pretend this is an enumerable which contains itself, so the bindable can be
+    # inserted into many-features, when this is done the bindable is marked as a many-bindable
+    def each
+      @many = true
+      yield(self)
+    end
+    def method_missing(m, *args)
+      raise "bindable not bound" unless _bound?
+      @value.send(m, *args)
+    end
   end
 
   TempEnv = RGen::Environment.new
@@ -121,15 +137,22 @@ class PatternMatcher
   def find_pattern_internal(env, name, *connection_points)
     proxied_args = connection_points.collect{|a| 
       a.is_a?(RGen::MetamodelBuilder::MMBase) ?  Proxy.new(a) : a }
-    bindables = (1..(num_pattern_variables(name) - connection_points.size)).collect{|i| Bindable.new}
+    bindables = create_bindables(name, connection_points)
     pattern_root = evaluate_pattern(name, TempEnv, proxied_args+bindables)
     candidates = candidates_via_connection_points(pattern_root, connection_points)
     candidates ||= env.find(:class => pattern_root.class)
     candidates.each do |e|
+      # create new bindables for every try, otherwise they can could be bound to old values
+      bindables = create_bindables(name, connection_points) 
+      pattern_root = evaluate_pattern(name, TempEnv, proxied_args+bindables)
       matched = match(pattern_root, e)
       return Match.new(e, matched, bindables.collect{|b| b._value}) if matched 
     end
     nil
+  end
+
+  def create_bindables(pattern_name, connection_points)
+    (1..(num_pattern_variables(pattern_name) - connection_points.size)).collect{|i| Bindable.new}
   end
 
   def candidates_via_connection_points(pattern_root, connection_points)
@@ -156,7 +179,7 @@ class PatternMatcher
       pv, tv = cl.lazy._eval, cl.value
       if cl.feature.is_a?(RGen::ECore::EAttribute)
         unless pv == tv
-          match_failed(cl.feature, "wrong attribute value (lazy)")
+          match_failed(cl.feature, "wrong attribute value (lazy): #{pv} vs. #{tv}")
           return false 
         end
       else
@@ -189,38 +212,44 @@ class PatternMatcher
       pat_values = [ pat_values ] unless pat_values.is_a?(Array)
       test_values = test_element.getGeneric(f.name)
       test_values = [ test_values] unless test_values.is_a?(Array)
-      unless pat_values.size == test_values.size
-        match_failed(f, "wrong size")
-        return false 
-      end
-      pat_values.each_with_index do |pv,i|
-        tv = test_values[i]
-        if pv.is_a?(Lazy)
-          check_later << CheckLater.new(f, pv, tv)
-        elsif pv.is_a?(Bindable)
-          if pv._bound?
-            unless pv._value == tv
-              match_failed(f, "value does not match bound value")
-              return false 
-            end
-          else
-            pv._bind(tv)
-          end
-        else
-          if f.is_a?(RGen::ECore::EAttribute)
-            unless pv == tv 
-              match_failed(f, "wrong attribute value")
-              return false 
-            end
-          else
-            if pv.is_a?(Proxy)
-              unless pv._target.object_id == tv.object_id
-                match_failed(f, "wrong target object")
+      if pat_values.size == 1 && pat_values.first.is_a?(Bindable) && pat_values.first._many?
+        unless match_many_bindable(pat_values.first, test_values)
+          return false
+        end
+      else
+        unless pat_values.size == test_values.size
+          match_failed(f, "wrong size #{pat_values.size} vs. #{test_values.size}")
+          return false 
+        end
+        pat_values.each_with_index do |pv,i|
+          tv = test_values[i]
+          if pv.is_a?(Lazy)
+            check_later << CheckLater.new(f, pv, tv)
+          elsif pv.is_a?(Bindable)
+            if pv._bound?
+              unless pv._value == tv
+                match_failed(f, "value does not match bound value #{pv._value.class}:#{pv._value.object_id} vs. #{tv.class}:#{tv.object_id}")
                 return false 
               end
             else
-              unless (pv.nil? && tv.nil?) || (!pv.nil? && !tv.nil? && match_internal(pv, tv, visited, check_later))
+              pv._bind(tv)
+            end
+          else
+            if f.is_a?(RGen::ECore::EAttribute)
+              unless pv == tv 
+                match_failed(f, "wrong attribute value")
                 return false 
+              end
+            else
+              if pv.is_a?(Proxy)
+                unless pv._target.object_id == tv.object_id
+                  match_failed(f, "wrong target object")
+                  return false 
+                end
+              else
+                unless both_nil_or_match(pv, tv, visited, check_later)
+                  return false 
+                end
               end
             end
           end
@@ -228,6 +257,31 @@ class PatternMatcher
       end
     end
     true
+  end
+
+  def match_many_bindable(bindable, test_values)
+    if bindable._bound? 
+      bindable._value.each_with_index do |pv,i|
+        tv = test_values[i]
+        if f.is_a?(RGen::ECore::EAttribute)
+          unless pv == tv 
+            match_failed(f, "wrong attribute value")
+            return false 
+          end
+        else
+          unless both_nil_or_match(pv, tv, visited, check_later)
+            return false 
+          end
+        end
+      end
+    else
+      bindable._bind(test_values.dup)
+    end
+    true
+  end
+
+  def both_nil_or_match(pv, tv, visited, check_later)
+    (pv.nil? && tv.nil?) || (!pv.nil? && !tv.nil? && match_internal(pv, tv, visited, check_later))
   end
 
   def match_failed(f, msg)
