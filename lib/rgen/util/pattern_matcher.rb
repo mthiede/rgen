@@ -12,10 +12,12 @@ module Util
 class PatternMatcher
 
   Match = Struct.new(:root, :elements, :bound_values)
+  attr_accessor :debug
 
   def initialize
     @patterns = {} 
     @insert_mode = false
+    @debug = false
   end
 
   def add_pattern(name, &block)
@@ -285,7 +287,7 @@ class PatternMatcher
   end
 
   def match_failed(f, msg)
-    #puts "match failed #{f&&f.eContainingClass.name}##{f&&f.name}: #{msg}"
+    puts "match failed #{f&&f.eContainingClass.name}##{f&&f.name}: #{msg}" if @debug
   end
 
   def num_pattern_variables(name)
