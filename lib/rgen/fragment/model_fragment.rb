@@ -145,7 +145,7 @@ class ModelFragment
   #
   # If a +fragment_provider+ is given, the resolve step can be reverted later on 
   # by a call to unresolve_external or unresolve_external_fragment. The fragment provider
-  # is a proc which receives a model element and must reseturn the fragment in which it is
+  # is a proc which receives a model element and must return the fragment in which it is
   # contained.
   #
   def resolve_external(external_index, fragment_provider=nil)
@@ -155,8 +155,8 @@ class ModelFragment
       @resolved_refs ||= {}
       on_resolve = proc { |ur, target|
         target_fragment = fragment_provider.call(target)
-        raise "unknown target fragment" unless target_fragment
-        raise "can resolve local reference in resolve_external, call resolve_local first" \
+        target_fragment ||= :unknown
+        raise "can not resolve local reference in resolve_external, call resolve_local first" \
           if target_fragment == self
         @resolved_refs[target_fragment] ||= []
         @resolved_refs[target_fragment] << ResolvedReference.new(ur, target)
@@ -173,7 +173,7 @@ class ModelFragment
   # were represented by unresolved references from within other fragments.
   # 
   def unresolve_external
-    raise "can not unresolve, missing fragment information" unless @resolved_refs
+    raise "can not unresolve, missing fragment information" if !@resolved_refs || @resolved_refs[:unknown]
     rrefs = @resolved_refs.values.flatten
     @resolved_refs = {}
     unresolve_refs(rrefs)
@@ -182,7 +182,7 @@ class ModelFragment
   # Like unresolve_external but only unresolve references to external fragment +fragment+
   #
   def unresolve_external_fragment(fragment)
-    raise "can not unresolve, missing fragment information" unless @resolved_refs
+    raise "can not unresolve, missing fragment information" if !@resolved_refs|| @resolved_refs[:unknown]
     rrefs = @resolved_refs[fragment]
     @resolved_refs.delete(fragment)
     unresolve_refs(rrefs) if rrefs
