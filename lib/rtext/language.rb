@@ -148,7 +148,7 @@ class Language
   def unlabled_arguments(clazz)
     return [] unless @unlabled_arguments
     uargs = @unlabled_arguments.call(clazz) || []
-    non_containments(clazz).select{|c| uargs.include?(c.name)}
+    uargs.collect{|a| non_containments(clazz).find{|f| f.name == a}}.compact
   end
 
   def unquoted?(feature)
