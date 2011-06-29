@@ -147,4 +147,5 @@
 * Added type check of ecore defaultValueLiteral content in MetamodelBuilder
 * Many-feature setters can work with an Enumerable instead of an Array
 * Added pattern matcher utility
+* Fixed problem of Ruby hanging when exceptions occur
 

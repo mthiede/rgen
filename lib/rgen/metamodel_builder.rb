@@ -188,6 +188,11 @@ module MetamodelBuilder
 			raise StandardError.new("Class #{self.class} is abstract") if self.class._abstract_class 
 	    arg.each_pair { |k,v| setGeneric(k, v) } if arg.is_a?(Hash)
 		end
+
+    # Object#inspect causes problems on most models 
+    def inspect
+      self.class.name
+    end
     
 	  def self.method_added(m)
 	    raise "Do not add methods to model classes directly, add them to the ClassModule instead"
