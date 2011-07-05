@@ -72,7 +72,7 @@ class ModelFragment
     @elements = nil
     @index = nil
     @unresolved_refs = nil
-    @resolved_refs = nil 
+    @resolved_refs = :dirty 
   end
 
   # Can be used to reset the change status to unchanged.
@@ -110,7 +110,6 @@ class ModelFragment
   #
   def unresolved_refs
     return @unresolved_refs if @unresolved_refs
-    @resolved_refs = nil 
     @unresolved_refs = []
     elements.each do |e|
       each_reference_target(e) do |r, t|
@@ -158,7 +157,7 @@ class ModelFragment
     resolver = RGen::Instantiator::ReferenceResolver.new(
       :identifier_resolver => proc {|ident| external_index[ident] })
     if fragment_provider
-      @resolved_refs ||= {}
+      @resolved_refs = {} if @resolved_refs.nil? || @resolved_refs == :dirty
       on_resolve = proc { |ur, target|
         target_fragment = fragment_provider.call(target)
         target_fragment ||= :unknown
@@ -179,7 +178,8 @@ class ModelFragment
   # were represented by unresolved references from within other fragments.
   # 
   def unresolve_external
-    raise "can not unresolve, missing fragment information" if !@resolved_refs || @resolved_refs[:unknown]
+    return if @resolved_refs.nil?
+    raise "can not unresolve, missing fragment information" if @resolved_refs == :dirty || @resolved_refs[:unknown]
     rrefs = @resolved_refs.values.flatten
     @resolved_refs = {}
     unresolve_refs(rrefs)
@@ -188,7 +188,8 @@ class ModelFragment
   # Like unresolve_external but only unresolve references to external fragment +fragment+
   #
   def unresolve_external_fragment(fragment)
-    raise "can not unresolve, missing fragment information" if !@resolved_refs|| @resolved_refs[:unknown]
+    return if @resolved_refs.nil?
+    raise "can not unresolve, missing fragment information" if @resolved_refs == :dirty || @resolved_refs[:unknown]
     rrefs = @resolved_refs[fragment]
     @resolved_refs.delete(fragment)
     unresolve_refs(rrefs) if rrefs
