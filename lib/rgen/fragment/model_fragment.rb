@@ -75,6 +75,12 @@ class ModelFragment
     @resolved_refs = nil 
   end
 
+  # Can be used to reset the change status to unchanged.
+  #
+  def mark_unchanged
+    @changed = false
+  end
+
   # Indicates whether the fragment has been changed or not
   #
   def changed?
