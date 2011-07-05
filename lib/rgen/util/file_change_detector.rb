@@ -57,7 +57,7 @@ class FileChangeDetector
     files_before.each do |file|
       if !used_files[file]
         @file_info.delete(file)
-        @file_deleted && @file_deleted.call(file)
+        @file_removed && @file_removed.call(file)
       end
     end
   end
