@@ -71,6 +71,17 @@ class DefaultServiceProvider
   def get_problems
     load_model
     result = []
+    duplicates_by_fragment = {}
+    @model.index.each_pair do |ident, elements|
+      if elements.size > 1
+        elements.each do |e|
+          next if e.class.ecore.name == "ARPackage"
+          frag = @lang.fragment_ref(e).fragment
+          duplicates_by_fragment[frag] ||= []
+          duplicates_by_fragment[frag] << e
+        end
+      end
+    end
     @model.fragments.sort{|a,b| a.location <=> b.location}.each do |fragment|
       problems = []
       if fragment.data && fragment.data[:problems]
@@ -82,6 +93,11 @@ class DefaultServiceProvider
         # TODO: where do these proxies come from?
         next unless ur.proxy.targetIdentifier
         problems << Problem.new("Error", @lang.line_number(ur.element), "unresolved reference #{ur.proxy.targetIdentifier}")
+      end
+      dups = duplicates_by_fragment[fragment]
+      dups && dups.each do |e|
+        ident = @lang.identifier_provider.call(e, nil)
+        problems << Problem.new("Error", @lang.line_number(e), "duplicate identifier #{ident}")
       end
       if problems.size > 0
         result << FileProblems.new(File.expand_path(fragment.location), problems)
