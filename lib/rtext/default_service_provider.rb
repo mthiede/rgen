@@ -112,7 +112,7 @@ class DefaultServiceProvider
     return result unless pattern
     sub_index = element_name_index[pattern[0..0].downcase]
     sub_index && sub_index.each_pair do |ident, elements|
-      if ident.split(/\W/).last.index(pattern) == 0
+      if ident.split(/\W/).last.downcase.index(pattern.downcase) == 0
         elements.each do |e|
           if @lang.fragment_ref(e)
             non_word_index = ident.rindex(/\W/)
