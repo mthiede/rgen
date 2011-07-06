@@ -68,13 +68,13 @@ class Completer
           feature.eType.eLiterals.collect do |l|
             CompletionOption.new("#{l.name}")
           end 
-        elsif feature.eType == RGen::ECore::EString
+        elsif feature.eType.instanceClass == String
           [ CompletionOption.new("\"\"") ]
-        elsif feature.eType == RGen::ECore::EInt
+        elsif feature.eType.instanceClass == Integer 
           (0..4).collect{|i| CompletionOption.new("#{i}") }
-        elsif feature.eType == RGen::ECore::EFloat
+        elsif feature.eType.instanceClass == Float 
           (0..4).collect{|i| CompletionOption.new("#{i}.0") }
-        elsif feature.eType == RGen::ECore::EBoolean
+        elsif feature.eType.instanceClass == RGen::MetamodelBuilder::DataTypes::Boolean
           [true, false].collect{|b| CompletionOption.new("#{b}") }
         else
           []

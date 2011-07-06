@@ -84,7 +84,6 @@ class Service
         packet_lines.unshift("last\n")
       end
       packet_lines.unshift("#{invocation_id}\n")
-      puts "sending packet"
       socket.send(packet_lines.join, 0, from[2], from[1])
       break if response.size == 0 
     end
