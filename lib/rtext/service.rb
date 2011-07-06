@@ -57,15 +57,38 @@ class Service
         puts "unknown command #{cmd}"
         response = []
       end
-      response.unshift("#{invocation_id}\n")
-      response = limit_lines(response, 65000).join
-      p response
-      socket.send(response, 0, from[2], from[1])
+      begin
+      send_response(response, invocation_id, socket, from)
+      rescue Exception => e
+        puts e.message
+        puts e.backtrace
+      end
     end
     puts "RText service, stopping now (timeout)"
   end
 
   private
+
+  def send_response(response, invocation_id, socket, from)
+    p response
+    loop do
+      packet_lines = []
+      size = 0
+      while response.size > 0 && size + response.first.size < 65000
+        size += response.first.size
+        packet_lines << response.shift
+      end
+      if response.size > 0
+        packet_lines.unshift("more\n")
+      else
+        packet_lines.unshift("last\n")
+      end
+      packet_lines.unshift("#{invocation_id}\n")
+      puts "sending packet"
+      socket.send(packet_lines.join, 0, from[2], from[1])
+      break if response.size == 0 
+    end
+  end
 
   def create_socket
     socket = UDPSocket.new
