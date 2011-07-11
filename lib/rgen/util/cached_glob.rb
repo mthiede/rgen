@@ -42,7 +42,6 @@ class CachedGlob
   end
 
   def update_root_dir(dir)
-    puts "update #{dir}"
     @dirs[dir] = Dir.glob(dir+"/**/")
     @files[dir] = Dir.glob(dir+"/"+@file_glob)
     @timestamps[dir] = {}
