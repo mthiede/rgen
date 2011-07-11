@@ -10,12 +10,20 @@ class Service
 
   FlushInterval  = 1
 
-  # Creates an RText frontend support service
+  # Creates an RText frontend support service. Options:
+  #
+  #  :timeout
+  #    idle time in seconds after which the service will terminate itelf
+  #
+  #  :logger
+  #    a logger object on which the service will write its logging output
+  #
   def initialize(lang, service_provider, options={})
     @lang = lang
     @service_provider = service_provider
     @completer = RText::Completer.new(lang) 
     @timeout = options[:timeout] || 60
+    @logger = options[:logger]
   end
 
   def run
@@ -25,12 +33,16 @@ class Service
 
     last_access_time = Time.now
     last_flush_time = Time.now
-    loop do
+    stop_requested = false
+    while !stop_requested
       begin
         msg, from = socket.recvfrom_nonblock(65000)
       rescue Errno::EWOULDBLOCK
         sleep(0.01)
-        break if (Time.now - last_access_time) > @timeout
+        if (Time.now - last_access_time) > @timeout
+          @logger.info("RText service, stopping now (timeout)") if @logger
+          break 
+        end
         retry
       end
       if Time.now > last_flush_time + FlushInterval
@@ -53,24 +65,22 @@ class Service
         response = get_reference_targets(lines)
       when "get_elements"
         response = get_open_element_choices(lines)
+      when "stop"
+        response = [] 
+        @logger.info("RText service, stopping now (stop requested)") if @logger
+        stop_requested = true
       else
-        puts "unknown command #{cmd}"
+        @logger.debug("unknown command #{cmd}") if @logger
         response = []
       end
-      begin
       send_response(response, invocation_id, socket, from)
-      rescue Exception => e
-        puts e.message
-        puts e.backtrace
-      end
     end
-    puts "RText service, stopping now (timeout)"
   end
 
   private
 
   def send_response(response, invocation_id, socket, from)
-    p response
+    @logger.debug(response.inspect) if @logger
     loop do
       packet_lines = []
       size = 0
@@ -121,7 +131,7 @@ class Service
   def complete(lines)
     linepos = lines.shift.to_i
     context = ContextElementBuilder.build_context_element(@lang, lines, linepos)
-    puts @lang.identifier_provider.call(context, nil)
+    @logger.debug("context element: #{@lang.identifier_provider.call(context, nil)}") if @logger
     current_line = lines.pop
     current_line ||= ""
     options = @completer.complete(current_line, linepos, 
