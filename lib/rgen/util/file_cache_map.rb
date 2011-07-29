@@ -31,7 +31,9 @@ class FileCacheMap
     return :invalid unless File.exist?(cf)
     result = nil
     File.open(cf, "rb") do |f|
-      checksum = f.read(41)[0..39]
+      header = f.read(41)
+      return :invalid unless header
+      checksum = header[0..39]
       data = f.read
       if calc_sha1(data) == checksum
         if calc_sha1_keydata(key_path) == data[0..39]
@@ -51,7 +53,7 @@ class FileCacheMap
     data = calc_sha1_keydata(key_path) + "\n" + value_data
     data = calc_sha1(data) + "\n" + data
     cf = cache_file(key_path)
-    FileUtils.mkdir(File.dirname(cf)) unless File.exist?(File.dirname(cf))
+    FileUtils.mkdir(File.dirname(cf)) rescue Errno::EEXIST
     File.open(cf, "wb") do |f|
       f.write(data)
     end 
