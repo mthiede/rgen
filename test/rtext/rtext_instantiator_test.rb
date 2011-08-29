@@ -23,6 +23,8 @@ class RTextInstantiatorTest < Test::Unit::TestCase
       has_many 'others', TestNode
       contains_many 'childs', TestNode, 'parent'
     end
+    class SubNode < TestNode
+    end
   end
 
   module TestMM2
@@ -374,6 +376,17 @@ class RTextInstantiatorTest < Test::Unit::TestCase
   def test_unlabled_arguments_using_labled
     env, problems = instantiate(%Q(
       TestNode text: "some text", nums: [1,2] {
+        TestNode text: "child"
+        TestNode text: "child2"
+      }
+      ), TestMM, :unlabled_arguments => proc {|clazz| ["text", "nums"]})
+    assert_no_problems(problems)
+    assert_model_simple(env, :with_nums)
+  end
+
+  def test_unlabled_arguments_subclass
+    env, problems = instantiate(%Q(
+      SubNode "some text", [1, 2] {
         TestNode text: "child"
         TestNode text: "child2"
       }
