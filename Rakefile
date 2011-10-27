@@ -3,7 +3,7 @@ require 'rake/rdoctask'
 
 RGenGemSpec = Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = "0.6.0.pre3"
+  s.version = "0.6.0.pre4"
   s.date = Time.now.strftime("%Y-%m-%d")
   s.summary = %q{Ruby Modelling and Generator Framework}
   s.email = %q{martin dot thiede at gmx de}
