@@ -41,6 +41,11 @@ class ModelFragment
   #  :data
   #    data object associated with this fragment
   #
+  #  :identifier_provider
+  #    identifier provider to be used when resolving references
+  #    it must be a proc which receives a model element and must return 
+  #    that element's identifier or nil if the element has no identifier
+  #
   def initialize(location, options={})
     @location = location
     @fragment_ref = FragmentRef.new
@@ -48,6 +53,7 @@ class ModelFragment
     @data = options[:data]
     @resolved_refs = nil 
     @changed = false
+    @identifier_provider = options[:identifier_provider]
   end
 
   # Set the root elements, normally done by an instantiator.
@@ -99,10 +105,9 @@ class ModelFragment
   end
   
   # Returns the index of the element contained in this fragment.
-  # On a new or changed fragment, the index must be built first using build_index.
   #
   def index
-    raise "index does not exist, call build_index first" unless @index
+    build_index unless @index
     @index
   end
 
@@ -125,12 +130,10 @@ class ModelFragment
   # Builds the index of all elements within this fragment having an identifier
   # the index is an array of 2-element arrays holding the identifier and the element
   #
-  # +identifier_provider+ must be a proc which receives a model element and must return 
-  # that element's identifier or nil if the element has no identifier
-  #
-  def build_index(identifier_provider)
+  def build_index
+    raise "cannot build index without an identifier provider" unless @identifier_provider
     @index = elements.collect { |e|
-      ident = identifier_provider && identifier_provider.call(e, nil)
+      ident = @identifier_provider.call(e, nil)
       ident && !ident.empty? ? [ident, e] : nil 
     }.compact
   end

@@ -33,6 +33,7 @@ class FragmentedModel
     @fragments = []
     @index = nil
     @fragment_change_listeners = []
+    @fragment_index = {}
   end
 
   # Adds a proc which is called when a fragment is added or removed
@@ -61,6 +62,7 @@ class FragmentedModel
     raise "fragment not part of model" unless @fragments.include?(fragment)
     invalidate_cache
     @fragments.delete(fragment)
+    @fragment_index.delete(fragment)
     unresolve_fragment(fragment)
     fragment.elements.each{|e| @environment.delete(e)} if @environment
     @fragment_change_listeners.each{|l| l.call(fragment, :removed)}
@@ -102,7 +104,12 @@ class FragmentedModel
   # This is a Hash mapping identifiers to model elements accessible via the identifier. 
   #
   def index
-    # TODO: check if fragment indices have changed and automatically invalidate cache
+    fragments.each do |f|
+      if !@fragment_index[f] || (@fragment_index[f].object_id != f.index.object_id)
+        @fragment_index[f] = f.index
+        invalidate_cache
+      end
+    end
     return @index if @index
     @index = {}
     fragments.each do |f|
