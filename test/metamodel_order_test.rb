@@ -4,7 +4,7 @@ require 'test/unit'
 require 'rgen/ecore/ecore'
 require 'rgen/array_extensions'
 
-class MetamodelReflectionTest < Test::Unit::TestCase
+class MetamodelOrderTest < Test::Unit::TestCase
 	include RGen::ECore
 	
   module TestMM1
@@ -95,6 +95,8 @@ class MetamodelReflectionTest < Test::Unit::TestCase
 
     # if there is no other class or module after the last datatype, it won't show up in _constantOrder
     # however, the order of eClassifiers can still be reconstructed
+    # note that this can not be tested if the test is executed as part of the whole testsuite 
+    # since there will be classes and modules created within other test files
     DataType22 = RGen::MetamodelBuilder::DataTypes::Enum.new(:name => "DataType22", :literals => {:b => 1})
   end
 
@@ -102,7 +104,10 @@ class MetamodelReflectionTest < Test::Unit::TestCase
     assert_equal ["Class11", "Module11", "DataType11", "Class12", "Class13"], TestMM1._constantOrder
     assert_equal ["DataType111", "DataType112", "Class111", "DataType113", "Module112", "DataType114", "DataType115", "DataType116"], TestMM1::Module11._constantOrder
     assert_equal ["Class1122"], TestMM1::Module11::Module112._constantOrder
-    assert_equal ["Module21", "Module22", "Module23"], TestMM2._constantOrder
+    if File.basename($0) == "metamodel_order_test.rb"
+      # this won't work if run in the whole test suite (see comment at DataType22)
+      assert_equal ["Module21", "Module22", "Module23"], TestMM2._constantOrder
+    end
   end
 
   def test_classifier_order
