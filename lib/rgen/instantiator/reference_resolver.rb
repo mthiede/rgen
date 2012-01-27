@@ -84,6 +84,7 @@ class ReferenceResolver
           ur.element.removeGeneric(ur.feature_name, ur.proxy)
           begin
             ur.element.addGeneric(ur.feature_name, target[0], index)
+            options[:on_resolve] && options[:on_resolve].call(ur, target[0])
           rescue StandardError => e
             if is_type_error?(e)
               ur.element.addGeneric(ur.feature_name, ur.proxy, index)
@@ -98,6 +99,7 @@ class ReferenceResolver
           begin
             # this will replace the proxy
             ur.element.setGeneric(ur.feature_name, target[0])
+            options[:on_resolve] && options[:on_resolve].call(ur, target[0])
           rescue StandardError => e
             if is_type_error?(e)
               ur.target_type_error = true
@@ -108,7 +110,6 @@ class ReferenceResolver
             end
           end
         end
-        options[:on_resolve] && options[:on_resolve].call(ur, target[0])
       elsif target.size > 1
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
         still_unresolved_refs << ur
