@@ -67,6 +67,10 @@ class ReferenceResolver
   #    a proc which will be called for every sucessful resolution, receives the unresolved
   #    reference as well as to new target element
   #
+  #  :use_target_type
+  #    use the expected target type to narrow the set of possible targets 
+  #    (i.e. ignore targets with wrong type)
+  #
   def resolve(unresolved_refs, options={})
     problems = options[:problems] || []
     still_unresolved_refs = []
@@ -77,6 +81,10 @@ class ReferenceResolver
         target = @identifier_map[ur.proxy.targetIdentifier]
       end
       target = [target].compact unless target.is_a?(Array)
+      if options[:use_target_type] 
+        feature = ur.element.class.ecore.eAllReferences.find{|r| r.name == ur.feature_name}
+        target = target.select{|e| e.is_a?(feature.eType.instanceClass)}
+      end
       if target.size == 1
         refs = ur.element.getGeneric(ur.feature_name)
         if refs.is_a?(Array) 
