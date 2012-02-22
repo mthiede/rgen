@@ -21,6 +21,8 @@ class JsonInstantiator
   # classes are looked for in metamodel package module +mm+,
   # +options+ include:
   #   short_class_names: if true subpackages will be searched for unqualifed class names (default: true)
+  #   ignore_keys:       an array of json object key names which are to be ignored (default: none)
+  #
   # The options are also passed to the underlying QualifiedNameResolver.
   #
   def initialize(env, mm, options={})
@@ -28,6 +30,7 @@ class JsonInstantiator
     @mm = mm
     @options = options
     @short_class_names = !@options.has_key?(:short_class_names) || @options[:short_class_names]
+    @ignore_keys = @options[:ignore_keys] || []
     @unresolvedReferences = []
     @classes = {}
     @classes_flat = {}
@@ -42,15 +45,23 @@ class JsonInstantiator
   # Returns an array of ReferenceResolver::UnresolvedReference
   # describing the references which could not be resolved
   #
-  def instantiate(str)
+  # Options:
+  #   :root_elements: if an array is provided, it will be filled with the root elements
+  #
+  def instantiate(str, options={})
     root = @parser.parse(str)
+    if options[:root_elements].is_a?(Array)
+      options[:root_elements].clear
+      root.each{|r| options[:root_elements] << r}
+    end
     resolver = QualifiedNameResolver.new(root, @options)
     resolver.resolveReferences(@unresolvedReferences)
   end
 
   def createObject(hash)
     className = hash["_class"]
-    raise "no class information" unless className
+    # hashes without a _class key are returned as is
+    return hash unless className
     if @classes[className]
       clazz = @classes[className].instanceClass
     elsif @short_class_names && @classes_flat[className]
@@ -59,6 +70,9 @@ class JsonInstantiator
       raise "class not found: #{className}"
     end
     hash.delete("_class")
+    @ignore_keys.each do |k|
+      hash.delete(k)
+    end
     urefs = []
     hash.keys.each do |k|
       f = eFeature(k, clazz)
