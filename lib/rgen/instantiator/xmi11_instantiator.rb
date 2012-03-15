@@ -36,7 +36,11 @@ class XMI11Instantiator < AbstractXMLInstantiator
         newval = @element_by_id[rd.value]
       end
       log WARN, "Could not resolve reference #{rd.attribute} on #{rd.object}" unless newval
-      rd.object.setGeneric(rd.attribute,newval)
+      begin
+        rd.object.setGeneric(rd.attribute,newval)
+      rescue Exception
+        log WARN, "Could not set reference #{rd.attribute} on #{rd.object}"
+      end
     end
   end
 

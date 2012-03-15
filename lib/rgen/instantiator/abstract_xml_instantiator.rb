@@ -53,7 +53,9 @@ class AbstractXMLInstantiator
     begin
       visitor = Visitor.new(self, gcSuspendCount)
       parser = Nokogiri::XML::SAX::Parser.new(visitor)
-      parser.parse(str)
+      parser.parse(str) do |ctx|
+        @parserContext = ctx
+      end
      ensure 
       GC.enable unless gcDisabledBefore
     end

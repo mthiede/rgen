@@ -12,7 +12,7 @@ module UML13EA
    ScopeKind = Enum.new(:name => 'ScopeKind', :literals =>[ :instance, :classifier ])
    OrderingKind = Enum.new(:name => 'OrderingKind', :literals =>[ :unordered, :ordered, :sorted ])
    CallConcurrencyKind = Enum.new(:name => 'CallConcurrencyKind', :literals =>[ :sequential, :guarded, :concurrent ])
-   AggregationKind = Enum.new(:name => 'AggregationKind', :literals =>[ :none, :aggregate, :composite ])
+   AggregationKind = Enum.new(:name => 'AggregationKind', :literals =>[ :none, :aggregate, :composite, :shared ])
    VisibilityKind = Enum.new(:name => 'VisibilityKind', :literals =>[ :public, :protected, :private ])
 end
 
@@ -188,7 +188,7 @@ class UML13EA::SubactivityState < UML13EA::SubmachineState
 end
 
 class UML13EA::StructuralFeature < UML13EA::Feature
-   has_attr 'changeability', UML13EA::ChangeableKind, :defaultValueLiteral => "changeable" 
+   has_attr 'changeable', UML13EA::ChangeableKind, :defaultValueLiteral => "changeable" 
    has_attr 'targetScope', UML13EA::ScopeKind, :defaultValueLiteral => "instance" 
 end
 
