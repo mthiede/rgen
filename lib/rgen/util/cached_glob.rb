@@ -2,6 +2,9 @@ module RGen
 
 module Util
 
+# WARNING: the mechanism of taking timestamps of directories in order to find out if the
+# content has changed doesn't work reliably across all kinds of filesystems
+#
 class CachedGlob
 
   def initialize(dir_glob, file_glob)
@@ -38,7 +41,7 @@ class CachedGlob
   private
 
   def dir_changed?(dir)
-    @dirs[dir].any?{|d| File.atime(d) != @timestamps[dir][d]}
+    @dirs[dir].any?{|d| File.mtime(d) != @timestamps[dir][d]}
   end
 
   def update_root_dir(dir)
@@ -46,7 +49,7 @@ class CachedGlob
     @files[dir] = Dir.glob(dir+"/"+@file_glob)
     @timestamps[dir] = {}
     @dirs[dir].each do |d|
-      @timestamps[dir][d] = File.atime(d)
+      @timestamps[dir][d] = File.mtime(d)
     end
   end
 

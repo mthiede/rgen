@@ -39,8 +39,8 @@ class FileChangeDetector
     files.each do |file|
       used_files[file] = true
       if @file_info[file]
-        if @file_info[file].timestamp != File.atime(file)
-          @file_info[file].timestamp = File.atime(file)
+        if @file_info[file].timestamp != File.mtime(file)
+          @file_info[file].timestamp = File.mtime(file)
           digest = calc_digest(file)
           if @file_info[file].digest != digest
             @file_info[file].digest = digest 
@@ -49,7 +49,7 @@ class FileChangeDetector
         end
       else
         @file_info[file] = FileInfo.new
-        @file_info[file].timestamp = File.atime(file)
+        @file_info[file].timestamp = File.mtime(file)
         @file_info[file].digest = calc_digest(file)
         @file_added && @file_added.call(file)
       end
