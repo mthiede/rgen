@@ -148,4 +148,5 @@
 * Many-feature setters can work with an Enumerable instead of an Array
 * Added pattern matcher utility
 * Fixed problem of Ruby hanging when exceptions occur
+* Fixed metamodel generator to quote illegal enum literal symbols
 

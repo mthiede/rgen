@@ -43,7 +43,11 @@ module DataTypes
 	  def literals_as_strings
 	  	literals.collect do |l|
 	  		if l.is_a?(Symbol)
-	  			":"+l.to_s
+          if l.to_s =~ /^\d|\W/
+            ":'"+l.to_s+"'"
+          else
+            ":"+l.to_s
+          end
 	  		elsif l.is_a?(TrueClass) || l.is_a?(FalseClass)
 	  			l.to_s
 	  		else

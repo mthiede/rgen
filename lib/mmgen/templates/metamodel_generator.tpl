@@ -85,7 +85,7 @@
 <% define 'EnumTypes', :for => EPackage do %>
   <% for enum in eClassifiers.select{|c| c.is_a?(EEnum)} %>
     <%= enum.name %> = Enum.new(:name => '<%= enum.name %>', :literals =>[ <%nows%>
-    <%= enum.eLiterals.collect { |lit| ":"+lit.name }.join(', ') %> ])
+    <%= enum.eLiterals.collect { |lit| ":"+(lit.name =~ /^\d|\W/ ? "'"+lit.name+"'" : lit.name) }.join(', ') %> ])
   <% end %>
 <% end %>
 
