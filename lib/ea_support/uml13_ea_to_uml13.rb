@@ -29,6 +29,7 @@ class UML13EAToUML13 < RGen::Transformer
     ActivityModel 
     CompositeState 
     PseudoState
+    Dependency
   )  
     
   transform AssociationEndRole, :to => UML13::AssociationEndRole do
@@ -91,5 +92,12 @@ class UML13EAToUML13 < RGen::Transformer
   end
   
   copy PseudoState, :to => UML13::Pseudostate
+
+  transform Dependency, :to => UML13::Dependency do
+    _name_tag = taggedValue.find{|tv| tv.tag == "dst_name"}
+    copy_features do
+      { :name => (_name_tag && _name_tag.value) || "Anonymous" }
+    end
+  end
   
 end

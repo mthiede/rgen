@@ -6,6 +6,28 @@ require 'rgen/array_extensions'
 class UML13ToECore < RGen::Transformer
   include RGen::ECore
 
+  # Options:
+  #
+  # :reference_filter:
+  #   a proc which receives an AssociationEnd or a Dependency and should return
+  #   true or false, depending on if a referece should be created for it or not
+  #
+  def initialize(*args)
+    options = {}
+    if args.last.is_a?(Hash)
+      options = args.pop
+    end
+    @reference_filter = options[:reference_filter] || proc do |e|
+      if e.is_a?(UML13::AssociationEnd)
+        otherEnd = e.association.connection.find{|ae| ae != e}
+        otherEnd.name && otherEnd.name.size > 0
+      else
+        false
+      end
+    end
+    super(*args)
+  end
+
   def transform
     trans(:class => UML13::Class)
   end
@@ -27,8 +49,10 @@ class UML13ToECore < RGen::Transformer
   
   transform UML13::Class, :to => EClass do
     { :name => name && name.strip,
+      :abstract => isAbstract,
       :ePackage => trans(namespace.is_a?(UML13::Package) ? namespace : nil),
-      :eStructuralFeatures => trans(feature.select{|f| f.is_a?(UML13::Attribute)} + associationEnd),
+      :eStructuralFeatures => trans(feature.select{|f| f.is_a?(UML13::Attribute)} + 
+        associationEnd + clientDependency),
       :eOperations => trans(feature.select{|f| f.is_a?(UML13::Operation)}),
       :eSuperTypes =>  trans(generalization.parent + clientDependency.select{|d| d.stereotype && d.stereotype.name == "implements"}.supplier),
       :eAnnotations => createAnnotations(taggedValue) }
@@ -36,6 +60,7 @@ class UML13ToECore < RGen::Transformer
 
   transform UML13::Interface, :to => EClass do
     { :name => name && name.strip,
+      :abstract => isAbstract,
       :ePackage => trans(namespace.is_a?(UML13::Package) ? namespace : nil),
       :eStructuralFeatures => trans(feature.select{|f| f.is_a?(UML13::Attribute)} + associationEnd),
       :eOperations => trans(feature.select{|f| f.is_a?(UML13::Operation)}),
@@ -73,10 +98,19 @@ class UML13ToECore < RGen::Transformer
       :containment => (aggregation == :composite),
       :eAnnotations => createAnnotations(association.taggedValue) }
   end
+
+  transform UML13::Dependency, :to => EReference, :if => :isReference do
+    { :eType => trans(supplier.first),
+      :name => name,
+      :lowerBound => 0,
+      :upperBound => 1,
+      :containment => false,
+      :eAnnotations => createAnnotations(taggedValue)
+    }
+  end
   
   method :isReference do
-    otherEnd = association.connection.find{|ae| ae != @current_object}
-      otherEnd.name && otherEnd.name.size > 0
+    @reference_filter.call(@current_object)
   end      
   
   def createAnnotations(taggedValues)

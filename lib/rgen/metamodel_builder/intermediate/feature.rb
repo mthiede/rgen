@@ -147,7 +147,7 @@ class Reference < Feature
       @etype = nil
       @impl_type = type
     else
-      raise ArgumentError.new("'#{type}' is not a MMBase")
+      raise ArgumentError.new("'#{type}' (#{type.class}) is not a MMBase in reference #{props[:name]}")
     end
     if @props[:derived]
       @props[:changeable] = false
