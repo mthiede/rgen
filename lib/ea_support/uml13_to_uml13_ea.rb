@@ -18,6 +18,7 @@ class UML13ToUML13EA < RGen::Transformer
     Association AssociationEnd AssociationEndRole
     Generalization
     Pseudostate    
+    Attribute
   )  
   
   copy ActivityGraph, :to => UML13EA::ActivityModel
@@ -69,6 +70,12 @@ class UML13ToUML13EA < RGen::Transformer
       { :multiplicity => _lower == _upper ? _lower : "#{_lower}..#{_upper}",
         :isOrdered => ordering == :ordered,
         :changeable => :none } #{:frozen => :none}[changeability] || changeability}
+    end
+  end
+
+  transform Attribute, :to => UML13EA::Attribute do
+    copy_features :except => [:changeability] do
+      { :changeable => {:frozen => :none}[changeability] }
     end
   end
 
