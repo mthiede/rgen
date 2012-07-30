@@ -72,13 +72,19 @@ class FragmentedModel
   # It is assumed that references within fragments have already been resolved.
   # This method can be called several times. It will update the overall unresolved references.
   #
-  # Only if a +fragment_provider+ is given, the resolve step can be reverted later on
-  # by a call to unresolve_fragment. The fragment provider is a proc which receives a model
-  # element and must return the fragment in which the element is contained.
+  # Options:
   #
-  def resolve(fragment_provider=nil)
+  #  :fragment_provider:
+  #    Only if a +fragment_provider+ is given, the resolve step can be reverted later on
+  #    by a call to unresolve_fragment. The fragment provider is a proc which receives a model
+  #    element and must return the fragment in which the element is contained.
+  #
+  #  :use_target_type:
+  #    reference resolver uses the expected target type to narrow the set of possible targets 
+  #
+  def resolve(options)
     @fragments.each do |f|
-      f.resolve_external(index, fragment_provider)
+      f.resolve_external(index, options)
     end
   end
 

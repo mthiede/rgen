@@ -140,23 +140,36 @@ class ModelFragment
 
   # Resolves local references (within this fragment) as far as possible
   #
-  def resolve_local
+  # Options:
+  #
+  #  :use_target_type:
+  #    reference resolver uses the expected target type to narrow the set of possible targets 
+  #
+  def resolve_local(options={})
     resolver = RGen::Instantiator::ReferenceResolver.new
     index.each do |i|
       resolver.add_identifier(i[0], i[1])
     end
-    @unresolved_refs = resolver.resolve(unresolved_refs)
+    @unresolved_refs = resolver.resolve(unresolved_refs, :use_target_type => options[:use_target_type])
   end
 
   # Resolves references to external fragments using the external_index provided.
   # The external index must be a Hash mapping identifiers uniquely to model elements.
   #
-  # If a +fragment_provider+ is given, the resolve step can be reverted later on 
-  # by a call to unresolve_external or unresolve_external_fragment. The fragment provider
-  # is a proc which receives a model element and must return the fragment in which it is
-  # contained.
+  # Options:
   #
-  def resolve_external(external_index, fragment_provider=nil)
+  #  :fragment_provider:
+  #    If a +fragment_provider+ is given, the resolve step can be reverted later on 
+  #    by a call to unresolve_external or unresolve_external_fragment. The fragment provider
+  #    is a proc which receives a model element and must return the fragment in which it is
+  #    contained.
+  #
+  #  :use_target_type:
+  #    reference resolver uses the expected target type to narrow the set of possible targets 
+  #
+  #
+  def resolve_external(external_index, options)
+    fragment_provider = options[:fragment_provider]
     resolver = RGen::Instantiator::ReferenceResolver.new(
       :identifier_resolver => proc {|ident| external_index[ident] })
     if fragment_provider
@@ -169,9 +182,9 @@ class ModelFragment
         @resolved_refs[target_fragment] ||= []
         @resolved_refs[target_fragment] << ResolvedReference.new(ur, target)
       } 
-      @unresolved_refs = resolver.resolve(unresolved_refs, :on_resolve => on_resolve)
+      @unresolved_refs = resolver.resolve(unresolved_refs, :on_resolve => on_resolve, :use_target_type => options[:use_target_type])
     else
-      @unresolved_refs = resolver.resolve(unresolved_refs)
+      @unresolved_refs = resolver.resolve(unresolved_refs, :use_target_type => options[:use_target_type])
     end
   end
 
