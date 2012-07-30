@@ -3,14 +3,13 @@ require 'rake/rdoctask'
 
 RGenGemSpec = Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = "0.6.0.pre6"
+  s.version = "0.6.0"
   s.date = Time.now.strftime("%Y-%m-%d")
   s.summary = %q{Ruby Modelling and Generator Framework}
   s.email = %q{martin dot thiede at gmx de}
   s.homepage = %q{http://ruby-gen.org}
   s.rubyforge_project = %q{rgen}
   s.description = %q{RGen is a framework supporting Model Driven Software Development (MDSD). This means that it helps you build Metamodels, instantiate Models, modify and transform Models and finally generate arbitrary textual content from it.}
-  s.has_rdoc = true
   s.authors = ["Martin Thiede"]
   gemfiles = Rake::FileList.new
   gemfiles.include("{lib,test}/**/*")

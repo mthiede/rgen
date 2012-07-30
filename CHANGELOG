@@ -132,7 +132,7 @@
 * Added optional data property for MMProxy
 * Added ECoreToRuby which can create Ruby classes and modules from ECore models in memory (without metamodel generator)
 * Refactored out QualifiedNameProvider and OppositeReferenceFilter
-* Added RText support
+* Added model fragment/fragmented models support
 * Extended Instantiator::ReferenceResolver and changed it into a class
 * Moved utilities into util folder/module
 * Added FileCacheMap
@@ -149,4 +149,5 @@
 * Added pattern matcher utility
 * Fixed problem of Ruby hanging when exceptions occur
 * Fixed metamodel generator to quote illegal enum literal symbols
+* Imporved UML to ECore transformer and EA support
 
