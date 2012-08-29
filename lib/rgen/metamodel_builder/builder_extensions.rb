@@ -306,7 +306,7 @@ module BuilderExtensions
     else
       @@one_read_builder ||= ERB.new <<-CODE
       
-        def <%= name %>
+        def get<%= firstToUpper(name) %>
           <% if !props.reference? && props.value(:defaultValueLiteral) %>
             <% defVal = props.value(:defaultValueLiteral) %>
             <% check_default_value_literal(defVal, props) %>
@@ -317,7 +317,9 @@ module BuilderExtensions
             @<%= name %>
           <% end %>
         end
-        alias get<%= firstToUpper(name) %> <%= name %>
+        <% if name != "class" %>
+          alias <%= name %> get<%= firstToUpper(name) %>
+        <% end %>
 
       CODE
       self::ClassModule.module_eval(@@one_read_builder.result(binding))
@@ -326,7 +328,7 @@ module BuilderExtensions
     if props.value(:changeable)
       @@one_write_builder ||= ERB.new <<-CODE
         
-        def <%= name %>=(val)
+        def set<%= firstToUpper(name) %>(val)
           return if val == @<%= name %>
           <%= type_check_code("val", props) %>
           oldval = @<%= name %>
@@ -336,7 +338,7 @@ module BuilderExtensions
             val._register<%= firstToUpper(other_role) %>(self) unless val.nil? || val.is_a?(MMGeneric)
           <% end %>
         end 
-        alias set<%= firstToUpper(name) %> <%= name %>=
+        alias <%= name %>= set<%= firstToUpper(name) %>
 
         def _register<%= firstToUpper(name) %>(val)
           <% if other_role %>
@@ -366,10 +368,12 @@ module BuilderExtensions
     else
       @@many_read_builder ||= ERB.new <<-CODE
       
-        def <%= name %>
+        def get<%= firstToUpper(name) %>
           ( @<%= name %> ? @<%= name %>.dup : [] )
         end
-        alias get<%= firstToUpper(name) %> <%= name %>
+        <% if name != "class" %>
+          alias <%= name %> get<%= firstToUpper(name) %>
+        <% end %>
               
       CODE
       self::ClassModule.module_eval(@@many_read_builder.result(binding))
@@ -401,7 +405,7 @@ module BuilderExtensions
           end    
         end
         
-        def <%= name %>=(val)
+        def set<%= firstToUpper(name) %>(val)
           return if val.nil?
           raise _assignmentTypeError(self, val, Enumerable) unless val.is_a? Enumerable
           get<%= firstToUpper(name) %>.each {|e|
@@ -411,7 +415,7 @@ module BuilderExtensions
             add<%= firstToUpper(name) %>(v)
           }
         end
-        alias set<%= firstToUpper(name) %> <%= name %>=
+        alias <%= name %>= set<%= firstToUpper(name) %>
         
         def _register<%= firstToUpper(name) %>(val)
           @<%= name %> = [] unless @<%= name %>
@@ -435,7 +439,7 @@ module BuilderExtensions
       if (public_instance_methods+protected_instance_methods+private_instance_methods).include?(name)
     @@derived_builder ||= ERB.new <<-CODE
     
-      def <%= name %>
+      def get<%= firstToUpper(name) %>
         raise "Derived feature requires public implementation of method <%= name %>_derived" \
           unless respond_to?(:<%= name+"_derived" %>)
         val = <%= name %>_derived
@@ -449,7 +453,9 @@ module BuilderExtensions
         <% end %>  
         val
       end
-      alias get<%= firstToUpper(name) %> <%= name %>
+      <% if name != "class" %>
+        alias <%= name %> get<%= firstToUpper(name) %>
+      <% end %>
       #TODO final_method :<%= name %>
       
     CODE

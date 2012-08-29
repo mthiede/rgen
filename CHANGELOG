@@ -151,3 +151,7 @@
 * Fixed metamodel generator to quote illegal enum literal symbols
 * Imporved UML to ECore transformer and EA support
 
+=0.6.1
+
+* Fixed metamodel builder to not overwrite a model element's 'class' method
+
