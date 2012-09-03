@@ -8,6 +8,7 @@ class ECoreToUML13 < RGen::Transformer
   def transform
     trans(:class => EPackage)
     trans(:class => EClass)
+    trans(:class => EEnum)
   end
 
   transform EPackage, :to => UML13::Package do
@@ -28,10 +29,22 @@ class ECoreToUML13 < RGen::Transformer
     }
   end
   
+  transform EEnum, :to => UML13::Class do
+    {:name => name,
+      :namespace => trans(ePackage),
+      :feature => trans(eLiterals)
+    }
+  end
+
+  transform EEnumLiteral, :to => UML13::Attribute do
+    {:name => name }
+  end
+
   transform EAttribute, :to => UML13::Attribute do
-    _typemap = {EString => "string", EBoolean => "boolean", EInt => "int", EFloat => "float"}
+    _typemap = {"String" => "string", "Boolean" => "boolean", "Integer" => "int", "Float" => "float"}
     {:name => name, 
-     :taggedValue => [@env_out.new(UML13::TaggedValue, :tag => "type", :value => _typemap[eType] || "")] 
+     :taggedValue => [@env_out.new(UML13::TaggedValue, :tag => "type", 
+       :value => _typemap[eType.instanceClassName] || eType.name)] 
     }
   end
   
