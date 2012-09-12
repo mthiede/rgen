@@ -1,0 +1,1453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta content="text/html; charset=CP850" http-equiv="Content-Type" />
+
+  <title>RDoc Documentation</title>
+
+  <link type="text/css" media="screen" href="rdoc.css" rel="stylesheet" />
+
+  <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body class="indexpage">
+
+  
+  <h1>RDoc Documentation</h1>
+
+  
+  <div id="main">
+    
+<h2><a href="RGen.html">RGen</a> - Ruby Modelling and Generator Framework</h2>
+
+<p><a href="RGen.html">RGen</a> is a framework supporting Model Driven
+Software Development (MDSD). This means that it helps you build Metamodels,
+instantiate Models, modify and transform Models and finally generate
+arbitrary textual content from it.</p>
+
+<p><a href="RGen.html">RGen</a> features include:</p>
+<ul><li>
+<p>Programmatic definition of Metamodels</p>
+</li><li>
+<p>ECore as Metametamodel with an ECore instance available for every Metamodel</p>
+</li><li>
+<p>Generator for programmatic Metamodel from ECore instance</p>
+</li><li>
+<p>Instantiation of Metamodels, i.e. creation of Models (e.g. from XML)</p>
+</li><li>
+<p>Model Transformations</p>
+</li><li>
+<p>Powerful template based generator language</p>
+</li><li>
+<p>A growing set of included Metamodels, Transformations, Generators:</p>
+</li><li>
+<p>UML 1.3 Metamodel</p>
+</li><li>
+<p>XMI 1.1 Instantiator</p>
+</li><li>
+<p>XMI 2.0 Instantiator, currently use to read ECore instances only</p>
+</li></ul>
+
+
+<p>Get the latest release from Rubyforge:</p>
+
+<pre>http://rubyforge.org/frs/?group_id=1988</pre>
+
+<h1>Installation</h1>
+
+<p>Unpack the release package somewhere to your filesystem. Make sure the
+'lib' folder is included in the search path (-I) when you run your own
+scripts.</p>
+
+<p>As of version 0.2.0 <a href="RGen.html">RGen</a> is also available as a
+gem.</p>
+
+<h1>Getting started</h1>
+
+<p>Change to the 'test' folder and run the test suite:</p>
+
+<pre>test&gt; ruby rgen_test.rb</pre>
+
+<h1>Documentation</h1>
+
+<p><a href="RGen.html">RGen</a> is being documented using rdoc.  Point your
+browser to 'doc/index.html' to view the documentation.</p>
+
+<p>These are the main parts already documented:</p>
+<ul><li>
+<p><a href="RGen/MetamodelBuilder.html">RGen::MetamodelBuilder</a></p>
+</li><li>
+<p><a href="RGen/Transformer.html">RGen::Transformer</a></p>
+</li><li>
+<p><a href="RGen/TemplateLanguage.html">RGen::TemplateLanguage</a></p>
+</li></ul>
+
+<h1>Examples</h1>
+
+<p>There are several examples of using <a href="RGen.html">RGen</a> within the
+framework itself.</p>
+
+<p>Metamodel Definition:</p>
+
+<pre>lib/rgen/ecore/ecore.rb
+lib/metamodels/uml13_metamodel.rb</pre>
+
+<p>Instantiation:</p>
+
+<pre>lib/rgen/instantiator/xmi11_instantiator.rb
+lib/rgen/instantiator/ecore_xml_instantiator.rb
+lib/instantiators/ea_instantiator.rb</pre>
+
+<p>Transformations:</p>
+
+<pre>lib/rgen/ecore/ecore_transformer.rb
+lib/transformers/uml13_to_ecore.rb</pre>
+
+<p>Generators:</p>
+
+<pre>lib/mmgen/metamodel_generator.rb</pre>
+
+<h1>License</h1>
+
+<p><a href="RGen.html">RGen</a> is released under the MIT license.</p>
+
+  </div>
+  
+
+  
+  
+  <h2>Files</h2>
+  <ul>
+    
+      <li class="file"><a href="CHANGELOG.html">CHANGELOG</a></li>
+    
+      <li class="file"><a href="MIT-LICENSE.html">MIT-LICENSE</a></li>
+    
+      <li class="file"><a href="README.html">README</a></li>
+    
+  </ul>
+  
+
+  <h2 id="classes">Classes/Modules</h2>
+  <ul>
+    
+    <li class="module"><a href="UML13.html">UML13</a></li>
+    
+    <li class="class"><a href="UML13/Abstraction.html">UML13::Abstraction</a></li>
+    
+    <li class="class"><a href="UML13/Action.html">UML13::Action</a></li>
+    
+    <li class="class"><a href="UML13/ActionExpression.html">UML13::ActionExpression</a></li>
+    
+    <li class="class"><a href="UML13/ActionInstance.html">UML13::ActionInstance</a></li>
+    
+    <li class="class"><a href="UML13/ActionSequence.html">UML13::ActionSequence</a></li>
+    
+    <li class="class"><a href="UML13/ActionState.html">UML13::ActionState</a></li>
+    
+    <li class="class"><a href="UML13/ActivityGraph.html">UML13::ActivityGraph</a></li>
+    
+    <li class="class"><a href="UML13/Actor.html">UML13::Actor</a></li>
+    
+    <li class="class"><a href="UML13/ArgListsExpression.html">UML13::ArgListsExpression</a></li>
+    
+    <li class="class"><a href="UML13/Argument.html">UML13::Argument</a></li>
+    
+    <li class="class"><a href="UML13/AssignmentAction.html">UML13::AssignmentAction</a></li>
+    
+    <li class="class"><a href="UML13/Association.html">UML13::Association</a></li>
+    
+    <li class="class"><a href="UML13/AssociationClass.html">UML13::AssociationClass</a></li>
+    
+    <li class="class"><a href="UML13/AssociationEnd.html">UML13::AssociationEnd</a></li>
+    
+    <li class="module"><a href="UML13/AssociationEnd/ClassModule.html">UML13::AssociationEnd::ClassModule</a></li>
+    
+    <li class="class"><a href="UML13/AssociationEndRole.html">UML13::AssociationEndRole</a></li>
+    
+    <li class="class"><a href="UML13/AssociationRole.html">UML13::AssociationRole</a></li>
+    
+    <li class="class"><a href="UML13/Attribute.html">UML13::Attribute</a></li>
+    
+    <li class="class"><a href="UML13/AttributeLink.html">UML13::AttributeLink</a></li>
+    
+    <li class="class"><a href="UML13/BehavioralFeature.html">UML13::BehavioralFeature</a></li>
+    
+    <li class="class"><a href="UML13/Binding.html">UML13::Binding</a></li>
+    
+    <li class="class"><a href="UML13/BooleanExpression.html">UML13::BooleanExpression</a></li>
+    
+    <li class="class"><a href="UML13/Call.html">UML13::Call</a></li>
+    
+    <li class="class"><a href="UML13/CallAction.html">UML13::CallAction</a></li>
+    
+    <li class="class"><a href="UML13/CallEvent.html">UML13::CallEvent</a></li>
+    
+    <li class="class"><a href="UML13/CallState.html">UML13::CallState</a></li>
+    
+    <li class="class"><a href="UML13/ChangeEvent.html">UML13::ChangeEvent</a></li>
+    
+    <li class="class"><a href="UML13/Class.html">UML13::Class</a></li>
+    
+    <li class="class"><a href="UML13/Classifier.html">UML13::Classifier</a></li>
+    
+    <li class="module"><a href="UML13/Classifier/ClassModule.html">UML13::Classifier::ClassModule</a></li>
+    
+    <li class="class"><a href="UML13/ClassifierInState.html">UML13::ClassifierInState</a></li>
+    
+    <li class="class"><a href="UML13/ClassifierRole.html">UML13::ClassifierRole</a></li>
+    
+    <li class="class"><a href="UML13/Collaboration.html">UML13::Collaboration</a></li>
+    
+    <li class="class"><a href="UML13/Comment.html">UML13::Comment</a></li>
+    
+    <li class="class"><a href="UML13/Component.html">UML13::Component</a></li>
+    
+    <li class="class"><a href="UML13/ComponentInstance.html">UML13::ComponentInstance</a></li>
+    
+    <li class="class"><a href="UML13/CompositeState.html">UML13::CompositeState</a></li>
+    
+    <li class="class"><a href="UML13/Constraint.html">UML13::Constraint</a></li>
+    
+    <li class="class"><a href="UML13/CreateAction.html">UML13::CreateAction</a></li>
+    
+    <li class="class"><a href="UML13/DataType.html">UML13::DataType</a></li>
+    
+    <li class="class"><a href="UML13/DataValue.html">UML13::DataValue</a></li>
+    
+    <li class="class"><a href="UML13/Dependency.html">UML13::Dependency</a></li>
+    
+    <li class="class"><a href="UML13/DestroyAction.html">UML13::DestroyAction</a></li>
+    
+    <li class="class"><a href="UML13/Diagram.html">UML13::Diagram</a></li>
+    
+    <li class="class"><a href="UML13/DiagramElement.html">UML13::DiagramElement</a></li>
+    
+    <li class="class"><a href="UML13/Element.html">UML13::Element</a></li>
+    
+    <li class="class"><a href="UML13/ElementImport.html">UML13::ElementImport</a></li>
+    
+    <li class="class"><a href="UML13/ElementResidence.html">UML13::ElementResidence</a></li>
+    
+    <li class="class"><a href="UML13/Enumeration.html">UML13::Enumeration</a></li>
+    
+    <li class="class"><a href="UML13/EnumerationLiteral.html">UML13::EnumerationLiteral</a></li>
+    
+    <li class="class"><a href="UML13/Event.html">UML13::Event</a></li>
+    
+    <li class="class"><a href="UML13/Exception.html">UML13::Exception</a></li>
+    
+    <li class="class"><a href="UML13/Expression.html">UML13::Expression</a></li>
+    
+    <li class="class"><a href="UML13/Extend.html">UML13::Extend</a></li>
+    
+    <li class="class"><a href="UML13/ExtensionPoint.html">UML13::ExtensionPoint</a></li>
+    
+    <li class="class"><a href="UML13/Feature.html">UML13::Feature</a></li>
+    
+    <li class="class"><a href="UML13/FinalState.html">UML13::FinalState</a></li>
+    
+    <li class="class"><a href="UML13/Flow.html">UML13::Flow</a></li>
+    
+    <li class="class"><a href="UML13/GeneralizableElement.html">UML13::GeneralizableElement</a></li>
+    
+    <li class="class"><a href="UML13/Generalization.html">UML13::Generalization</a></li>
+    
+    <li class="class"><a href="UML13/Guard.html">UML13::Guard</a></li>
+    
+    <li class="class"><a href="UML13/Include.html">UML13::Include</a></li>
+    
+    <li class="class"><a href="UML13/Instance.html">UML13::Instance</a></li>
+    
+    <li class="class"><a href="UML13/Interaction.html">UML13::Interaction</a></li>
+    
+    <li class="class"><a href="UML13/Interface.html">UML13::Interface</a></li>
+    
+    <li class="class"><a href="UML13/IterationExpression.html">UML13::IterationExpression</a></li>
+    
+    <li class="class"><a href="UML13/Link.html">UML13::Link</a></li>
+    
+    <li class="class"><a href="UML13/LinkEnd.html">UML13::LinkEnd</a></li>
+    
+    <li class="class"><a href="UML13/LinkObject.html">UML13::LinkObject</a></li>
+    
+    <li class="class"><a href="UML13/MappingExpression.html">UML13::MappingExpression</a></li>
+    
+    <li class="class"><a href="UML13/Message.html">UML13::Message</a></li>
+    
+    <li class="class"><a href="UML13/Method.html">UML13::Method</a></li>
+    
+    <li class="class"><a href="UML13/Model.html">UML13::Model</a></li>
+    
+    <li class="class"><a href="UML13/ModelElement.html">UML13::ModelElement</a></li>
+    
+    <li class="class"><a href="UML13/Multiplicity.html">UML13::Multiplicity</a></li>
+    
+    <li class="class"><a href="UML13/MultiplicityRange.html">UML13::MultiplicityRange</a></li>
+    
+    <li class="class"><a href="UML13/Namespace.html">UML13::Namespace</a></li>
+    
+    <li class="class"><a href="UML13/Node.html">UML13::Node</a></li>
+    
+    <li class="class"><a href="UML13/NodeInstance.html">UML13::NodeInstance</a></li>
+    
+    <li class="class"><a href="UML13/Object.html">UML13::Object</a></li>
+    
+    <li class="class"><a href="UML13/ObjectFlowState.html">UML13::ObjectFlowState</a></li>
+    
+    <li class="class"><a href="UML13/ObjectSetExpression.html">UML13::ObjectSetExpression</a></li>
+    
+    <li class="class"><a href="UML13/Operation.html">UML13::Operation</a></li>
+    
+    <li class="class"><a href="UML13/Package.html">UML13::Package</a></li>
+    
+    <li class="class"><a href="UML13/Parameter.html">UML13::Parameter</a></li>
+    
+    <li class="class"><a href="UML13/Partition.html">UML13::Partition</a></li>
+    
+    <li class="class"><a href="UML13/Permission.html">UML13::Permission</a></li>
+    
+    <li class="class"><a href="UML13/PresentationElement.html">UML13::PresentationElement</a></li>
+    
+    <li class="class"><a href="UML13/Primitive.html">UML13::Primitive</a></li>
+    
+    <li class="class"><a href="UML13/ProcedureExpression.html">UML13::ProcedureExpression</a></li>
+    
+    <li class="class"><a href="UML13/ProgrammingLanguageType.html">UML13::ProgrammingLanguageType</a></li>
+    
+    <li class="class"><a href="UML13/Pseudostate.html">UML13::Pseudostate</a></li>
+    
+    <li class="class"><a href="UML13/Reception.html">UML13::Reception</a></li>
+    
+    <li class="class"><a href="UML13/Relationship.html">UML13::Relationship</a></li>
+    
+    <li class="class"><a href="UML13/ReturnAction.html">UML13::ReturnAction</a></li>
+    
+    <li class="class"><a href="UML13/SendAction.html">UML13::SendAction</a></li>
+    
+    <li class="class"><a href="UML13/Signal.html">UML13::Signal</a></li>
+    
+    <li class="class"><a href="UML13/SignalEvent.html">UML13::SignalEvent</a></li>
+    
+    <li class="class"><a href="UML13/SimpleState.html">UML13::SimpleState</a></li>
+    
+    <li class="class"><a href="UML13/State.html">UML13::State</a></li>
+    
+    <li class="class"><a href="UML13/StateMachine.html">UML13::StateMachine</a></li>
+    
+    <li class="class"><a href="UML13/StateVertex.html">UML13::StateVertex</a></li>
+    
+    <li class="class"><a href="UML13/Stereotype.html">UML13::Stereotype</a></li>
+    
+    <li class="class"><a href="UML13/Stimulus.html">UML13::Stimulus</a></li>
+    
+    <li class="class"><a href="UML13/StructuralFeature.html">UML13::StructuralFeature</a></li>
+    
+    <li class="class"><a href="UML13/Structure.html">UML13::Structure</a></li>
+    
+    <li class="class"><a href="UML13/StubState.html">UML13::StubState</a></li>
+    
+    <li class="class"><a href="UML13/SubactivityState.html">UML13::SubactivityState</a></li>
+    
+    <li class="class"><a href="UML13/SubmachineState.html">UML13::SubmachineState</a></li>
+    
+    <li class="class"><a href="UML13/Subsystem.html">UML13::Subsystem</a></li>
+    
+    <li class="class"><a href="UML13/SynchState.html">UML13::SynchState</a></li>
+    
+    <li class="class"><a href="UML13/TaggedValue.html">UML13::TaggedValue</a></li>
+    
+    <li class="class"><a href="UML13/TemplateParameter.html">UML13::TemplateParameter</a></li>
+    
+    <li class="class"><a href="UML13/TerminateAction.html">UML13::TerminateAction</a></li>
+    
+    <li class="class"><a href="UML13/TimeEvent.html">UML13::TimeEvent</a></li>
+    
+    <li class="class"><a href="UML13/TimeExpression.html">UML13::TimeExpression</a></li>
+    
+    <li class="class"><a href="UML13/Transition.html">UML13::Transition</a></li>
+    
+    <li class="class"><a href="UML13/TypeExpression.html">UML13::TypeExpression</a></li>
+    
+    <li class="class"><a href="UML13/UninterpretedAction.html">UML13::UninterpretedAction</a></li>
+    
+    <li class="class"><a href="UML13/Usage.html">UML13::Usage</a></li>
+    
+    <li class="class"><a href="UML13/UseCase.html">UML13::UseCase</a></li>
+    
+    <li class="class"><a href="UML13/UseCaseInstance.html">UML13::UseCaseInstance</a></li>
+    
+    <li class="module"><a href="RGen.html">RGen</a></li>
+    
+    <li class="module"><a href="RGen/ECore.html">RGen::ECore</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EAnnotation.html">RGen::ECore::EAnnotation</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EAttribute.html">RGen::ECore::EAttribute</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EAttribute/ClassModule.html">RGen::ECore::EAttribute::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EClass.html">RGen::ECore::EClass</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EClass/ClassModule.html">RGen::ECore::EClass::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EClassifier.html">RGen::ECore::EClassifier</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EClassifier/ClassModule.html">RGen::ECore::EClassifier::ClassModule</a></li>
+    
+    <li class="module"><a href="RGen/ECore/ECoreBuilderMethods.html">RGen::ECore::ECoreBuilderMethods</a></li>
+    
+    <li class="module"><a href="RGen/ECore/ECoreInterface.html">RGen::ECore::ECoreInterface</a></li>
+    
+    <li class="class"><a href="RGen/ECore/ECoreToRuby.html">RGen::ECore::ECoreToRuby</a></li>
+    
+    <li class="class"><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html">RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EDataType.html">RGen::ECore::EDataType</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EEnum.html">RGen::ECore::EEnum</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EEnumLiteral.html">RGen::ECore::EEnumLiteral</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EFactory.html">RGen::ECore::EFactory</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EGenericType.html">RGen::ECore::EGenericType</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EModelElement.html">RGen::ECore::EModelElement</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EModelElement/ClassModule.html">RGen::ECore::EModelElement::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/ENamedElement.html">RGen::ECore::ENamedElement</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EObject.html">RGen::ECore::EObject</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EOperation.html">RGen::ECore::EOperation</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EPackage.html">RGen::ECore::EPackage</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EPackage/ClassModule.html">RGen::ECore::EPackage::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EParameter.html">RGen::ECore::EParameter</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EReference.html">RGen::ECore::EReference</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EStringToStringMapEntry.html">RGen::ECore::EStringToStringMapEntry</a></li>
+    
+    <li class="class"><a href="RGen/ECore/EStructuralFeature.html">RGen::ECore::EStructuralFeature</a></li>
+    
+    <li class="module"><a href="RGen/ECore/EStructuralFeature/ClassModule.html">RGen::ECore::EStructuralFeature::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/ETypeArgument.html">RGen::ECore::ETypeArgument</a></li>
+    
+    <li class="class"><a href="RGen/ECore/ETypedElement.html">RGen::ECore::ETypedElement</a></li>
+    
+    <li class="module"><a href="RGen/ECore/ETypedElement/ClassModule.html">RGen::ECore::ETypedElement::ClassModule</a></li>
+    
+    <li class="class"><a href="RGen/ECore/RubyToECore.html">RGen::ECore::RubyToECore</a></li>
+    
+    <li class="class"><a href="RGen/Environment.html">RGen::Environment</a></li>
+    
+    <li class="module"><a href="RGen/Fragment.html">RGen::Fragment</a></li>
+    
+    <li class="class"><a href="RGen/Fragment/DumpFileCache.html">RGen::Fragment::DumpFileCache</a></li>
+    
+    <li class="class"><a href="RGen/Fragment/FragmentedModel.html">RGen::Fragment::FragmentedModel</a></li>
+    
+    <li class="class"><a href="RGen/Fragment/ModelFragment.html">RGen::Fragment::ModelFragment</a></li>
+    
+    <li class="class"><a href="RGen/Fragment/ModelFragment/FragmentRef.html">RGen::Fragment::ModelFragment::FragmentRef</a></li>
+    
+    <li class="class"><a href="RGen/Fragment/ModelFragment/ResolvedReference.html">RGen::Fragment::ModelFragment::ResolvedReference</a></li>
+    
+    <li class="module"><a href="RGen/Instantiator.html">RGen::Instantiator</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/AbstractInstantiator.html">RGen::Instantiator::AbstractInstantiator</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/DefaultXMLInstantiator.html">RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/JsonInstantiator.html">RGen::Instantiator::JsonInstantiator</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/JsonParser.html">RGen::Instantiator::JsonParser</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/NodebasedXMLInstantiator.html">RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html">RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/NodebasedXMLInstantiator/XMLNodeDescriptor.html">RGen::Instantiator::NodebasedXMLInstantiator::XMLNodeDescriptor</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/QualifiedNameResolver.html">RGen::Instantiator::QualifiedNameResolver</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/ReferenceResolver.html">RGen::Instantiator::ReferenceResolver</a></li>
+    
+    <li class="class"><a href="RGen/Instantiator/ReferenceResolver/UnresolvedReference.html">RGen::Instantiator::ReferenceResolver::UnresolvedReference</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder.html">RGen::MetamodelBuilder</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder/BuilderExtensions.html">RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html">RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder/BuilderRuntime.html">RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder/DataTypes.html">RGen::MetamodelBuilder::DataTypes</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/DataTypes/Enum.html">RGen::MetamodelBuilder::DataTypes::Enum</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder/Intermediate.html">RGen::MetamodelBuilder::Intermediate</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/Intermediate/Annotation.html">RGen::MetamodelBuilder::Intermediate::Annotation</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/Intermediate/Attribute.html">RGen::MetamodelBuilder::Intermediate::Attribute</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/Intermediate/Feature.html">RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/Intermediate/Reference.html">RGen::MetamodelBuilder::Intermediate::Reference</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/MMBase.html">RGen::MetamodelBuilder::MMBase</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/MMGeneric.html">RGen::MetamodelBuilder::MMGeneric</a></li>
+    
+    <li class="class"><a href="RGen/MetamodelBuilder/MMProxy.html">RGen::MetamodelBuilder::MMProxy</a></li>
+    
+    <li class="module"><a href="RGen/MetamodelBuilder/ModuleExtension.html">RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+    <li class="module"><a href="RGen/ModelBuilder.html">RGen::ModelBuilder</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext.html">RGen::ModelBuilder::BuilderContext</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/CommandResolver.html">RGen::ModelBuilder::BuilderContext::CommandResolver</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/ConstPathElement.html">RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory.html">RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory/ExtensionContainer.html">RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory::ExtensionContainer</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/PackageNotFoundException.html">RGen::ModelBuilder::BuilderContext::PackageNotFoundException</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/BuilderContext/PackageResolver.html">RGen::ModelBuilder::BuilderContext::PackageResolver</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/ModelSerializer.html">RGen::ModelBuilder::ModelSerializer</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/ReferenceResolver.html">RGen::ModelBuilder::ReferenceResolver</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/ReferenceResolver/ResolverException.html">RGen::ModelBuilder::ReferenceResolver::ResolverException</a></li>
+    
+    <li class="class"><a href="RGen/ModelBuilder/ReferenceResolver/ToplevelNamespace.html">RGen::ModelBuilder::ReferenceResolver::ToplevelNamespace</a></li>
+    
+    <li class="module"><a href="RGen/Serializer.html">RGen::Serializer</a></li>
+    
+    <li class="class"><a href="RGen/Serializer/JsonSerializer.html">RGen::Serializer::JsonSerializer</a></li>
+    
+    <li class="class"><a href="RGen/Serializer/QualifiedNameProvider.html">RGen::Serializer::QualifiedNameProvider</a></li>
+    
+    <li class="class"><a href="RGen/Serializer/XMI11Serializer.html">RGen::Serializer::XMI11Serializer</a></li>
+    
+    <li class="class"><a href="RGen/Serializer/XMI20Serializer.html">RGen::Serializer::XMI20Serializer</a></li>
+    
+    <li class="class"><a href="RGen/Serializer/XMLSerializer.html">RGen::Serializer::XMLSerializer</a></li>
+    
+    <li class="module"><a href="RGen/TemplateLanguage.html">RGen::TemplateLanguage</a></li>
+    
+    <li class="class"><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html">RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+    <li class="class"><a href="RGen/TemplateLanguage/OutputHandler.html">RGen::TemplateLanguage::OutputHandler</a></li>
+    
+    <li class="class"><a href="RGen/TemplateLanguage/TemplateContainer.html">RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+    <li class="module"><a href="RGen/TemplateLanguage/TemplateHelper.html">RGen::TemplateLanguage::TemplateHelper</a></li>
+    
+    <li class="class"><a href="RGen/Transformer.html">RGen::Transformer</a></li>
+    
+    <li class="module"><a href="RGen/Util.html">RGen::Util</a></li>
+    
+    <li class="module"><a href="RGen/Util/AutoClassCreator.html">RGen::Util::AutoClassCreator</a></li>
+    
+    <li class="class"><a href="RGen/Util/AutoCreatedClass.html">RGen::Util::AutoCreatedClass</a></li>
+    
+    <li class="class"><a href="RGen/Util/Base.html">RGen::Util::Base</a></li>
+    
+    <li class="class"><a href="RGen/Util/CachedGlob.html">RGen::Util::CachedGlob</a></li>
+    
+    <li class="class"><a href="RGen/Util/FileCacheMap.html">RGen::Util::FileCacheMap</a></li>
+    
+    <li class="class"><a href="RGen/Util/FileChangeDetector.html">RGen::Util::FileChangeDetector</a></li>
+    
+    <li class="module"><a href="RGen/Util/MethodDelegation.html">RGen::Util::MethodDelegation</a></li>
+    
+    <li class="module"><a href="RGen/Util/ModelComparator.html">RGen::Util::ModelComparator</a></li>
+    
+    <li class="class"><a href="RGen/Util/ModelComparatorBase.html">RGen::Util::ModelComparatorBase</a></li>
+    
+    <li class="module"><a href="RGen/Util/ModelDumper.html">RGen::Util::ModelDumper</a></li>
+    
+    <li class="module"><a href="RGen/Util/NameHelper.html">RGen::Util::NameHelper</a></li>
+    
+    <li class="module"><a href="RGen/Util/ParentAccess.html">RGen::Util::ParentAccess</a></li>
+    
+    <li class="class"><a href="RGen/Util/PatternMatcher.html">RGen::Util::PatternMatcher</a></li>
+    
+    <li class="class"><a href="RGen/Util/PatternMatcher/Bindable.html">RGen::Util::PatternMatcher::Bindable</a></li>
+    
+    <li class="class"><a href="RGen/Util/PatternMatcher/Lazy.html">RGen::Util::PatternMatcher::Lazy</a></li>
+    
+    <li class="class"><a href="RGen/Util/PatternMatcher/Proxy.html">RGen::Util::PatternMatcher::Proxy</a></li>
+    
+    <li class="module"><a href="RGen/Util/PatternMatcher/TempEnv.html">RGen::Util::PatternMatcher::TempEnv</a></li>
+    
+    <li class="class"><a href="AbstractXMLInstantiator.html">AbstractXMLInstantiator</a></li>
+    
+    <li class="class"><a href="AbstractXMLInstantiator/Visitor.html">AbstractXMLInstantiator::Visitor</a></li>
+    
+    <li class="module"><a href="MMGen.html">MMGen</a></li>
+    
+    <li class="module"><a href="MMGen/MetamodelGenerator.html">MMGen::MetamodelGenerator</a></li>
+    
+    <li class="class"><a href="Array.html">Array</a></li>
+    
+    <li class="module"><a href="EASupport.html">EASupport</a></li>
+    
+    <li class="class"><a href="ECoreToUML13.html">ECoreToUML13</a></li>
+    
+    <li class="class"><a href="ECoreXMLInstantiator.html">ECoreXMLInstantiator</a></li>
+    
+    <li class="class"><a href="IdStore.html">IdStore</a></li>
+    
+    <li class="class"><a href="Object.html">Object</a></li>
+    
+    <li class="class"><a href="UML13ToECore.html">UML13ToECore</a></li>
+    
+    <li class="class"><a href="XMI11Instantiator.html">XMI11Instantiator</a></li>
+    
+  </ul>
+
+  <h2 id="methods">Methods</h2>
+  <ul>
+    
+      <li><a href="RGen/Util/PatternMatcher/TempEnv.html#method-c-3C-3C">::<< &mdash; RGen::Util::PatternMatcher::TempEnv</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder.html#method-c-MMMultiple">::MMMultiple &mdash; RGen::MetamodelBuilder</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-associateWithContextElement">::associateWithContextElement &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/ModelBuilder.html#method-c-build">::build &mdash; RGen::ModelBuilder</a></li>
+    
+      <li><a href="RGen/ECore/ECoreInterface.html#method-c-clear_ecore_cache">::clear_ecore_cache &mdash; RGen::ECore::ECoreInterface</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-c-compare_spec">::compare_spec &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-c-const_missing">::const_missing &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-const_missing">::const_missing &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-containmentRefs">::containmentRefs &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-c-copy">::copy &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-c-copy_all">::copy_all &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-currentBuilderContext-3D">::currentBuilderContext= &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Reference.html#method-c-default_value">::default_value &mdash; RGen::MetamodelBuilder::Intermediate::Reference</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Attribute.html#method-c-default_value">::default_value &mdash; RGen::MetamodelBuilder::Intermediate::Attribute</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-eAllReferences">::eAllReferences &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html#method-c-eval">::eval &mdash; RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-c-extended">::extended &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-filterArgHash">::filterArgHash &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-hasNameAttribute">::hasNameAttribute &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="EASupport.html#method-c-instantiateUML13FromXMI11">::instantiateUML13FromXMI11 &mdash; EASupport</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-c-map_tag_ns">::map_tag_ns &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-c-method">::method &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/MMBase.html#method-c-method_added">::method_added &mdash; RGen::MetamodelBuilder::MMBase</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/MMBase.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::MMBase</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-c-new">::new &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-c-new">::new &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-c-new">::new &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/Fragment/DumpFileCache.html#method-c-new">::new &mdash; RGen::Fragment::DumpFileCache</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html#method-c-new">::new &mdash; RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-c-new">::new &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-c-new">::new &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-c-new">::new &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/QualifiedNameProvider.html#method-c-new">::new &mdash; RGen::Serializer::QualifiedNameProvider</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-c-new">::new &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver/ToplevelNamespace.html#method-c-new">::new &mdash; RGen::ModelBuilder::ReferenceResolver::ToplevelNamespace</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver.html#method-c-new">::new &mdash; RGen::ModelBuilder::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ModelSerializer.html#method-c-new">::new &mdash; RGen::ModelBuilder::ModelSerializer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ConstPathElement.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/PackageResolver.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext::PackageResolver</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-c-new">::new &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory/ExtensionContainer.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory::ExtensionContainer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/CommandResolver.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext::CommandResolver</a></li>
+    
+      <li><a href="RGen/Util/Base.html#method-c-new">::new &mdash; RGen::Util::Base</a></li>
+    
+      <li><a href="RGen/Util/CachedGlob.html#method-c-new">::new &mdash; RGen::Util::CachedGlob</a></li>
+    
+      <li><a href="RGen/Util/FileCacheMap.html#method-c-new">::new &mdash; RGen::Util::FileCacheMap</a></li>
+    
+      <li><a href="RGen/Util/FileChangeDetector.html#method-c-new">::new &mdash; RGen::Util::FileChangeDetector</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-c-new">::new &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-c-new">::new &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Lazy.html#method-c-new">::new &mdash; RGen::Util::PatternMatcher::Lazy</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-new">::new &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/MMProxy.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::MMProxy</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment/ResolvedReference.html#method-c-new">::new &mdash; RGen::Fragment::ModelFragment::ResolvedReference</a></li>
+    
+      <li><a href="RGen/Instantiator/AbstractInstantiator.html#method-c-new">::new &mdash; RGen::Instantiator::AbstractInstantiator</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Proxy.html#method-c-new">::new &mdash; RGen::Util::PatternMatcher::Proxy</a></li>
+    
+      <li><a href="RGen/Environment.html#method-c-new">::new &mdash; RGen::Environment</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Reference.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::Intermediate::Reference</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-c-new">::new &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="AbstractXMLInstantiator/Visitor.html#method-c-new">::new &mdash; AbstractXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Attribute.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::Intermediate::Attribute</a></li>
+    
+      <li><a href="UML13ToECore.html#method-c-new">::new &mdash; UML13ToECore</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Annotation.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::Intermediate::Annotation</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/DataTypes/Enum.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::DataTypes::Enum</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-c-new">::new &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-c-new">::new &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html#method-c-new">::new &mdash; RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-c-new">::new &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-c-new">::new &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/ReferenceResolver/UnresolvedReference.html#method-c-new">::new &mdash; RGen::Instantiator::ReferenceResolver::UnresolvedReference</a></li>
+    
+      <li><a href="RGen/Instantiator/ReferenceResolver.html#method-c-new">::new &mdash; RGen::Instantiator::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/Instantiator/QualifiedNameResolver.html#method-c-new">::new &mdash; RGen::Instantiator::QualifiedNameResolver</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html#method-c-new">::new &mdash; RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator/XMLNodeDescriptor.html#method-c-new">::new &mdash; RGen::Instantiator::NodebasedXMLInstantiator::XMLNodeDescriptor</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-c-new">::new &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/JsonInstantiator.html#method-c-new">::new &mdash; RGen::Instantiator::JsonInstantiator</a></li>
+    
+      <li><a href="IdStore.html#method-c-new">::new &mdash; IdStore</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-processArguments">::processArguments &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Reference.html#method-c-properties">::properties &mdash; RGen::MetamodelBuilder::Intermediate::Reference</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Attribute.html#method-c-properties">::properties &mdash; RGen::MetamodelBuilder::Intermediate::Attribute</a></li>
+    
+      <li><a href="RGen/Util/MethodDelegation.html#method-c-registerDelegate">::registerDelegate &mdash; RGen::Util::MethodDelegation</a></li>
+    
+      <li><a href="RGen/Instantiator/AbstractInstantiator.html#method-c-resolve">::resolve &mdash; RGen::Instantiator::AbstractInstantiator</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-resolvePackage">::resolvePackage &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-c-resolvePackageDownwards">::resolvePackageDownwards &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Instantiator/AbstractInstantiator.html#method-c-resolve_by_id">::resolve_by_id &mdash; RGen::Instantiator::AbstractInstantiator</a></li>
+    
+      <li><a href="EASupport.html#method-c-serializeUML13ToXMI11">::serializeUML13ToXMI11 &mdash; EASupport</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-c-set_prune_level">::set_prune_level &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-c-transform">::transform &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="RGen/Util/MethodDelegation.html#method-c-unregisterDelegate">::unregisterDelegate &mdash; RGen::Util::MethodDelegation</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-3C-3C">#<< &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-3C-3C">#<< &mdash; RGen::Environment</a></li>
+    
+      <li><a href="Array.html#method-i-3E-3E">#>> &mdash; Array</a></li>
+    
+      <li><a href="RGen/ECore/EAttribute/ClassModule.html#method-i-RubyType">#RubyType &mdash; RGen::ECore::EAttribute::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-_abstract_class">#_abstract_class &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-_add_metamodel_description">#_add_metamodel_description &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-i-_annotations">#_annotations &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-_assignmentTypeError">#_assignmentTypeError &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-_bind">#_bind &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-_bound-3F">#_bound? &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-_build_internal">#_build_internal &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-_build_many_methods">#_build_many_methods &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-_build_one_methods">#_build_one_methods &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-i-_constantOrder">#_constantOrder &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-i-_context">#_context &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Lazy.html#method-i-_eval">#_eval &mdash; RGen::Util::PatternMatcher::Lazy</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-_many-3F">#_many? &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/Util/ModelComparator.html#method-i-_modelEqual_internal">#_modelEqual_internal &mdash; RGen::Util::ModelComparator</a></li>
+    
+      <li><a href="RGen/Instantiator/JsonParser.html#method-i-_reduce_none">#_reduce_none &mdash; RGen::Instantiator::JsonParser</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-i-_using">#_using &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-_value">#_value &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-abstract">#abstract &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/Serializer/XMI20Serializer.html#method-i-addBuiltinReferenceStrings">#addBuiltinReferenceStrings &mdash; RGen::Serializer::XMI20Serializer</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-addGeneric">#addGeneric &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver.html#method-i-addJob">#addJob &mdash; RGen::ModelBuilder::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-add_features">#add_features &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-add_fragment">#add_fragment &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-add_fragment_change_listener">#add_fragment_change_listener &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Instantiator/ReferenceResolver.html#method-i-add_identifier">#add_identifier &mdash; RGen::Instantiator::ReferenceResolver</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-i-add_metamodel">#add_metamodel &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-i-add_pattern">#add_pattern &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-allClassesSorted">#allClassesSorted &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-ancestorPackages">#ancestorPackages &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClassifier/ClassModule.html#method-i-ancestorPackages">#ancestorPackages &mdash; RGen::ECore::EClassifier::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-i-annotation">#annotation &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html#method-i-annotation">#annotation &mdash; RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+    
+      <li><a href="RGen/ECore/EModelElement/ClassModule.html#method-i-annotationValue">#annotationValue &mdash; RGen::ECore::EModelElement::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Feature.html#method-i-annotations">#annotations &mdash; RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-assoc_p2c">#assoc_p2c &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-attributeValue">#attributeValue &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI20Serializer.html#method-i-attributeValues">#attributeValues &mdash; RGen::Serializer::XMI20Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-attributeValues">#attributeValues &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI20Serializer.html#method-i-buildReferenceStrings">#buildReferenceStrings &mdash; RGen::Serializer::XMI20Serializer</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-build_attribute">#build_attribute &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-build_class">#build_class &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-build_index">#build_index &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-build_on_error">#build_on_error &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-build_p2c_assoc">#build_p2c_assoc &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-camelize">#camelize &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-changed-3F">#changed? &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html#method-i-characters">#characters &mdash; RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="AbstractXMLInstantiator/Visitor.html#method-i-characters">#characters &mdash; AbstractXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Feature.html#method-i-check">#check &mdash; RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+      <li><a href="RGen/Util/FileChangeDetector.html#method-i-check_files">#check_files &mdash; RGen::Util::FileChangeDetector</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-className">#className &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-class_name">#class_name &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-classesInGenerationOrdering">#classesInGenerationOrdering &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClassifier/ClassModule.html#method-i-classifierName">#classifierName &mdash; RGen::ECore::EClassifier::ClassModule</a></li>
+    
+      <li><a href="RGen/Util/FileCacheMap.html#method-i-clean_unused">#clean_unused &mdash; RGen::Util::FileCacheMap</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-compare">#compare &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-compareElements">#compareElements &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-compareSpec">#compareSpec &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-compareValues">#compareValues &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-concat">#concat &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ConstPathElement.html#method-i-constPath">#constPath &mdash; RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ConstPathElement.html#method-i-const_missing">#const_missing &mdash; RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+    
+      <li><a href="RGen/Util/AutoClassCreator.html#method-i-const_missing">#const_missing &mdash; RGen::Util::AutoClassCreator</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-i-const_missing_delegated">#const_missing_delegated &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-containmentReferences">#containmentReferences &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_1">#contains_1 &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_1to1">#contains_1to1 &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_1toN">#contains_1toN &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_N">#contains_N &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_many">#contains_many &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-contains_many">#contains_many &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-contains_many_uni">#contains_many_uni &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-contains_one">#contains_one &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_one">#contains_one &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_one_to_many">#contains_one_to_many &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-contains_one_to_one">#contains_one_to_one &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-contains_one_uni">#contains_one_uni &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="AbstractXMLInstantiator/Visitor.html#method-i-controlGC">#controlGC &mdash; AbstractXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-i-copy_features">#copy_features &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="UML13ToECore.html#method-i-createAnnotations">#createAnnotations &mdash; UML13ToECore</a></li>
+    
+      <li><a href="ECoreToUML13.html#method-i-createMultiplicity">#createMultiplicity &mdash; ECoreToUML13</a></li>
+    
+      <li><a href="RGen/Instantiator/JsonInstantiator.html#method-i-createObject">#createObject &mdash; RGen::Instantiator::JsonInstantiator</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-create_class">#create_class &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-create_enum">#create_enum &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-create_module">#create_module &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/ECore/EStructuralFeature/ClassModule.html#method-i-defaultValue_derived">#defaultValue_derived &mdash; RGen::ECore::EStructuralFeature::ClassModule</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-delete">#delete &mdash; RGen::Environment</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-direct_concat">#direct_concat &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/Util/AutoClassCreator.html#method-i-disableACC">#disableACC &mdash; RGen::Util::AutoClassCreator</a></li>
+    
+      <li><a href="RGen/Util/ModelDumper.html#method-i-dump">#dump &mdash; RGen::Util::ModelDumper</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-eAllAttributes">#eAllAttributes &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-eAllAttributes">#eAllAttributes &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllAttributes_derived">#eAllAttributes_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eAllClasses">#eAllClasses &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eAllClassifiers">#eAllClassifiers &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllContainments_derived">#eAllContainments_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eAllDataTypes">#eAllDataTypes &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-eAllReferences">#eAllReferences &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-eAllReferences">#eAllReferences &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllReferences_derived">#eAllReferences_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-eAllStructuralFeatures">#eAllStructuralFeatures &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-eAllStructuralFeatures">#eAllStructuralFeatures &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllStructuralFeatures_derived">#eAllStructuralFeatures_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllSubTypes">#eAllSubTypes &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eAllSubpackages">#eAllSubpackages &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAllSuperTypes_derived">#eAllSuperTypes_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-eAttr">#eAttr &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eAttributes_derived">#eAttributes_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-eBiRef">#eBiRef &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eClasses">#eClasses &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-eDataTypes">#eDataTypes &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-eRef">#eRef &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-eReferences_derived">#eReferences_derived &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-each">#each &mdash; RGen::Environment</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-each">#each &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-eachReferencedElement">#eachReferencedElement &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/ECore/ECoreInterface.html#method-i-ecore">#ecore &mdash; RGen::ECore::ECoreInterface</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-elementDisplayName">#elementDisplayName &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-elementIdentifier">#elementIdentifier &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-elementIdentifier">#elementIdentifier &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-elements">#elements &mdash; RGen::Environment</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-elements">#elements &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver/ToplevelNamespace.html#method-i-elements">#elements &mdash; RGen::ModelBuilder::ReferenceResolver::ToplevelNamespace</a></li>
+    
+      <li><a href="RGen/Util/AutoClassCreator.html#method-i-enableACC">#enableACC &mdash; RGen::Util::AutoClassCreator</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-endTag">#endTag &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html#method-i-end_element">#end_element &mdash; RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-end_element">#end_element &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="AbstractXMLInstantiator/Visitor.html#method-i-end_element_namespace">#end_element_namespace &mdash; AbstractXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-end_tag">#end_tag &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-i-end_tag">#end_tag &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-i-evaluate">#evaluate &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-i-expand">#expand &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html#method-i-expand">#expand &mdash; RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory.html#method-i-extensionContainer">#extensionContainer &mdash; RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-i-final_method">#final_method &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-find">#find &mdash; RGen::Environment</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-find_in_context">#find_in_context &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-i-find_pattern">#find_pattern &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-find_referenced">#find_referenced &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-firstToLower">#firstToLower &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-firstToUpper">#firstToUpper &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="MMGen/MetamodelGenerator.html#method-i-generateMetamodel">#generateMetamodel &mdash; MMGen::MetamodelGenerator</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-getGeneric">#getGeneric &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-getGenericAsArray">#getGenericAsArray &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/Util/CachedGlob.html#method-i-glob">#glob &mdash; RGen::Util::CachedGlob</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-hasManyMethods">#hasManyMethods &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-has_attr">#has_attr &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-has_many">#has_many &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-has_many_attr">#has_many_attr &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-has_one">#has_one &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="IdStore.html#method-i-idHash">#idHash &mdash; IdStore</a></li>
+    
+      <li><a href="RGen/Serializer/QualifiedNameProvider.html#method-i-identifier">#identifier &mdash; RGen::Serializer::QualifiedNameProvider</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-ignoreNextNL">#ignoreNextNL &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-ignoreNextWS">#ignoreNextWS &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-i-impl_type">#impl_type &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html#method-i-indentString">#indentString &mdash; RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html#method-i-indentString-3D">#indentString= &mdash; RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-index">#index &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-index">#index &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-inheritanceOrderClasses">#inheritanceOrderClasses &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-inherited">#inherited &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-i-insert_pattern">#insert_pattern &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/MMBase.html#method-i-inspect">#inspect &mdash; RGen::MetamodelBuilder::MMBase</a></li>
+    
+      <li><a href="RGen/ECore/EClassifier/ClassModule.html#method-i-instanceClass_derived">#instanceClass_derived &mdash; RGen::ECore::EClassifier::ClassModule</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-instantiate">#instantiate &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-instantiate">#instantiate &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="AbstractXMLInstantiator.html#method-i-instantiate">#instantiate &mdash; AbstractXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/JsonInstantiator.html#method-i-instantiate">#instantiate &mdash; RGen::Instantiator::JsonInstantiator</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-i-instantiate">#instantiate &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-instantiate_file">#instantiate_file &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-is_a-3F">#is_a? &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-i-lazy">#lazy &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/DataTypes/Enum.html#method-i-literals_as_strings">#literals_as_strings &mdash; RGen::MetamodelBuilder::DataTypes::Enum</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/DirectoryTemplateContainer.html#method-i-load">#load &mdash; RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+    
+      <li><a href="IdStore.html#method-i-load">#load &mdash; IdStore</a></li>
+    
+      <li><a href="RGen/Fragment/DumpFileCache.html#method-i-load">#load &mdash; RGen::Fragment::DumpFileCache</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-i-load">#load &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/Util/FileCacheMap.html#method-i-load_data">#load_data &mdash; RGen::Util::FileCacheMap</a></li>
+    
+      <li><a href="UML13/Classifier/ClassModule.html#method-i-localCompositeEnd">#localCompositeEnd &mdash; UML13::Classifier::ClassModule</a></li>
+    
+      <li><a href="UML13/Classifier/ClassModule.html#method-i-localNavigableEnd">#localNavigableEnd &mdash; UML13::Classifier::ClassModule</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-log">#log &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-i-many">#many &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Feature.html#method-i-many-3F">#many? &mdash; RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+      <li><a href="RGen/ECore/ETypedElement/ClassModule.html#method-i-many_derived">#many_derived &mdash; RGen::ECore::ETypedElement::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-many_to_many">#many_to_many &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-many_to_one">#many_to_one &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-mark_changed">#mark_changed &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-mark_unchanged">#mark_unchanged &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/ModuleExtension.html#method-i-method_added">#method_added &mdash; RGen::MetamodelBuilder::ModuleExtension</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-i-method_missing">#method_missing &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-method_missing">#method_missing &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Proxy.html#method-i-method_missing">#method_missing &mdash; RGen::Util::PatternMatcher::Proxy</a></li>
+    
+      <li><a href="Array.html#method-i-method_missing">#method_missing &mdash; Array</a></li>
+    
+      <li><a href="RGen/Util/AutoCreatedClass.html#method-i-method_missing">#method_missing &mdash; RGen::Util::AutoCreatedClass</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory/ExtensionContainer.html#method-i-method_missing">#method_missing &mdash; RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory::ExtensionContainer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ConstPathElement.html#method-i-method_missing">#method_missing &mdash; RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-method_missing">#method_missing &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext.html#method-i-method_missing">#method_missing &mdash; RGen::ModelBuilder::BuilderContext</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-method_name">#method_name &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-mode-3D">#mode= &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="ECoreToUML13.html#method-i-model">#model &mdash; ECoreToUML13</a></li>
+    
+      <li><a href="RGen/Util/ModelComparator.html#method-i-modelEqual-3F">#modelEqual? &mdash; RGen::Util::ModelComparator</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory.html#method-i-moduleForPackage">#moduleForPackage &mdash; RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-moduleName">#moduleName &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-namespaces">#namespaces &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-needClassReorder-3F">#needClassReorder? &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/Environment.html#method-i-new">#new &mdash; RGen::Environment</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-new_object">#new_object &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-normalize">#normalize &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-on_ascent">#on_ascent &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-on_ascent">#on_ascent &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-on_chardata">#on_chardata &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-on_descent">#on_descent &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-on_descent">#on_descent &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-one_to_many">#one_to_many &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions.html#method-i-one_to_one">#one_to_one &mdash; RGen::MetamodelBuilder::BuilderExtensions</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-i-opposite">#opposite &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html#method-i-opposite_annotation">#opposite_annotation &mdash; RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+    
+      <li><a href="UML13/AssociationEnd/ClassModule.html#method-i-otherEnd">#otherEnd &mdash; UML13::AssociationEnd::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-ownClasses">#ownClasses &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/PackageResolver.html#method-i-packageByCommand">#packageByCommand &mdash; RGen::ModelBuilder::BuilderContext::PackageResolver</a></li>
+    
+      <li><a href="RGen/Util/ParentAccess.html#method-i-parent">#parent &mdash; RGen::Util::ParentAccess</a></li>
+    
+      <li><a href="RGen/Util/ParentAccess.html#method-i-parent-3D">#parent= &mdash; RGen::Util::ParentAccess</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-parse">#parse &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="RGen/ECore/EClassifier/ClassModule.html#method-i-qualifiedClassifierName">#qualifiedClassifierName &mdash; RGen::ECore::EClassifier::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClassifier/ClassModule.html#method-i-qualifiedClassifierNameIfRequired">#qualifiedClassifierNameIfRequired &mdash; RGen::ECore::EClassifier::ClassModule</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-qualifiedElementName">#qualifiedElementName &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-qualifiedModuleName">#qualifiedModuleName &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EPackage/ClassModule.html#method-i-qualifiedName">#qualifiedName &mdash; RGen::ECore::EPackage::ClassModule</a></li>
+    
+      <li><a href="RGen/ECore/EClass/ClassModule.html#method-i-qualifiedName">#qualifiedName &mdash; RGen::ECore::EClass::ClassModule</a></li>
+    
+      <li><a href="RGen/Serializer/QualifiedNameProvider.html#method-i-qualified_name">#qualified_name &mdash; RGen::Serializer::QualifiedNameProvider</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-i-reference-3F">#reference? &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Feature.html#method-i-reference-3F">#reference? &mdash; RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_1">#references_1 &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_1to1">#references_1to1 &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_1toN">#references_1toN &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_MtoN">#references_MtoN &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_N">#references_N &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_Nto1">#references_Nto1 &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_many">#references_many &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_many_to_many">#references_many_to_many &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_many_to_one">#references_many_to_one &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_one">#references_one &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_one_to_many">#references_one_to_many &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="RGen/ECore/ECoreBuilderMethods.html#method-i-references_one_to_one">#references_one_to_one &mdash; RGen::ECore::ECoreBuilderMethods</a></li>
+    
+      <li><a href="UML13/Classifier/ClassModule.html#method-i-remoteCompositeEnd">#remoteCompositeEnd &mdash; UML13::Classifier::ClassModule</a></li>
+    
+      <li><a href="UML13/Classifier/ClassModule.html#method-i-remoteNavigableEnd">#remoteNavigableEnd &mdash; UML13::Classifier::ClassModule</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-removeGeneric">#removeGeneric &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-remove_fragment">#remove_fragment &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-remove_fragment_change_listener">#remove_fragment_change_listener &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher.html#method-i-remove_pattern">#remove_pattern &mdash; RGen::Util::PatternMatcher</a></li>
+    
+      <li><a href="RGen/ECore/ETypedElement/ClassModule.html#method-i-required_derived">#required_derived &mdash; RGen::ECore::ETypedElement::ClassModule</a></li>
+    
+      <li><a href="RGen/Instantiator/ReferenceResolver.html#method-i-resolve">#resolve &mdash; RGen::Instantiator::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-resolve">#resolve &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver.html#method-i-resolve">#resolve &mdash; RGen::ModelBuilder::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/ModelBuilder/BuilderContext/CommandResolver.html#method-i-resolveCommand">#resolveCommand &mdash; RGen::ModelBuilder::BuilderContext::CommandResolver</a></li>
+    
+      <li><a href="RGen/Instantiator/QualifiedNameResolver.html#method-i-resolveIdentifier">#resolveIdentifier &mdash; RGen::Instantiator::QualifiedNameResolver</a></li>
+    
+      <li><a href="RGen/Instantiator/QualifiedNameResolver.html#method-i-resolveReferences">#resolveReferences &mdash; RGen::Instantiator::QualifiedNameResolver</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-resolve_external">#resolve_external &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-resolve_local">#resolve_local &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-respond_to-3F">#respond_to? &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-saneClassName">#saneClassName &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Util/NameHelper.html#method-i-saneMethodName">#saneMethodName &mdash; RGen::Util::NameHelper</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-serialize">#serialize &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-serialize">#serialize &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-serialize">#serialize &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI20Serializer.html#method-i-serialize">#serialize &mdash; RGen::Serializer::XMI20Serializer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ModelSerializer.html#method-i-serialize">#serialize &mdash; RGen::ModelBuilder::ModelSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-serializeElement">#serializeElement &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/ModelBuilder/ReferenceResolver.html#method-i-setElementName">#setElementName &mdash; RGen::ModelBuilder::ReferenceResolver</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-setGeneric">#setGeneric &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-setNamespace">#setNamespace &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/BuilderRuntime.html#method-i-setOrAddGeneric">#setOrAddGeneric &mdash; RGen::MetamodelBuilder::BuilderRuntime</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-i-set_attribute">#set_attribute &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="RGen/Instantiator/DefaultXMLInstantiator.html#method-i-set_attribute">#set_attribute &mdash; RGen::Instantiator::DefaultXMLInstantiator</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-set_attribute">#set_attribute &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-set_attribute_internal">#set_attribute_internal &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-set_root_elements">#set_root_elements &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-sortElementPairs">#sortElementPairs &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-sortElements">#sortElements &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-startTag">#startTag &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator.html#method-i-start_element">#start_element &mdash; RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+    
+      <li><a href="AbstractXMLInstantiator/Visitor.html#method-i-start_element_namespace">#start_element_namespace &mdash; AbstractXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html#method-i-start_element_namespace">#start_element_namespace &mdash; RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+    
+      <li><a href="XMI11Instantiator.html#method-i-start_tag">#start_tag &mdash; XMI11Instantiator</a></li>
+    
+      <li><a href="ECoreXMLInstantiator.html#method-i-start_tag">#start_tag &mdash; ECoreXMLInstantiator</a></li>
+    
+      <li><a href="RGen/Fragment/DumpFileCache.html#method-i-store">#store &mdash; RGen::Fragment::DumpFileCache</a></li>
+    
+      <li><a href="IdStore.html#method-i-store">#store &mdash; IdStore</a></li>
+    
+      <li><a href="RGen/Util/FileCacheMap.html#method-i-store_data">#store_data &mdash; RGen::Util::FileCacheMap</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby.html#method-i-super_class">#super_class &mdash; RGen::ECore::ECoreToRuby</a></li>
+    
+      <li><a href="AbstractXMLInstantiator.html#method-i-text">#text &mdash; AbstractXMLInstantiator</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/TemplateContainer.html#method-i-this">#this &mdash; RGen::TemplateLanguage::TemplateContainer</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-to_s">#to_s &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/Util/PatternMatcher/Bindable.html#method-i-to_s">#to_s &mdash; RGen::Util::PatternMatcher::Bindable</a></li>
+    
+      <li><a href="RGen/TemplateLanguage/OutputHandler.html#method-i-to_str">#to_str &mdash; RGen::TemplateLanguage::OutputHandler</a></li>
+    
+      <li><a href="RGen/Transformer.html#method-i-trans">#trans &mdash; RGen::Transformer</a></li>
+    
+      <li><a href="ECoreToUML13.html#method-i-transform">#transform &mdash; ECoreToUML13</a></li>
+    
+      <li><a href="UML13ToECore.html#method-i-transform">#transform &mdash; UML13ToECore</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-unresolve_external">#unresolve_external &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-unresolve_external_fragment">#unresolve_external_fragment &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-unresolve_fragment">#unresolve_fragment &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Fragment/ModelFragment.html#method-i-unresolved_refs">#unresolved_refs &mdash; RGen::Fragment::ModelFragment</a></li>
+    
+      <li><a href="RGen/Fragment/FragmentedModel.html#method-i-unresolved_refs">#unresolved_refs &mdash; RGen::Fragment::FragmentedModel</a></li>
+    
+      <li><a href="RGen/Util/ModelComparatorBase.html#method-i-useElement-3F">#useElement? &mdash; RGen::Util::ModelComparatorBase</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/DataTypes/Enum.html#method-i-validLiteral-3F">#validLiteral? &mdash; RGen::MetamodelBuilder::DataTypes::Enum</a></li>
+    
+      <li><a href="RGen/ECore/ECoreToRuby/FeatureWrapper.html#method-i-value">#value &mdash; RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+    
+      <li><a href="RGen/MetamodelBuilder/Intermediate/Feature.html#method-i-value">#value &mdash; RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+    
+      <li><a href="RGen/Serializer/XMI20Serializer.html#method-i-writeComposites">#writeComposites &mdash; RGen::Serializer::XMI20Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-writeElement">#writeElement &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/JsonSerializer.html#method-i-writeFeature">#writeFeature &mdash; RGen::Serializer::JsonSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-writeHeaderInfo">#writeHeaderInfo &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMLSerializer.html#method-i-writeText">#writeText &mdash; RGen::Serializer::XMLSerializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-xmiId">#xmiId &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+      <li><a href="RGen/Serializer/XMI11Serializer.html#method-i-xmiLevel">#xmiLevel &mdash; RGen::Serializer::XMI11Serializer</a></li>
+    
+  </ul>
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+</body>
+</html>

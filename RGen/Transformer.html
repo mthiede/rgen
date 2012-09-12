@@ -1,0 +1,1250 @@
+<?xml version="1.0" encoding="CP850"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=CP850" http-equiv="Content-Type" />
+
+  <title>Class: RGen::Transformer</title>
+
+  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../lib/rgen/transformer_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/rgen/transformer.rb">lib/rgen/transformer.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link"><a href="../Object.html">Object</a></p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-copy">::copy</a></li>
+          
+          <li><a href="#method-c-copy_all">::copy_all</a></li>
+          
+          <li><a href="#method-c-method">::method</a></li>
+          
+          <li><a href="#method-c-new">::new</a></li>
+          
+          <li><a href="#method-c-transform">::transform</a></li>
+          
+          <li><a href="#method-i-copy_features">#copy_features</a></li>
+          
+          <li><a href="#method-i-trans">#trans</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="../CHANGELOG.html">CHANGELOG</a></li>
+        
+          <li class="file"><a href="../MIT-LICENSE.html">MIT-LICENSE</a></li>
+        
+          <li class="file"><a href="../README.html">README</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../UML13.html">UML13</a></li>
+        
+          <li><a href="../UML13/Abstraction.html">UML13::Abstraction</a></li>
+        
+          <li><a href="../UML13/Action.html">UML13::Action</a></li>
+        
+          <li><a href="../UML13/ActionExpression.html">UML13::ActionExpression</a></li>
+        
+          <li><a href="../UML13/ActionInstance.html">UML13::ActionInstance</a></li>
+        
+          <li><a href="../UML13/ActionSequence.html">UML13::ActionSequence</a></li>
+        
+          <li><a href="../UML13/ActionState.html">UML13::ActionState</a></li>
+        
+          <li><a href="../UML13/ActivityGraph.html">UML13::ActivityGraph</a></li>
+        
+          <li><a href="../UML13/Actor.html">UML13::Actor</a></li>
+        
+          <li><a href="../UML13/ArgListsExpression.html">UML13::ArgListsExpression</a></li>
+        
+          <li><a href="../UML13/Argument.html">UML13::Argument</a></li>
+        
+          <li><a href="../UML13/AssignmentAction.html">UML13::AssignmentAction</a></li>
+        
+          <li><a href="../UML13/Association.html">UML13::Association</a></li>
+        
+          <li><a href="../UML13/AssociationClass.html">UML13::AssociationClass</a></li>
+        
+          <li><a href="../UML13/AssociationEnd.html">UML13::AssociationEnd</a></li>
+        
+          <li><a href="../UML13/AssociationEnd/ClassModule.html">UML13::AssociationEnd::ClassModule</a></li>
+        
+          <li><a href="../UML13/AssociationEndRole.html">UML13::AssociationEndRole</a></li>
+        
+          <li><a href="../UML13/AssociationRole.html">UML13::AssociationRole</a></li>
+        
+          <li><a href="../UML13/Attribute.html">UML13::Attribute</a></li>
+        
+          <li><a href="../UML13/AttributeLink.html">UML13::AttributeLink</a></li>
+        
+          <li><a href="../UML13/BehavioralFeature.html">UML13::BehavioralFeature</a></li>
+        
+          <li><a href="../UML13/Binding.html">UML13::Binding</a></li>
+        
+          <li><a href="../UML13/BooleanExpression.html">UML13::BooleanExpression</a></li>
+        
+          <li><a href="../UML13/Call.html">UML13::Call</a></li>
+        
+          <li><a href="../UML13/CallAction.html">UML13::CallAction</a></li>
+        
+          <li><a href="../UML13/CallEvent.html">UML13::CallEvent</a></li>
+        
+          <li><a href="../UML13/CallState.html">UML13::CallState</a></li>
+        
+          <li><a href="../UML13/ChangeEvent.html">UML13::ChangeEvent</a></li>
+        
+          <li><a href="../UML13/Class.html">UML13::Class</a></li>
+        
+          <li><a href="../UML13/Classifier.html">UML13::Classifier</a></li>
+        
+          <li><a href="../UML13/Classifier/ClassModule.html">UML13::Classifier::ClassModule</a></li>
+        
+          <li><a href="../UML13/ClassifierInState.html">UML13::ClassifierInState</a></li>
+        
+          <li><a href="../UML13/ClassifierRole.html">UML13::ClassifierRole</a></li>
+        
+          <li><a href="../UML13/Collaboration.html">UML13::Collaboration</a></li>
+        
+          <li><a href="../UML13/Comment.html">UML13::Comment</a></li>
+        
+          <li><a href="../UML13/Component.html">UML13::Component</a></li>
+        
+          <li><a href="../UML13/ComponentInstance.html">UML13::ComponentInstance</a></li>
+        
+          <li><a href="../UML13/CompositeState.html">UML13::CompositeState</a></li>
+        
+          <li><a href="../UML13/Constraint.html">UML13::Constraint</a></li>
+        
+          <li><a href="../UML13/CreateAction.html">UML13::CreateAction</a></li>
+        
+          <li><a href="../UML13/DataType.html">UML13::DataType</a></li>
+        
+          <li><a href="../UML13/DataValue.html">UML13::DataValue</a></li>
+        
+          <li><a href="../UML13/Dependency.html">UML13::Dependency</a></li>
+        
+          <li><a href="../UML13/DestroyAction.html">UML13::DestroyAction</a></li>
+        
+          <li><a href="../UML13/Diagram.html">UML13::Diagram</a></li>
+        
+          <li><a href="../UML13/DiagramElement.html">UML13::DiagramElement</a></li>
+        
+          <li><a href="../UML13/Element.html">UML13::Element</a></li>
+        
+          <li><a href="../UML13/ElementImport.html">UML13::ElementImport</a></li>
+        
+          <li><a href="../UML13/ElementResidence.html">UML13::ElementResidence</a></li>
+        
+          <li><a href="../UML13/Enumeration.html">UML13::Enumeration</a></li>
+        
+          <li><a href="../UML13/EnumerationLiteral.html">UML13::EnumerationLiteral</a></li>
+        
+          <li><a href="../UML13/Event.html">UML13::Event</a></li>
+        
+          <li><a href="../UML13/Exception.html">UML13::Exception</a></li>
+        
+          <li><a href="../UML13/Expression.html">UML13::Expression</a></li>
+        
+          <li><a href="../UML13/Extend.html">UML13::Extend</a></li>
+        
+          <li><a href="../UML13/ExtensionPoint.html">UML13::ExtensionPoint</a></li>
+        
+          <li><a href="../UML13/Feature.html">UML13::Feature</a></li>
+        
+          <li><a href="../UML13/FinalState.html">UML13::FinalState</a></li>
+        
+          <li><a href="../UML13/Flow.html">UML13::Flow</a></li>
+        
+          <li><a href="../UML13/GeneralizableElement.html">UML13::GeneralizableElement</a></li>
+        
+          <li><a href="../UML13/Generalization.html">UML13::Generalization</a></li>
+        
+          <li><a href="../UML13/Guard.html">UML13::Guard</a></li>
+        
+          <li><a href="../UML13/Include.html">UML13::Include</a></li>
+        
+          <li><a href="../UML13/Instance.html">UML13::Instance</a></li>
+        
+          <li><a href="../UML13/Interaction.html">UML13::Interaction</a></li>
+        
+          <li><a href="../UML13/Interface.html">UML13::Interface</a></li>
+        
+          <li><a href="../UML13/IterationExpression.html">UML13::IterationExpression</a></li>
+        
+          <li><a href="../UML13/Link.html">UML13::Link</a></li>
+        
+          <li><a href="../UML13/LinkEnd.html">UML13::LinkEnd</a></li>
+        
+          <li><a href="../UML13/LinkObject.html">UML13::LinkObject</a></li>
+        
+          <li><a href="../UML13/MappingExpression.html">UML13::MappingExpression</a></li>
+        
+          <li><a href="../UML13/Message.html">UML13::Message</a></li>
+        
+          <li><a href="../UML13/Method.html">UML13::Method</a></li>
+        
+          <li><a href="../UML13/Model.html">UML13::Model</a></li>
+        
+          <li><a href="../UML13/ModelElement.html">UML13::ModelElement</a></li>
+        
+          <li><a href="../UML13/Multiplicity.html">UML13::Multiplicity</a></li>
+        
+          <li><a href="../UML13/MultiplicityRange.html">UML13::MultiplicityRange</a></li>
+        
+          <li><a href="../UML13/Namespace.html">UML13::Namespace</a></li>
+        
+          <li><a href="../UML13/Node.html">UML13::Node</a></li>
+        
+          <li><a href="../UML13/NodeInstance.html">UML13::NodeInstance</a></li>
+        
+          <li><a href="../UML13/Object.html">UML13::Object</a></li>
+        
+          <li><a href="../UML13/ObjectFlowState.html">UML13::ObjectFlowState</a></li>
+        
+          <li><a href="../UML13/ObjectSetExpression.html">UML13::ObjectSetExpression</a></li>
+        
+          <li><a href="../UML13/Operation.html">UML13::Operation</a></li>
+        
+          <li><a href="../UML13/Package.html">UML13::Package</a></li>
+        
+          <li><a href="../UML13/Parameter.html">UML13::Parameter</a></li>
+        
+          <li><a href="../UML13/Partition.html">UML13::Partition</a></li>
+        
+          <li><a href="../UML13/Permission.html">UML13::Permission</a></li>
+        
+          <li><a href="../UML13/PresentationElement.html">UML13::PresentationElement</a></li>
+        
+          <li><a href="../UML13/Primitive.html">UML13::Primitive</a></li>
+        
+          <li><a href="../UML13/ProcedureExpression.html">UML13::ProcedureExpression</a></li>
+        
+          <li><a href="../UML13/ProgrammingLanguageType.html">UML13::ProgrammingLanguageType</a></li>
+        
+          <li><a href="../UML13/Pseudostate.html">UML13::Pseudostate</a></li>
+        
+          <li><a href="../UML13/Reception.html">UML13::Reception</a></li>
+        
+          <li><a href="../UML13/Relationship.html">UML13::Relationship</a></li>
+        
+          <li><a href="../UML13/ReturnAction.html">UML13::ReturnAction</a></li>
+        
+          <li><a href="../UML13/SendAction.html">UML13::SendAction</a></li>
+        
+          <li><a href="../UML13/Signal.html">UML13::Signal</a></li>
+        
+          <li><a href="../UML13/SignalEvent.html">UML13::SignalEvent</a></li>
+        
+          <li><a href="../UML13/SimpleState.html">UML13::SimpleState</a></li>
+        
+          <li><a href="../UML13/State.html">UML13::State</a></li>
+        
+          <li><a href="../UML13/StateMachine.html">UML13::StateMachine</a></li>
+        
+          <li><a href="../UML13/StateVertex.html">UML13::StateVertex</a></li>
+        
+          <li><a href="../UML13/Stereotype.html">UML13::Stereotype</a></li>
+        
+          <li><a href="../UML13/Stimulus.html">UML13::Stimulus</a></li>
+        
+          <li><a href="../UML13/StructuralFeature.html">UML13::StructuralFeature</a></li>
+        
+          <li><a href="../UML13/Structure.html">UML13::Structure</a></li>
+        
+          <li><a href="../UML13/StubState.html">UML13::StubState</a></li>
+        
+          <li><a href="../UML13/SubactivityState.html">UML13::SubactivityState</a></li>
+        
+          <li><a href="../UML13/SubmachineState.html">UML13::SubmachineState</a></li>
+        
+          <li><a href="../UML13/Subsystem.html">UML13::Subsystem</a></li>
+        
+          <li><a href="../UML13/SynchState.html">UML13::SynchState</a></li>
+        
+          <li><a href="../UML13/TaggedValue.html">UML13::TaggedValue</a></li>
+        
+          <li><a href="../UML13/TemplateParameter.html">UML13::TemplateParameter</a></li>
+        
+          <li><a href="../UML13/TerminateAction.html">UML13::TerminateAction</a></li>
+        
+          <li><a href="../UML13/TimeEvent.html">UML13::TimeEvent</a></li>
+        
+          <li><a href="../UML13/TimeExpression.html">UML13::TimeExpression</a></li>
+        
+          <li><a href="../UML13/Transition.html">UML13::Transition</a></li>
+        
+          <li><a href="../UML13/TypeExpression.html">UML13::TypeExpression</a></li>
+        
+          <li><a href="../UML13/UninterpretedAction.html">UML13::UninterpretedAction</a></li>
+        
+          <li><a href="../UML13/Usage.html">UML13::Usage</a></li>
+        
+          <li><a href="../UML13/UseCase.html">UML13::UseCase</a></li>
+        
+          <li><a href="../UML13/UseCaseInstance.html">UML13::UseCaseInstance</a></li>
+        
+          <li><a href="../RGen.html">RGen</a></li>
+        
+          <li><a href="../RGen/ECore.html">RGen::ECore</a></li>
+        
+          <li><a href="../RGen/ECore/EAnnotation.html">RGen::ECore::EAnnotation</a></li>
+        
+          <li><a href="../RGen/ECore/EAttribute.html">RGen::ECore::EAttribute</a></li>
+        
+          <li><a href="../RGen/ECore/EAttribute/ClassModule.html">RGen::ECore::EAttribute::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/EClass.html">RGen::ECore::EClass</a></li>
+        
+          <li><a href="../RGen/ECore/EClass/ClassModule.html">RGen::ECore::EClass::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/EClassifier.html">RGen::ECore::EClassifier</a></li>
+        
+          <li><a href="../RGen/ECore/EClassifier/ClassModule.html">RGen::ECore::EClassifier::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/ECoreBuilderMethods.html">RGen::ECore::ECoreBuilderMethods</a></li>
+        
+          <li><a href="../RGen/ECore/ECoreInterface.html">RGen::ECore::ECoreInterface</a></li>
+        
+          <li><a href="../RGen/ECore/ECoreToRuby.html">RGen::ECore::ECoreToRuby</a></li>
+        
+          <li><a href="../RGen/ECore/ECoreToRuby/FeatureWrapper.html">RGen::ECore::ECoreToRuby::FeatureWrapper</a></li>
+        
+          <li><a href="../RGen/ECore/EDataType.html">RGen::ECore::EDataType</a></li>
+        
+          <li><a href="../RGen/ECore/EEnum.html">RGen::ECore::EEnum</a></li>
+        
+          <li><a href="../RGen/ECore/EEnumLiteral.html">RGen::ECore::EEnumLiteral</a></li>
+        
+          <li><a href="../RGen/ECore/EFactory.html">RGen::ECore::EFactory</a></li>
+        
+          <li><a href="../RGen/ECore/EGenericType.html">RGen::ECore::EGenericType</a></li>
+        
+          <li><a href="../RGen/ECore/EModelElement.html">RGen::ECore::EModelElement</a></li>
+        
+          <li><a href="../RGen/ECore/EModelElement/ClassModule.html">RGen::ECore::EModelElement::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/ENamedElement.html">RGen::ECore::ENamedElement</a></li>
+        
+          <li><a href="../RGen/ECore/EObject.html">RGen::ECore::EObject</a></li>
+        
+          <li><a href="../RGen/ECore/EOperation.html">RGen::ECore::EOperation</a></li>
+        
+          <li><a href="../RGen/ECore/EPackage.html">RGen::ECore::EPackage</a></li>
+        
+          <li><a href="../RGen/ECore/EPackage/ClassModule.html">RGen::ECore::EPackage::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/EParameter.html">RGen::ECore::EParameter</a></li>
+        
+          <li><a href="../RGen/ECore/EReference.html">RGen::ECore::EReference</a></li>
+        
+          <li><a href="../RGen/ECore/EStringToStringMapEntry.html">RGen::ECore::EStringToStringMapEntry</a></li>
+        
+          <li><a href="../RGen/ECore/EStructuralFeature.html">RGen::ECore::EStructuralFeature</a></li>
+        
+          <li><a href="../RGen/ECore/EStructuralFeature/ClassModule.html">RGen::ECore::EStructuralFeature::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/ETypeArgument.html">RGen::ECore::ETypeArgument</a></li>
+        
+          <li><a href="../RGen/ECore/ETypedElement.html">RGen::ECore::ETypedElement</a></li>
+        
+          <li><a href="../RGen/ECore/ETypedElement/ClassModule.html">RGen::ECore::ETypedElement::ClassModule</a></li>
+        
+          <li><a href="../RGen/ECore/RubyToECore.html">RGen::ECore::RubyToECore</a></li>
+        
+          <li><a href="../RGen/Environment.html">RGen::Environment</a></li>
+        
+          <li><a href="../RGen/Fragment.html">RGen::Fragment</a></li>
+        
+          <li><a href="../RGen/Fragment/DumpFileCache.html">RGen::Fragment::DumpFileCache</a></li>
+        
+          <li><a href="../RGen/Fragment/FragmentedModel.html">RGen::Fragment::FragmentedModel</a></li>
+        
+          <li><a href="../RGen/Fragment/ModelFragment.html">RGen::Fragment::ModelFragment</a></li>
+        
+          <li><a href="../RGen/Fragment/ModelFragment/FragmentRef.html">RGen::Fragment::ModelFragment::FragmentRef</a></li>
+        
+          <li><a href="../RGen/Fragment/ModelFragment/ResolvedReference.html">RGen::Fragment::ModelFragment::ResolvedReference</a></li>
+        
+          <li><a href="../RGen/Instantiator.html">RGen::Instantiator</a></li>
+        
+          <li><a href="../RGen/Instantiator/AbstractInstantiator.html">RGen::Instantiator::AbstractInstantiator</a></li>
+        
+          <li><a href="../RGen/Instantiator/DefaultXMLInstantiator.html">RGen::Instantiator::DefaultXMLInstantiator</a></li>
+        
+          <li><a href="../RGen/Instantiator/JsonInstantiator.html">RGen::Instantiator::JsonInstantiator</a></li>
+        
+          <li><a href="../RGen/Instantiator/JsonParser.html">RGen::Instantiator::JsonParser</a></li>
+        
+          <li><a href="../RGen/Instantiator/NodebasedXMLInstantiator.html">RGen::Instantiator::NodebasedXMLInstantiator</a></li>
+        
+          <li><a href="../RGen/Instantiator/NodebasedXMLInstantiator/Visitor.html">RGen::Instantiator::NodebasedXMLInstantiator::Visitor</a></li>
+        
+          <li><a href="../RGen/Instantiator/NodebasedXMLInstantiator/XMLNodeDescriptor.html">RGen::Instantiator::NodebasedXMLInstantiator::XMLNodeDescriptor</a></li>
+        
+          <li><a href="../RGen/Instantiator/QualifiedNameResolver.html">RGen::Instantiator::QualifiedNameResolver</a></li>
+        
+          <li><a href="../RGen/Instantiator/ReferenceResolver.html">RGen::Instantiator::ReferenceResolver</a></li>
+        
+          <li><a href="../RGen/Instantiator/ReferenceResolver/UnresolvedReference.html">RGen::Instantiator::ReferenceResolver::UnresolvedReference</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder.html">RGen::MetamodelBuilder</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/BuilderExtensions.html">RGen::MetamodelBuilder::BuilderExtensions</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/BuilderExtensions/FeatureBlockEvaluator.html">RGen::MetamodelBuilder::BuilderExtensions::FeatureBlockEvaluator</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/BuilderRuntime.html">RGen::MetamodelBuilder::BuilderRuntime</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/DataTypes.html">RGen::MetamodelBuilder::DataTypes</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/DataTypes/Enum.html">RGen::MetamodelBuilder::DataTypes::Enum</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/Intermediate.html">RGen::MetamodelBuilder::Intermediate</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/Intermediate/Annotation.html">RGen::MetamodelBuilder::Intermediate::Annotation</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/Intermediate/Attribute.html">RGen::MetamodelBuilder::Intermediate::Attribute</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/Intermediate/Feature.html">RGen::MetamodelBuilder::Intermediate::Feature</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/Intermediate/Reference.html">RGen::MetamodelBuilder::Intermediate::Reference</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/MMBase.html">RGen::MetamodelBuilder::MMBase</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/MMGeneric.html">RGen::MetamodelBuilder::MMGeneric</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/MMProxy.html">RGen::MetamodelBuilder::MMProxy</a></li>
+        
+          <li><a href="../RGen/MetamodelBuilder/ModuleExtension.html">RGen::MetamodelBuilder::ModuleExtension</a></li>
+        
+          <li><a href="../RGen/ModelBuilder.html">RGen::ModelBuilder</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext.html">RGen::ModelBuilder::BuilderContext</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/CommandResolver.html">RGen::ModelBuilder::BuilderContext::CommandResolver</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/ConstPathElement.html">RGen::ModelBuilder::BuilderContext::ConstPathElement</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory.html">RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/ExtensionContainerFactory/ExtensionContainer.html">RGen::ModelBuilder::BuilderContext::ExtensionContainerFactory::ExtensionContainer</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/PackageNotFoundException.html">RGen::ModelBuilder::BuilderContext::PackageNotFoundException</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/BuilderContext/PackageResolver.html">RGen::ModelBuilder::BuilderContext::PackageResolver</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/ModelSerializer.html">RGen::ModelBuilder::ModelSerializer</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/ReferenceResolver.html">RGen::ModelBuilder::ReferenceResolver</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/ReferenceResolver/ResolverException.html">RGen::ModelBuilder::ReferenceResolver::ResolverException</a></li>
+        
+          <li><a href="../RGen/ModelBuilder/ReferenceResolver/ToplevelNamespace.html">RGen::ModelBuilder::ReferenceResolver::ToplevelNamespace</a></li>
+        
+          <li><a href="../RGen/Serializer.html">RGen::Serializer</a></li>
+        
+          <li><a href="../RGen/Serializer/JsonSerializer.html">RGen::Serializer::JsonSerializer</a></li>
+        
+          <li><a href="../RGen/Serializer/QualifiedNameProvider.html">RGen::Serializer::QualifiedNameProvider</a></li>
+        
+          <li><a href="../RGen/Serializer/XMI11Serializer.html">RGen::Serializer::XMI11Serializer</a></li>
+        
+          <li><a href="../RGen/Serializer/XMI20Serializer.html">RGen::Serializer::XMI20Serializer</a></li>
+        
+          <li><a href="../RGen/Serializer/XMLSerializer.html">RGen::Serializer::XMLSerializer</a></li>
+        
+          <li><a href="../RGen/TemplateLanguage.html">RGen::TemplateLanguage</a></li>
+        
+          <li><a href="../RGen/TemplateLanguage/DirectoryTemplateContainer.html">RGen::TemplateLanguage::DirectoryTemplateContainer</a></li>
+        
+          <li><a href="../RGen/TemplateLanguage/OutputHandler.html">RGen::TemplateLanguage::OutputHandler</a></li>
+        
+          <li><a href="../RGen/TemplateLanguage/TemplateContainer.html">RGen::TemplateLanguage::TemplateContainer</a></li>
+        
+          <li><a href="../RGen/TemplateLanguage/TemplateHelper.html">RGen::TemplateLanguage::TemplateHelper</a></li>
+        
+          <li><a href="../RGen/Transformer.html">RGen::Transformer</a></li>
+        
+          <li><a href="../RGen/Util.html">RGen::Util</a></li>
+        
+          <li><a href="../RGen/Util/AutoClassCreator.html">RGen::Util::AutoClassCreator</a></li>
+        
+          <li><a href="../RGen/Util/AutoCreatedClass.html">RGen::Util::AutoCreatedClass</a></li>
+        
+          <li><a href="../RGen/Util/Base.html">RGen::Util::Base</a></li>
+        
+          <li><a href="../RGen/Util/CachedGlob.html">RGen::Util::CachedGlob</a></li>
+        
+          <li><a href="../RGen/Util/FileCacheMap.html">RGen::Util::FileCacheMap</a></li>
+        
+          <li><a href="../RGen/Util/FileChangeDetector.html">RGen::Util::FileChangeDetector</a></li>
+        
+          <li><a href="../RGen/Util/MethodDelegation.html">RGen::Util::MethodDelegation</a></li>
+        
+          <li><a href="../RGen/Util/ModelComparator.html">RGen::Util::ModelComparator</a></li>
+        
+          <li><a href="../RGen/Util/ModelComparatorBase.html">RGen::Util::ModelComparatorBase</a></li>
+        
+          <li><a href="../RGen/Util/ModelDumper.html">RGen::Util::ModelDumper</a></li>
+        
+          <li><a href="../RGen/Util/NameHelper.html">RGen::Util::NameHelper</a></li>
+        
+          <li><a href="../RGen/Util/ParentAccess.html">RGen::Util::ParentAccess</a></li>
+        
+          <li><a href="../RGen/Util/PatternMatcher.html">RGen::Util::PatternMatcher</a></li>
+        
+          <li><a href="../RGen/Util/PatternMatcher/Bindable.html">RGen::Util::PatternMatcher::Bindable</a></li>
+        
+          <li><a href="../RGen/Util/PatternMatcher/Lazy.html">RGen::Util::PatternMatcher::Lazy</a></li>
+        
+          <li><a href="../RGen/Util/PatternMatcher/Proxy.html">RGen::Util::PatternMatcher::Proxy</a></li>
+        
+          <li><a href="../RGen/Util/PatternMatcher/TempEnv.html">RGen::Util::PatternMatcher::TempEnv</a></li>
+        
+          <li><a href="../AbstractXMLInstantiator.html">AbstractXMLInstantiator</a></li>
+        
+          <li><a href="../AbstractXMLInstantiator/Visitor.html">AbstractXMLInstantiator::Visitor</a></li>
+        
+          <li><a href="../MMGen.html">MMGen</a></li>
+        
+          <li><a href="../MMGen/MetamodelGenerator.html">MMGen::MetamodelGenerator</a></li>
+        
+          <li><a href="../Array.html">Array</a></li>
+        
+          <li><a href="../EASupport.html">EASupport</a></li>
+        
+          <li><a href="../ECoreToUML13.html">ECoreToUML13</a></li>
+        
+          <li><a href="../ECoreXMLInstantiator.html">ECoreXMLInstantiator</a></li>
+        
+          <li><a href="../IdStore.html">IdStore</a></li>
+        
+          <li><a href="../Object.html">Object</a></li>
+        
+          <li><a href="../UML13ToECore.html">UML13ToECore</a></li>
+        
+          <li><a href="../XMI11Instantiator.html">XMI11Instantiator</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">RGen::Transformer</h1>
+
+    <div id="description" class="description">
+      
+<p>The <a href="Transformer.html">Transformer</a> class can be used to specify
+model transformations.</p>
+
+<p>Model transformations take place between a <em>source model</em> (located
+in the <em>source environment</em> being an instance of the <em>source
+metamodel</em>) and a <em>target model</em> (located in the <em>target
+environment</em> being an instance of the <em>target metamodel</em>).
+Normally a "model" consists of several model elements associated with each
+other.</p>
+
+<h1>Transformation Rules</h1>
+
+<p>The transformation is specified within a subclass of <a
+href="Transformer.html">Transformer</a>. Within the subclass, the <a
+href="Transformer.html#method-c-transform">Transformer.transform</a> class
+method can be used to specify transformation blocks for specific metamodel
+classes of the source metamodel.</p>
+
+<p>If there is no transformation rule for the current object's class, a rule
+for the superclass is used instead. If there's no rule for the superclass,
+the class hierarchy is searched this way until <a
+href="../Object.html">Object</a>.</p>
+
+<p>Here is an example:</p>
+
+<pre>class MyTransformer &lt; RGen::Transformer
+
+        transform InputClass, :to =&gt; OutputClass do
+                { :name =&gt; name, :otherClass =&gt; trans(otherClass) }
+        end
+
+        transform OtherInputClass, :to =&gt; OtherOutputClass do
+                { :name =&gt; name }
+        end
+end</pre>
+
+<p>In this example a transformation rule is specified for model elements of
+class InputClass as well as for elements of class OtherInputClass. The
+former is to be transformed into an instance of OutputClass, the latter
+into an instance of OtherOutputClass. Note that the Ruby class objects are
+used to specifiy the classes.</p>
+
+<h1>Transforming Attributes</h1>
+
+<p>Besides the target class of a transformation, the attributes of the result
+object are specified in the above example. This is done by providing a Ruby
+block with the call of <tt>transform</tt>. Within this block arbitrary Ruby
+code may be placed, however the block must return a hash. This hash object
+specifies the attribute assignment of the result object using key/value
+pairs: The key must be a Symbol specifying the attribute which is to be
+assigned by name, the value is the value that will be assigned.</p>
+
+<p>For convenience, the transformation block will be evaluated in the context
+of the source model element which is currently being converted. This way it
+is possible to just write <tt>:name =&gt; name</tt> in the example in order
+to assign the name of the source  object to the name attribute of the
+target object.</p>
+
+<h1>Transforming References</h1>
+
+<p>When attributes of elements are references to other elements, those
+referenced elements have to be transformed as well. As shown above, this
+can be done by calling the <a
+href="Transformer.html#method-i-trans">Transformer#trans</a> method. This
+method initiates a transformation of the element or array of elements
+passed as parameter according to transformation rules specified using
+<tt>transform</tt>. In fact the <tt>trans</tt> method is the only way to
+start the transformation at all.</p>
+
+<p>For convenience and performance reasons, the result of <tt>trans</tt> is
+cached with respect to the parameter object. I.e. calling trans on the same
+source object a second time will  return the same result object
+<em>without</em> a second evaluation of the corresponding  transformation
+rules.</p>
+
+<p>This way the <tt>trans</tt> method can be used to lookup the target element
+for some source element without the need to locally store a reference to
+the target element. In addition this can be useful if it is not clear if
+certain element has already been transformed when it is required within
+some other transformation block. See example below.</p>
+
+<p>Special care has been taken to allow the transformation of elements which
+reference  each other cyclically. The key issue here is that the target
+element of some transformation is created <em>before</em> the
+transformation's block is evaluated, i.e before the elements  attributes
+are set. Otherwise a call to <tt>trans</tt> within the transformation's
+block could lead to a <tt>trans</tt> of the element itself.</p>
+
+<p>Here is an example:</p>
+
+<pre>transform ModelAIn, :to =&gt; ModelAOut do
+        { :name =&gt; name, :modelB =&gt; trans(modelB) }
+end
+
+transform ModelBIn, :to =&gt; ModelBOut do
+        { :name =&gt; name, :modelA =&gt; trans(modelA) }
+end</pre>
+
+<p>Note that in this case it does not matter if the transformation is
+initiated by calling <tt>trans</tt> with a ModelAIn element or ModelBIn
+element due to the caching feature described above.</p>
+
+<h1><a href="Transformer.html">Transformer</a> Methods</h1>
+
+<p>When code in transformer blocks becomes more complex it might be useful to
+refactor it into smaller methods. If regular Ruby methods within the <a
+href="Transformer.html">Transformer</a> subclass are used for this purpose,
+it is necessary to know the source element being transformed. This could be
+achieved by explicitly passing the +@current_object+ as parameter of the
+method (see <a
+href="Transformer.html#method-i-trans">Transformer#trans</a>).</p>
+
+<p>A more convenient way however is to define a special kind of method using
+the <a href="Transformer.html#method-c-method">Transformer.method</a> class
+method. Those methods are evaluated within the context of the current
+source element being transformed just the same as transformer blocks are.</p>
+
+<p>Here is an example:</p>
+
+<pre>transform ModelIn, :to =&gt; ModelOut do
+        { :number =&gt; doubleNumber }
+end
+
+method :doubleNumber do
+        number * 2;
+end</pre>
+
+<p>In this example the transformation assigns the 'number' attribute of the
+source element multiplied by 2 to the target element. The multiplication is
+done in a dedicated method called 'doubleNumber'. Note that the 'number'
+attribute of the source element is  accessed without an explicit reference
+to the source element as the method's body evaluates in the source
+element's context.</p>
+
+<h1>Conditional Transformations</h1>
+
+<p>Using the transformations as described above, all elements of the same
+class are transformed the same way. Conditional transformations allow to
+transform elements of the same class into elements of different target
+classes as well as applying different transformations on the attributes.</p>
+
+<p>Conditional transformations are defined by specifying multiple transformer
+blocks for the same source class and providing a condition with each block.
+Since it is important to create the target object before evaluation of the
+transformation block (see above), the conditions must also be evaluated
+separately <em>before</em> the transformer block.</p>
+
+<p>Conditions are specified using transformer methods as described above. If
+the return value is true, the corresponding block is used for
+transformation. If more than one conditions are true, only the first
+transformer block will be evaluated.</p>
+
+<p>If there is no rule with a condition evaluating to true, rules for
+superclasses will be checked as described above.</p>
+
+<p>Here is an example:</p>
+
+<pre>transform ModelIn, :to =&gt; ModelOut, :if =&gt; :largeNumber do
+        { :number =&gt; number * 2}
+end
+
+transform ModelIn, :to =&gt; ModelOut, :if =&gt; :smallNumber do
+        { :number =&gt; number / 2 }
+end
+
+method :largeNumber do
+        number &gt; 1000
+end
+
+method :smallNumber do
+        number &lt; 500
+end</pre>
+
+<p>In this case the transformation of an element of class ModelIn depends on
+the value of the element's 'number' attribute. If the value is greater than
+1000, the first rule as taken and the number is doubled. If the value is
+smaller than 500, the second rule is taken and the number is divided by
+two.</p>
+
+<p>Note that it is up to the user to avoid cycles within the conditions. A
+cycle could occure if the condition are based on transformation target
+elements, i.e. if <tt>trans</tt> is used within the condition to lookup or
+transform other elements.</p>
+
+<h1>Copy Transformations</h1>
+
+<p>In some cases, transformations should just copy a model, either in the same
+metamodel or in another metamodel with the same package/class structure.
+Sometimes, a transformation is not exactly a copy, but a copy with slight
+modifications. Also in this case most classes need to be copied verbatim.</p>
+
+<p>The class method <a
+href="Transformer.html#method-c-copy">Transformer.copy</a> can be used to
+specify a copy rule for a single metamodel class. If no target class is
+specified using the :to named parameter, the target class will be the same
+as the source class (i.e. in the same metamodel).</p>
+
+<pre>copy MM1::ClassA                          # copy within the same metamodel
+copy MM1::ClassA, :to =&gt; MM2::ClassA</pre>
+
+<p>The class method Transfomer.copy_all can be used to specify copy rules for
+all classes of a particular metamodel package. Again with :to, the target
+metamodel package may be specified which must have the same package/class
+structure. If :to is omitted, the target metamodel is the same as the
+source metamodel. In case that for some classes specific transformation
+rules should be used instead of copy rules, exceptions may be  specified
+using the :except named parameter. <tt>copy_all</tt> also provides an easy
+way to copy (clone) a model within the same metamodel.</p>
+
+<pre>copy_all MM1                              # copy rules for the whole metamodel MM1, 
+                                          # used to clone models of MM1
+
+copy_all MM1, :to =&gt; MM2, :except =&gt; %w(  # copy rules for all classes of MM1 to
+  ClassA                                  # equally named classes in MM2, except
+  Sub1::ClassB                            # &quot;ClassA&quot; and &quot;Sub1::ClassB&quot;
+)</pre>
+
+<p>If a specific class transformation is not an exact copy, the <a
+href="Transformer.html#method-c-transform">Transformer.transform</a> method
+should be used to actually specify the transformation. If this
+transformation is also mostly a copy, the helper method <a
+href="Transformer.html#method-i-copy_features">Transformer#copy_features</a>
+can be used to create the transformation Hash required by the transform
+method. Any changes to this hash may be done in a hash returned by a block
+given to <tt>copy_features</tt>. This hash will extend or overwrite the
+default copy hash. In case a particular feature should not be part of the
+copy hash (e.g. because it does not exist in the target metamodel),
+exceptions can be specified using the :except named parameter. Here is an
+example:</p>
+
+<pre>transform ClassA, :to =&gt; ClassAx do
+  copy_features :except =&gt; [:featA] do 
+    { :featB =&gt; featA }
+  end
+end</pre>
+
+<p>In this example, ClassAx is a copy of ClassA except, that feature "featA"
+in ClassA is renamed into "featB" in ClassAx. Using <tt>copy_features</tt>
+all features are copied except "featA". Then "featB" of the target class is
+assigned the value of "featA" of the source class.</p>
+
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="copy-method" class="method-detail ">
+          <a name="method-c-copy"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">copy</span><span
+              class="method-args">(from, to=nil)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>This class method specifies that all objects of class <tt>from</tt> are to
+be copied into an object of class <tt>to</tt>. If <tt>to</tt> is omitted,
+<tt>from</tt> is used as target class. The target class may also be
+specified using the :to =&gt; &lt;class&gt; hash notation.  During copy,
+all attributes and references of the target object are set to their
+transformed counterparts of the source object.</p>
+            
+
+            
+            <div class="method-source-code" id="copy-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 264</span>
+      <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">copy</span>(<span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Specify target class either directly as second parameter or using :to =&gt; &lt;class&gt;&quot;</span>)        <span class="ruby-keyword">unless</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Class</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">to</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">to</span>[<span class="ruby-value">:to</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Class</span>))
+  <span class="ruby-identifier">to</span> = <span class="ruby-identifier">to</span>[<span class="ruby-value">:to</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) 
+              <span class="ruby-identifier">transform</span>(<span class="ruby-identifier">from</span>, <span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">from</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">copy_features</span>
+              <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- copy-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- copy-method -->
+
+      
+        <div id="copy_all-method" class="method-detail ">
+          <a name="method-c-copy_all"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">copy_all</span><span
+              class="method-args">(from, hash={})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Create copy rules for all classes of metamodel package (module)
+<tt>from</tt> and its subpackages. The target classes are the classes with
+the same name in the metamodel package specified using named parameter :to.
+If no target metamodel is specified, source and target classes will be the
+same. The named parameter :except can be used to specify classes by
+qualified name for which  no copy rules should be created. Qualified names
+are relative to the metamodel package specified.</p>
+            
+
+            
+            <div class="method-source-code" id="copy_all-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 281</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">copy_all</span>(<span class="ruby-identifier">from</span>, <span class="ruby-identifier">hash</span>={})
+  <span class="ruby-identifier">to</span> = <span class="ruby-identifier">hash</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">from</span>
+  <span class="ruby-identifier">except</span> = <span class="ruby-identifier">hash</span>[<span class="ruby-value">:except</span>]
+  <span class="ruby-identifier">fromDepth</span> = <span class="ruby-identifier">from</span>.<span class="ruby-identifier">ecore</span>.<span class="ruby-identifier">qualifiedName</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;::&quot;</span>).<span class="ruby-identifier">size</span>
+  <span class="ruby-identifier">from</span>.<span class="ruby-identifier">ecore</span>.<span class="ruby-identifier">eAllClasses</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">path</span> = <span class="ruby-identifier">c</span>.<span class="ruby-identifier">qualifiedName</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;::&quot;</span>)[<span class="ruby-identifier">fromDepth</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>]
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">except</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">except</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">path</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;::&quot;</span>))
+    <span class="ruby-identifier">copy</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">instanceClass</span>, <span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-identifier">to</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">m</span>,<span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">c</span>)}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- copy_all-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- copy_all-method -->
+
+      
+        <div id="method-method" class="method-detail ">
+          <a name="method-c-method"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">method</span><span
+              class="method-args">(name, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Define a transformer method for the current transformer class. In contrast
+to regular Ruby methods, a method defined this way executes in the context
+of the object currently being transformed.</p>
+            
+
+            
+            <div class="method-source-code" id="method-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 296</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>)
+        <span class="ruby-identifier">_methods</span>[<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- method-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- method-method -->
+
+      
+        <div id="new-method" class="method-detail ">
+          <a name="method-c-new"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(env_in=nil, env_out=nil, elementMap=nil)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Creates a new transformer Optionally an input and output <a
+href="Environment.html">Environment</a> can be specified. If an elementMap
+is provided (normally a Hash) this map will be used to lookup  and store
+transformation results. This way results can be predefined and it is
+possible to have several transformers work on the same result map.</p>
+            
+
+            
+            <div class="method-source-code" id="new-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 307</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">env_in</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">env_out</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">elementMap</span>=<span class="ruby-keyword">nil</span>)
+        <span class="ruby-ivar">@env_in</span> = <span class="ruby-identifier">env_in</span>
+        <span class="ruby-ivar">@env_out</span> = <span class="ruby-identifier">env_out</span>
+        <span class="ruby-ivar">@transformer_results</span> = <span class="ruby-identifier">elementMap</span> <span class="ruby-operator">||</span> {}
+        <span class="ruby-ivar">@transformer_jobs</span> = []
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- new-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- new-method -->
+
+      
+        <div id="transform-method" class="method-detail ">
+          <a name="method-c-transform"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">transform</span><span
+              class="method-args">(from, desc=nil, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>This class method is used to specify a transformation rule.</p>
+
+<p>The first argument specifies the class of elements for which this rule
+applies. The second argument must be a hash including the target class (as
+value of key ':to') and an optional condition (as value of key ':if').</p>
+
+<p>The target class is specified by passing the actual Ruby class object. The
+condition is either the name of a transformer method (see
+Transfomer.method) as a symbol or a proc object. In either case the block
+is evaluated at transformation time and its result value determines if the
+rule applies.</p>
+            
+
+            
+            <div class="method-source-code" id="transform-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 243</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">transform</span>(<span class="ruby-identifier">from</span>, <span class="ruby-identifier">desc</span>=<span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">block</span>)
+        <span class="ruby-identifier">to</span> = (<span class="ruby-identifier">desc</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">desc</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">desc</span>[<span class="ruby-value">:to</span>])
+        <span class="ruby-identifier">condition</span> = (<span class="ruby-identifier">desc</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">desc</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">desc</span>[<span class="ruby-value">:if</span>])
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No transformation target specified.&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">to</span>
+        <span class="ruby-identifier">block_desc</span> = <span class="ruby-constant">TransformationDescription</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">block</span>, <span class="ruby-identifier">to</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">condition</span>
+                <span class="ruby-identifier">_transformer_blocks</span>[<span class="ruby-identifier">from</span>] <span class="ruby-operator">||=</span> {}
+                <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Multiple (non-conditional) transformations for class #{from.name}.&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">_transformer_blocks</span>[<span class="ruby-identifier">from</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+                <span class="ruby-identifier">_transformer_blocks</span>[<span class="ruby-identifier">from</span>][<span class="ruby-identifier">condition</span>] = <span class="ruby-identifier">block_desc</span>
+        <span class="ruby-keyword">else</span>
+                <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Multiple (non-conditional) transformations for class #{from.name}.&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">_transformer_blocks</span>[<span class="ruby-identifier">from</span>].<span class="ruby-identifier">nil?</span>
+                <span class="ruby-identifier">_transformer_blocks</span>[<span class="ruby-identifier">from</span>] = <span class="ruby-identifier">block_desc</span>
+        <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- transform-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- transform-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="copy_features-method" class="method-detail ">
+          <a name="method-i-copy_features"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">copy_features</span><span
+              class="method-args">(options={})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Create the hash required as return value of the block given to the <a
+href="Transformer.html#method-c-transform">Transformer.transform</a>
+method. The hash will assign feature values of the source class to the
+features of the target class, assuming the features of both classes are the
+same. If the :except named parameter specifies an <a
+href="../Array.html">Array</a> of symbols, the listed features are not
+copied by the hash. In order to easily manipulate the resulting hash, a
+block may be given which should also return a feature assignmet hash. This
+hash should be created manually and will extend/overwrite the automatically
+created hash.</p>
+            
+
+            
+            <div class="method-source-code" id="copy_features-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 366</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">copy_features</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-identifier">hash</span> = {}
+  <span class="ruby-ivar">@current_object</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ecore</span>.<span class="ruby-identifier">eAllStructuralFeatures</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">derived</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:except</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:except</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>)
+    <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">trans</span>(<span class="ruby-ivar">@current_object</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>))
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-keyword">yield</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+  <span class="ruby-identifier">hash</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- copy_features-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- copy_features-method -->
+
+      
+        <div id="trans-method" class="method-detail ">
+          <a name="method-i-trans"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">trans</span><span
+              class="method-args">(obj)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Transforms a given model element according to the rules specified by means
+of the <a
+href="Transformer.html#method-c-transform">Transformer.transform</a>   
+class method.</p>
+
+<p>The transformation result element is created in the output environment and
+returned. In addition, the result is cached, i.e. a second invocation with
+the same parameter object will return the same result object without any
+further evaluation of the  transformation rules. Nil will be transformed
+into nil. Ruby "singleton" objects <tt>true</tt>, <tt>false</tt>, numerics
+and symbols will be returned without any change. Ruby strings will be
+duplicated with the result being cached.</p>
+
+<p>The transformation input can be given as:</p>
+<ul><li>
+<p>a single object</p>
+</li><li>
+<p>an array each element of which is transformed in turn</p>
+</li><li>
+<p>a hash used as input to <a
+href="Environment.html#method-i-find">Environment#find</a> with the result
+being transformed</p>
+</li></ul>
+            
+
+            
+            <div class="method-source-code" id="trans-source">
+<pre>
+<span class="ruby-comment"># File lib/rgen/transformer.rb, line 330</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">trans</span>(<span class="ruby-identifier">obj</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+                <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No input environment available to find model element.&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@env_in</span>
+                <span class="ruby-identifier">obj</span> = <span class="ruby-ivar">@env_in</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">obj</span>) 
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword">return</span> <span class="ruby-identifier">obj</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">TrueClass</span>) <span class="ruby-keyword">or</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">FalseClass</span>) <span class="ruby-keyword">or</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Numeric</span>) <span class="ruby-keyword">or</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>] <span class="ruby-keyword">if</span> <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>]
+        <span class="ruby-keyword">return</span> <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>] = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span> <span class="ruby-identifier">trans</span>(<span class="ruby-identifier">o</span>)}.<span class="ruby-identifier">compact</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;No transformer for class #{obj.class.name}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">_transformerBlock</span>(<span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>)
+        <span class="ruby-identifier">block_desc</span> = <span class="ruby-identifier">_evaluateCondition</span>(<span class="ruby-identifier">obj</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_desc</span>
+        <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>] = <span class="ruby-identifier">_instantiateTargetClass</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">block_desc</span>.<span class="ruby-identifier">target</span>)
+        <span class="ruby-comment"># we will transform the properties later</span>
+        <span class="ruby-ivar">@transformer_jobs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">TransformerJob</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">obj</span>, <span class="ruby-identifier">block_desc</span>)
+        <span class="ruby-comment"># if there have been jobs in the queue before, don't process them in this call</span>
+        <span class="ruby-comment"># this way calls to trans are not nested; a recursive implementation </span>
+        <span class="ruby-comment"># may cause a &quot;Stack level too deep&quot; exception for large models</span>
+        <span class="ruby-keyword">return</span> <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>] <span class="ruby-keyword">if</span> <span class="ruby-ivar">@transformer_jobs</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+        <span class="ruby-comment"># otherwise this is the first call of trans, process all jobs here</span>
+        <span class="ruby-comment"># more jobs will be added during job execution</span>
+        <span class="ruby-keyword">while</span> <span class="ruby-ivar">@transformer_jobs</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+                <span class="ruby-ivar">@transformer_jobs</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">execute</span>
+                <span class="ruby-ivar">@transformer_jobs</span>.<span class="ruby-identifier">shift</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-ivar">@transformer_results</span>[<span class="ruby-identifier">obj</span>]
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- trans-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- trans-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+
