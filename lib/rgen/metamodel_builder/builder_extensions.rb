@@ -312,7 +312,7 @@ module BuilderExtensions
             <% check_default_value_literal(defVal, props) %>
             <% defVal = '"'+defVal+'"' if props.impl_type == String %>
             <% defVal = ':'+defVal if props.impl_type.is_a?(DataTypes::Enum) && props.impl_type != DataTypes::Boolean %>
-            @<%= name %>.nil? ? <%= defVal %> : @<%= name %>
+            (defined? @<%= name %>) ? @<%= name %> : <%= defVal %>
           <% else %>
             @<%= name %>
           <% end %>

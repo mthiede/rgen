@@ -167,6 +167,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal 123, sc.integerWithDefault
     assert_equal 0.123, sc.floatWithDefault
     assert_equal true, sc.boolWithDefault
+
+    # setting nil should not make the default value appear on next read
+    sc.stringWithDefault = nil
+    assert_nil sc.stringWithDefault
     
     sc.anything = :asymbol
     assert_equal :asymbol, sc.anything
