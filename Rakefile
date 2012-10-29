@@ -13,16 +13,16 @@ RGenGemSpec = Gem::Specification.new do |s|
   s.authors = ["Martin Thiede"]
   gemfiles = Rake::FileList.new
   gemfiles.include("{lib,test}/**/*")
-  gemfiles.include("README", "CHANGELOG", "MIT-LICENSE", "Rakefile") 
+  gemfiles.include("README.rdoc", "CHANGELOG", "MIT-LICENSE", "Rakefile") 
   gemfiles.exclude(/\b\.bak\b/)
   s.files = gemfiles
-  s.rdoc_options = ["--main", "README", "-x", "test", "-x", "metamodels", "-x", "ea_support/uml13*"]
-  s.extra_rdoc_files = ["README", "CHANGELOG", "MIT-LICENSE"]
+  s.rdoc_options = ["--main", "README.rdoc", "-x", "test", "-x", "metamodels", "-x", "ea_support/uml13*"]
+  s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "MIT-LICENSE"]
 end
 
 RDoc::Task.new do |rd|
-  rd.main = "README"
-  rd.rdoc_files.include("README", "CHANGELOG", "MIT-LICENSE", "lib/**/*.rb")
+  rd.main = "README.rdoc"
+  rd.rdoc_files.include("README.rdoc", "CHANGELOG", "MIT-LICENSE", "lib/**/*.rb")
   rd.rdoc_files.exclude("lib/metamodels/*")
   rd.rdoc_files.exclude("lib/ea_support/uml13*")
   rd.rdoc_dir = "doc"
