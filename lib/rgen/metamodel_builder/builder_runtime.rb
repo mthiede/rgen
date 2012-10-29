@@ -52,6 +52,19 @@ module BuilderRuntime
     result
   end
 
+  def eIsSet(role)
+    eval("defined? @#{role}") != nil
+  end
+
+  def eUnset(role)
+    if respond_to?("add#{firstToUpper(role.to_s)}")
+      setGeneric(role, [])
+    else
+      setGeneric(role, nil)
+    end
+    remove_instance_variable("@#{role}")
+  end
+
 	def _assignmentTypeError(target, value, expected)
 		text = ""
 		if target

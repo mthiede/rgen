@@ -329,7 +329,7 @@ module BuilderExtensions
       @@one_write_builder ||= ERB.new <<-CODE
         
         def set<%= firstToUpper(name) %>(val)
-          return if val == @<%= name %>
+          return if (defined? @<%= name %>) && val == @<%= name %>
           <%= type_check_code("val", props) %>
           oldval = @<%= name %>
           @<%= name %> = val

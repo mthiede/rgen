@@ -847,4 +847,113 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
   end
 
+  def test_isset_set_to_nil
+    e = mm::SimpleClass.new
+    assert_respond_to e, :name
+    assert !e.eIsSet(:name)
+    assert !e.eIsSet("name")
+    e.name = nil
+    assert e.eIsSet(:name)
+  end
+
+  def test_isset_set_to_default
+    e = mm::SimpleClass.new
+    assert !e.eIsSet(:stringWithDefault)
+    # set the default value
+    e.name = "xtest"
+    assert e.eIsSet(:name)
+  end
+
+  def test_isset_many_add
+    e = mm::ManyAttrClass.new
+    assert_equal [], e.literals
+    assert !e.eIsSet(:literals)
+    e.addLiterals("x")
+    assert e.eIsSet(:literals)
+  end
+
+  def test_isset_many_remove
+    e = mm::ManyAttrClass.new
+    assert_equal [], e.literals
+    assert !e.eIsSet(:literals)
+    # removing a value which is not there
+    e.removeLiterals("x")
+    assert e.eIsSet(:literals)
+  end
+
+  def test_isset_ref
+    ac = mm::AClassOO.new
+    bc = mm::BClassOO.new
+    assert !bc.eIsSet(:aClass)
+    assert !ac.eIsSet(:bClass)
+    bc.aClass = ac
+    assert bc.eIsSet(:aClass)
+    assert ac.eIsSet(:bClass)
+  end
+
+  def test_isset_ref_many
+    ac = mm::AClassMM.new
+    bc = mm::BClassMM.new
+    assert !bc.eIsSet(:aClasses)
+    assert !ac.eIsSet(:bClasses)
+    bc.aClasses = [ac]
+    assert bc.eIsSet(:aClasses)
+    assert ac.eIsSet(:bClasses)
+  end
+
+  def test_unset_nil
+    e = mm::SimpleClass.new
+    e.name = nil
+    assert e.eIsSet(:name)
+    e.eUnset(:name)
+    assert !e.eIsSet(:name)
+  end
+
+  def test_unset_string
+    e = mm::SimpleClass.new
+    e.name = "someone"
+    assert e.eIsSet(:name)
+    e.eUnset(:name)
+    assert !e.eIsSet(:name)
+  end
+
+  def test_unset_ref
+    ac = mm::AClassOO.new
+    bc = mm::BClassOO.new
+    bc.aClass = ac
+    assert bc.eIsSet(:aClass)
+    assert ac.eIsSet(:bClass)
+    assert_equal bc, ac.bClass
+    bc.eUnset(:aClass)
+    assert_nil bc.aClass
+    assert_nil ac.bClass
+    assert !bc.eIsSet(:aClass)
+    # opposite ref is nil but still "set"
+    assert ac.eIsSet(:bClass)
+  end
+
+  def test_unset_ref_many
+    ac = mm::AClassMM.new
+    bc = mm::BClassMM.new
+    bc.aClasses = [ac]
+    assert bc.eIsSet(:aClasses)
+    assert ac.eIsSet(:bClasses)
+    assert_equal [bc], ac.bClasses
+    bc.eUnset(:aClasses)
+    assert_equal [], bc.aClasses
+    assert_equal [], ac.bClasses
+    assert !bc.eIsSet(:aClasses)
+    # opposite ref is empty but still "set"
+    assert ac.eIsSet(:bClasses)
+  end
+
+  def test_unset_marshal
+    e = mm::SimpleClass.new
+    e.name = "someone"
+    e.eUnset(:name)
+    e2 = Marshal.load(Marshal.dump(e))
+    assert e.object_id != e2.object_id
+    assert !e2.eIsSet(:name)
+  end
+
 end
