@@ -201,6 +201,9 @@ module MetamodelBuilder
 	
   # Instances of MMGeneric can be used as values of any attribute are reference
   class MMGeneric
+    # empty implementation so we don't have to check if a value is a MMGeneriv before setting the container
+    def _set_container(container, containing_feature_name)
+    end
   end
 
   # MMProxy objects can be used instead of real target elements in case references should be resolved later on

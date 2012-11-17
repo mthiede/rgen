@@ -337,6 +337,10 @@ module BuilderExtensions
             oldval._unregister<%= firstToUpper(other_role) %>(self) unless oldval.nil? || oldval.is_a?(MMGeneric)
             val._register<%= firstToUpper(other_role) %>(self) unless val.nil? || val.is_a?(MMGeneric)
           <% end %>
+          <% if props.reference? && props.value(:containment) %>
+            val._set_container(self, :<%= name %>) unless val.nil?
+            oldval._set_container(nil, nil) unless oldval.nil?
+          <% end %>
         end 
         alias <%= name %>= set<%= firstToUpper(name) %>
 
@@ -344,10 +348,17 @@ module BuilderExtensions
           <% if other_role %>
             @<%= name %>._unregister<%= firstToUpper(other_role) %>(self) unless @<%= name %>.nil? || @<%= name %>.is_a?(MMGeneric)
           <% end %>
+          <% if props.reference? && props.value(:containment) %>
+            @<%= name %>._set_container(nil, nil) unless @<%= name %>.nil?
+            val._set_container(self, :<%= name %>) unless val.nil?
+          <% end %>
           @<%= name %> = val
         end
         
         def _unregister<%= firstToUpper(name) %>(val)
+          <% if props.reference? && props.value(:containment) %>
+            @<%= name %>._set_container(nil, nil) unless @<%= name %>.nil?
+          <% end %>
           @<%= name %> = nil
         end
         
@@ -390,6 +401,9 @@ module BuilderExtensions
           <% if other_role %>
             val._register<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMGeneric)
           <% end %>
+          <% if props.reference? && props.value(:containment) %>
+            val._set_container(self, :<%= name %>)
+          <% end %>
         end
         
         def remove<%= firstToUpper(name) %>(val)
@@ -397,6 +411,9 @@ module BuilderExtensions
           @<%= name %>.each_with_index do |e,i|
             if e.object_id == val.object_id
               @<%= name %>.delete_at(i)
+              <% if props.reference? && props.value(:containment) %>
+                val._set_container(nil, nil)
+              <% end %>
               <% if other_role %>
                 val._unregister<%= firstToUpper(other_role) %>(self) unless val.is_a?(MMGeneric)
               <% end %>
@@ -420,10 +437,16 @@ module BuilderExtensions
         def _register<%= firstToUpper(name) %>(val)
           @<%= name %> = [] unless @<%= name %>
           @<%= name %>.push val
+          <% if props.reference? && props.value(:containment) %>
+            val._set_container(self, :<%= name %>)
+          <% end %>
         end
 
         def _unregister<%= firstToUpper(name) %>(val)
           @<%= name %>.delete val
+          <% if props.reference? && props.value(:containment) %>
+            val._set_container(nil, nil)
+          <% end %>
         end
         
       CODE

@@ -157,4 +157,5 @@
 * Added enum type transformation to ECoreToUML13 transformer, primitive type mapping based on instanceClassName
 * Fixed default value appearing on read after setting a feature value to nil
 * Added eIsSet and eUnset methods
+* Added eContainer and eContainingFeature methods
 

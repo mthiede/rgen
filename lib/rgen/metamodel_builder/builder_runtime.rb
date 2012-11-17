@@ -65,6 +65,19 @@ module BuilderRuntime
     remove_instance_variable("@#{role}")
   end
 
+  def eContainer
+    @_container
+  end
+
+  def eContainingFeature
+    @_containing_feature_name
+  end
+
+  def _set_container(container, containing_feature_name)
+    @_container = container
+    @_containing_feature_name = containing_feature_name
+  end
+
 	def _assignmentTypeError(target, value, expected)
 		text = ""
 		if target

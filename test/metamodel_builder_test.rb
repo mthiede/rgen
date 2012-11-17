@@ -142,6 +142,16 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       abstract
     end
 
+    class ContainedClass < RGen::MetamodelBuilder::MMBase
+    end
+
+    class ContainerClass < RGen::MetamodelBuilder::MMBase
+      contains_one_uni 'oneChildUni', ContainedClass
+      contains_one 'oneChild', ContainedClass, 'parentOne'
+      contains_many_uni 'manyChildUni', ContainedClass
+      contains_many 'manyChild', ContainedClass, 'parentMany'
+    end
+
   end
    
   def mm
@@ -954,6 +964,157 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     e2 = Marshal.load(Marshal.dump(e))
     assert e.object_id != e2.object_id
     assert !e2.eIsSet(:name)
+  end
+
+  def test_conainer_one_uni
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+    a.oneChildUni = b
+    assert_equal a, b.eContainer
+    assert_equal :oneChildUni, b.eContainingFeature
+    a.oneChildUni = c
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+    assert_equal a, c.eContainer
+    assert_equal :oneChildUni, c.eContainingFeature
+    a.oneChildUni = nil
+    assert_nil c.eContainer
+    assert_nil c.eContainingFeature
+  end
+
+  def test_container_many_uni
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    a.addManyChildUni(b)
+    assert_equal a, b.eContainer
+    assert_equal :manyChildUni, b.eContainingFeature
+    a.addManyChildUni(c)
+    assert_equal a, c.eContainer
+    assert_equal :manyChildUni, c.eContainingFeature
+    a.removeManyChildUni(b)
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+    assert_equal a, c.eContainer
+    assert_equal :manyChildUni, c.eContainingFeature
+    a.removeManyChildUni(c)
+    assert_nil c.eContainer
+    assert_nil c.eContainingFeature
+  end
+
+  def test_conainer_one_bi
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainerClass.new
+    d = mm::ContainedClass.new
+    a.oneChild = b
+    assert_equal a, b.eContainer
+    assert_equal :oneChild, b.eContainingFeature
+    c.oneChild = d 
+    assert_equal c, d.eContainer
+    assert_equal :oneChild, d.eContainingFeature
+    a.oneChild = d
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+    assert_equal a, d.eContainer
+    assert_equal :oneChild, d.eContainingFeature
+  end
+
+  def test_conainer_one_bi_rev
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainerClass.new
+    d = mm::ContainedClass.new
+    a.oneChild = b
+    assert_equal a, b.eContainer
+    assert_equal :oneChild, b.eContainingFeature
+    c.oneChild = d 
+    assert_equal c, d.eContainer
+    assert_equal :oneChild, d.eContainingFeature
+    d.parentOne = a
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+    assert_equal a, d.eContainer
+    assert_equal :oneChild, d.eContainingFeature
+  end
+
+  def test_conainer_one_bi_nil
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a.oneChild = b
+    assert_equal a, b.eContainer
+    assert_equal :oneChild, b.eContainingFeature
+    a.oneChild = nil 
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+  end
+
+  def test_conainer_one_bi_nil_rev
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a.oneChild = b
+    assert_equal a, b.eContainer
+    assert_equal :oneChild, b.eContainingFeature
+    b.parentOne = nil 
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+  end
+
+  def test_container_many_bi
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    a.addManyChild(b)
+    a.addManyChild(c)
+    assert_equal a, b.eContainer
+    assert_equal :manyChild, b.eContainingFeature
+    assert_equal a, c.eContainer
+    assert_equal :manyChild, c.eContainingFeature
+    a.removeManyChild(b)
+    assert_nil b.eContainer
+    assert_nil b.eContainingFeature
+  end
+
+  def test_conainer_many_bi_steal
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    d = mm::ContainerClass.new
+    a.addManyChild(b)
+    a.addManyChild(c)
+    assert_equal a, b.eContainer
+    assert_equal :manyChild, b.eContainingFeature
+    assert_equal a, c.eContainer
+    assert_equal :manyChild, c.eContainingFeature
+    d.addManyChild(b)
+    assert_equal d, b.eContainer
+    assert_equal :manyChild, b.eContainingFeature
+  end
+
+  def test_conainer_many_bi_steal_ref
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    d = mm::ContainerClass.new
+    a.addManyChild(b)
+    a.addManyChild(c)
+    assert_equal a, b.eContainer
+    assert_equal :manyChild, b.eContainingFeature
+    assert_equal a, c.eContainer
+    assert_equal :manyChild, c.eContainingFeature
+    b.parentMany = d
+    assert_equal d, b.eContainer
+    assert_equal :manyChild, b.eContainingFeature
+  end
+
+  def test_container_generic
+    a = mm::ContainerClass.new
+    assert_nothing_raised do
+      a.oneChild = RGen::MetamodelBuilder::MMGeneric.new
+    end
   end
 
 end
