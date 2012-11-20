@@ -238,19 +238,20 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ["a"], o.literals
     o.addLiterals("b")
     assert_equal ["a", "b"], o.literals
-    # check for duplicates works by object identity, so there can be two strings "b"
     o.addLiterals("b")
     assert_equal ["a", "b", "b"], o.literals
-    # but the same string object "a" can only occur once
+    # attributes allow the same object several times
     o.addLiterals(o.literals.first)
     assert_equal ["a", "b", "b", "a"], o.literals
+    assert o.literals[0].object_id == o.literals[3].object_id
     # removing works by object identity, so providing a new string won't delete an existing one
     o.removeLiterals("a")
     assert_equal ["a", "b", "b", "a"], o.literals
     theA = o.literals.first
+    # each remove command removes only one element: remove first "a"
     o.removeLiterals(theA)
     assert_equal ["b", "b", "a"], o.literals
-    # removing something which is not present has no effect
+    # remove second "a" (same object)
     o.removeLiterals(theA)
     assert_equal ["b", "b"], o.literals
     o.removeLiterals(o.literals.first)
