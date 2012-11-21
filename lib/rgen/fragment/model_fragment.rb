@@ -99,6 +99,7 @@ class ModelFragment
     return @elements if @elements
     @elements = []
     @root_elements.each do |e|
+      @elements << e
       all_child_elements(e, @elements)
     end
     @elements
