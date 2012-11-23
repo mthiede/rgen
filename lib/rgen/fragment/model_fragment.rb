@@ -44,7 +44,7 @@ class ModelFragment
   #  :identifier_provider
   #    identifier provider to be used when resolving references
   #    it must be a proc which receives a model element and must return 
-  #    that element's identifier as a string or nil if the element has no identifier
+  #    that element's identifier or nil if the element has no identifier
   #
   def initialize(location, options={})
     @location = location
@@ -134,8 +134,8 @@ class ModelFragment
   def build_index
     raise "cannot build index without an identifier provider" unless @identifier_provider
     @index = elements.collect { |e|
-      ident = @identifier_provider.call(e)
-      (ident.is_a?(String) && !ident.empty?) ? [ident, e] : nil 
+      ident = @identifier_provider.call(e, nil)
+      ident && !ident.empty? ? [ident, e] : nil 
     }.compact
   end
 

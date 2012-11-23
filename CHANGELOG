@@ -158,6 +158,5 @@
 * Fixed default value appearing on read after setting a feature value to nil
 * Added eIsSet and eUnset methods
 * Added eContainer and eContainingFeature methods
-* Fixed ModelFragment to call identifier provider with a single argument as specified, check identifier to be a string
 * Fixed ModelFragment#elements not containing root elements
 
