@@ -16,7 +16,9 @@ class FileCacheMapTest < Test::Unit::TestCase
   end
    
   def test_nocache
-    assert_equal(:invalid, @cm.load_data(TestDir+"/fileA"))
+    reasons = []
+    assert_equal(:invalid, @cm.load_data(TestDir+"/fileA", :invalidation_reasons => reasons))
+    assert_equal [:no_cachefile], reasons
   end
 
   def test_storeload
@@ -57,7 +59,9 @@ class FileCacheMapTest < Test::Unit::TestCase
     File.open(keyFile, "w") {|f| f.write("somedata")}
     @cm.store_data(keyFile, "valuedata")
     File.open(TestDir+"/.cache/fileA.test","a") {|f| f.write("more data")}
-    assert_equal(:invalid, @cm.load_data(keyFile))
+    reasons = []
+    assert_equal(:invalid, @cm.load_data(keyFile, :invalidation_reasons => reasons))
+    assert_equal [:cachefile_corrupted], reasons
   end  
 
   def test_changedcontent
@@ -65,7 +69,9 @@ class FileCacheMapTest < Test::Unit::TestCase
     File.open(keyFile, "w") {|f| f.write("somedata")}
     @cm.store_data(keyFile, "valuedata")
     File.open(keyFile, "a") {|f| f.write("more data")}
-    assert_equal(:invalid, @cm.load_data(keyFile))
+    reasons = []
+    assert_equal(:invalid, @cm.load_data(keyFile, :invalidation_reasons => reasons))
+    assert_equal [:keyfile_changed], reasons
   end 
 
   def test_versioninfo
@@ -83,7 +89,9 @@ class FileCacheMapTest < Test::Unit::TestCase
     @cm.version_info = "123"
     @cm.store_data(keyFile, "valuedata")
     @cm.version_info = "456"
-    assert_equal(:invalid, @cm.load_data(keyFile))
+    reasons = []
+    assert_equal(:invalid, @cm.load_data(keyFile, :invalidation_reasons => reasons))
+    assert_equal [:keyfile_changed], reasons
   end
 
 end

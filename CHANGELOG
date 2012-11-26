@@ -159,4 +159,5 @@
 * Added eIsSet and eUnset methods
 * Added eContainer and eContainingFeature methods
 * Fixed ModelFragment#elements not containing root elements
+* Added optional output of invalidation reason to FileCacheMap#load_data
 

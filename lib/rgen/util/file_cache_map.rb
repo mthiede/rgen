@@ -26,22 +26,37 @@ class FileCacheMap
 
   # load data associated with file +key_path+
   # returns :invalid in case either the associated file or the cache file has changed
-  def load_data(key_path)
+  #
+  # options:
+  #  :invalidation_reasons:
+  #    an array which will receive symbols indicating why the cache is invalid:
+  #    :no_cachefile, :cachefile_corrupted, :keyfile_changed
+  #
+  def load_data(key_path, options={})
+    reasons = options[:invalidation_reasons] || []
     cf = cache_file(key_path)
-    return :invalid unless File.exist?(cf)
+    if !File.exist?(cf)
+      reasons << :no_cachefile
+      return :invalid 
+    end
     result = nil
     File.open(cf, "rb") do |f|
       header = f.read(41)
-      return :invalid unless header
+      if !header
+        reasons << :cachefile_corrupted
+        return :invalid
+      end
       checksum = header[0..39]
       data = f.read
       if calc_sha1(data) == checksum
         if calc_sha1_keydata(key_path) == data[0..39]
           result = data[41..-1]
         else
+          reasons << :keyfile_changed
           result = :invalid
         end
       else
+        reasons << :cachefile_corrupted
         result = :invalid
       end
     end 
