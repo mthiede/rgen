@@ -29,7 +29,7 @@ RDoc::Task.new do |rd|
 end
 
 RGenPackageTask = Gem::PackageTask.new(RGenGemSpec) do |p|
-  p.need_zip = true
+  p.need_zip = false
 end	
 
 task :prepare_package_rdoc => :rdoc do
