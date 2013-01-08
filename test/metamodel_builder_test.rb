@@ -167,9 +167,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal "TestName", sc.name
     sc.name = nil
     assert_equal nil, sc.name
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       sc.name = 5
     end
+    assert_match /In (\w+::)+SimpleClass : Can not use a Fixnum where a String is expected/, err.message
     assert_equal "EString", mm::SimpleClass.ecore.eAttributes.find{|a| a.name=="name"}.eType.name
 
     assert_equal "xtest", sc.stringWithDefault
@@ -195,12 +196,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal false, sc.allowed
     sc.allowed = nil
     assert_equal nil, sc.allowed
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       sc.allowed = :someSymbol
     end
-    assert_raise StandardError do
+    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol\(:someSymbol\) where a \[true,false\] is expected/, err.message
+    err = assert_raise StandardError do
       sc.allowed = "a string"
     end
+    assert_match /In (\w+::)+SimpleClass : Can not use a String where a \[true,false\] is expected/, err.message
     assert_equal "EBoolean", mm::SimpleClass.ecore.eAttributes.find{|a| a.name=="allowed"}.eType.name
     
     assert_respond_to sc, :kind
@@ -211,12 +214,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal :extended, sc.kind
     sc.kind = nil
     assert_equal nil, sc.kind
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       sc.kind = :false
     end
-    assert_raise StandardError do
+    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol\(:false\) where a \[:simple,:extended\] is expected/, err.message
+    err = assert_raise StandardError do
       sc.kind = "a string"
     end
+    assert_match /In (\w+::)+SimpleClass : Can not use a String where a \[:simple,:extended\] is expected/, err.message
     
     enum = mm::SimpleClass.ecore.eAttributes.find{|a| a.name=="kind"}.eType
     assert_equal ["extended", "simple"], enum.eLiterals.name.sort
@@ -229,9 +234,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_respond_to o, :addLiterals
     assert_respond_to o, :removeLiterals
 
-    assert_raise(StandardError) do
+    err = assert_raise(StandardError) do
       o.addLiterals(1)
     end
+    assert_match /In (\w+::)+ManyAttrClass : Can not use a Fixnum where a String is expected/, err.message
 
     assert_equal [], o.literals
     o.addLiterals("a")
@@ -263,9 +269,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     o.literals = ["a", "b", "c"]
     assert_equal ["a", "b", "c"], o.literals
     # can only take enumerables
-    assert_raise(StandardError) do
+    err = assert_raise(StandardError) do
       o.literals = 1
     end
+    assert_match /In (\w+::)+ManyAttrClass : Can not use a Fixnum where a Enumerable is expected/, err.message
  
     o.bools = [true, false, true, false]
     assert_equal [true, false, true, false], o.bools
@@ -309,9 +316,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     sc.classB = cb
     assert_equal cb, sc.classB
     
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       sc.classB = ca
     end
+    assert_match /In (\w+::)+HasOneTestClass : Can not use a (\w+::)+ClassA where a (\w+::)+ClassB is expected/, err.message
     
     assert_equal [], mm::ClassA.ecore.eReferences
     assert_equal [], mm::ClassB.ecore.eReferences
@@ -335,9 +343,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [ca1, ca2], o.classA
     o.removeClassA(ca2)
     assert_equal [ca1], o.classA
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       o.addClassA(mm::ClassB.new)
     end
+    assert_match /In (\w+::)+HasManyTestClass : Can not use a (\w+::)+ClassB where a (\w+::)+ClassA is expected/, err.message
     assert_equal [], mm::HasManyTestClass.ecore.eReferences.select{|r| r.many == false}
     assert_equal ["classA"], mm::HasManyTestClass.ecore.eReferences.select{|r| r.many == true}.name
   end
@@ -543,9 +552,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert ac.bClasses.include?(bc)
     
     # put something else into the BClass
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       bc.addAClasses :notaaclass
     end
+    assert_match /In (\w+::)+BClassMM : Can not use a Symbol\(:notaaclass\) where a (\w+::)+AClassMM is expected/, err.message
     
     # remove the AClass from the BClass
     bc.removeAClasses ac
@@ -558,9 +568,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert bc.aClasses.include?(ac)
     
     # put something else into the AClass
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       ac.addBClasses :notabclass
     end
+    assert_match /In (\w+::)+AClassMM : Can not use a Symbol\(:notabclass\) where a (\w+::)+BClassMM is expected/, err.message
     
     # remove the BClass from the AClass
     ac.removeBClasses bc
@@ -789,9 +800,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   end
 
   def test_abstract
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       mm::AbstractClass.new
     end
+    assert_match /Class (\w+::)+AbstractClass is abstract/, err.message
   end
 
   module BadDefaultValueLiteralContainer
@@ -835,27 +847,34 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   end
 
   def test_bad_default_value_literal
-    assert_raise StandardError do
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test1.call
     end
-    assert_raise StandardError do
+    assert_equal "Property integerWithDefault can not take value 1.1, expected an Integer", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test2.call
     end
-    assert_raise StandardError do
+    assert_equal "Property integerWithDefault can not take value x, expected an Integer", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test3.call
     end
-    assert_raise StandardError do
+    assert_equal "Property boolWithDefault can not take value 1, expected true or false", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test4.call
     end
-    assert_raise StandardError do
+    assert_equal "Property floatWithDefault can not take value 1, expected a Float", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test5.call
     end
-    assert_raise StandardError do
+    assert_equal "Property floatWithDefault can not take value true, expected a Float", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test6.call
     end
-    assert_raise StandardError do
+    assert_equal "Property enumWithDefault can not take value xxx, expected one of :simple, :extended", err.message
+    err = assert_raise StandardError do
       BadDefaultValueLiteralContainer::Test7.call
     end
+    assert_equal "Property enumWithDefault can not take value 7, expected one of :simple, :extended", err.message
   end
 
   def test_isset_set_to_nil
