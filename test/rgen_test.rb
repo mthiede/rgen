@@ -22,4 +22,5 @@ require 'metamodel_order_test'
 require 'metamodel_from_ecore_test'
 require 'util_test'
 require 'model_fragment_test'
+require 'qualified_name_provider_test'
 

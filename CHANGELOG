@@ -161,3 +161,7 @@
 * Fixed ModelFragment#elements not containing root elements
 * Added optional output of invalidation reason to FileCacheMap#load_data
 
+=0.6.2
+
+* Made qualified name provider work with unidirectional containment references
+
