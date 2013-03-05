@@ -10,7 +10,7 @@ class Array
 	end
 	
 	def method_missing(m, *args)
-		super unless size == 0 or compact.any?{|e| e.is_a? RGen::MetamodelBuilder::MMBase}
+		return super unless (size == 0 && m.to_s.start_with?('e')) or compact.any?{|e| e.is_a? RGen::MetamodelBuilder::MMBase}
 		# use an array to build the result to achiev similar ordering
 		result = []
 		inResult = {}
