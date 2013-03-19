@@ -20,7 +20,7 @@ class Array
     # it fails with an exception. Make sure it gets a NoMethodException as without this
     # extension and it will catch that and return an empty hash as expected.
     #
-    super unless (size == 0 && 
+    return super unless (size == 0 && 
       m != :to_hash) ||
       compact.any?{|e| e.is_a? RGen::MetamodelBuilder::MMBase}
     # use an array to build the result to achiev similar ordering
