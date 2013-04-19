@@ -166,3 +166,7 @@
 * Made qualified name provider work with unidirectional containment references
 * Fixed array_extension breaking the Hash[] method
 
+=0.6.3
+
+* Added BigDecimal support
+

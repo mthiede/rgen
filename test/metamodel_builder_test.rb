@@ -3,6 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 require 'test/unit'
 require 'rgen/metamodel_builder'
 require 'rgen/array_extensions'
+require 'bigdecimal'
 
 class MetamodelBuilderTest < Test::Unit::TestCase
   
@@ -225,6 +226,25 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     
     enum = mm::SimpleClass.ecore.eAttributes.find{|a| a.name=="kind"}.eType
     assert_equal ["extended", "simple"], enum.eLiterals.name.sort
+  end
+
+  def test_float
+    sc = mm::SimpleClass.new
+    sc.floatWithDefault = 7.89
+    assert_equal 7.89, sc.floatWithDefault
+    if BigDecimal.double_fig == 16
+      sc.floatWithDefault = 123456789012345678.0
+      # loss of precision
+      assert_equal "123456789012345680.0", sc.floatWithDefault.to_s
+    end
+    sc.floatWithDefault = BigDecimal.new("123456789012345678.0")
+    assert sc.floatWithDefault.is_a?(BigDecimal)
+    assert_equal "123456789012345678.0", sc.floatWithDefault.to_s("F")
+
+    dump = Marshal.dump(sc)
+    sc2 = Marshal.load(dump)
+    assert sc2.floatWithDefault.is_a?(BigDecimal)
+    assert_equal "123456789012345678.0", sc2.floatWithDefault.to_s("F")
   end
   
   def test_many_attr

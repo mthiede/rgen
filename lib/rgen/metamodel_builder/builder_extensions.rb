@@ -511,7 +511,9 @@ module BuilderExtensions
   def type_check_code(varname, props)
     code = ""
     if props.impl_type.is_a?(Class)
-      code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMGeneric)\n"
+      code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMGeneric)"
+      code << " || #{varname}.is_a?(BigDecimal)" if props.impl_type == Float && defined?(BigDecimal)
+      code << "\n"
       expected = props.impl_type.to_s
     elsif props.impl_type.is_a?(RGen::MetamodelBuilder::DataTypes::Enum)
       code << "unless #{varname}.nil? || [#{props.impl_type.literals_as_strings.join(',')}].include?(#{varname}) || #{varname}.is_a?(MMGeneric)\n"
