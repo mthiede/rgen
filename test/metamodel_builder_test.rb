@@ -235,8 +235,9 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     if BigDecimal.double_fig == 16
       sc.floatWithDefault = 123456789012345678.0
       # loss of precision
-      assert_equal "123456789012345680.0", sc.floatWithDefault.to_s
+      assert_equal "123456789012345680.0", sprintf("%.1f", sc.floatWithDefault)
     end
+    sc.floatWithDefault = nil
     sc.floatWithDefault = BigDecimal.new("123456789012345678.0")
     assert sc.floatWithDefault.is_a?(BigDecimal)
     assert_equal "123456789012345678.0", sc.floatWithDefault.to_s("F")
