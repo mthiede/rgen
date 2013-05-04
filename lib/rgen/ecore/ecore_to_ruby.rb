@@ -99,9 +99,10 @@ class ECoreToRuby
       @classifiers = classifiers
     end
     def value(prop)
+      return false if prop == :containment && @efeature.is_a?(RGen::ECore::EAttribute)
       @efeature.send(prop)
     end
-    def many
+    def many?
       @efeature.many
     end
     def reference?
@@ -132,7 +133,7 @@ class ECoreToRuby
       w1 = FeatureWrapper.new(f, @classifiers) 
       w2 = FeatureWrapper.new(f.eOpposite, @classifiers) if f.is_a?(RGen::ECore::EReference) && f.eOpposite
       c.module_eval do
-        if w1.many
+        if w1.many?
           _build_many_methods(w1, w2)
         else
           _build_one_methods(w1, w2)
