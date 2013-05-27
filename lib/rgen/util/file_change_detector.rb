@@ -37,21 +37,27 @@ class FileChangeDetector
     files_before = @file_info.keys
     used_files = {} 
     files.each do |file|
-      used_files[file] = true
-      if @file_info[file]
-        if @file_info[file].timestamp != File.mtime(file)
-          @file_info[file].timestamp = File.mtime(file)
-          digest = calc_digest(file)
-          if @file_info[file].digest != digest
-            @file_info[file].digest = digest 
-            @file_changed && @file_changed.call(file)
+      begin
+        if @file_info[file]
+          if @file_info[file].timestamp != File.mtime(file)
+            @file_info[file].timestamp = File.mtime(file)
+            digest = calc_digest(file)
+            if @file_info[file].digest != digest
+              @file_info[file].digest = digest 
+              @file_changed && @file_changed.call(file)
+            end
           end
+        else
+          @file_info[file] = FileInfo.new
+          @file_info[file].timestamp = File.mtime(file)
+          @file_info[file].digest = calc_digest(file)
+          @file_added && @file_added.call(file)
         end
-      else
-        @file_info[file] = FileInfo.new
-        @file_info[file].timestamp = File.mtime(file)
-        @file_info[file].digest = calc_digest(file)
-        @file_added && @file_added.call(file)
+        used_files[file] = true
+      # protect against missing files
+      rescue Errno::ENOENT
+        # used_files is not set and @file_info will be removed below
+        # notification hook hasn't been called yet since it comes after file accesses
       end
     end
     files_before.each do |file|

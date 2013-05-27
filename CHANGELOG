@@ -170,3 +170,7 @@
 
 * Added BigDecimal support
 
+=0.6.4
+
+* Made FileChangeDetector robust against missing files
+
