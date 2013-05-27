@@ -35,31 +35,32 @@ class FileCacheMap
   def load_data(key_path, options={})
     reasons = options[:invalidation_reasons] || []
     cf = cache_file(key_path)
-    if !File.exist?(cf)
-      reasons << :no_cachefile
-      return :invalid 
-    end
     result = nil
-    File.open(cf, "rb") do |f|
-      header = f.read(41)
-      if !header
-        reasons << :cachefile_corrupted
-        return :invalid
-      end
-      checksum = header[0..39]
-      data = f.read
-      if calc_sha1(data) == checksum
-        if calc_sha1_keydata(key_path) == data[0..39]
-          result = data[41..-1]
+    begin
+      File.open(cf, "rb") do |f|
+        header = f.read(41)
+        if !header
+          reasons << :cachefile_corrupted
+          return :invalid
+        end
+        checksum = header[0..39]
+        data = f.read
+        if calc_sha1(data) == checksum
+          if calc_sha1_keydata(key_path) == data[0..39]
+            result = data[41..-1]
+          else
+            reasons << :keyfile_changed
+            result = :invalid
+          end
         else
-          reasons << :keyfile_changed
+          reasons << :cachefile_corrupted
           result = :invalid
         end
-      else
-        reasons << :cachefile_corrupted
-        result = :invalid
-      end
-    end 
+      end 
+    rescue Errno::ENOENT
+      reasons << :no_cachefile
+      result = :invalid 
+    end
     result
   end
 
@@ -104,10 +105,14 @@ private
   # this method is much faster than calling +keyData+ and putting the result in +calc_sha1+
   # reason is probably that there are not so many big strings being created
   def calc_sha1_keydata(path)
-    sha1 = Digest::SHA1.new
-    sha1.file(path)
-    sha1.update(@version_info.to_s)
-    sha1.hexdigest
+    begin
+      sha1 = Digest::SHA1.new
+      sha1.file(path)
+      sha1.update(@version_info.to_s)
+      sha1.hexdigest
+    rescue Errno::ENOENT
+      "<missing_key_file>"
+    end
   end
    
 end

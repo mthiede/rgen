@@ -172,5 +172,5 @@
 
 =0.6.4
 
-* Made FileChangeDetector robust against missing files
+* Made FileChangeDetector and FileCacheMap robust against missing files
 
