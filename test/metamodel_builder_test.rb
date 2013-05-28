@@ -153,6 +153,12 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       contains_many 'manyChild', ContainedClass, 'parentMany'
     end
 
+    class OppositeRefAssocA < RGen::MetamodelBuilder::MMBase
+    end
+    class OppositeRefAssocB < RGen::MetamodelBuilder::MMBase
+    end
+    OppositeRefAssocA.one_to_one 'bClass', OppositeRefAssocB, 'aClass'
+
   end
    
   def mm
@@ -1158,4 +1164,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
   end
 
+  def test_opposite_assoc_on_first_write
+    ac = mm::OppositeRefAssocA.new
+    bc = mm::OppositeRefAssocB.new
+
+    # no access to 'aClass' or 'bClass' methods before
+    # test if on-demand metamodel building creates opposite ref association on first write
+    bc.aClass = ac
+    assert_equal ac, bc.aClass
+    assert_equal bc, ac.bClass
+  end
 end
