@@ -1174,4 +1174,28 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal ac, bc.aClass
     assert_equal bc, ac.bClass
   end
+
+  def test_clear_by_array_assignment
+    oc1 = mm::OneClass.new
+    mc1 = mm::ManyClass.new  	
+    mc2 = mm::ManyClass.new  	
+    mc3 = mm::ManyClass.new  	
+    
+    oc1.manyClasses = [mc1, mc2]
+    assert_equal [mc1, mc2], oc1.manyClasses
+    oc1.manyClasses = []
+    assert_equal [], oc1.manyClasses
+	end
+
+  def test_clear_by_array_assignment_uni
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+
+    a.manyChildUni = [b, c]
+    assert_equal [b, c], a.manyChildUni
+    a.manyChildUni = []
+    assert_equal [], a.manyChildUni
+  end
+
 end
