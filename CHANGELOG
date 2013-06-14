@@ -174,3 +174,7 @@
 
 * Made FileChangeDetector and FileCacheMap robust against missing files
 
+=0.6.5
+
+* Fixed missing default argument of FragmentedModel#resolve
+

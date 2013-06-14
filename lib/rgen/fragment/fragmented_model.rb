@@ -82,7 +82,7 @@ class FragmentedModel
   #  :use_target_type:
   #    reference resolver uses the expected target type to narrow the set of possible targets 
   #
-  def resolve(options)
+  def resolve(options={})
     @fragments.each do |f|
       f.resolve_external(index, options)
     end
