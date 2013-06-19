@@ -54,5 +54,11 @@ class ArrayExtensionsTest < Test::Unit::TestCase
   def test_hash_square
     assert_equal({}, Hash[[]])
   end
+
+  def test_to_str_on_empty_array
+    assert_raise NoMethodError do
+      [].to_str
+    end
+  end
   
 end

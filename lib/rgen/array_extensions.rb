@@ -20,8 +20,10 @@ class Array
     # it fails with an exception. Make sure it gets a NoMethodException as without this
     # extension and it will catch that and return an empty hash as expected.
     #
+    # Similar problems exist for other Ruby built-in methods which are expected to fail.
+    #
     return super unless (size == 0 && 
-      m != :to_hash) ||
+      m != :to_hash && m != :to_str) ||
       compact.any?{|e| e.is_a? RGen::MetamodelBuilder::MMBase}
     # use an array to build the result to achiev similar ordering
     result = []

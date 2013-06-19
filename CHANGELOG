@@ -177,4 +177,5 @@
 =0.6.5
 
 * Fixed missing default argument of FragmentedModel#resolve
+* Added to_str to methods which aren't forwarded by array extension on empty arrays
 
