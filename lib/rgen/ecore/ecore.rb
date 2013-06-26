@@ -54,7 +54,7 @@ module RGen
         def defaultValue_derived
           return nil if defaultValueLiteral.nil?
           case eType
-            when EInt
+            when EInt, ELong
               defaultValueLiteral.to_i
             when EFloat
               defaultValueLiteral.to_f
@@ -181,6 +181,7 @@ module RGen
     
     EString = EDataType.new(:name => "EString", :instanceClassName => "String")
     EInt = EDataType.new(:name => "EInt", :instanceClassName => "Integer")
+    ELong = EDataType.new(:name => "ELong", :instanceClassName => "Long")
     EBoolean = EDataType.new(:name => "EBoolean", :instanceClassName => "Boolean")
     EFloat = EDataType.new(:name => "EFloat", :instanceClassName => "Float")
     ERubyObject = EDataType.new(:name => "ERubyObject", :instanceClassName => "Object")

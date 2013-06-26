@@ -65,6 +65,9 @@ module DataTypes
 	# as possible values.
 	Boolean = Enum.new(:name => "Boolean", :literals => [true, false])
 
+	# Long represents a 64-bit Integer
+	class Long < Bignum
+	end
 end
 
 end
