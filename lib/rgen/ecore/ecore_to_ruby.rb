@@ -70,7 +70,7 @@ class ECoreToRuby
         end
       end
       alias _respond_to respond_to?
-      def respond_to?(m)
+      def respond_to?(m, include_all=false)
         self.class._ecore_to_ruby.add_features(self.class.ecore)
         _respond_to(m)
       end
