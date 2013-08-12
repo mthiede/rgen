@@ -83,8 +83,9 @@ class FragmentedModel
   #    reference resolver uses the expected target type to narrow the set of possible targets 
   #
   def resolve(options={})
+    local_index = index
     @fragments.each do |f|
-      f.resolve_external(index, options)
+      f.resolve_external(local_index, options)
     end
   end
 
