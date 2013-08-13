@@ -4,13 +4,20 @@ module RGen
 
 module Fragment
 
-# A model fragment is a list of root model elements associated with a location (e.g. a file)
+# A model fragment is a list of root model elements associated with a location (e.g. a file).
+# It also stores a list of unresolved references as well as a list of unresolved references
+# which have been resolved. Using the latter, a fragment can undo reference resolution.
 #
 # Optionally, an arbitrary data object may be associated with the fragment. The data object
 # will also be stored in the cache.
 #
 # If an element within the fragment changes this must be indicated to the fragment by calling
 # +mark_changed+. 
+#
+# Note: the fragment knows how to resolve references (+resolve_local+, +resolve_external+).
+# However considering a fragment a data structure, this functionality might be removed in the
+# future. Instead the fragment should be told about each resolution taking place. Use 
+# method +mark_resolved+ for this purpose.
 #
 class ModelFragment
   attr_reader :root_elements
@@ -68,6 +75,8 @@ class ModelFragment
     @index = options[:index]
     @unresolved_refs = options[:unresolved_refs]
     @resolved_refs = nil 
+    # new unresolved refs, reset removed_urefs
+    @removed_urefs = nil
     @changed = false
   end
 
@@ -78,6 +87,8 @@ class ModelFragment
     @elements = nil
     @index = nil
     @unresolved_refs = nil
+    # unresolved refs will be recalculated, no need to keep removed_urefs
+    @removed_urefs = nil
     @resolved_refs = :dirty 
   end
 
@@ -115,15 +126,10 @@ class ModelFragment
   # Returns all unresolved references within this fragment, i.e. references to MMProxy objects
   #
   def unresolved_refs
-    return @unresolved_refs if @unresolved_refs
-    @unresolved_refs = []
-    elements.each do |e|
-      each_reference_target(e) do |r, t|
-        if t.is_a?(RGen::MetamodelBuilder::MMProxy)
-          @unresolved_refs << 
-            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, t)
-        end
-      end
+    @unresolved_refs ||= collect_unresolved_refs
+    if @removed_urefs
+      @unresolved_refs -= @removed_urefs
+      @removed_urefs = nil
     end
     @unresolved_refs
   end
@@ -189,6 +195,19 @@ class ModelFragment
     end
   end
 
+  # Marks a particular unresolved reference +uref+ as resolved to +target+ in +target_fragment+.
+  #
+  def mark_resolved(uref, target_fragment, target)
+    @resolved_refs = {} if @resolved_refs.nil? || @resolved_refs == :dirty
+    target_fragment ||= :unknown
+    if target_fragment != self
+      @resolved_refs[target_fragment] ||= []
+      @resolved_refs[target_fragment] << ResolvedReference.new(uref, target)
+    end
+    @removed_urefs ||= []
+    @removed_urefs << uref
+  end
+
   # Unresolve outgoing references to all external fragments, i.e. references which used to
   # be represented by an unresolved reference from within this fragment.
   # Note, that there may be more references to external fragments due to references which 
@@ -217,6 +236,9 @@ class ModelFragment
   # Turns resolved references +rrefs+ back into unresolved references
   #
   def unresolve_refs(rrefs)
+    # make sure any removed_urefs have been removed, 
+    # otherwise they will be removed later even if this method actually re-added them
+    unresolved_refs
     rrefs.each do |rr|
       ur = rr.uref
       refs = ur.element.getGeneric(ur.feature_name)
@@ -229,6 +251,19 @@ class ModelFragment
       end
       @unresolved_refs << ur
     end
+  end
+
+  def collect_unresolved_refs
+    unresolved_refs = []
+    elements.each do |e|
+      each_reference_target(e) do |r, t|
+        if t.is_a?(RGen::MetamodelBuilder::MMProxy)
+          unresolved_refs << 
+            RGen::Instantiator::ReferenceResolver::UnresolvedReference.new(e, r.name, t)
+        end
+      end
+    end
+    unresolved_refs
   end
 
   def each_reference_target(element)

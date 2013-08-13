@@ -1,3 +1,5 @@
+require 'rgen/instantiator/resolution_helper'
+
 module RGen
 
 module Instantiator
@@ -86,37 +88,13 @@ class ReferenceResolver
         target = target.select{|e| e.is_a?(feature.eType.instanceClass)}
       end
       if target.size == 1
-        refs = ur.element.getGeneric(ur.feature_name)
-        if refs.is_a?(Array) 
-          index = refs.index(ur.proxy)
-          ur.element.removeGeneric(ur.feature_name, ur.proxy)
-          begin
-            ur.element.addGeneric(ur.feature_name, target[0], index)
-            options[:on_resolve] && options[:on_resolve].call(ur, target[0])
-          rescue StandardError => e
-            if is_type_error?(e)
-              ur.element.addGeneric(ur.feature_name, ur.proxy, index)
-              ur.target_type_error = true
-              problems << type_error_message(target[0])
-              still_unresolved_refs << ur
-            else
-              raise
-            end
-          end
-        else
-          begin
-            # this will replace the proxy
-            ur.element.setGeneric(ur.feature_name, target[0])
-            options[:on_resolve] && options[:on_resolve].call(ur, target[0])
-          rescue StandardError => e
-            if is_type_error?(e)
-              ur.target_type_error = true
-              problems << type_error_message(target[0])
-              still_unresolved_refs << ur
-            else
-              raise
-            end
-          end
+        status = ResolutionHelper.set_uref_target(ur, target[0])
+        if status == :success
+          options[:on_resolve] && options[:on_resolve].call(ur, target[0])
+        elsif status == :type_error
+          ur.target_type_error = true
+          problems << type_error_message(target[0])
+          still_unresolved_refs << ur
         end
       elsif target.size > 1
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
@@ -130,10 +108,6 @@ class ReferenceResolver
   end   
 
   private
-
-  def is_type_error?(e)
-    e.message =~ /Can not use a .* where a .* is expected/
-  end
 
   def type_error_message(target)
     "invalid target type #{target.class}"
