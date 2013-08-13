@@ -73,9 +73,15 @@ class ReferenceResolver
   #    use the expected target type to narrow the set of possible targets 
   #    (i.e. ignore targets with wrong type)
   #
+  #  :failed_resolutions
+  #    a Hash which will receive an entry for each failed resolution for which at least one
+  #    target element was found (wrong target type, or target not unique).
+  #    hash key is the uref, hash value is the target element or the Array of target elements
+  #
   def resolve(unresolved_refs, options={})
     problems = options[:problems] || []
     still_unresolved_refs = []
+    failed_resolutions = options[:failed_resolutions] || {}
     unresolved_refs.each do |ur|
       if @identifier_resolver
         target = @identifier_resolver.call(ur.proxy.targetIdentifier)
@@ -95,10 +101,12 @@ class ReferenceResolver
           ur.target_type_error = true
           problems << type_error_message(target[0])
           still_unresolved_refs << ur
+          failed_resolutions[ur] = target[0]
         end
       elsif target.size > 1
         problems << "identifier #{ur.proxy.targetIdentifier} not uniq"
         still_unresolved_refs << ur
+        failed_resolutions[ur] = target
       else
         problems << "identifier #{ur.proxy.targetIdentifier} not found"
         still_unresolved_refs << ur
