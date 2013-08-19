@@ -179,3 +179,10 @@
 * Fixed missing default argument of FragmentedModel#resolve
 * Added to_str to methods which aren't forwarded by array extension on empty arrays
 
+=0.6.6
+
+* Added ModelFragment#mark_resolved and ResolutionHelper
+* Added ReferenceResolver option to output failed resolutions
+* Major performance improvement of FragmentedModel#resolve
+* Fixed a Ruby 2.0 related warning
+
