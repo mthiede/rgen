@@ -23,13 +23,42 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     end
 
     class AddressBook < RGen::MetamodelBuilder::MMBase
+      include RGen::MetamodelBuilder::NavigationExtensions
       contains_many_uni 'entries', AddressBookEntry
     end
 
   end
    
-  def mm
-    TestMetamodel
+  def setup
+    @jones_work_address = TestMetamodel::Address.new
+    @jones_work_address.type = 'work'
+
+    @jones_home_address = TestMetamodel::Address.new
+    @jones_home_address.type = 'home'    
+
+    @jones_book_entry = TestMetamodel::AddressBookEntry.new
+    @jones_book_entry.name = 'Mr. Jones'
+    @jones_book_entry.addAddresses(@jones_work_address)
+    @jones_book_entry.addAddresses(@jones_home_address)
+
+    @smith_shop_address = TestMetamodel::Address.new
+    @smith_shop_address.type = 'shop'
+
+    @smith_home_address = TestMetamodel::Address.new
+    @smith_home_address.type = 'home'      
+
+    @smith_book_entry = TestMetamodel::AddressBookEntry.new
+    @smith_book_entry.name = 'Mr. Smith'
+    @smith_book_entry.addAddresses(@smith_shop_address)
+    @smith_book_entry.addAddresses(@smith_home_address)
+
+    @green_book_entry = TestMetamodel::AddressBookEntry.new
+    @green_book_entry.name = 'Mr. Green'
+
+    @address_book_1 = TestMetamodel::AddressBook.new
+    @address_book_1.addEntries(@jones_book_entry)
+    @address_book_1.addEntries(@smith_book_entry)
+    @address_book_1.addEntries(@green_book_entry)
   end
 
   def test_root_method_is_there
@@ -55,8 +84,6 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     assert abe==abe.root
   end
 
-  # It works even is the top container
-  # has not the extension
   def test_root_is_top_container
     a1 = TestMetamodel::Address.new
     a1.type = 'work'
@@ -72,5 +99,54 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     assert ab==a2.root
     assert ab==abe.root
   end  
+
+  def test_all_children_empty
+    # this node has not containment relations
+    assert_equal [],@jones_work_address.all_children
+    # this node has containment relations
+    assert_equal [],@green_book_entry.all_children
+  end
+
+  def test_all_children_not_empty
+    assert_equal(
+      [@jones_book_entry,@smith_book_entry,@green_book_entry], 
+      @address_book_1.all_children)
+  end 
+
+  def test_all_children_deep_not_empty
+    assert_equal 7,@address_book_1.all_children_deep.count
+    # direct children
+    assert @address_book_1.all_children_deep.include?(
+      @jones_book_entry)
+    assert @address_book_1.all_children_deep.include?(
+      @smith_book_entry)
+    assert @address_book_1.all_children_deep.include?(
+      @green_book_entry)
+    # non-direct children
+    assert @address_book_1.all_children_deep.include?(
+      @jones_work_address)
+    assert @address_book_1.all_children_deep.include?(
+      @jones_home_address)    
+    assert @address_book_1.all_children_deep.include?(
+      @smith_shop_address)
+    assert @address_book_1.all_children_deep.include?(
+      @smith_home_address)        
+  end    
+
+  def test_traverse
+    to_traverse = [@address_book_1,
+        @jones_book_entry,
+          @jones_work_address,@jones_home_address,
+        @smith_book_entry,
+          @smith_shop_address,@smith_home_address,
+        @green_book_entry]            
+    i = 0  
+    @address_book_1.traverse do |c|
+      exp = to_traverse[i]
+      assert_equal exp,c,"At position #{i} expected to traverse: #{exp}, found: #{c}"
+      i+=1
+    end
+    assert_equal to_traverse.count,i,'Not traversed as many as expected'
+  end
 
 end
