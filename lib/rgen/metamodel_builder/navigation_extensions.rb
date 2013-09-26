@@ -1,9 +1,6 @@
 # RGen Framework
 # (c) Martin Thiede, 2006
 
-require 'erb'
-require 'rgen/metamodel_builder/intermediate/feature'
-
 module RGen
 
 module MetamodelBuilder
