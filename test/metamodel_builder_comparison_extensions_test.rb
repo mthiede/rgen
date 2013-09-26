@@ -8,20 +8,20 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
   module TestMetamodel
 
     class Address < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
+      include RGen::MetamodelBuilder::ComparisonExtensions
       has_attr 'type', String
       has_attr 'street', String
       has_attr 'number', String
     end
 
     class AddressBookEntry < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
+      include RGen::MetamodelBuilder::ComparisonExtensions
       has_attr 'name', String
       contains_many_uni 'addresses', Address
     end
 
     class AddressBook < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
+      include RGen::MetamodelBuilder::ComparisonExtensions
       contains_many_uni 'entries', AddressBookEntry
     end
 
@@ -59,6 +59,33 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     @address_book_1.addEntries(@green_book_entry)
   end
 
-  raise "write the tests!"
+  def test_same_content_based_on_attributes
+      same_as_jones_work_address = TestMetamodel::Address.new
+      same_as_jones_work_address.type = 'work'
+
+      assert_equal true,same_as_jones_work_address.same_content?(@jones_work_address)
+      assert_equal true,@jones_work_address.same_content?(same_as_jones_work_address)
+      assert_equal false,@jones_work_address.same_content?(@jones_home_address)
+  end
+
+  def test_same_content_based_on_attributes_and_children
+      same_as_jones_work_address = TestMetamodel::Address.new
+      same_as_jones_work_address.type = 'work'
+
+      same_as_jones_home_address = TestMetamodel::Address.new
+      same_as_jones_home_address.type = 'home'
+      
+      similar_to_jones_book_entry = TestMetamodel::AddressBookEntry.new
+      similar_to_jones_book_entry.name = 'Mr. Jones'
+
+      assert_equal false,@jones_book_entry.same_content?(similar_to_jones_book_entry)
+
+      similar_to_jones_book_entry.addAddresses(same_as_jones_work_address)
+      similar_to_jones_book_entry.addAddresses(same_as_jones_home_address)
+
+      assert_equal true,@jones_home_address.same_content?(same_as_jones_home_address)
+      assert_equal true,@jones_work_address.same_content?(same_as_jones_work_address)
+      assert_equal true,@jones_book_entry.same_content?(similar_to_jones_book_entry)      
+  end  
 
 end
