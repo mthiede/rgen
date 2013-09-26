@@ -1,5 +1,4 @@
 # RGen Framework
-# (c) Martin Thiede, 2006
 
 module RGen
 
