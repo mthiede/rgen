@@ -2,8 +2,6 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
 require 'test/unit'
 require 'rgen/metamodel_builder'
-require 'rgen/array_extensions'
-require 'bigdecimal'
 
 class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
   
