@@ -2,33 +2,25 @@
 
 module RGen
 
-module MetamodelBuilder
-
-# This module is intended to be included in a class extending MMBase
-# to plug-in additional functionalities to compare sub-trees
-#
-# The methods use a parameter is used to make the method
-# work on elements of the subtree which do not include
-# this module
-module ComparisonExtensions
+module ComparisonUtil
 
   # It does not check references, it is needed to avoid infinite recursion
-  def shallow_same_content?(of=self,other)
+  def self.shallow_same_content?(first,other)
     return false if other==nil
-    return false unless of.class==other.class
-    of.class.ecore.eAllAttributes.each do |attrib|
-      raise "Attrib <nil> for class #{of.class.ecore.name}" unless attrib
-      self_value  = of.send(attrib.name)
+    return false unless first.class==other.class
+    first.class.ecore.eAllAttributes.each do |attrib|
+      raise "Attrib <nil> for class #{first.class.ecore.name}" unless attrib
+      self_value  = first.send(attrib.name)
       other_value = other.send(attrib.name)
       return false unless self_value == other_value
     end
     true
   end  
 
-  def same_content?(of=self,other)    
-    return false unless shallow_same_content?(of,other)
-    of.class.ecore.eAllReferences.each do |ref|
-      self_value = of.send(ref.name)
+  def self.same_content?(first,other)    
+    return false unless shallow_same_content?(first,other)
+    first.class.ecore.eAllReferences.each do |ref|
+      self_value = first.send(ref.name)
       other_value = other.send(ref.name)
       # it should ignore relations which has as opposite a containment
       unless (ref.getEOpposite and ref.getEOpposite.containment)
@@ -50,8 +42,6 @@ module ComparisonExtensions
     end
     true    
   end
-
-end
 
 end
 

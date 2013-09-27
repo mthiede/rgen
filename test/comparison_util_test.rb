@@ -2,26 +2,26 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
 require 'test/unit'
 require 'rgen/metamodel_builder'
+require 'rgen/comparison_util'
 
-class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
+class ComparisonUtilTest < Test::Unit::TestCase
   
+  include RGen
+
   module TestMetamodel
 
     class Address < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::ComparisonExtensions
       has_attr 'type', String
       has_attr 'street', String
       has_attr 'number', String
     end
 
     class AddressBookEntry < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::ComparisonExtensions
       has_attr 'name', String
       contains_many_uni 'addresses', Address
     end
 
     class AddressBook < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::ComparisonExtensions
       contains_many_uni 'entries', AddressBookEntry
     end
 
@@ -63,9 +63,9 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
       same_as_jones_work_address = TestMetamodel::Address.new
       same_as_jones_work_address.type = 'work'
 
-      assert_equal true,same_as_jones_work_address.same_content?(@jones_work_address)
-      assert_equal true,@jones_work_address.same_content?(same_as_jones_work_address)
-      assert_equal false,@jones_work_address.same_content?(@jones_home_address)
+      assert_equal true,ComparisonUtil.same_content?(same_as_jones_work_address,@jones_work_address)
+      assert_equal true,ComparisonUtil.same_content?(@jones_work_address,same_as_jones_work_address)
+      assert_equal false,ComparisonUtil.same_content?(@jones_work_address,@jones_home_address)
   end
 
   def test_same_content_based_on_attributes_and_children
@@ -78,14 +78,14 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
       similar_to_jones_book_entry = TestMetamodel::AddressBookEntry.new
       similar_to_jones_book_entry.name = 'Mr. Jones'
 
-      assert_equal false,@jones_book_entry.same_content?(similar_to_jones_book_entry)
+      assert_equal false,ComparisonUtil.same_content?(@jones_book_entry,similar_to_jones_book_entry)
 
       similar_to_jones_book_entry.addAddresses(same_as_jones_work_address)
       similar_to_jones_book_entry.addAddresses(same_as_jones_home_address)
 
-      assert_equal true,@jones_home_address.same_content?(same_as_jones_home_address)
-      assert_equal true,@jones_work_address.same_content?(same_as_jones_work_address)
-      assert_equal true,@jones_book_entry.same_content?(similar_to_jones_book_entry)      
+      assert_equal true,ComparisonUtil.same_content?(@jones_home_address,same_as_jones_home_address)
+      assert_equal true,ComparisonUtil.same_content?(@jones_work_address,same_as_jones_work_address)
+      assert_equal true,ComparisonUtil.same_content?(@jones_book_entry,similar_to_jones_book_entry)      
   end  
 
 end
