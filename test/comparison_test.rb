@@ -2,11 +2,11 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
 require 'test/unit'
 require 'rgen/metamodel_builder'
-require 'rgen/comparison_util'
+require 'rgen/comparison'
 
-class ComparisonUtilTest < Test::Unit::TestCase
+class ComparisonTest < Test::Unit::TestCase
   
-  include RGen::ComparisonUtil
+  include RGen::Comparison
 
   module TestMetamodel
 

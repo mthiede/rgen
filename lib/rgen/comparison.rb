@@ -2,7 +2,7 @@
 
 module RGen
 
-module ComparisonUtil
+module Comparison
 
   module ShallowComparator
 
