@@ -18,11 +18,9 @@ module ComparisonExtensions
     return false unless of.class==other.class
     of.class.ecore.eAllAttributes.each do |attrib|
       raise "Attrib <nil> for class #{of.class.ecore.name}" unless attrib
-      if attrib.name != 'dynamic' # I have to understand this...
-        self_value  = of.send(attrib.name)
-        other_value = other.send(attrib.name)
-        return false unless self_value == other_value
-      end
+      self_value  = of.send(attrib.name)
+      other_value = other.send(attrib.name)
+      return false unless self_value == other_value
     end
     true
   end  

@@ -20,12 +20,8 @@ module InstantiationExtensions
 
   def build_from_value(value)
     instance = self.new
-    has_dynamic = false
-    self.ecore.eAllAttributes.each {|a| has_dynamic|=a.name=='dynamic'}
-    d = 0
-    d = 1 if has_dynamic
 
-    raise SingleAttributeRequired.new(self.ecore.name,self.ecore.eAllAttributes) if self.ecore.eAllAttributes.count!=1+d
+    raise SingleAttributeRequired.new(self.ecore.name,self.ecore.eAllAttributes) if self.ecore.eAllAttributes.count!=1
     attribute = self.ecore.eAllAttributes[0]
     instance.send(:"#{attribute.name}=",value)
     instance
