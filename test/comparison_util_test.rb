@@ -6,7 +6,7 @@ require 'rgen/comparison_util'
 
 class ComparisonUtilTest < Test::Unit::TestCase
   
-  include RGen
+  include RGen::ComparisonUtil
 
   module TestMetamodel
 
@@ -59,16 +59,33 @@ class ComparisonUtilTest < Test::Unit::TestCase
     @address_book_1.addEntries(@green_book_entry)
   end
 
-  def test_same_content_based_on_attributes
+  def test_deep_comparator_based_on_attributes_positive_case
       same_as_jones_work_address = TestMetamodel::Address.new
       same_as_jones_work_address.type = 'work'
 
-      assert_equal true,ComparisonUtil.same_content?(same_as_jones_work_address,@jones_work_address)
-      assert_equal true,ComparisonUtil.same_content?(@jones_work_address,same_as_jones_work_address)
-      assert_equal false,ComparisonUtil.same_content?(@jones_work_address,@jones_home_address)
+      assert_equal true,DeepComparator.eql?(same_as_jones_work_address,@jones_work_address)
+      assert_equal true,DeepComparator.eql?(@jones_work_address,same_as_jones_work_address)
   end
 
-  def test_same_content_based_on_attributes_and_children
+  def test_deep_comparator_based_on_attributes_negative_case
+      assert_equal false,DeepComparator.eql?(@jones_work_address,@jones_home_address)
+      assert_equal false,DeepComparator.eql?(@jones_home_address,@jones_work_address)
+  end  
+
+  def test_shallow_comparator_based_on_attributes_negative_case
+      assert_equal false,ShallowComparator.eql?(@jones_home_address,@jones_work_address)
+      assert_equal false,ShallowComparator.eql?(@jones_work_address,@jones_home_address)
+  end  
+
+  def test_shallow_comparator_based_on_attributes_positive_case
+      same_as_jones_work_address = TestMetamodel::Address.new
+      same_as_jones_work_address.type = 'work'
+
+      assert_equal true,ShallowComparator.eql?(same_as_jones_work_address,@jones_work_address)
+      assert_equal true,ShallowComparator.eql?(@jones_work_address,same_as_jones_work_address)
+  end
+
+  def test_shallow_comparator_based_on_attributes_and_children
       same_as_jones_work_address = TestMetamodel::Address.new
       same_as_jones_work_address.type = 'work'
 
@@ -78,14 +95,34 @@ class ComparisonUtilTest < Test::Unit::TestCase
       similar_to_jones_book_entry = TestMetamodel::AddressBookEntry.new
       similar_to_jones_book_entry.name = 'Mr. Jones'
 
-      assert_equal false,ComparisonUtil.same_content?(@jones_book_entry,similar_to_jones_book_entry)
+      assert_equal true,ShallowComparator.eql?(@jones_book_entry,similar_to_jones_book_entry)
 
       similar_to_jones_book_entry.addAddresses(same_as_jones_work_address)
       similar_to_jones_book_entry.addAddresses(same_as_jones_home_address)
 
-      assert_equal true,ComparisonUtil.same_content?(@jones_home_address,same_as_jones_home_address)
-      assert_equal true,ComparisonUtil.same_content?(@jones_work_address,same_as_jones_work_address)
-      assert_equal true,ComparisonUtil.same_content?(@jones_book_entry,similar_to_jones_book_entry)      
+      assert_equal true,ShallowComparator.eql?(@jones_home_address,same_as_jones_home_address)
+      assert_equal true,ShallowComparator.eql?(@jones_work_address,same_as_jones_work_address)
+      assert_equal true,ShallowComparator.eql?(@jones_book_entry,similar_to_jones_book_entry)      
+  end 
+
+  def test_deep_comparator_based_on_attributes_and_children
+      same_as_jones_work_address = TestMetamodel::Address.new
+      same_as_jones_work_address.type = 'work'
+
+      same_as_jones_home_address = TestMetamodel::Address.new
+      same_as_jones_home_address.type = 'home'
+      
+      similar_to_jones_book_entry = TestMetamodel::AddressBookEntry.new
+      similar_to_jones_book_entry.name = 'Mr. Jones'
+
+      assert_equal false,DeepComparator.eql?(@jones_book_entry,similar_to_jones_book_entry)
+
+      similar_to_jones_book_entry.addAddresses(same_as_jones_work_address)
+      similar_to_jones_book_entry.addAddresses(same_as_jones_home_address)
+
+      assert_equal true,DeepComparator.eql?(@jones_home_address,same_as_jones_home_address)
+      assert_equal true,DeepComparator.eql?(@jones_work_address,same_as_jones_work_address)
+      assert_equal true,DeepComparator.eql?(@jones_book_entry,similar_to_jones_book_entry)      
   end  
 
 end
