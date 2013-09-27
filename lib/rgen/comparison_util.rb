@@ -5,38 +5,38 @@ module RGen
 module ComparisonUtil
 
   # It does not check references, it is needed to avoid infinite recursion
-  def self.shallow_same_content?(first,other)
-    return false if other==nil
-    return false unless first.class==other.class
-    first.class.ecore.eAllAttributes.each do |attrib|
-      raise "Attrib <nil> for class #{first.class.ecore.name}" unless attrib
-      self_value  = first.send(attrib.name)
-      other_value = other.send(attrib.name)
-      return false unless self_value == other_value
+  def self.shallow_same_content?(left,right)
+    return false if right==nil
+    return false unless left.class==right.class
+    left.class.ecore.eAllAttributes.each do |attrib|
+      raise "Attrib <nil> for class #{left.class.ecore.name}" unless attribute
+      left_value  = left.send(attribute.name)
+      right_value = right.send(attribute.name)
+      return false unless left_value == right_value
     end
     true
   end  
 
-  def self.same_content?(first,other)    
-    return false unless shallow_same_content?(first,other)
-    first.class.ecore.eAllReferences.each do |ref|
-      self_value = first.send(ref.name)
-      other_value = other.send(ref.name)
+  def self.same_content?(left,right)    
+    return false unless shallow_same_content?(left,right)
+    left.class.ecore.eAllReferences.each do |ref|
+      left_value = left.send(ref.name)
+      right_value = right.send(ref.name)
       # it should ignore relations which has as opposite a containment
       unless (ref.getEOpposite and ref.getEOpposite.containment)
         comparison_method = ref.containment ? :same_content? : :shallow_same_content?
-        if self_value==nil || other_value==nil          
+        if left_value==nil || right_value==nil          
           # if one value is false, both should be false
-          return false unless self_value==other_value        
+          return false unless left_value==right_value        
         elsif ref.many
           # compare each children
-          return false unless self_value.count==other_value.count
-          for i in 0...self_value.count             
-            return false unless send(comparison_method,self_value[i],other_value[i])      
+          return false unless left_value.count==right_value.count
+          for i in 0...left_value.count             
+            return false unless send(comparison_method,left_value[i],right_value[i])      
           end
         else              
           # compare the only child
-          return false unless send(comparison_method,self_value,other_value)                                             
+          return false unless send(comparison_method,left_value,right_value)                                             
         end
       end           
     end
