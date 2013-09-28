@@ -20,6 +20,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="house" upperBound="-1"
         eType="#//House"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sex" eType="#//SexEnum"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nicknames" upperBound="-1" eType="#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>

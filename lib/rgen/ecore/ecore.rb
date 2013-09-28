@@ -81,7 +81,10 @@ module RGen
       has_attr 'instanceClassName', String
       module ClassModule
         def instanceClass_derived
-          map = {"java.lang.string" => "String", "boolean" => "RGen::MetamodelBuilder::DataTypes::Boolean", "int" => "Integer"}
+          map = {"java.lang.string" => "String", 
+                 "boolean" => "RGen::MetamodelBuilder::DataTypes::Boolean", 
+                 "int" => "Integer",
+                 "long" => "RGen::MetamodelBuilder::DataTypes::Long"}
           icn = instanceClassName
           icn = "NilClass" if icn.nil?
           icn = map[icn.downcase] if map[icn.downcase]

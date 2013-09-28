@@ -186,3 +186,7 @@
 * Major performance improvement of FragmentedModel#resolve
 * Fixed a Ruby 2.0 related warning
 
+=0.6.7
+
+* Added support for long values (ELong), thanks to Thomas Hallgren
+

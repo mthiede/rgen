@@ -16,6 +16,7 @@ module HouseMetamodel
 
    class Person < RGen::MetamodelBuilder::MMBase
       has_attr 'sex', HouseMetamodel::SexEnum 
+      has_attr 'id', Long 
       has_many_attr 'nicknames', String 
    end
 

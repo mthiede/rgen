@@ -487,7 +487,7 @@ module BuilderExtensions
 
   def check_default_value_literal(literal, props)
     return if literal.nil? || props.impl_type == String
-    if props.impl_type == Integer
+    if props.impl_type == Integer || props.impl_type == RGen::MetamodelBuilder::DataTypes::Long
       unless literal =~ /^\d+$/
         raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected an Integer")
       end
@@ -510,7 +510,11 @@ module BuilderExtensions
   
   def type_check_code(varname, props)
     code = ""
-    if props.impl_type.is_a?(Class)
+    if props.impl_type == RGen::MetamodelBuilder::DataTypes::Long
+      code << "unless #{varname}.nil? || #{varname}.is_a?(Integer) || #{varname}.is_a?(MMGeneric)"
+      code << "\n"
+      expected = "Integer"
+    elsif props.impl_type.is_a?(Class)
       code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMGeneric)"
       code << " || #{varname}.is_a?(BigDecimal)" if props.impl_type == Float && defined?(BigDecimal)
       code << "\n"

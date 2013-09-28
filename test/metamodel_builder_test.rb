@@ -15,6 +15,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       has_attr 'name' # default is String
       has_attr 'stringWithDefault', String, :defaultValueLiteral => "xtest"
       has_attr 'integerWithDefault', Integer, :defaultValueLiteral => "123"
+      has_attr 'longWithDefault', Long, :defaultValueLiteral => "1234567890"
       has_attr 'floatWithDefault', Float, :defaultValueLiteral => "0.123"
       has_attr 'boolWithDefault', Boolean, :defaultValueLiteral => "true"
       has_attr 'anything', Object
@@ -183,6 +184,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal "xtest", sc.stringWithDefault
     assert_equal :extended, sc.kindWithDefault
     assert_equal 123, sc.integerWithDefault
+    assert_equal 1234567890, sc.longWithDefault
     assert_equal 0.123, sc.floatWithDefault
     assert_equal true, sc.boolWithDefault
 
@@ -252,6 +254,20 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     sc2 = Marshal.load(dump)
     assert sc2.floatWithDefault.is_a?(BigDecimal)
     assert_equal "123456789012345678.0", sc2.floatWithDefault.to_s("F")
+  end
+
+  def test_long
+    sc = mm::SimpleClass.new
+    sc.longWithDefault = 5
+    assert_equal 5, sc.longWithDefault
+    sc.longWithDefault = 1234567890
+    assert_equal 1234567890, sc.longWithDefault
+    assert sc.longWithDefault.is_a?(Bignum)
+    assert sc.longWithDefault.is_a?(Integer)
+    err = assert_raise StandardError do
+      sc.longWithDefault = "a string"
+    end
+    assert_match /In (\w+::)+SimpleClass : Can not use a String where a Integer is expected/, err.message
   end
   
   def test_many_attr
@@ -871,6 +887,11 @@ class MetamodelBuilderTest < Test::Unit::TestCase
         has_attr 'enumWithDefault', kindType, :defaultValueLiteral => "7"
       end
     end
+    Test8 = proc do 
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'longWithDefault', Integer, :defaultValueLiteral => "1.1"
+      end
+    end
   end
 
   def test_bad_default_value_literal
@@ -902,6 +923,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       BadDefaultValueLiteralContainer::Test7.call
     end
     assert_equal "Property enumWithDefault can not take value 7, expected one of :simple, :extended", err.message
+    err = assert_raise StandardError do
+      BadDefaultValueLiteralContainer::Test8.call
+    end
+    assert_equal "Property longWithDefault can not take value 1.1, expected an Integer", err.message
   end
 
   def test_isset_set_to_nil
