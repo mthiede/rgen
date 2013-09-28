@@ -116,7 +116,7 @@ class XMI11Instantiator < AbstractXMLInstantiator
         value = map_feature_value(attr_name, value) || value
         value = true if value == "true" && eFeat.eType == EBoolean
         value = false if value == "false" && eFeat.eType == EBoolean
-        value = value.to_i if eFeat.eType == EInt
+        value = value.to_i if eFeat.eType == EInt || eFeat.eType == ELong
         value = value.to_f if eFeat.eType == EFloat
         value = value.to_sym if eFeat.eType.is_a?(EEnum)
         @elementstack.last.setGeneric(attr_name, value)
