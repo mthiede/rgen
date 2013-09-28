@@ -84,7 +84,7 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
     elsif eFeat
       value = true if value == "true" && eFeat.eType == EBoolean
       value = false if value == "false" && eFeat.eType == EBoolean
-      value = value.to_i if eFeat.eType == EInt
+      value = value.to_i if eFeat.eType == EInt || eFeat.eType == ELong
       @elementstack.last.setGeneric(attr, value)
     else
       log WARN, "Feature not found: #{attr} on #{@elementstack.last}"
@@ -134,6 +134,7 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
         case $1
           when "EString";     RGen::ECore::EString
           when "EInt";        RGen::ECore::EInt
+          when "ELong";       RGen::ECore::ELong
           when "EBoolean";    RGen::ECore::EBoolean
           when "EFloat";      RGen::ECore::EFloat
           when "EJavaObject"; RGen::ECore::EJavaObject

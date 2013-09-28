@@ -57,6 +57,7 @@ class XMI20Serializer < XMLSerializer
     pre = "ecore:EDataType http://www.eclipse.org/emf/2002/Ecore"
     @referenceStrings[RGen::ECore::EString] = pre+"#//EString"
     @referenceStrings[RGen::ECore::EInt] = pre+"#//EInt"
+    @referenceStrings[RGen::ECore::ELong] = pre+"#//ELong"
     @referenceStrings[RGen::ECore::EFloat] = pre+"#//EFloat"
     @referenceStrings[RGen::ECore::EBoolean] = pre+"#//EBoolean"
     @referenceStrings[RGen::ECore::EJavaObject] = pre+"#//EJavaObject"

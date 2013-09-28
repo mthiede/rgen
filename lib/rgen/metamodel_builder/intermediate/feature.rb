@@ -67,6 +67,7 @@ class Attribute < Feature
   Types = { 
     String => :EString,
     Integer => :EInt,
+    RGen::MetamodelBuilder::DataTypes::Long => :ELong,
     Float => :EFloat,
     RGen::MetamodelBuilder::DataTypes::Boolean => :EBoolean,
     Object => :ERubyObject,
