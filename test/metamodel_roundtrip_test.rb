@@ -65,8 +65,9 @@ class MetamodelRoundtripTest < Test::Unit::TestCase
       RGen::ECore::EClass.new(:name => "C1", :eStructuralFeatures => [
         RGen::ECore::EAttribute.new(:name => "a1", :eType => RGen::ECore::EString), 
         RGen::ECore::EAttribute.new(:name => "a2", :eType => RGen::ECore::EInt), 
-        RGen::ECore::EAttribute.new(:name => "a3", :eType => RGen::ECore::EFloat), 
-        RGen::ECore::EAttribute.new(:name => "a4", :eType => RGen::ECore::EBoolean) 
+        RGen::ECore::EAttribute.new(:name => "a3", :eType => RGen::ECore::ELong), 
+        RGen::ECore::EAttribute.new(:name => "a4", :eType => RGen::ECore::EFloat), 
+        RGen::ECore::EAttribute.new(:name => "a5", :eType => RGen::ECore::EBoolean) 
       ])
     ])
     outfile = TEST_DIR+"/using_builtin_types_serialized.ecore"
@@ -87,9 +88,11 @@ class MetamodelRoundtripTest < Test::Unit::TestCase
     a2 = env.find(:class => RGen::ECore::EAttribute, :name => "a2").first
     assert_equal(RGen::ECore::EInt, a2.eType)
     a3 = env.find(:class => RGen::ECore::EAttribute, :name => "a3").first
-    assert_equal(RGen::ECore::EFloat, a3.eType)
+    assert_equal(RGen::ECore::ELong, a3.eType)
     a4 = env.find(:class => RGen::ECore::EAttribute, :name => "a4").first
-    assert_equal(RGen::ECore::EBoolean, a4.eType)
+    assert_equal(RGen::ECore::EFloat, a4.eType)
+    a5 = env.find(:class => RGen::ECore::EAttribute, :name => "a5").first
+    assert_equal(RGen::ECore::EBoolean, a5.eType)
   end
 
 end
