@@ -4,7 +4,6 @@
 require 'rgen/metamodel_builder/constant_order_helper'
 require 'rgen/metamodel_builder/builder_runtime'
 require 'rgen/metamodel_builder/builder_extensions'
-require 'rgen/metamodel_builder/instantiation_extensions'
 require 'rgen/metamodel_builder/navigation_extensions'
 require 'rgen/metamodel_builder/module_extension'
 require 'rgen/metamodel_builder/data_types'
