@@ -73,6 +73,40 @@ module BuilderRuntime
     @_containing_feature_name
   end
 
+  def eContents
+    arr = []
+    ecore = self.class.ecore
+    ecore.eAllReferences.select {|r| r.containment}.each do |ref|
+      res = self.send(ref.name.to_sym)
+      if ref.many
+        d = arr.count
+        res.each do |el|
+          arr << el unless res==nil
+        end
+      elsif res!=nil
+        d = arr.count
+        arr << res
+      end
+    end
+    arr
+  end
+
+  def eAllContents
+    arr = []
+    self.eContents.each do |c|
+      arr << c
+      c.eAllContents.each do |cc|
+        arr << cc
+      end
+    end     
+    arr
+  end  
+
+  def root
+    return self unless self.eContainer
+    self.eContainer.root
+  end  
+
   def _set_container(container, containing_feature_name)
     @_container = container
     @_containing_feature_name = containing_feature_name
