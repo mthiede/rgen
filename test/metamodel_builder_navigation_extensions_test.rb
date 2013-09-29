@@ -8,20 +8,17 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
   module TestMetamodel
 
     class Address < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
       has_attr 'type', String
       has_attr 'street', String
       has_attr 'number', String
     end
 
     class AddressBookEntry < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
       has_attr 'name', String
       contains_many_uni 'addresses', Address
     end
 
     class AddressBook < RGen::MetamodelBuilder::MMBase
-      include RGen::MetamodelBuilder::NavigationExtensions
       contains_many_uni 'entries', AddressBookEntry
     end
 
@@ -59,11 +56,6 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     @address_book_1.addEntries(@green_book_entry)
   end
 
-  def test_root_method_is_there
-    a = TestMetamodel::Address.new
-    assert a.respond_to?(:root)
-  end
-
   def test_root_is_self_object_for_dangling_object
     a = TestMetamodel::Address.new
     assert a==a.root
@@ -98,53 +90,37 @@ class MetamodelBuilderNavigationExtensionsTest < Test::Unit::TestCase
     assert ab==abe.root
   end  
 
-  def test_all_children_empty
+  def test_eContents_empty
     # this node has not containment relations
-    assert_equal [],@jones_work_address.all_children
+    assert_equal [],@jones_work_address.eContents
     # this node has containment relations
-    assert_equal [],@green_book_entry.all_children
+    assert_equal [],@green_book_entry.eContents
   end
 
-  def test_all_children_not_empty
+  def test_eContents_not_empty
     assert_equal(
       [@jones_book_entry,@smith_book_entry,@green_book_entry], 
-      @address_book_1.all_children)
+      @address_book_1.eContents)
   end 
 
-  def test_all_children_deep_not_empty
-    assert_equal 7,@address_book_1.all_children_deep.count
+  def test_eAllContents_not_empty
+    assert_equal 7,@address_book_1.eAllContents.count
     # direct children
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @jones_book_entry)
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @smith_book_entry)
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @green_book_entry)
     # non-direct children
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @jones_work_address)
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @jones_home_address)    
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @smith_shop_address)
-    assert @address_book_1.all_children_deep.include?(
+    assert @address_book_1.eAllContents.include?(
       @smith_home_address)        
   end    
-
-  def test_traverse
-    to_traverse = [@address_book_1,
-        @jones_book_entry,
-          @jones_work_address,@jones_home_address,
-        @smith_book_entry,
-          @smith_shop_address,@smith_home_address,
-        @green_book_entry]            
-    i = 0  
-    @address_book_1.traverse do |c|
-      exp = to_traverse[i]
-      assert_equal exp,c,"At position #{i} expected to traverse: #{exp}, found: #{c}"
-      i+=1
-    end
-    assert_equal to_traverse.count,i,'Not traversed as many as expected'
-  end
 
 end
