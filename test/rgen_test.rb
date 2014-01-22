@@ -1,5 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
+require 'rubygems'
+
 require 'test/unit'
 
 require 'array_extensions_test'
