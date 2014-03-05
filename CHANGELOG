@@ -190,4 +190,5 @@
 
 * Added support for long values (ELong), thanks to Thomas Hallgren
 * Added eContents and eAllContents methods
+* Added setNilOrRemoveGeneric and setNilOrRemoveAllGeneric method
 

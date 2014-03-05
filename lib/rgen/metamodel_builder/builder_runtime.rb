@@ -42,6 +42,22 @@ module BuilderRuntime
     end
   end
 
+  def setNilOrRemoveGeneric(role, value)
+    if hasManyMethods(role)
+      removeGeneric(role, value)
+    else
+      setGeneric(role, nil)
+    end
+  end
+
+  def setNilOrRemoveAllGeneric(role)
+    if hasManyMethods(role)
+      setGeneric(role, [])
+    else
+      setGeneric(role, nil)
+    end
+  end
+
 	def getGeneric(role)
 		send("get#{firstToUpper(role.to_s)}")
 	end
