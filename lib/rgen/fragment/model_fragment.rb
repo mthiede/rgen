@@ -111,7 +111,7 @@ class ModelFragment
     @elements = []
     @root_elements.each do |e|
       @elements << e
-      all_child_elements(e, @elements)
+      @elements.concat(e.eAllContents)
     end
     @elements
   end
@@ -272,21 +272,6 @@ class ModelFragment
         yield(r, t)
       end
     end
-  end
-
-  def all_child_elements(element, childs)
-    containment_references(element.class).each do |r|
-      element.getGenericAsArray(r.name).each do |c|
-        childs << c
-        all_child_elements(c, childs)
-      end
-    end
-  end
-
-  def containment_references(clazz)
-    @@containment_references_cache ||= {}
-    @@containment_references_cache[clazz] ||=
-      clazz.ecore.eAllReferences.select{|r| r.containment}
   end
 
   def non_containment_references(clazz)
