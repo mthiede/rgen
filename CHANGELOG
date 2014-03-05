@@ -189,4 +189,5 @@
 =0.6.7
 
 * Added support for long values (ELong), thanks to Thomas Hallgren
+* Added eContents and eAllContents methods
 

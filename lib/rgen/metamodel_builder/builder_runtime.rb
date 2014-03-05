@@ -73,9 +73,55 @@ module BuilderRuntime
     @_containing_feature_name
   end
 
+  # returns the contained elements in no particular order
+  def eContents
+    if @_contained_elements
+      @_contained_elements.dup
+    else
+      []
+    end
+  end
+
+  # if a block is given, calls the block on every contained element in depth first order. 
+  # if the block returns :prune, recursion will stop at this point.
+  #
+  # if no block is given builds and returns a list of all contained elements.
+  #
+  def eAllContents(&block)
+    if block
+      if @_contained_elements
+        @_contained_elements.each do |e|
+          res = block.call(e)
+          e.eAllContents(&block) if res != :prune
+        end
+      end
+      nil
+    else
+      result = []
+      if @_contained_elements
+        @_contained_elements.each do |e|
+          result << e
+          result.concat(e.eAllContents)
+        end
+      end
+      result
+    end
+  end
+
   def _set_container(container, containing_feature_name)
+    @_container._remove_contained_element(self) if @_container
+    container._add_contained_element(self) if container
     @_container = container
     @_containing_feature_name = containing_feature_name
+  end
+
+  def _add_contained_element(element)
+    @_contained_elements ||= []
+    @_contained_elements << element
+  end
+
+  def _remove_contained_element(element)
+    @_contained_elements.delete(element) if @_contained_elements
   end
 
 	def _assignmentTypeError(target, value, expected)
