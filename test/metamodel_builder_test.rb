@@ -154,6 +154,10 @@ class MetamodelBuilderTest < Test::Unit::TestCase
       contains_many 'manyChild', ContainedClass, 'parentMany'
     end
 
+    class NestedContainerClass < ContainedClass
+      contains_one_uni 'oneChildUni', ContainedClass
+    end
+
     class OppositeRefAssocA < RGen::MetamodelBuilder::MMBase
     end
     class OppositeRefAssocB < RGen::MetamodelBuilder::MMBase
@@ -1042,39 +1046,57 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     a = mm::ContainerClass.new
     b = mm::ContainedClass.new
     c = mm::ContainedClass.new
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
     a.oneChildUni = b
     assert_equal a, b.eContainer
     assert_equal :oneChildUni, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     a.oneChildUni = c
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
     assert_equal a, c.eContainer
     assert_equal :oneChildUni, c.eContainingFeature
+    assert_equal [c], a.eContents
+    assert_equal [c], a.eAllContents
     a.oneChildUni = nil
     assert_nil c.eContainer
     assert_nil c.eContainingFeature
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
   end
 
   def test_container_many_uni
     a = mm::ContainerClass.new
     b = mm::ContainedClass.new
     c = mm::ContainedClass.new
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
     a.addManyChildUni(b)
     assert_equal a, b.eContainer
     assert_equal :manyChildUni, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     a.addManyChildUni(c)
     assert_equal a, c.eContainer
     assert_equal :manyChildUni, c.eContainingFeature
+    assert_equal [b, c], a.eContents
+    assert_equal [b, c], a.eAllContents
     a.removeManyChildUni(b)
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
     assert_equal a, c.eContainer
     assert_equal :manyChildUni, c.eContainingFeature
+    assert_equal [c], a.eContents
+    assert_equal [c], a.eAllContents
     a.removeManyChildUni(c)
     assert_nil c.eContainer
     assert_nil c.eContainingFeature
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
   end
 
   def test_conainer_one_bi
@@ -1085,14 +1107,22 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     a.oneChild = b
     assert_equal a, b.eContainer
     assert_equal :oneChild, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     c.oneChild = d 
     assert_equal c, d.eContainer
     assert_equal :oneChild, d.eContainingFeature
+    assert_equal [d], c.eContents
+    assert_equal [d], c.eAllContents
     a.oneChild = d
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
     assert_equal a, d.eContainer
     assert_equal :oneChild, d.eContainingFeature
+    assert_equal [d], a.eContents
+    assert_equal [d], a.eAllContents
+    assert_equal [], c.eContents
+    assert_equal [], c.eAllContents
   end
 
   def test_conainer_one_bi_rev
@@ -1103,14 +1133,22 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     a.oneChild = b
     assert_equal a, b.eContainer
     assert_equal :oneChild, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     c.oneChild = d 
     assert_equal c, d.eContainer
     assert_equal :oneChild, d.eContainingFeature
+    assert_equal [d], c.eContents
+    assert_equal [d], c.eAllContents
     d.parentOne = a
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
     assert_equal a, d.eContainer
     assert_equal :oneChild, d.eContainingFeature
+    assert_equal [d], a.eContents
+    assert_equal [d], a.eAllContents
+    assert_equal [], c.eContents
+    assert_equal [], c.eAllContents
   end
 
   def test_conainer_one_bi_nil
@@ -1119,9 +1157,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     a.oneChild = b
     assert_equal a, b.eContainer
     assert_equal :oneChild, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     a.oneChild = nil 
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
   end
 
   def test_conainer_one_bi_nil_rev
@@ -1130,9 +1172,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     a.oneChild = b
     assert_equal a, b.eContainer
     assert_equal :oneChild, b.eContainingFeature
+    assert_equal [b], a.eContents
+    assert_equal [b], a.eAllContents
     b.parentOne = nil 
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
+    assert_equal [], a.eContents
+    assert_equal [], a.eAllContents
   end
 
   def test_container_many_bi
@@ -1145,9 +1191,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal :manyChild, b.eContainingFeature
     assert_equal a, c.eContainer
     assert_equal :manyChild, c.eContainingFeature
+    assert_equal [b, c], a.eContents
+    assert_equal [b, c], a.eAllContents
     a.removeManyChild(b)
     assert_nil b.eContainer
     assert_nil b.eContainingFeature
+    assert_equal [c], a.eContents
+    assert_equal [c], a.eAllContents
   end
 
   def test_conainer_many_bi_steal
@@ -1161,12 +1211,18 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal :manyChild, b.eContainingFeature
     assert_equal a, c.eContainer
     assert_equal :manyChild, c.eContainingFeature
+    assert_equal [b, c], a.eContents
+    assert_equal [b, c], a.eAllContents
     d.addManyChild(b)
     assert_equal d, b.eContainer
     assert_equal :manyChild, b.eContainingFeature
+    assert_equal [c], a.eContents
+    assert_equal [c], a.eAllContents
+    assert_equal [b], d.eContents
+    assert_equal [b], d.eAllContents
   end
 
-  def test_conainer_many_bi_steal_ref
+  def test_conainer_many_bi_steal_rev
     a = mm::ContainerClass.new
     b = mm::ContainedClass.new
     c = mm::ContainedClass.new
@@ -1177,9 +1233,51 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal :manyChild, b.eContainingFeature
     assert_equal a, c.eContainer
     assert_equal :manyChild, c.eContainingFeature
+    assert_equal [b, c], a.eContents
+    assert_equal [b, c], a.eAllContents
     b.parentMany = d
     assert_equal d, b.eContainer
     assert_equal :manyChild, b.eContainingFeature
+    assert_equal [c], a.eContents
+    assert_equal [c], a.eAllContents
+    assert_equal [b], d.eContents
+    assert_equal [b], d.eAllContents
+  end
+
+  def test_all_contents
+    a = mm::ContainerClass.new
+    b = mm::NestedContainerClass.new
+    c = mm::ContainedClass.new
+    a.oneChildUni = b
+    b.oneChildUni = c
+    assert_equal [b, c], a.eAllContents
+  end
+
+  def test_all_contents_with_block
+    a = mm::ContainerClass.new
+    b = mm::NestedContainerClass.new
+    c = mm::ContainedClass.new
+    a.oneChildUni = b
+    b.oneChildUni = c
+    yielded = []
+    a.eAllContents do |e|
+      yielded << e
+    end
+    assert_equal [b, c], yielded
+  end
+
+  def test_all_contents_prune
+    a = mm::ContainerClass.new
+    b = mm::NestedContainerClass.new
+    c = mm::ContainedClass.new
+    a.oneChildUni = b
+    b.oneChildUni = c
+    yielded = []
+    a.eAllContents do |e|
+      yielded << e
+      :prune
+    end
+    assert_equal [b], yielded
   end
 
   def test_container_generic
