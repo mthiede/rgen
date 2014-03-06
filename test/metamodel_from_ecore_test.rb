@@ -41,5 +41,17 @@ class MetamodelFromEcoreTest < MetamodelBuilderTest
       obj.value
     end
   end
+
+  # define all the test methods explicitly in the subclass
+  # otherwise minitest is smart enough to run the tests only in the superclass context
+  MetamodelBuilderTest.instance_methods.select{|m| m.to_s =~ /^test_/}.each do |m|
+    next if instance_methods(false).include?(m)
+    module_eval <<-END
+      def #{m}
+        super
+      end
+    END
+  end
+
 end
 
