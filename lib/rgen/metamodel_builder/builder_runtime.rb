@@ -129,6 +129,15 @@ module BuilderRuntime
   end
 
   def _set_container(container, containing_feature_name)
+    # if a new container is set, make sure to disconnect from the old one.
+    # note that _set_container will never be called for the container and the role
+    # which are currently set because the accessor methods in BuilderExtensions
+    # block setting/adding a value which is already present.
+    # (it may be called for the same container with a different role, a different container
+    # with the same role and a different container with a different role, though)
+    # this ensures, that disconnecting for the current container doesn't break
+    # a new connection which has just been set up in the accessor methods.
+    disconnectContainer if container
     @_container._remove_contained_element(self) if @_container
     container._add_contained_element(self) if container
     @_container = container

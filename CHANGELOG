@@ -186,8 +186,9 @@
 * Major performance improvement of FragmentedModel#resolve
 * Fixed a Ruby 2.0 related warning
 
-=0.6.7
+=0.7.0
 
+* Enforce unique container rule by automatically disconnecting elements from other containers
 * Added support for long values (ELong), thanks to Thomas Hallgren
 * Added eContents and eAllContents methods
 * Added setNilOrRemoveGeneric and setNilOrRemoveAllGeneric methods

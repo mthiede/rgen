@@ -149,9 +149,13 @@ class MetamodelBuilderTest < Test::Unit::TestCase
 
     class ContainerClass < RGen::MetamodelBuilder::MMBase
       contains_one_uni 'oneChildUni', ContainedClass
+      contains_one_uni 'oneChildUni2', ContainedClass
       contains_one 'oneChild', ContainedClass, 'parentOne'
+      contains_one 'oneChild2', ContainedClass, 'parentOne2'
       contains_many_uni 'manyChildUni', ContainedClass
+      contains_many_uni 'manyChildUni2', ContainedClass
       contains_many 'manyChild', ContainedClass, 'parentMany'
+      contains_many 'manyChild2', ContainedClass, 'parentMany2'
     end
 
     class NestedContainerClass < ContainedClass
@@ -1357,6 +1361,85 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     b.disconnectContainer
     assert_nil b.parentMany
     assert_equal [c], a.manyChild
+  end
+
+  # Duplicate Containment Tests
+  # Testing that no element is contained in two different containers at a time.
+  # This must also work for uni-directional containments as well as
+  # for containments via different roles.
+
+  # here the bi-dir reference disconnects from the previous container
+  def test_duplicate_containment_bidir_samerole_one
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.oneChild = b
+    a2.oneChild = b
+    assert_nil a1.oneChild
+  end
+
+  # here the bi-dir reference disconnects from the previous container
+  def test_duplicate_containment_bidir_samerole_many
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.addManyChild(b)
+    a2.addManyChild(b)
+    assert_equal [], a1.manyChild
+  end
+
+  def test_duplicate_containment_unidir_samerole_one
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.oneChildUni = b
+    a2.oneChildUni = b
+    assert_nil a1.oneChildUni
+  end
+
+  def test_duplicate_containment_unidir_samerole_many
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.addManyChildUni(b)
+    a2.addManyChildUni(b)
+    assert_equal [], a1.manyChildUni
+  end
+
+  def test_duplicate_containment_bidir_otherrole_one
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.oneChild = b
+    a2.oneChild2 = b
+    assert_nil a1.oneChild
+  end
+
+  def test_duplicate_containment_bidir_otherrole_many
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.addManyChild(b)
+    a2.addManyChild2(b)
+    assert_equal [], a1.manyChild
+  end
+
+  def test_duplicate_containment_unidir_otherrole_one
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.oneChildUni = b
+    a2.oneChildUni2 = b
+    assert_nil a1.oneChildUni
+  end
+
+  def test_duplicate_containment_unidir_otherrole_many
+    a1 = mm::ContainerClass.new
+    a2 = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a1.addManyChildUni(b)
+    a2.addManyChildUni2(b)
+    assert_equal [], a1.manyChildUni
   end
 
 end
