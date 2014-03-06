@@ -831,6 +831,8 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [e1], e2.aClasses
   end
   
+  # Multiplicity agnostic convenience methods
+
   def test_genericAccess
     e1 = mm::OneClass.new
     e2 = mm::ManyClass.new
@@ -848,6 +850,40 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [e3], e2.getGenericAsArray("oneClass")
     assert_nil e4.getGeneric("oneClass")
     assert_equal [], e4.getGenericAsArray("oneClass")
+  end
+
+  def test_setNilOrRemoveGeneric
+    e1 = mm::OneClass.new
+    e2 = mm::ManyClass.new
+    e3 = mm::OneClass.new
+    # use on "many" feature
+    e1.addManyClasses(e2)
+    assert_equal [e2], e1.manyClasses
+    e1.setNilOrRemoveGeneric("manyClasses", e2)
+    assert_equal [], e1.manyClasses
+    # use on "one" feature
+    e2.oneClass = e3
+    assert_equal e3, e2.oneClass
+    e2.setNilOrRemoveGeneric("oneClass", e3)
+    assert_nil e2.oneClass
+  end
+
+  def test_setNilOrRemoveAllGeneric
+    e1 = mm::OneClass.new
+    e2 = mm::ManyClass.new
+    e3 = mm::OneClass.new
+    e4 = mm::ManyClass.new
+    # use on "many" feature
+    e1.addManyClasses(e2)
+    e1.addManyClasses(e4)
+    assert_equal [e2, e4], e1.manyClasses
+    e1.setNilOrRemoveAllGeneric("manyClasses")
+    assert_equal [], e1.manyClasses
+    # use on "one" feature
+    e2.oneClass = e3
+    assert_equal e3, e2.oneClass
+    e2.setNilOrRemoveAllGeneric("oneClass")
+    assert_nil e2.oneClass
   end
 
   def test_abstract
@@ -1364,6 +1400,7 @@ class MetamodelBuilderTest < Test::Unit::TestCase
   end
 
   # Duplicate Containment Tests
+  #
   # Testing that no element is contained in two different containers at a time.
   # This must also work for uni-directional containments as well as
   # for containments via different roles.
