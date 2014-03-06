@@ -124,6 +124,10 @@ module BuilderRuntime
     end
   end
 
+  def disconnectContainer
+    eContainer.setNilOrRemoveGeneric(eContainingFeature, self) if eContainer
+  end
+
   def _set_container(container, containing_feature_name)
     @_container._remove_contained_element(self) if @_container
     container._add_contained_element(self) if container

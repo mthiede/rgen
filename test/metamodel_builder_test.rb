@@ -1321,4 +1321,42 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [], a.manyChildUni
   end
 
+  def test_disconnectContainer_one_uni
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a.oneChildUni = b
+    b.disconnectContainer
+    assert_nil a.oneChildUni
+  end
+
+  def test_disconnectContainer_one
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    a.oneChild = b
+    b.disconnectContainer
+    assert_nil a.oneChild
+    assert_nil b.parentOne
+  end
+
+  def test_disconnectContainer_many_uni
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    a.addManyChildUni(b)
+    a.addManyChildUni(c)
+    b.disconnectContainer
+    assert_equal [c], a.manyChildUni
+  end
+
+  def test_disconnectContainer_many
+    a = mm::ContainerClass.new
+    b = mm::ContainedClass.new
+    c = mm::ContainedClass.new
+    a.addManyChild(b)
+    a.addManyChild(c)
+    b.disconnectContainer
+    assert_nil b.parentMany
+    assert_equal [c], a.manyChild
+  end
+
 end
