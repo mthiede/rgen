@@ -189,7 +189,8 @@
 =0.7.0
 
 * Enforce unique container rule by automatically disconnecting elements from other containers
-* Added support for long values (ELong), thanks to Thomas Hallgren
+* Added support for long typed values (ELong), thanks to Thomas Hallgren;
+  Note that this is merely an EMF compatibility thing, RGen could already handle big integers before
 * Added eContents and eAllContents methods
 * Added setNilOrRemoveGeneric and setNilOrRemoveAllGeneric methods
 * Added disconnectContainer method
