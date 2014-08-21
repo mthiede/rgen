@@ -268,8 +268,8 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     sc = mm::SimpleClass.new
     sc.longWithDefault = 5
     assert_equal 5, sc.longWithDefault
-    sc.longWithDefault = 1234567890
-    assert_equal 1234567890, sc.longWithDefault
+    sc.longWithDefault = (2**(0.size * 8 -2) -1) + 1
+    assert_equal (2**(0.size * 8 -2) -1) + 1, sc.longWithDefault
     assert sc.longWithDefault.is_a?(Bignum)
     assert sc.longWithDefault.is_a?(Integer)
     err = assert_raise StandardError do
