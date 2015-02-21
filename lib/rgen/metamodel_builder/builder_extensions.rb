@@ -395,7 +395,7 @@ module BuilderExtensions
     
         def add<%= firstToUpper(name) %>(val, index=-1)
           @<%= name %> = [] unless @<%= name %>
-          return if val.nil? || (@<%= name %>.any?{|e| e.object_id == val.object_id} && (val.is_a?(MMBase) || val.is_a?(MMGeneric)))
+          return if val.nil? || (val.is_a?(MMBase) || val.is_a?(MMGeneric)) && @<%= name %>.any? {|e| e.object_id == val.object_id}
           <%= type_check_code("val", props) %>
           @<%= name %>.insert(index, val)
           <% if other_role %>
