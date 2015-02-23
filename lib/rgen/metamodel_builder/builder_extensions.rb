@@ -395,7 +395,7 @@ module BuilderExtensions
     
         def add<%= firstToUpper(name) %>(val, index=-1)
           @<%= name %> = [] unless @<%= name %>
-          return if val.nil? || (val.is_a?(MMBase) || val.is_a?(MMGeneric)) && @<%= name %>.any? {|e| e.object_id == val.object_id}
+          return if val.nil? || (val.is_a?(MMBase) || val.is_a?(MMGeneric)) && @<%= name %>.any? {|e| e.equal?(val)}
           <%= type_check_code("val", props) %>
           @<%= name %>.insert(index, val)
           <% if other_role %>
@@ -409,7 +409,7 @@ module BuilderExtensions
         def remove<%= firstToUpper(name) %>(val)
           @<%= name %> = [] unless @<%= name %>
           @<%= name %>.each_with_index do |e,i|
-            if e.object_id == val.object_id
+            if e.equal?(val)
               @<%= name %>.delete_at(i)
               <% if props.reference? && props.value(:containment) %>
                 val._set_container(nil, nil)
