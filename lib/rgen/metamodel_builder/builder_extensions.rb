@@ -428,9 +428,25 @@ module BuilderExtensions
           get<%= firstToUpper(name) %>.each {|e|
             remove<%= firstToUpper(name) %>(e)
           }
-          val.each {|v|
-            add<%= firstToUpper(name) %>(v)
+          @<%= name %> = [] unless @<%= name %>
+          <% if props.reference? %>
+          val.uniq {|elem| elem.object_id }.each {|elem|
+            next if elem.nil?
+            <%= type_check_code("elem", props) %>
+            @<%= name %> << elem
+            <% if other_role %>
+              elem._register<%= firstToUpper(other_role) %>(self) unless elem.is_a?(MMGeneric)
+            <% end %>
+            <% if props.value(:containment) %>
+              elem._set_container(self, :<%= name %>)
+            <% end %>
           }
+          <% else %>
+          val.each {|elem|
+            <%= type_check_code("elem", props) %>
+            @<%= name %> << elem
+         }
+         <% end %>
         end
         alias <%= name %>= set<%= firstToUpper(name) %>
         
