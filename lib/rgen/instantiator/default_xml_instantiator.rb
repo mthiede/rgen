@@ -53,7 +53,7 @@ class DefaultXMLInstantiator < NodebasedXMLInstantiator
 		class_name = class_name(ns_desc.nil? ? node.qtag : ns_desc.prefix+node.tag)
 		mod = (ns_desc && ns_desc.target) || @default_module		
 		build_on_error(NameError, :build_class, class_name, mod) do
-			mod.const_get(class_name).new
+			mod.const_get(class_name, false).new
 		end
 	end
   
