@@ -395,7 +395,7 @@ module BuilderExtensions
     
         def add<%= firstToUpper(name) %>(val, index=-1)
           @<%= name %> = [] unless @<%= name %>
-          return if val.nil? || (@<%= name %>.any?{|e| e.object_id == val.object_id} && (val.is_a?(MMBase) || val.is_a?(MMGeneric)))
+          return if val.nil? || (val.is_a?(MMBase) || val.is_a?(MMGeneric)) && @<%= name %>.any? {|e| e.equal?(val)}
           <%= type_check_code("val", props) %>
           @<%= name %>.insert(index, val)
           <% if other_role %>
@@ -409,7 +409,7 @@ module BuilderExtensions
         def remove<%= firstToUpper(name) %>(val)
           @<%= name %> = [] unless @<%= name %>
           @<%= name %>.each_with_index do |e,i|
-            if e.object_id == val.object_id
+            if e.equal?(val)
               @<%= name %>.delete_at(i)
               <% if props.reference? && props.value(:containment) %>
                 val._set_container(nil, nil)
@@ -428,9 +428,25 @@ module BuilderExtensions
           get<%= firstToUpper(name) %>.each {|e|
             remove<%= firstToUpper(name) %>(e)
           }
-          val.each {|v|
-            add<%= firstToUpper(name) %>(v)
+          @<%= name %> = [] unless @<%= name %>
+          <% if props.reference? %>
+          val.uniq {|elem| elem.object_id }.each {|elem|
+            next if elem.nil?
+            <%= type_check_code("elem", props) %>
+            @<%= name %> << elem
+            <% if other_role %>
+              elem._register<%= firstToUpper(other_role) %>(self) unless elem.is_a?(MMGeneric)
+            <% end %>
+            <% if props.value(:containment) %>
+              elem._set_container(self, :<%= name %>)
+            <% end %>
           }
+          <% else %>
+          val.each {|elem|
+            <%= type_check_code("elem", props) %>
+            @<%= name %> << elem
+         }
+         <% end %>
         end
         alias <%= name %>= set<%= firstToUpper(name) %>
         
