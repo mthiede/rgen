@@ -134,7 +134,7 @@ module RGen
         sep = params[:separator]
         params[:foreach].each_with_index {|e,i|
           _direct_concat(sep.to_s) if sep && i > 0 
-          output = _expand(template, args, params.merge({:for => e}))
+          _expand(template, args, params.merge({:for => e}))
         }
       end
       
@@ -147,7 +147,12 @@ module RGen
         @indent = params[:indent] || @indent
         noIndentNextLine = params[:_noIndentNextLine] || 
           (@output.is_a?(OutputHandler) && @output.noIndentNextLine) || 
-          (@output.to_s.size > 0 && @output.to_s[-1] != "\n"[0]) 
+          # the following line actually defines the noIndentNextLine state:
+          # we don't indent the next line if the previous line was not finished,
+          # i.e. if output has been generated but is not terminated by a newline
+          # BEWARE: the initial evaluation of the ERB template during template loading
+          #         also writes to @output (it creates a String); we must ignore this
+          (@output.is_a?(OutputHandler) && @output.to_s.size > 0 && @output.to_s[-1] != "\n"[0]) 
         caller = params[:_caller] || self
         old_context, @context = @context, context if context
         local_output = nil
@@ -157,6 +162,7 @@ module RGen
           old_output, @output = @output, OutputHandler.new(@indent, @parent.indentString)
           @output.noIndentNextLine = noIndentNextLine
           _call_template(tplname, @context, args, caller == self)
+          # should probably be: old_output.noIndentNextLine = false if @output.is_a?(OutputHandler) && !@output.noIndentNextLine
           old_output.noIndentNextLine = false if old_output.is_a?(OutputHandler) && !old_output.noIndentNextLine
           local_output, @output = @output, old_output
         else
@@ -211,7 +217,8 @@ module RGen
         else
           @output << s
         end
-      end 
+      end
+
       def _detectNewLinePattern(text)
         tests = 0
         rnOccurances = 0

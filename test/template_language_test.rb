@@ -158,6 +158,13 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
     assert_equal("|before callback\r\n   |in callback\r\n|after callback\r\n   |after iinc\r\n",
-     tc.expand('callback_indent_test/a::caller', :for => :dummy))
+      tc.expand('callback_indent_test/a::caller', :for => :dummy))
+  end
+
+  def test_indent_nonl_at_eof
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal("   Sub\n",
+      tc.expand('indent_nonl_at_eof_test/test::Test', :for => :dummy))
   end
 end

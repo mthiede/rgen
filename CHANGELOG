@@ -195,3 +195,7 @@
 * Added setNilOrRemoveGeneric and setNilOrRemoveAllGeneric methods
 * Added disconnectContainer method
 
+=0.7.1
+
+* Fixed missing indentation when template file is not terminated by a newline
+
