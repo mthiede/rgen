@@ -162,8 +162,7 @@ module RGen
           old_output, @output = @output, OutputHandler.new(@indent, @parent.indentString)
           @output.noIndentNextLine = noIndentNextLine
           _call_template(tplname, @context, args, caller == self)
-          # should probably be: old_output.noIndentNextLine = false if @output.is_a?(OutputHandler) && !@output.noIndentNextLine
-          old_output.noIndentNextLine = false if old_output.is_a?(OutputHandler) && !old_output.noIndentNextLine
+          old_output.noIndentNextLine = false if old_output.is_a?(OutputHandler) && !@output.noIndentNextLine
           local_output, @output = @output, old_output
         else
           local_output = @parent.expand(template, *(args.dup << {:for => @context, :indent => @indent, :_noIndentNextLine => noIndentNextLine, :_evalOnly => true, :_caller => caller}))

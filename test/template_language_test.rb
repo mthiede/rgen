@@ -167,4 +167,11 @@ class TemplateContainerTest < Test::Unit::TestCase
     assert_equal("   Sub\n",
       tc.expand('indent_nonl_at_eof_test/test::Test', :for => :dummy))
   end
+
+  def test_indent_same_line_sub
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal("   Start Sub2\r\n   Sub\r\n",
+      tc.expand('indent_same_line_sub/test::Test', :for => :dummy))
+  end
 end
