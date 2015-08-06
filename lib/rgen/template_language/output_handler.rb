@@ -6,52 +6,69 @@ module RGen
 module TemplateLanguage
   
   class OutputHandler
-    attr_writer :indent
     attr_accessor :noIndentNextLine
     
     def initialize(indent=0, indentString="   ", mode=:explicit)
       self.mode = mode
-      @indent = indent
       @indentString = indentString
       @state = :wait_for_nonws
       @output = ""
+      @indent_string = @indentString*indent
     end
+
+    def indent=(i)
+      @indent_string = @indentString*i
+    end
+
+    NL = "\n"
+    LF = "\r"
+    LFNL = "\r\n"
     
     # ERB will call this method for every string s which is part of the
     # template file in between %> and <%. If s contains a newline, it will
     # call this method for every part of s which is terminated by a \n
     # 
     def concat(s)
-      return @output.concat(s) if s.is_a? OutputHandler
-      #puts [object_id, noIndentNextLine, @state, @output.to_s, s].inspect
-      s = s.to_str.gsub(/^[\t ]*\r?\n/,'') if @ignoreNextNL
-      s = s.to_str.gsub(/^\s+/,'') if @ignoreNextWS
-      @ignoreNextNL = @ignoreNextWS = false if s =~ /\S/
+      if @ignoreNextNL
+        idx = s.index(NL)
+        if idx && s[0..idx].strip.empty?
+          s = s[idx+1..-1]
+        end
+        @ignoreNextNL = false unless s.strip.empty?
+      end
+      if @ignoreNextWS
+        s = s.lstrip
+        @ignoreNextWS = false unless s.empty?
+      end
       if @mode == :direct
         @output.concat(s)
       elsif @mode == :explicit
         while s.size > 0
           if @state == :wait_for_nl
-            if s =~ /\A([^\r\n]*\r?\n)(.*)/m
-              rest = $2
-              @output.concat($1.gsub(/[\t ]+(?=\r|\n)/,''))
-              s = rest || ""
+            idx = s.index(NL)
+            if idx
+              if s[idx-1] == LF
+                @output.concat(s[0..idx].rstrip)
+                @output.concat(LFNL)
+              else
+                @output.concat(s[0..idx].rstrip)
+                @output.concat(NL)
+              end
+              s = s[idx+1..-1]
               @state = :wait_for_nonws
             else
               @output.concat(s)
-              s = ""
+              break
             end
           elsif @state == :wait_for_nonws
-            if s =~ /\A\s*(\S+.*)/m
-              s = $1 || ""
-              if !@noIndentNextLine && !(@output.to_s.size > 0 && @output.to_s[-1] != "\n"[0])
-                @output.concat(@indentString * @indent)
+            s = s.lstrip
+            if !s.empty?
+              unless @noIndentNextLine || (@output[-1] && @output[-1] != NL)
+                @output.concat(@indent_string)
               else
                 @noIndentNextLine = false
               end
               @state = :wait_for_nl
-            else
-              s = ""
             end
           end
         end

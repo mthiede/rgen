@@ -199,4 +199,5 @@
 
 * Fixed missing indentation when template file is not terminated by a newline
 * Fixed missing indentation when expand in same line expands sub templates
+* Made template language output handler significantly faster
 
