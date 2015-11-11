@@ -199,5 +199,8 @@
 
 * Fixed missing indentation when template file is not terminated by a newline
 * Fixed missing indentation when expand in same line expands sub templates
-* Made template language output handler significantly faster
+* Fixed DefaultXMLInstantiator naming error with a tag named 'File' (issue #19, pull request #21 from jkugs)
+* Improved performance of output handler
+* Improved performance of setXXX and addXXX methods (pull request #22 from thallgren)
+* Use a value larger than Fixnum max to test Bignum support (pull request #18 from graaff)
 
