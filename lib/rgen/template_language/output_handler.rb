@@ -21,8 +21,14 @@ module TemplateLanguage
     end
 
     NL = "\n"
-    LF = "\r"
     LFNL = "\r\n"
+    if RUBY_VERSION.start_with?("1.8")
+      NL_CHAR = 10
+      LF_CHAR = 13
+    else
+      NL_CHAR = "\n"
+      LF_CHAR = "\r"
+    end
     
     # ERB will call this method for every string s which is part of the
     # template file in between %> and <%. If s contains a newline, it will
@@ -47,7 +53,7 @@ module TemplateLanguage
           if @state == :wait_for_nl
             idx = s.index(NL)
             if idx
-              if s[idx-1] == LF
+              if s[idx-1] == LF_CHAR
                 @output.concat(s[0..idx].rstrip)
                 @output.concat(LFNL)
               else
@@ -63,7 +69,7 @@ module TemplateLanguage
           elsif @state == :wait_for_nonws
             s = s.lstrip
             if !s.empty?
-              unless @noIndentNextLine || (@output[-1] && @output[-1] != NL)
+              unless @noIndentNextLine || (@output[-1] && @output[-1] != NL_CHAR)
                 @output.concat(@indent_string)
               else
                 @noIndentNextLine = false
