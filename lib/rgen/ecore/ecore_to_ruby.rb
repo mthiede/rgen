@@ -4,63 +4,112 @@ module RGen
   
 module ECore
 
+# ECoreToRuby can turn ECore models into their Ruby metamodel representations
 class ECoreToRuby
   
   def initialize
     @modules = {}
     @classifiers = {}
     @features_added = {}
-    @in_create_module = false
   end
 
-  def create_module(epackage)
+  # Create a Ruby module representing +epackage+.
+  # This includes all nested modules/packages, classes and enums.
+  #
+  # If a parent module is provided with the "under" parameter, 
+  # the new module will be nested under the parent module.
+  #
+  # If the parent module has a non-temporary name, i.e. if it is reachable
+  # via a path of constant names from the root, then the nested
+  # modules and classes will also have non-temporary names.
+  # In particular, this means that they will keep their names even
+  # if they are assigned to new constants.
+  # 
+  # If no parent module is provided or the parent module has a
+  # temporary name by itself, then the nested modules and classes will
+  # also have temporary names. This means that their name will stay
+  # 'volatile' until they are assigned to constants reachable from
+  # the root and the Module#name method is called for the first time.
+  #
+  # While the second approach is more flexible, it can come with a major
+  # performance impact. The reason is that Ruby searches the space of
+  # all known non-temporary classes/modules every time the name
+  # of a class/module with a temporary name is queried.
+  #
+  def create_module(epackage, under=Module.new)
+    temp = under.to_s.start_with?("#")
+    mod = create_module_internal(epackage, under, temp)
+
+    epackage.eAllClassifiers.each do |c| 
+      if c.is_a?(RGen::ECore::EClass)
+        create_class(c, temp)
+      elsif c.is_a?(RGen::ECore::EEnum)
+        create_enum(c)
+      end
+    end
+
+    mod
+  end
+
+  private
+
+  def create_module_internal(epackage, under, temp)
     return @modules[epackage] if @modules[epackage]
     
-    top = (@in_create_module == false)
-    @in_create_module = true
-
-    m = Module.new do
-      extend RGen::MetamodelBuilder::ModuleExtension
-    end
-    @modules[epackage] = m
-
-    epackage.eSubpackages.each{|p| create_module(p)}
-    m._set_ecore_internal(epackage)
-
-    create_module(epackage.eSuperPackage).const_set(epackage.name, m) if epackage.eSuperPackage
-
-    # create classes only after all modules have been created
-    # otherwise classes may be created multiple times
-    if top
-      epackage.eAllClassifiers.each do |c| 
-        if c.is_a?(RGen::ECore::EClass)
-          create_class(c)
-        elsif c.is_a?(RGen::ECore::EEnum)
-          create_enum(c)
-        end
+    if temp
+      mod = Module.new do
+        extend RGen::MetamodelBuilder::ModuleExtension
       end
-      @in_create_module = false
+      under.const_set(epackage.name, mod)
+    else
+      under.module_eval <<-END
+        module #{epackage.name}
+          extend RGen::MetamodelBuilder::ModuleExtension
+        end
+      END
+      mod = under.const_get(epackage.name)
     end
-    m
+    @modules[epackage] = mod
+
+    epackage.eSubpackages.each{|p| create_module_internal(p, mod, temp)}
+    mod._set_ecore_internal(epackage)
+
+    mod
   end
 
-  def create_class(eclass)
+  def create_class(eclass, temp)
     return @classifiers[eclass] if @classifiers[eclass]
 
-    c = Class.new(super_class(eclass)) do
-      abstract if eclass.abstract
-      class << self
-        attr_accessor :_ecore_to_ruby
+    mod = @modules[eclass.ePackage]
+    if temp
+      cls = Class.new(super_class(eclass, temp)) do
+        abstract if eclass.abstract
+        class << self
+          attr_accessor :_ecore_to_ruby
+         end
       end
+      mod.const_set(eclass.name, cls)
+    else
+      mod.module_eval <<-END
+        class #{eclass.name} < #{super_class(eclass, temp)}
+          #{eclass.abstract ? 'abstract' : ''}
+          class << self
+            attr_accessor :_ecore_to_ruby
+          end
+        end
+      END
+      cls = mod.const_get(eclass.name)
     end
+
     class << eclass
       attr_accessor :instanceClass
       def instanceClassName
         instanceClass.to_s
       end
     end
-    eclass.instanceClass = c
-    c::ClassModule.module_eval do
+    eclass.instanceClass = cls
+
+    cls::ClassModule.module_eval do
       alias _method_missing method_missing
       def method_missing(m, *args)
         if self.class._ecore_to_ruby.add_features(self.class.ecore)
@@ -75,12 +124,11 @@ class ECoreToRuby
         _respond_to(m)
       end
     end
-    @classifiers[eclass] = c
-    c._set_ecore_internal(eclass)
-    c._ecore_to_ruby = self
+    @classifiers[eclass] = cls
+    cls._set_ecore_internal(eclass)
+    cls._ecore_to_ruby = self
 
-    create_module(eclass.ePackage).const_set(eclass.name, c)
-    c
+    cls
   end
 
   def create_enum(eenum)
@@ -89,7 +137,7 @@ class ECoreToRuby
     e = RGen::MetamodelBuilder::DataTypes::Enum.new(eenum.eLiterals.collect{|l| l.name.to_sym})
     @classifiers[eenum] = e
 
-    create_module(eenum.ePackage).const_set(eenum.name, e)
+    @modules[eenum.ePackage].const_set(eenum.name, e)
     e
   end
 
@@ -126,6 +174,32 @@ class ECoreToRuby
     end
   end
 
+  def super_class(eclass, temp)
+    super_types = eclass.eSuperTypes
+    if temp
+      case super_types.size
+      when 0
+        RGen::MetamodelBuilder::MMBase
+      when 1
+        create_class(super_types.first, temp)
+      else
+        RGen::MetamodelBuilder::MMMultiple(*super_types.collect{|t| create_class(t, temp)})
+      end
+    else
+      case super_types.size
+      when 0
+        "RGen::MetamodelBuilder::MMBase"
+      when 1
+        create_class(super_types.first, temp).name
+      else
+        "RGen::MetamodelBuilder::MMMultiple(" + 
+          super_types.collect{|t| create_class(t, temp).name}.join(",") + ")"
+      end
+    end
+  end
+
+  public
+
   def add_features(eclass)
     return false if @features_added[eclass]
     c = @classifiers[eclass]
@@ -145,18 +219,6 @@ class ECoreToRuby
       add_features(t)
     end
     true
-  end
-
-  def super_class(eclass)
-    super_types = eclass.eSuperTypes
-    case super_types.size
-    when 0
-      RGen::MetamodelBuilder::MMBase
-    when 1
-      create_class(super_types.first)
-    else
-      RGen::MetamodelBuilder::MMMultiple(*super_types.collect{|t| create_class(t)})
-    end
   end
 
 end

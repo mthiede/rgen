@@ -195,11 +195,12 @@
 * Added setNilOrRemoveGeneric and setNilOrRemoveAllGeneric methods
 * Added disconnectContainer method
 
-=0.7.1
+=0.8.0
 
 * Fixed missing indentation when template file is not terminated by a newline
 * Fixed missing indentation when expand in same line expands sub templates
 * Fixed DefaultXMLInstantiator naming error with a tag named 'File' (issue #19, pull request #21 from jkugs)
+* Simplified ECoreToRuby and optionally let it create modules with non-temporary names
 * Improved performance of output handler
 * Improved performance of setXXX and addXXX methods (pull request #22 from thallgren)
 * Use a value larger than Fixnum max to test Bignum support (pull request #18 from graaff)
