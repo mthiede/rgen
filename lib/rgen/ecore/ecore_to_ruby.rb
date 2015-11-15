@@ -19,7 +19,8 @@ class ECoreToRuby
   # If a parent module is provided with the "under" parameter, 
   # the new module will be nested under the parent module.
   #
-  # If the parent module has a non-temporary name, i.e. if it is reachable
+  # If the parent module has a non-temporary name,
+  # (more precisely: a non-temporary classpath) i.e. if it is reachable
   # via a path of constant names from the root, then the nested
   # modules and classes will also have non-temporary names.
   # In particular, this means that they will keep their names even
