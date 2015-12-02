@@ -38,18 +38,20 @@ class ECoreToRuby
   # of a class/module with a temporary name is queried.
   #
   def create_module(epackage, under=Module.new)
-    temp = under.to_s.start_with?("#")
-    mod = create_module_internal(epackage, under, temp)
+    with_empty_constant_order_helper do
+      temp = under.to_s.start_with?("#")
+      mod = create_module_internal(epackage, under, temp)
 
-    epackage.eAllClassifiers.each do |c| 
-      if c.is_a?(RGen::ECore::EClass)
-        create_class(c, temp)
-      elsif c.is_a?(RGen::ECore::EEnum)
-        create_enum(c)
+      epackage.eAllClassifiers.each do |c| 
+        if c.is_a?(RGen::ECore::EClass)
+          create_class(c, temp)
+        elsif c.is_a?(RGen::ECore::EEnum)
+          create_enum(c)
+        end
       end
-    end
 
-    mod
+      mod
+    end
   end
 
   private
@@ -197,6 +199,27 @@ class ECoreToRuby
           super_types.collect{|t| create_class(t, temp).name}.join(",") + ")"
       end
     end
+  end
+
+  class EmptyConstantOrderHelper
+    def classCreated(c); end
+    def moduleCreated(m); end
+    def enumCreated(e); end
+  end
+
+  def with_empty_constant_order_helper
+    orig_coh = RGen::MetamodelBuilder::ConstantOrderHelper
+    RGen::MetamodelBuilder.instance_eval { remove_const(:ConstantOrderHelper) }
+    RGen::MetamodelBuilder.const_set(:ConstantOrderHelper, EmptyConstantOrderHelper.new)
+
+    begin
+      result = yield
+    ensure
+      RGen::MetamodelBuilder.instance_eval { remove_const(:ConstantOrderHelper) }
+      RGen::MetamodelBuilder.const_set(:ConstantOrderHelper, orig_coh)
+    end
+
+    result
   end
 
   public
