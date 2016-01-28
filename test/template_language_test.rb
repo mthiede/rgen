@@ -174,4 +174,22 @@ class TemplateContainerTest < Test::Unit::TestCase
     assert_equal("   Start Sub2\r\n   Sub\r\n",
       tc.expand('indent_same_line_sub/test::Test', :for => :dummy))
   end
+
+  def test_line_endings
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    tc.expand('line_endings/unix::Unix', :for => :dummy)
+    tc.expand('line_endings/windows::Windows', :for => :dummy)
+    tc.expand('line_endings/mixed::Mixed', :for => :dummy)
+
+    unix = File.binread(OUTPUT_DIR+'/line_endings_unix.txt')
+    assert unix.include?("|\n") && !unix.include?("|\r\n")
+
+    windows = File.binread(OUTPUT_DIR+'/line_endings_windows.txt')
+    assert windows.include?("|\r\n") && !windows.include?("|\n")
+
+    mixed = File.binread(OUTPUT_DIR+'/line_endings_mixed.txt')
+    assert mixed.include?("|\r\n") && mixed.include?("|\n")
+  end
+
 end
