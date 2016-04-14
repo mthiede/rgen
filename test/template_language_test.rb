@@ -182,14 +182,35 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc.expand('line_endings/windows::Windows', :for => :dummy)
     tc.expand('line_endings/mixed::Mixed', :for => :dummy)
 
-    unix = File.binread(OUTPUT_DIR+'/line_endings_unix.txt')
+    unix = binread(OUTPUT_DIR+'/line_endings_unix.txt')
     assert unix.include?("|\n") && !unix.include?("|\r\n")
 
-    windows = File.binread(OUTPUT_DIR+'/line_endings_windows.txt')
+    windows = binread(OUTPUT_DIR+'/line_endings_windows.txt')
     assert windows.include?("|\r\n") && !windows.include?("|\n")
 
-    mixed = File.binread(OUTPUT_DIR+'/line_endings_mixed.txt')
+    mixed = binread(OUTPUT_DIR+'/line_endings_mixed.txt')
     assert mixed.include?("|\r\n") && mixed.include?("|\n")
+  end
+
+  def test_ws
+    tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
+    tc.load(TEMPLATES_DIR)
+    assert_equal("/*\n *\n */\n",
+      tc.expand('ws_test::WSTest', :for => :dummy))
+    assert_equal("somevar = 1;\n",
+      tc.expand('ws_test::WSTest2', :for => :dummy))
+    assert_equal("   /*\n    *\n    */\n",
+      tc.expand('ws_test::WSTest3', :for => :dummy))
+  end
+
+  private
+
+  def binread(file)
+    result = nil
+    File.open(file, "rb") do |f|
+      result = f.read
+    end
+    result
   end
 
 end

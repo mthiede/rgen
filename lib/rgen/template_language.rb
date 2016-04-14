@@ -129,6 +129,7 @@ module RGen
 # Starting from this point one can add indentation and newlines as required by using
 # explicit formatting commands:
 # * <code><%nl%></code> (newline) starts a new line
+# * <code><%ws%></code> (whitespace) adds an explicit space
 # * <code><%iinc%></code> (indentation increment) increases the current indentation
 # * <code><%idec%></code> (indentation decrement) decreases the current indentation
 # * <code><%nonl%></code> (no newline) ignore next newline

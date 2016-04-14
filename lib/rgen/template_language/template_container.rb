@@ -84,7 +84,7 @@ module RGen
       end
       
       def ws
-        _direct_concat(" ")
+        _direct_concat(" ", true)
       end
       
       def iinc
@@ -210,9 +210,13 @@ module RGen
         raise StandardError.new("Template class not matching: #{tpl} for #{context.class.name}") unless found
       end
         
-      def _direct_concat(s)
+      def _direct_concat(s, allow_indent=false)
         if @output.is_a? OutputHandler
-          @output.direct_concat(s)
+          if allow_indent
+            @output.direct_concat_allow_indent(s)
+          else
+            @output.direct_concat(s)
+          end
         else
           @output << s
         end

@@ -91,6 +91,16 @@ module TemplateLanguage
       @output.concat(s)
     end
     
+    def direct_concat_allow_indent(s)
+      unless @noIndentNextLine || (@output[-1] && @output[-1] != NL_CHAR)
+        @output.concat(@indent_string)
+      else
+        @noIndentNextLine = false
+      end
+      @state = :wait_for_nl
+      @output.concat(s)
+    end
+
     def ignoreNextNL
       @ignoreNextNL = true
     end
