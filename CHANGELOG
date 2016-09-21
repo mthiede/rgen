@@ -210,3 +210,6 @@
 * Improved performance of ECoreToRuby
 * Fixed <%ws%> command to trigger indentation if starting a new line
 
+=0.8.2
+
+* Added helper methods
