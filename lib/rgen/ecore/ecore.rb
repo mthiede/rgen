@@ -144,6 +144,7 @@ module RGen
     class EClass < EClassifier
       has_attr 'abstract', Boolean
       has_attr 'interface', Boolean
+      has_attr 'concrete', Boolean, :derived => true
       has_one  'eIDAttribute', ECore::EAttribute, :derived=>true, :resolveProxies=>false
       
       has_many 'eAllAttributes', ECore::EAttribute, :derived=>true
@@ -156,6 +157,9 @@ module RGen
       has_many 'eReferences', ECore::EReference, :derived=>true
       
       module ClassModule		
+        def concrete_derived
+          !(abstract || interface)
+        end
         def eAllAttributes_derived
           eAttributes + eSuperTypes.eAllAttributes
         end

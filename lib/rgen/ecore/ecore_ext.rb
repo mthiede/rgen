@@ -64,6 +64,10 @@ module RGen
         eSubTypes + eSubTypes.eAllSubTypes
       end
       
-		end
+      def isAssignableFrom(cls)
+        cls == self || cls.eAllSuperTypes.any? { |super_type| super_type == self }
+      end
+      
+    end
   end
 end
