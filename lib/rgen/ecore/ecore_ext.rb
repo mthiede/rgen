@@ -63,7 +63,11 @@ module RGen
       def eAllSubTypes
         eSubTypes + eSubTypes.eAllSubTypes
       end
-      
+
+      def concrete
+        !(abstract || interface)
+      end
+
       def isAssignableFrom(cls)
         cls == self || cls.eAllSuperTypes.any? { |super_type| super_type == self }
       end
