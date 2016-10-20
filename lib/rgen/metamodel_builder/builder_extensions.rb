@@ -384,7 +384,7 @@ module BuilderExtensions
       @@many_read_builder ||= ERB.new <<-CODE
       
         def get<%= firstToUpper(name) %>
-          ( @<%= name %> ? @<%= name %>.dup : [] )
+          ( defined?(@<%= name %>) ? @<%= name %>.dup : [] )
         end
         <% if name != "class" %>
           alias <%= name %> get<%= firstToUpper(name) %>
@@ -402,7 +402,7 @@ module BuilderExtensions
       @@many_write_builder ||= ERB.new <<-CODE
     
         def add<%= firstToUpper(name) %>(val, index=-1)
-          @<%= name %> = [] unless @<%= name %>
+          @<%= name %> = [] unless defined?(@<%= name %>)
           return if val.nil? || (val.is_a?(MMBase) || val.is_a?(MMGeneric)) && @<%= name %>.any? {|e| e.equal?(val)}
           <%= type_check_code("val", props) %>
           @<%= name %>.insert(index, val)
@@ -415,7 +415,7 @@ module BuilderExtensions
         end
         
         def remove<%= firstToUpper(name) %>(val)
-          @<%= name %> = [] unless @<%= name %>
+          @<%= name %> = [] unless defined?(@<%= name %>)
           @<%= name %>.each_with_index do |e,i|
             if e.equal?(val)
               @<%= name %>.delete_at(i)
@@ -436,7 +436,7 @@ module BuilderExtensions
           get<%= firstToUpper(name) %>.each {|e|
             remove<%= firstToUpper(name) %>(e)
           }
-          @<%= name %> = [] unless @<%= name %>
+          @<%= name %> = [] unless defined?(@<%= name %>)
           <% if props.reference? %>
           val.uniq {|elem| elem.object_id }.each {|elem|
             next if elem.nil?
@@ -459,7 +459,7 @@ module BuilderExtensions
         alias <%= name %>= set<%= firstToUpper(name) %>
         
         def _register<%= firstToUpper(name) %>(val)
-          @<%= name %> = [] unless @<%= name %>
+          @<%= name %> = [] unless defined?(@<%= name %>)
           @<%= name %>.push val
           <% if props.reference? && props.value(:containment) %>
             val._set_container(self, :<%= name %>)
