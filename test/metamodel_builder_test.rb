@@ -168,6 +168,14 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     end
     OppositeRefAssocA.one_to_one 'bClass', OppositeRefAssocB, 'aClass'
 
+    class ReservedNameClass < RGen::MetamodelBuilder::MMBase
+      has_attr 'class', String
+    end
+
+    class ManyReservedNameClass < RGen::MetamodelBuilder::MMBase
+      has_many_attr 'class', String
+    end
+
   end
    
   def mm
@@ -1479,4 +1487,20 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     assert_equal [], a1.manyChildUni
   end
 
+  def test_reserved_names
+    e = mm::ReservedNameClass.new
+    e.setGeneric("class", "X")
+    assert_equal "X", e.getGeneric(:class)
+    assert_equal "X", e.getGeneric("class")
+    assert_equal "X", e.getClass
+  end
+
+  def test_reserved_names_many
+    e = mm::ManyReservedNameClass.new
+    e.addGeneric("class", "X")
+    e.addGeneric("class", "Y")
+    assert_equal ["X", "Y"], e.getGeneric(:class)
+    assert_equal ["X", "Y"], e.getGeneric("class")
+    assert_equal ["X", "Y"], e.getClass
+  end
 end

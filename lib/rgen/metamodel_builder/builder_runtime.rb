@@ -58,14 +58,17 @@ module BuilderRuntime
     end
   end
 
-	def getGeneric(role)
-		send("get#{firstToUpper(role.to_s)}")
-	end
+  alias getGeneric send
 
   def getGenericAsArray(role)
-    result = getGeneric(role)
-    result = [result].compact unless result.is_a?(Array)
-    result
+    result = send(role)
+    if result.nil?
+      []
+    elsif result.is_a?(Array)
+      result
+    else
+      [result]
+    end
   end
 
   def eIsSet(role)

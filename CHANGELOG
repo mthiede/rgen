@@ -213,3 +213,8 @@
 =0.8.2
 
 * Added helper methods
+
+=0.8.3
+
+* Performance improvement: getGeneric made a lot faster
+ 

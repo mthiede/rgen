@@ -319,6 +319,10 @@ module BuilderExtensions
         end
         <% if name != "class" %>
           alias <%= name %> get<%= firstToUpper(name) %>
+        <% else %>
+          def getGeneric(role)
+            send("get\#{firstToUpper(role.to_s)}")
+          end
         <% end %>
 
       CODE
@@ -384,6 +388,10 @@ module BuilderExtensions
         end
         <% if name != "class" %>
           alias <%= name %> get<%= firstToUpper(name) %>
+        <% else %>
+          def getGeneric(role)
+            send("get\#{firstToUpper(role.to_s)}")
+          end
         <% end %>
               
       CODE
