@@ -117,6 +117,9 @@ class ModelFragment
   end
   
   # Returns the index of the element contained in this fragment.
+  # 
+  # FragmentedModel's index caching depends on the fact that any change 
+  # of a fragment's index contents implies a new index object.
   #
   def index
     build_index unless @index

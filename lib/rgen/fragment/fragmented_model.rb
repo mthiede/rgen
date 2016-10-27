@@ -111,6 +111,8 @@ class FragmentedModel
   # This is a Hash mapping identifiers to model elements accessible via the identifier. 
   #
   def index
+    # Invalidate the cache when any fragment's local index changes.
+    # Assumption: If the local index content changes, there is a new index object.
     fragments.each do |f|
       if !@fragment_index[f] || (@fragment_index[f].object_id != f.index.object_id)
         @fragment_index[f] = f.index
