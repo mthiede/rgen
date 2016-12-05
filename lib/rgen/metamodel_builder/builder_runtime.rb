@@ -103,6 +103,10 @@ module BuilderRuntime
 
   # if a block is given, calls the block on every contained element in depth first order. 
   # if the block returns :prune, recursion will stop at this point.
+  # 
+  # BEWARE of concurrent modification of contained elements while iterating!
+  # (adding/removing containers or contained elements)
+  # if you need to do such modifications, use the variant without a block instead.
   #
   # if no block is given builds and returns a list of all contained elements.
   #
