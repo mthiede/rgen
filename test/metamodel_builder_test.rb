@@ -1492,6 +1492,8 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     e.setGeneric("class", "X")
     assert_equal "X", e.getGeneric(:class)
     assert_equal "X", e.getGeneric("class")
+    assert_equal ["X"], e.getGenericAsArray(:class)
+    assert_equal ["X"], e.getGenericAsArray("class")
     assert_equal "X", e.getClass
   end
 
@@ -1501,6 +1503,8 @@ class MetamodelBuilderTest < Test::Unit::TestCase
     e.addGeneric("class", "Y")
     assert_equal ["X", "Y"], e.getGeneric(:class)
     assert_equal ["X", "Y"], e.getGeneric("class")
+    assert_equal ["X", "Y"], e.getGenericAsArray(:class)
+    assert_equal ["X", "Y"], e.getGenericAsArray("class")
     assert_equal ["X", "Y"], e.getClass
   end
 end

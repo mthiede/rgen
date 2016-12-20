@@ -61,7 +61,7 @@ module BuilderRuntime
   alias getGeneric send
 
   def getGenericAsArray(role)
-    result = send(role)
+    result = getGeneric(role)
     if result.nil?
       []
     elsif result.is_a?(Array)
