@@ -1,13 +1,13 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/array_extensions'
 require 'rgen/util/model_comparator'
 require 'mmgen/metamodel_generator'
 require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/serializer/xmi20_serializer'
 
-class MetamodelRoundtripTest < Test::Unit::TestCase
+class MetamodelRoundtripTest < MiniTest::Test
   
   TEST_DIR = File.dirname(__FILE__)+"/metamodel_roundtrip_test"
   

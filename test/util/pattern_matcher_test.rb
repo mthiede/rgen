@@ -1,12 +1,12 @@
 $:.unshift(File.dirname(__FILE__)+"/../../lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
 require 'rgen/model_builder'
 require 'rgen/util/pattern_matcher'
 
-class PatternMatcherTest < Test::Unit::TestCase
+class PatternMatcherTest < MiniTest::Test
 
 module TestMM
   extend RGen::MetamodelBuilder::ModuleExtension
@@ -51,7 +51,7 @@ def test_simple
   env = modelA
 
   match = matcher.find_pattern(env, "simple")
-  assert_not_nil match
+  assert match != nil
   assert_equal "A", match.root.name
   assert_equal env.find(:class => TestMM::Node, :name => "A").first.object_id, match.root.object_id
   assert_equal 2, match.elements.size
@@ -75,21 +75,21 @@ def test_value_binding
   env = modelA
 
   match = matcher.find_pattern(env, "single_child")
-  assert_not_nil match
+  assert match != nil
   assert_equal "A", match.root.name
   assert_equal "AA", match.bound_values[1].name
 
   match = matcher.find_pattern(env, "single_child", "D")
-  assert_not_nil match
+  assert match != nil
   assert_equal "D", match.root.name
   assert_equal "DD", match.bound_values[0].name
 
   match = matcher.find_pattern(env, "double_child")
-  assert_not_nil match
+  assert match != nil
   assert_equal "C", match.root.name
 
   match = matcher.find_pattern(env, "child_pattern")
-  assert_not_nil match
+  assert match != nil
   assert_equal ["AA"], match.bound_values
 end
 

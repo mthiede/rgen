@@ -1,10 +1,10 @@
 $:.unshift File.dirname(__FILE__)+"/../lib"
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/model_builder/reference_resolver'
 
-class ReferenceResolverTest < Test::Unit::TestCase
+class ReferenceResolverTest < MiniTest::Test
 
   class ClassA < RGen::MetamodelBuilder::MMBase
     has_attr "name"
@@ -122,7 +122,7 @@ class ReferenceResolverTest < Test::Unit::TestCase
       :reference => ClassC.ecore.eReferences.find{|r| r.name == "refCs"},
       :namespace => b1,
       :string => "b1.c5"))
-    assert_raise RGen::ModelBuilder::ReferenceResolver::ResolverException do
+    assert_raises RGen::ModelBuilder::ReferenceResolver::ResolverException do
       resolver.resolve(toplevelNamespace)
     end
   end

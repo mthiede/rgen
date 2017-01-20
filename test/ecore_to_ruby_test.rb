@@ -1,12 +1,12 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'rgen/ecore/ecore'
 require 'rgen/ecore/ecore_ext'
 require 'rgen/ecore/ecore_to_ruby'
 
-class ECoreToRubyTest < Test::Unit::TestCase
+class ECoreToRubyTest < MiniTest::Test
 
 module ContainerSimple
 end

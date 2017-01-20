@@ -1,8 +1,8 @@
-abort 'Use rake tasks to build the gem' if $0 =~ /gem$/
+abort 'Use the rake task to build the gem' if $0 =~ /gem$/ && $*.first == 'build'
 
 Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = '0.8.2'
+  s.version = '0.8.3.pre1'
   s.date = Time.now.strftime('%Y-%m-%d')
   s.summary = %q{Ruby Modelling and Generator Framework}
   s.email = %q{martin dot thiede at gmx de}
@@ -14,4 +14,6 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w(README.rdoc CHANGELOG MIT-LICENSE)
   s.files = Dir.glob(File.join('lib', '**', '*')) + Dir.glob(File.join('test', '**', '*')) +
       %w(README.rdoc CHANGELOG MIT-LICENSE Rakefile) - Dir.glob(File.join('**', '*.bak'))
+  s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8.1'
+  s.add_development_dependency 'minitest', '~> 5.10', '>= 5.10.1'
 end

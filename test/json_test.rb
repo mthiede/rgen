@@ -1,12 +1,12 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
 require 'rgen/serializer/json_serializer'
 require 'rgen/instantiator/json_instantiator'
 
-class JsonTest < Test::Unit::TestCase
+class JsonTest < MiniTest::Test
 
   module TestMM
     extend RGen::MetamodelBuilder::ModuleExtension
@@ -61,7 +61,7 @@ class JsonTest < Test::Unit::TestCase
     inst.instantiate(%q({ "_class": "TestNode", "text": "some text", "childs": [ 
   { "_class": "TestNode", "text": "child" }] }))
     root = env.find(:class => TestMM::TestNode, :text => "some text").first
-    assert_not_nil root
+    assert root != nil
     assert_equal 1, root.childs.size
     assert_equal TestMM::TestNode, root.childs.first.class
     assert_equal "child", root.childs.first.text
@@ -149,7 +149,7 @@ class JsonTest < Test::Unit::TestCase
   def test_json_instantiator_subpackage_no_shortname_opt
     env = RGen::Environment.new
     inst = RGen::Instantiator::JsonInstantiator.new(env, TestMMSubpackage, :short_class_names => false)
-    assert_raise RuntimeError do
+    assert_raises RuntimeError do
       inst.instantiate(%q({ "_class": "Data2", "data2": "something" }))
     end
   end

@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/instantiator/reference_resolver'
 
-class ReferenceResolverTest < Test::Unit::TestCase
+class ReferenceResolverTest < MiniTest::Test
 
   class TestNode < RGen::MetamodelBuilder::MMBase
     has_attr 'name', String
@@ -107,9 +107,9 @@ class ReferenceResolverTest < Test::Unit::TestCase
   def check_model(nodeA, nodeB, nodeC)
     assert_equal nodeB, nodeA.other
     assert_equal [], nodeA.others
-    assert_equal nil, nodeB.other
+    assert_nil nodeB.other
     assert_equal [nodeA, nodeC], nodeB.others
-    assert_equal nil, nodeC.other
+    assert_nil nodeC.other
     assert_equal [], nodeC.others
   end
 

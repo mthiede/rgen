@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/template_language'
 require 'rgen/metamodel_builder'
 
-class TemplateContainerTest < Test::Unit::TestCase
+class TemplateContainerTest < MiniTest::Test
   
   TEMPLATES_DIR = File.dirname(__FILE__)+"/template_language_test/templates"
   OUTPUT_DIR = File.dirname(__FILE__)+"/template_language_test"
@@ -93,17 +93,15 @@ class TemplateContainerTest < Test::Unit::TestCase
   def test_null_context
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
-    assert_raise StandardError do 
+    assert_raises StandardError do 
       # the template must raise an exception because it calls expand :for => nil
       tc.expand('null_context_test::NullContextTestBad', :for => :dummy)
     end
-    assert_raise StandardError do 
+    assert_raises StandardError do 
       # the template must raise an exception because it calls expand :foreach => nil
       tc.expand('null_context_test::NullContextTestBad2', :for => :dummy)
     end
-    assert_nothing_raised do
-      tc.expand('null_context_test::NullContextTestOk', :for => :dummy)
-    end
+    tc.expand('null_context_test::NullContextTestOk', :for => :dummy)
   end
   
   def test_no_indent
@@ -141,7 +139,7 @@ class TemplateContainerTest < Test::Unit::TestCase
     tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MyMM, CCodeMM], OUTPUT_DIR)
     tc.load(TEMPLATES_DIR)
     assert_equal "Local1\r\n", tc.expand('define_local_test/test::Test', :for => :dummy)
-    assert_raise StandardError do
+    assert_raises StandardError do
       tc.expand('define_local_test/test::TestForbidden', :for => :dummy)
     end
   end

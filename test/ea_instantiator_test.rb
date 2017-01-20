@@ -1,6 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'metamodels/uml13_metamodel'
 require 'ea_support/ea_support'
@@ -9,7 +9,7 @@ require 'testmodel/class_model_checker'
 require 'testmodel/object_model_checker'
 require 'testmodel/ecore_model_checker'
 
-class EAInstantiatorTest < Test::Unit::TestCase
+class EAInstantiatorTest < MiniTest::Test
 
     include Testmodel::ClassModelChecker
     include Testmodel::ObjectModelChecker

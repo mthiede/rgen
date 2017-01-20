@@ -11,7 +11,7 @@ module ClassModelChecker
 						
 		# check main package
 		mainPackage = envUML.find(:class => UML13::Package, :name => "HouseMetamodel").first
-		assert_not_nil mainPackage
+		assert mainPackage != nil
 		
 		# check Rooms package
 		subs = mainPackage.ownedElement.select{|e| e.is_a?(UML13::Package)}
@@ -26,10 +26,10 @@ module ClassModelChecker
 		personClass = classes.find{|c| c.name == "Person"}
 		meetingPlaceClass = classes.find{|c| c.name == "MeetingPlace"}
 		cookingPlaceInterface = mainPackage.ownedElement.find{|e| e.is_a?(UML13::Interface) && e.name == "CookingPlace"}
-		assert_not_nil houseClass
-		assert_not_nil personClass
-		assert_not_nil meetingPlaceClass
-        assert_not_nil cookingPlaceInterface
+		assert houseClass != nil
+		assert personClass != nil
+		assert meetingPlaceClass != nil
+        assert cookingPlaceInterface != nil
 
 		# check Rooms package classes
 		classes = roomsPackage.ownedElement.select{|e| e.is_a?(UML13::Class)}
@@ -37,20 +37,20 @@ module ClassModelChecker
 		roomClass = classes.find{|c| c.name == "Room"}
 		kitchenClass = classes.find{|c| c.name == "Kitchen"}
 		bathroomClass = classes.find{|c| c.name == "Bathroom"}
-		assert_not_nil roomClass
-		assert_not_nil kitchenClass
-		assert_not_nil bathroomClass
+		assert roomClass != nil
+		assert kitchenClass != nil
+		assert bathroomClass != nil
 		
 		# check Room inheritance
 		assert_equal 2, roomClass.specialization.child.size
-		assert_not_nil roomClass.specialization.child.find{|c| c.name == "Kitchen"}
-		assert_not_nil roomClass.specialization.child.find{|c| c.name == "Bathroom"}
+		assert nil != roomClass.specialization.child.find{|c| c.name == "Kitchen"}
+		assert nil != roomClass.specialization.child.find{|c| c.name == "Bathroom"}
 		assert_equal 2, kitchenClass.generalization.parent.size
 		assert_equal roomClass.object_id, kitchenClass.generalization.parent.find{|c| c.name == "Room"}.object_id
 		assert_equal meetingPlaceClass.object_id, kitchenClass.generalization.parent.find{|c| c.name == "MeetingPlace"}.object_id
 		assert_equal 1, bathroomClass.generalization.parent.size
 		assert_equal roomClass.object_id, bathroomClass.generalization.parent.first.object_id
-		assert_not_nil kitchenClass.clientDependency.find{|d| d.stereotype.name == "implements"}
+		assert nil != kitchenClass.clientDependency.find{|d| d.stereotype.name == "implements"}
         assert_equal cookingPlaceInterface.object_id, kitchenClass.clientDependency.supplier.find{|c| c.name == "CookingPlace"}.object_id
         assert_equal kitchenClass.object_id, cookingPlaceInterface.supplierDependency.client.find{|c| c.name == "Kitchen"}.object_id
 
@@ -72,8 +72,8 @@ module ClassModelChecker
 		assert_equal 2, houseClass.remoteNavigableEnd.size
 		bathEnd = houseClass.remoteNavigableEnd.find{|e| e.name == "bathroom"}
 		kitchenEnd = houseClass.remoteNavigableEnd.find{|e| e.name== "kitchen"}
-		assert_not_nil bathEnd
-		assert_not_nil kitchenEnd
+		assert bathEnd != nil
+		assert kitchenEnd != nil
 		assert_equal UML13::Association, bathEnd.association.class
 		assert_equal UML13::Association, kitchenEnd.association.class
 		assert_equal "1", kitchenEnd.multiplicity.range.first.lower
@@ -82,7 +82,7 @@ module ClassModelChecker
 		# check House IN associations
 		assert_equal 3, houseClass.localNavigableEnd.size
 		homeEnd = houseClass.localNavigableEnd.find{|e| e.name == "home"}
-		assert_not_nil homeEnd
+		assert homeEnd != nil
 		assert_equal UML13::Association, homeEnd.association.class
 		assert_equal "0", homeEnd.multiplicity.range.first.lower
 		assert_equal "*", homeEnd.multiplicity.range.first.upper
@@ -97,14 +97,14 @@ module ClassModelChecker
 		assert_nil mainPackage
 		
 		roomsPackage = envUML.find(:class => UML13::Package, :name => "Rooms").first
-		assert_not_nil roomsPackage
+		assert roomsPackage != nil
 		
 		roomClass = envUML.find(:class => UML13::Class, :name => "Room").first
-		assert_not_nil roomClass
+		assert roomClass != nil
 		
 		# House is created from an EAStub
 		houseClass = roomClass.remoteCompositeEnd.first.type
-		assert_not_nil houseClass
+		assert houseClass != nil
 		assert_equal "House", houseClass.name
         # House is not in a package since it's just a stub
 		assert houseClass.namespace.nil?

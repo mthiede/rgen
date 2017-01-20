@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/instantiator/qualified_name_resolver'
 
-class QualifiedNameResolverTest < Test::Unit::TestCase
+class QualifiedNameResolverTest < MiniTest::Test
 
   class TestNode < RGen::MetamodelBuilder::MMBase
     has_attr 'name', String
@@ -86,8 +86,8 @@ class QualifiedNameResolverTest < Test::Unit::TestCase
     assert_equal model[1].children[0].children[0], res.resolveIdentifier("/Root2/Sub21/Sub211")
     # duplicate name yields two result elements
     assert_equal [model[2], model[3]], res.resolveIdentifier("/Root3")
-    assert_equal nil, res.resolveIdentifier("/RootX")
-    assert_equal nil, res.resolveIdentifier("/Root1/SubX")
+    assert_nil res.resolveIdentifier("/RootX")
+    assert_nil res.resolveIdentifier("/Root1/SubX")
   end
 
   def test_oneChild

@@ -1,14 +1,14 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 $:.unshift File.join(File.dirname(__FILE__),"..","test")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/transformer'
 require 'rgen/environment'
 require 'rgen/util/model_comparator'
 require 'metamodels/uml13_metamodel'
 require 'testmodel/class_model_checker'
 
-class TransformerTest < Test::Unit::TestCase
+class TransformerTest < MiniTest::Test
 
 	class ModelIn
 		attr_accessor :name
@@ -135,7 +135,7 @@ class TransformerTest < Test::Unit::TestCase
     assert_equal t1.trans(from).object_id, t2.trans(from).object_id
     assert_equal :dummy, t2.trans(from2)
     # and no transformer rule is evaluated at this point
-		assert_equal nil, t2.modelInTrans_count
+		assert_nil t2.modelInTrans_count
     # now transform a new object in second transformer
 		assert t2.trans(from3).is_a?(ModelOut)
 		assert_equal "Test3", t2.trans(from3).name

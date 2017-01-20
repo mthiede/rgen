@@ -1,9 +1,9 @@
 $:.unshift File.dirname(__FILE__) + "/../lib"
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/util/method_delegation'
 
-class MethodDelegationTest < Test::Unit::TestCase
+class MethodDelegationTest < MiniTest::Test
   include RGen
   
   class TestDelegate
@@ -88,7 +88,7 @@ class MethodDelegationTest < Test::Unit::TestCase
     assert_equal "AnotherConst::A::B::C", AnotherConst::A::B::C.to_s
     
     Util::MethodDelegation.unregisterDelegate(ConstPathElement, surroundingModule, "const_missing")
-    assert_raise NameError do 
+    assert_raises NameError do 
       SomeArbitraryConst
     end
   end
@@ -123,7 +123,7 @@ class MethodDelegationTest < Test::Unit::TestCase
     
     delegate1.mode = :nothing
     # delegate1 just exits and thus returns nil
-    assert_equal nil, delegator.send(method)
+    assert_nil delegator.send(method)
     assert_equal 2, delegate1.callcount
     # delegate2 is not called
     assert_equal 0, delegate2.callcount
@@ -167,7 +167,7 @@ class MethodDelegationTest < Test::Unit::TestCase
   
   def checkCallOriginal(delegator, method, originalResult, newMethod)
     if newMethod
-      assert_raise NoMethodError do
+      assert_raises NoMethodError do
         result = delegator.send(method)
       end
     else

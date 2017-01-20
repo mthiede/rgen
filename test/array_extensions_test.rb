@@ -1,9 +1,9 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/array_extensions'
 
-class ArrayExtensionsTest < Test::Unit::TestCase
+class ArrayExtensionsTest < MiniTest::Test
 
   def test_element_methods
     c = Struct.new("SomeClass",:name,:age)
@@ -11,11 +11,11 @@ class ArrayExtensionsTest < Test::Unit::TestCase
     a << c.new('MyName',33)
     a << c.new('YourName',22)
     assert_equal ["MyName", "YourName"], a >> :name
-    assert_raise NoMethodError do
+    assert_raises NoMethodError do
       a.name
     end
     assert_equal [33, 22], a>>:age
-    assert_raise NoMethodError do
+    assert_raises NoMethodError do
       a.age
     end
     # unfortunately, any method can be called on an empty array
@@ -42,11 +42,11 @@ class ArrayExtensionsTest < Test::Unit::TestCase
     # put something into the array that is not an MMBase
     a << "not a MMBase"
     # the dot operator will tell that there is something not a MMBase
-    assert_raise StandardError do
+    assert_raises StandardError do
       a.age
     end
     # the >> operator will try to call the method anyway
-    assert_raise NoMethodError do
+    assert_raises NoMethodError do
       a >> :age
     end
   end
@@ -56,7 +56,7 @@ class ArrayExtensionsTest < Test::Unit::TestCase
   end
 
   def test_to_str_on_empty_array
-    assert_raise NoMethodError do
+    assert_raises NoMethodError do
       [].to_str
     end
   end

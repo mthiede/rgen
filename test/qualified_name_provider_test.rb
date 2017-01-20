@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/serializer/qualified_name_provider'
 
-class QualifiedNameProviderTest < Test::Unit::TestCase
+class QualifiedNameProviderTest < MiniTest::Test
 
   class AbstractTestNode < RGen::MetamodelBuilder::MMBase
     contains_many 'children', AbstractTestNode, "parent"

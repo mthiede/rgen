@@ -1,10 +1,10 @@
 $:.unshift File.dirname(__FILE__)+"/../lib"
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/model_builder/builder_context'
 
-class BuilderContextTest < Test::Unit::TestCase
+class BuilderContextTest < MiniTest::Test
   
   module BuilderExtension1
     module PackageA
@@ -50,7 +50,7 @@ class BuilderContextTest < Test::Unit::TestCase
     assert_equal 5, packBExt.inPackBExt
     assert_equal 7, packBExt.inBuilderContext
     
-    assert_raise RuntimeError do
+    assert_raises RuntimeError do
       # aboveRoot is not contained within root
       assert_nil factory.moduleForPackage(aboveRoot)
     end

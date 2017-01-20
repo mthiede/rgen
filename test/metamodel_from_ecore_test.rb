@@ -37,7 +37,7 @@ class MetamodelFromEcoreTest < MetamodelBuilderTest
     mod = RGen::ECore::ECoreToRuby.new.create_module(package)
     obj = mod::Class1.new
     # the error is raised only when the feature is lazily constructed
-    assert_raise StandardError do
+    assert_raises StandardError do
       obj.value
     end
   end

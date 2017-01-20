@@ -18,10 +18,10 @@ module ObjectModelChecker
 		
 		# check main package
 		mainPackage = envUML.find(:class => UML13::Package, :name => "HouseExampleModel").first
-		assert_not_nil mainPackage
+		assert mainPackage != nil
 		
 		eaRootCollaboration = mainPackage.ownedElement.find{|e| e.is_a?(UML13::Collaboration) && e.name == "Collaborations"}
-        assert_not_nil eaRootCollaboration
+        assert eaRootCollaboration != nil
 
 		# check main package objects
         objects = eaRootCollaboration.ownedElement.select{|e| e.is_a?(UML13::ClassifierRole)}
@@ -56,10 +56,10 @@ module ObjectModelChecker
 		assert someonesHouse.localCompositeEnd.otherEnd.is_a?(Array)
 		assert_equal 4, someonesHouse.localCompositeEnd.otherEnd.size
 		assert someonesHouse.localCompositeEnd.otherEnd.all?{|e| e.name == "room"}
-		assert_not_nil someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == yellowRoom}
-		assert_not_nil someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == greenRoom}
-		assert_not_nil someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == hotRoom}
-		assert_not_nil someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == wetRoom}
+		assert nil != someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == yellowRoom}
+		assert nil != someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == greenRoom}
+		assert nil != someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == hotRoom}
+		assert nil != someonesHouse.localCompositeEnd.otherEnd.getType.find{|o| o == wetRoom}
 
 	end
 end

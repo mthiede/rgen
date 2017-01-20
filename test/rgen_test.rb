@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'test/unit'
+require 'minitest/autorun'
 
 require 'array_extensions_test'
 require 'ea_instantiator_test'

@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/array_extensions'
 
-class MetamodelOrderTest < Test::Unit::TestCase
+class MetamodelOrderTest < MiniTest::Test
 	include RGen::ECore
 	
   module TestMM1

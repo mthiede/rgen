@@ -1,12 +1,12 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'metamodels/uml13_metamodel'
 require 'ea_support/ea_support'
 require 'rgen/serializer/xmi11_serializer'
 
-class EASerializerTest < Test::Unit::TestCase
+class EASerializerTest < MiniTest::Test
 
 	MODEL_DIR = File.join(File.dirname(__FILE__),"testmodel")
 	TEST_DIR = File.join(File.dirname(__FILE__),"ea_serializer_test")

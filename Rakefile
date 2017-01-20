@@ -1,6 +1,7 @@
 require 'rubygems/package_task'
 require 'rdoc/task'
 require 'bundler/setup'
+require 'rake/testtask'
 
 RGenGemSpec = eval(File.read('rgen.gemspec'))
 
@@ -14,7 +15,12 @@ end
 
 RGenPackageTask = Gem::PackageTask.new(RGenGemSpec) do |p|
   p.need_zip = false
-end	
+end
+
+::Rake::TestTask.new(:test) do |t|
+  t.test_files = ['test/rgen_test.rb']
+  t.warning = false
+end
 
 task :prepare_package_rdoc => :rdoc do
   RGenPackageTask.package_files.include('doc/**/*')

@@ -1,10 +1,10 @@
 $:.unshift(File.dirname(__FILE__)+"/../../lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'fileutils'
 require 'rgen/util/file_cache_map'
 
-class FileCacheMapTest < Test::Unit::TestCase
+class FileCacheMapTest < MiniTest::Test
 
   TestDir = File.dirname(__FILE__)+"/file_cache_map_test/testdir"
  

@@ -1,6 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
 require 'rgen/util/model_dumper'
@@ -18,7 +18,7 @@ module DefaultMM
   Person.one_to_one 'personalRoom', MNS::Room, 'inhabitant'
 end
 
-class XMLInstantiatorTest < Test::Unit::TestCase
+class XMLInstantiatorTest < MiniTest::Test
 
   XML_DIR = File.join(File.dirname(__FILE__),"testmodel")
   
@@ -96,7 +96,7 @@ class XMLInstantiatorTest < Test::Unit::TestCase
     inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
     
     house = env.find(:class => DefaultMM::MNS::House).first
-    assert_not_nil house
+    assert house != nil
     assert_equal 2, house.room.size
     
     rooms = env.find(:class => DefaultMM::MNS::Room)
@@ -104,12 +104,12 @@ class XMLInstantiatorTest < Test::Unit::TestCase
     assert_equal 0, (house.room - rooms).size
     rooms.each {|r| assert r.parent == house}
     tomsRoom = rooms.select{|r| r.name == "TomsRoom"}.first
-    assert_not_nil tomsRoom
+    assert tomsRoom != nil
     
     persons = env.find(:class => DefaultMM::Person)
     assert_equal 4, persons.size
     tom = persons.select{|p| p.name == "Tom"}.first
-    assert_not_nil tom
+    assert tom != nil
     
     assert tom.personalRoom == tomsRoom
     
@@ -123,7 +123,7 @@ class XMLInstantiatorTest < Test::Unit::TestCase
     inst.instantiate_file(File.join(XML_DIR,"manual_testmodel.xml"))
     
     house = env.find(:class => EmptyMM::MNS_House).first
-    assert_not_nil house
+    assert house != nil
     assert_equal 2, house.mNS_Room.size
     assert_equal "before kitchen", remove_whitespace_elements(house.chardata)[0].strip
     assert_equal "after kitchen", remove_whitespace_elements(house.chardata)[1].strip
@@ -134,13 +134,13 @@ class XMLInstantiatorTest < Test::Unit::TestCase
     assert_equal 0, (house.mNS_Room - rooms).size
     rooms.each {|r| assert r.parent == house}
     tomsRoom = rooms.select{|r| r.name == "TomsRoom"}.first
-    assert_not_nil tomsRoom
+    assert tomsRoom != nil
     assert_equal "within toms room", remove_whitespace_elements(tomsRoom.chardata)[0]
     
     persons = env.find(:class => EmptyMM::Person)
     assert_equal 4, persons.size
     tom = persons.select{|p| p.name == "Tom"}.first
-    assert_not_nil tom
+    assert tom != nil
   end
 
   def remove_whitespace_elements(elements)

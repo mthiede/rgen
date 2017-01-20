@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/fragment/model_fragment'
 
-class ModelFragmentTest < Test::Unit::TestCase
+class ModelFragmentTest < MiniTest::Test
 
 module TestMetamodel
   extend RGen::MetamodelBuilder::ModuleExtension

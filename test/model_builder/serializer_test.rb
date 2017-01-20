@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__) + "/../lib"
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 
 # The following would also influence other tests...
@@ -28,7 +28,7 @@ require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/model_builder'
 require 'model_builder/statemachine_metamodel'
 
-class ModelSerializerTest < Test::Unit::TestCase
+class ModelSerializerTest < MiniTest::Test
   def test_ecore_internal
     File.open(File.dirname(__FILE__)+"/ecore_internal.rb","w") do |f|
       serializer = RGen::ModelBuilder::ModelSerializer.new(f, RGen::ECore.ecore)

@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
 
-class EnvironmentTest < Test::Unit::TestCase
+class EnvironmentTest < MiniTest::Test
 
 	class Model
 		attr_accessor :name

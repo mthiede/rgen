@@ -1,13 +1,13 @@
 $:.unshift File.dirname(__FILE__) + "/../lib"
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/ecore/ecore_builder_methods'
 require 'rgen/environment'
 require 'rgen/model_builder'
 require 'model_builder/statemachine_metamodel'
 
-class ModelBuilderTest < Test::Unit::TestCase
+class ModelBuilderTest < MiniTest::Test
       
   def test_statemachine
     result = RGen::ModelBuilder.build(StatemachineMetamodel) do 
@@ -193,47 +193,47 @@ class ModelBuilderTest < Test::Unit::TestCase
     
     # TestClass1
     class1 = p1.eClassifiers.find{|c| c.name == "TestClass1"}
-    assert_not_nil class1
+    assert class1 != nil
     assert class1.is_a?(RGen::ECore::EClass)
     
     # TestClass1.attr1
     attr1 = class1.eAllAttributes.find{|a| a.name == "attr1"}
-    assert_not_nil attr1
+    assert attr1 != nil
     assert_equal RGen::ECore::EString, attr1.eType
     
     # TestClass1.attr2
     attr2 = class1.eAllAttributes.find{|a| a.name == "attr2"}
-    assert_not_nil attr2
+    assert attr2 != nil
     assert_equal RGen::ECore::EInt, attr2.eType
     
     # TestClass2
     class2 = p1.eClassifiers.find{|c| c.name == "TestClass2"}
-    assert_not_nil class2
+    assert class2 != nil
     assert class2.is_a?(RGen::ECore::EClass)
 
     # TestClass2.ref1
     ref1 = class2.eAllReferences.find{|a| a.name == "ref1"}
-    assert_not_nil ref1
+    assert ref1 != nil
     assert_equal class1, ref1.eType
 
     # TestClass1.biRef1
     biRef1 = class1.eAllReferences.find{|r| r.name == "biRef1"}
-    assert_not_nil biRef1
+    assert biRef1 != nil
     assert_equal class2, biRef1.eType
     biRef1Opp = class2.eAllReferences.find {|r| r.name == "testClass1"}
-    assert_not_nil biRef1Opp
+    assert biRef1Opp != nil
     assert_equal class1, biRef1Opp.eType
     assert_equal biRef1Opp, biRef1.eOpposite
     assert_equal biRef1, biRef1Opp.eOpposite
     
     # TestClass1.testClass2
     tc2Ref = class1.eAllReferences.find{|r| r.name == "testClass2"}
-    assert_not_nil tc2Ref
+    assert tc2Ref != nil
     assert_equal class2, tc2Ref.eType
     assert  tc2Ref.containment
     assert_equal -1, tc2Ref.upperBound
     tc2RefOpp = class2.eAllReferences.find{|r| r.name == "tc1Parent"}
-    assert_not_nil tc2RefOpp
+    assert tc2RefOpp != nil
     assert_equal class1, tc2RefOpp.eType
     assert !tc2RefOpp.containment
     assert_equal 1, tc2RefOpp.upperBound

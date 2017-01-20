@@ -12,7 +12,7 @@ module ECoreModelChecker
 						
 		# check main package
 		mainPackage = env.elements.select {|e| e.is_a? EPackage and e.name == "HouseMetamodel"}.first
-		assert_not_nil mainPackage
+		assert mainPackage != nil
 		
 		# check Rooms package
 		assert mainPackage.eSubpackages.is_a?(Array)
@@ -29,10 +29,10 @@ module ECoreModelChecker
 		personClass = mainPackage.eClassifiers.select{|c| c.name == "Person"}.first
 		meetingPlaceClass = mainPackage.eClassifiers.select{|c| c.name == "MeetingPlace"}.first
 		cookingPlaceInterface = mainPackage.eClassifiers.select{|c| c.name == "CookingPlace"}.first
-		assert_not_nil houseClass
-		assert_not_nil personClass
-		assert_not_nil meetingPlaceClass
-		assert_not_nil cookingPlaceInterface
+		assert houseClass != nil
+		assert personClass != nil
+		assert meetingPlaceClass != nil
+		assert cookingPlaceInterface != nil
 
 		# check Rooms package classes
 		assert roomsPackage.eClassifiers.is_a?(Array)
@@ -41,9 +41,9 @@ module ECoreModelChecker
 		roomClass = roomsPackage.eClassifiers.select{|c| c.name == "Room"}.first
 		kitchenClass = roomsPackage.eClassifiers.select{|c| c.name == "Kitchen"}.first
 		bathroomClass = roomsPackage.eClassifiers.select{|c| c.name == "Bathroom"}.first
-		assert_not_nil roomClass
-		assert_not_nil kitchenClass
-		assert_not_nil bathroomClass
+		assert roomClass != nil
+		assert kitchenClass != nil
+		assert bathroomClass != nil
 		
 		# check Room inheritance
 		assert kitchenClass.eSuperTypes.is_a?(Array)
@@ -63,7 +63,7 @@ module ECoreModelChecker
 		assert_equal "room", roomRef.name
 		assert_equal 1, roomRef.lowerBound
 		assert_equal(-1, roomRef.upperBound)
-		assert_not_nil roomRef.eOpposite
+		assert roomRef.eOpposite != nil
 		assert_equal houseClass.object_id, roomRef.eOpposite.eType.object_id
 		
 		partOfRefs = roomClass.eReferences.select{|r| r.eOpposite && r.eOpposite.containment}
@@ -78,10 +78,10 @@ module ECoreModelChecker
 		bathRef = houseClass.eReferences.find {|e| e.name == "bathroom"}
 		kitchenRef = houseClass.eReferences.find {|e| e.name == "kitchen"}
 		roomRef = houseClass.eReferences.find {|e| e.name == "room"}
-		assert_not_nil bathRef
+		assert bathRef != nil
 		assert_nil bathRef.eOpposite
-		assert_not_nil kitchenRef
-		assert_not_nil roomRef
+		assert kitchenRef != nil
+		assert roomRef != nil
 		assert_equal 1, kitchenRef.lowerBound
 		assert_equal 1, kitchenRef.upperBound
 		assert_equal 1, roomRef.lowerBound
@@ -91,7 +91,7 @@ module ECoreModelChecker
         houseInRefs = env.find(:class => EReference, :eType => houseClass)
 		assert_equal 3, houseInRefs.size
 		homeEnd = houseInRefs.find{|e| e.name == "home"}
-		assert_not_nil homeEnd
+		assert homeEnd != nil
 		assert_equal 0, homeEnd.lowerBound
 		assert_equal(-1, homeEnd.upperBound)
 		

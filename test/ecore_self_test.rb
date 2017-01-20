@@ -1,10 +1,10 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/array_extensions'
 
-class ECoreSelfTest < Test::Unit::TestCase
+class ECoreSelfTest < MiniTest::Test
   include RGen::ECore
   
   def test_simple
