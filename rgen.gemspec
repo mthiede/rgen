@@ -2,7 +2,7 @@ abort 'Use the rake task to build the gem' if $0 =~ /gem$/ && $*.first == 'build
 
 Gem::Specification.new do |s|
   s.name = %q{rgen}
-  s.version = '0.8.3.pre1'
+  s.version = '0.8.3'
   s.date = Time.now.strftime('%Y-%m-%d')
   s.summary = %q{Ruby Modelling and Generator Framework}
   s.email = %q{martin dot thiede at gmx de}
