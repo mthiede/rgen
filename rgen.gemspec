@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w(README.rdoc CHANGELOG MIT-LICENSE)
   s.files = Dir.glob(File.join('lib', '**', '*')) + Dir.glob(File.join('test', '**', '*')) +
       %w(README.rdoc CHANGELOG MIT-LICENSE Rakefile) - Dir.glob(File.join('**', '*.bak'))
-  s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8.1'
+  s.add_development_dependency 'nokogiri', '~> 1.6', '>= 1.6.8.1'
   s.add_development_dependency 'minitest', '~> 5.10', '>= 5.10.1'
 end
