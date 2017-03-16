@@ -181,13 +181,13 @@ class TemplateContainerTest < MiniTest::Test
     tc.expand('line_endings/mixed::Mixed', :for => :dummy)
 
     unix = binread(OUTPUT_DIR+'/line_endings_unix.txt')
-    assert unix.include?("|\n") && !unix.include?("|\r\n")
+    assert unix.include?("|\n") && !unix.include?("|\r\n"), unix
 
     windows = binread(OUTPUT_DIR+'/line_endings_windows.txt')
-    assert windows.include?("|\r\n") && !windows.include?("|\n")
+    assert windows.include?("|\r\n") && !windows.include?("|\n"), windows
 
     mixed = binread(OUTPUT_DIR+'/line_endings_mixed.txt')
-    assert mixed.include?("|\r\n") && mixed.include?("|\n")
+    assert mixed.include?("|\r\n") && mixed.include?("|\n"), mixed
   end
 
   def test_ws
