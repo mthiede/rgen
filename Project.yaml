@@ -12,6 +12,7 @@ rdoc_options: [--main, README.rdoc, -x, test, -x, metamodels, -x, ea_support/uml
 extra_rdoc_files: [README.rdoc, CHANGELOG, MIT-LICENSE]
 include_files: ['lib/**/*', 'test/**/*', README.rdoc, CHANGELOG, MIT-LICENSE, Rakefile]
 exclude_files: ['**/*.bak']
+encrypt_sources: false
 dependencies:
   https://rubygems.org:
     - {name: nokogiri,           version: ['~> 1.6', '>= 1.6.8.1'], development: true}
