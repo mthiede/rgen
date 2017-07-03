@@ -29,3 +29,9 @@ end
 task :release => [:prepare_package_rdoc, :package]
 
 task :clobber => [:clobber_rdoc, :clobber_package]
+
+task :ecore_to_json do
+  require 'rgen/ecore/ecore_to_json'
+
+  File.write('ecore.json', RGen::ECore::ECoreToJson.new.epackage_to_json_string(RGen.ecore))
+end
