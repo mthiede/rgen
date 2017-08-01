@@ -170,10 +170,12 @@ class MetamodelBuilderTest < MiniTest::Test
 
     class ReservedNameClass < RGen::MetamodelBuilder::MMBase
       has_attr 'class', String
+      has_attr 'method', String
     end
 
     class ManyReservedNameClass < RGen::MetamodelBuilder::MMBase
       has_many_attr 'class', String
+      has_many_attr 'method', String
     end
 
   end
@@ -1488,22 +1490,28 @@ class MetamodelBuilderTest < MiniTest::Test
 
   def test_reserved_names
     e = mm::ReservedNameClass.new
-    e.setGeneric("class", "X")
-    assert_equal "X", e.getGeneric(:class)
-    assert_equal "X", e.getGeneric("class")
-    assert_equal ["X"], e.getGenericAsArray(:class)
-    assert_equal ["X"], e.getGenericAsArray("class")
+    %w(class method).each do |reserved|
+      e.setGeneric(reserved, "X")
+      assert_equal "X", e.getGeneric(reserved.to_sym)
+      assert_equal "X", e.getGeneric(reserved)
+      assert_equal ["X"], e.getGenericAsArray(reserved.to_sym)
+      assert_equal ["X"], e.getGenericAsArray(reserved)
+    end
     assert_equal "X", e.getClass
+    assert_equal "X", e.getMethod
   end
 
   def test_reserved_names_many
     e = mm::ManyReservedNameClass.new
-    e.addGeneric("class", "X")
-    e.addGeneric("class", "Y")
-    assert_equal ["X", "Y"], e.getGeneric(:class)
-    assert_equal ["X", "Y"], e.getGeneric("class")
-    assert_equal ["X", "Y"], e.getGenericAsArray(:class)
-    assert_equal ["X", "Y"], e.getGenericAsArray("class")
+    %w(class method).each do |reserved|
+      e.addGeneric(reserved, "X")
+      e.addGeneric(reserved, "Y")
+      assert_equal ["X", "Y"], e.getGeneric(reserved.to_sym)
+      assert_equal ["X", "Y"], e.getGeneric(reserved)
+      assert_equal ["X", "Y"], e.getGenericAsArray(reserved.to_sym)
+      assert_equal ["X", "Y"], e.getGenericAsArray(reserved)
+    end
     assert_equal ["X", "Y"], e.getClass
+    assert_equal ["X", "Y"], e.getMethod
   end
 end

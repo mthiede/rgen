@@ -1,3 +1,4 @@
+require 'set'
 require 'rgen/ecore/ecore'
 
 module RGen
@@ -11,6 +12,7 @@ class ECoreToRuby
     @modules = {}
     @classifiers = {}
     @features_added = {}
+    @reserved = Set.new(Object.methods)
   end
 
   # Create a Ruby module representing +epackage+.
@@ -50,11 +52,22 @@ class ECoreToRuby
         end
       end
 
+      load_classes_with_reserved_keywords(epackage)
       mod
     end
   end
 
   private
+
+  def load_classes_with_reserved_keywords(epackage)
+    epackage.eAllClassifiers.each do |eclass|
+      # we early load classes which have ruby reserved keywords
+      if eclass.is_a?(RGen::ECore::EClass)
+        reserved_used = eclass.eStructuralFeatures.any? { |f| @reserved.include?(f.name.to_sym) }
+        add_features(eclass) if reserved_used
+      end
+    end
+  end
 
   def create_module_internal(epackage, under, temp)
     return @modules[epackage] if @modules[epackage]

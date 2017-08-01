@@ -539,7 +539,7 @@ module BuilderExtensions
       code << "\n"
       expected = "Integer"
     elsif props.impl_type.is_a?(Class)
-      code << "unless #{varname}.nil? || #{varname}.is_a?(#{props.impl_type}) || #{varname}.is_a?(MMGeneric)"
+      code << "unless #{varname}.nil? || #{varname}.is_a?(ObjectSpace._id2ref(#{props.impl_type.object_id})) || #{varname}.is_a?(MMGeneric)"
       code << " || #{varname}.is_a?(BigDecimal)" if props.impl_type == Float && defined?(BigDecimal)
       code << "\n"
       expected = props.impl_type.to_s
