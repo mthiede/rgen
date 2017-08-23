@@ -28,18 +28,18 @@ def epackage_to_json(package)
   epackage(package)
 end
 
-def datatypes
+def ecore_datatypes
   [RGen::ECore::EString, RGen::ECore::EInt, RGen::ECore::ELong, RGen::ECore::EBoolean, RGen::ECore::EFloat,
    RGen::ECore::ERubyObject, RGen::ECore::EJavaObject, RGen::ECore::ERubyClass, RGen::ECore::EJavaClass]
       .map {|dt| edatatype(dt)}
 end
 
-def epackage_to_json_pretty_string(package)
-  JSON.pretty_generate([epackage_to_json(package)] + datatypes)
+def epackage_to_json_pretty_string(package, append = [])
+  JSON.pretty_generate([epackage_to_json(package)] + append)
 end
 
-def epackage_to_json_string(package)
-  JSON.generate([epackage_to_json(package)] + datatypes)
+def epackage_to_json_string(package, append = [])
+  JSON.generate([epackage_to_json(package)] + append)
 end
   
 def emodelelement(me)
