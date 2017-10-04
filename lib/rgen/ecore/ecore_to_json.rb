@@ -55,7 +55,7 @@ end
 
 def epackage(package)
   merge(enamedelement(package), {
-    :_class => 'RGen.ECore.EPackage',
+    :_class_ref => 'RGen.ECore.EPackage',
     :eClassifiers => package.eClassifiers.map do |classifier|
       if classifier.is_a?(RGen::ECore::EClass)
         eclass(classifier)
@@ -79,7 +79,7 @@ end
   
 def eclass(_class)
   merge(eclassifier(_class), {
-    :_class => 'RGen.ECore.EClass',
+    :_class_ref => 'RGen.ECore.EClass',
     :abstract => _class.abstract,
     :interface => _class.interface,
     :eStructuralFeatures => _class.eStructuralFeatures.map do |sf|
@@ -95,7 +95,7 @@ end
   
 def edatatype(_datatype)
   merge(eclassifier(_datatype), {
-    :_class => 'RGen.ECore.EDataType',
+    :_class_ref => 'RGen.ECore.EDataType',
     :serializable => _datatype.serializable,
     :instanceClassName => _datatype.instanceClassName
   })
@@ -103,10 +103,10 @@ end
 
 def eenum(enum)
   merge(edatatype(enum), {
-    :_class => 'RGen.ECore.EEnum',
+    :_class_ref => 'RGen.ECore.EEnum',
     :eLiterals => enum.eLiterals.map do |l|
       merge({}, {
-        :_class => 'RGen.ECore.EEnumLiteral',
+        :_class_ref => 'RGen.ECore.EEnumLiteral',
         :value => l.value,
         :literal => l.literal
       })
@@ -119,7 +119,7 @@ def eannotation(e)
     :source => e.source,
     :details => e.details.map do |d|
       merge({}, {
-          :_class => 'RGen.ECore.EStringToStringMapEntry',
+          :_class_ref => 'RGen.ECore.EStringToStringMapEntry',
           :key => d.key,
           :value => d.value
       })
@@ -152,14 +152,14 @@ end
   
 def eattribute(attr)
   merge(estructuralfeature(attr), {
-    :_class => 'RGen.ECore.EAttribute',
+    :_class_ref => 'RGen.ECore.EAttribute',
     :iD => attr.iD
   })
 end
   
 def ereference(ref)
   merge(estructuralfeature(ref), {
-    :_class => 'RGen.ECore.EReference',
+    :_class_ref => 'RGen.ECore.EReference',
     :containment => ref.containment,
     :resolveProxies => ref.resolveProxies,
     :eOpposite => ref.eOpposite ? {:_ref => "#{ref_id(ref.eOpposite.eContainer)}.#{ref.eOpposite.name}"} : nil
