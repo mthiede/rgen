@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.executables = nil
   s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "MIT-LICENSE"]
   s.rdoc_options << "--main" << "README.rdoc" << "-x" << "test" << "-x" << "metamodels" << "-x" << "ea_support/uml13*"
-  s.files = ["README.rdoc", "CHANGELOG", "MIT-LICENSE", "Rakefile", "Project.yaml"] + Dir.glob("lib/**/*") + Dir.glob("test/**/*") + Dir.glob("lib/**/*.rb") - Dir.glob("**/*.bak")
-  s.add_development_dependency("nokogiri", "~> 1.6", ">= 1.6.8.1")
+  s.files = ["README.rdoc", "CHANGELOG", "MIT-LICENSE", "Rakefile", "Project.yaml"] + Dir.glob("lib/**/*") + Dir.glob("test/**/*") + Dir.glob("lib/**/*.rb") + [] - Dir.glob("**/*.bak")
+  s.add_development_dependency("nokogiri", "~> 1.6.0", ">= 1.6.8.1")
   s.add_development_dependency("rake", "~> 12.0")
-  s.add_development_dependency("minitest", "~> 5.10", ">= 5.10.1")
+  s.add_development_dependency("minitest", "~> 5.0", ">= 5.10.1")
   s.add_development_dependency("minitest-fail-fast", "~> 0.1.0")
 end
