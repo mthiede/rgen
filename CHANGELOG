@@ -217,5 +217,8 @@
 =0.8.3
 
 * Performance improvement: getGeneric made a lot faster
+
+=0.8.4
+
 * Add early loading for types which have attributes conflicting with Ruby reserved words.
 * Change type checking code to use ObjectSpace to find class objects. This is to find classes with an unbound name.
