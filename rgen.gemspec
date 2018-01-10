@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake", "~> 12.0")
   s.add_development_dependency("minitest", "~> 5.0", ">= 5.10.1")
   s.add_development_dependency("minitest-fail-fast", "~> 0.1.0")
+  s.add_development_dependency("andand", "1.3.3")
 end

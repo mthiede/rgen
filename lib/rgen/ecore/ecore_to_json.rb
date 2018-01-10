@@ -1,5 +1,6 @@
 require 'rgen/ecore/ecore'
 require 'json'
+require 'andand'
 
 module RGen
 
@@ -172,7 +173,7 @@ def ref_id(obj)
 end
   
 def ref_parts(obj)
-  return [obj.name] unless obj&.eContainer
+  return [obj.name] unless obj.andand.eContainer
   ref_parts(obj.eContainer) << obj.name 
 end
   

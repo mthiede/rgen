@@ -16,6 +16,7 @@ encrypt_sources: false
 dependencies:
   https://rubygems.org:
     - {name: nokogiri,           version: ['~> 1.6.0', '>= 1.6.8.1'], development: true}
-    - {name: rake,               version: '~> 12.0',                development: true}
-    - {name: minitest,           version: ['~> 5.0', '>= 5.10.1'], development: true}
-    - {name: minitest-fail-fast, version: '~> 0.1.0',               development: true}
+    - {name: rake,               version: '~> 12.0',                  development: true}
+    - {name: minitest,           version: ['~> 5.0', '>= 5.10.1'],    development: true}
+    - {name: minitest-fail-fast, version: '~> 0.1.0',                 development: true}
+    - {name: andand,             version: '1.3.3',                    development: true}

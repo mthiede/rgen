@@ -33,5 +33,5 @@ def source_gems(gem_source, *gems)
     gem *(gem_args << {:source => gem_source}) unless found
   end
 end
-source_gems("https://rubygems.org", "nokogiri", "rake", "minitest", "minitest-fail-fast")
+source_gems("https://rubygems.org", "nokogiri", "rake", "minitest", "minitest-fail-fast", "andand")
 gemspec :name => "rgen", :path => File.dirname(__FILE__)
