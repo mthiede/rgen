@@ -196,7 +196,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       sc.name = 5
     end
-    assert_match /In (\w+::)+SimpleClass : Can not use a Fixnum where a String is expected/, err.message
+    assert_match /In (\w+::)+SimpleClass : Can not use a (Integer|Fixnum) where a String is expected/, err.message
     assert_equal "EString", mm::SimpleClass.ecore.eAttributes.find{|a| a.name=="name"}.eType.name
 
     assert_equal "xtest", sc.stringWithDefault
@@ -298,7 +298,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises(StandardError) do
       o.addLiterals(1)
     end
-    assert_match /In (\w+::)+ManyAttrClass : Can not use a Fixnum where a String is expected/, err.message
+    assert_match /In (\w+::)+ManyAttrClass : Can not use a (Integer|Fixnum) where a String is expected/, err.message
 
     assert_equal [], o.literals
     o.addLiterals("a")
@@ -333,7 +333,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises(StandardError) do
       o.literals = 1
     end
-    assert_match /In (\w+::)+ManyAttrClass : Can not use a Fixnum where a Enumerable is expected/, err.message
+    assert_match /In (\w+::)+ManyAttrClass : Can not use a (Integer|Fixnum) where a Enumerable is expected/, err.message
  
     o.bools = [true, false, true, false]
     assert_equal [true, false, true, false], o.bools
