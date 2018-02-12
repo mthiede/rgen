@@ -106,7 +106,7 @@ def eenum(enum)
   merge(edatatype(enum), {
     :_class_ref => 'RGen.ECore.EEnum',
     :eLiterals => enum.eLiterals.map do |l|
-      merge({}, {
+      merge(enamedelement(l), {
         :_class_ref => 'RGen.ECore.EEnumLiteral',
         :value => l.value,
         :literal => l.literal
