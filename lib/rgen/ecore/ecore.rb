@@ -12,9 +12,11 @@ module RGen
     extend RGen::MetamodelBuilder::ModuleExtension
     
     class EObject < RGen::MetamodelBuilder::MMBase
+      abstract
     end
     
     class EModelElement < RGen::MetamodelBuilder::MMBase
+      abstract
     end
     
     class EAnnotation < RGen::MetamodelBuilder::MMMultiple(EModelElement, EObject)
@@ -22,10 +24,12 @@ module RGen
     end
     
     class ENamedElement < EModelElement
+      abstract
       has_attr 'name', String
     end
     
     class ETypedElement < ENamedElement
+      abstract
       has_attr 'lowerBound', Integer, :defaultValueLiteral => "0"
       has_attr 'ordered', Boolean, :defaultValueLiteral => "true"
       has_attr 'unique', Boolean, :defaultValueLiteral => "true"
@@ -43,6 +47,7 @@ module RGen
     end
     
     class EStructuralFeature < ETypedElement
+      abstract
       has_attr 'changeable', Boolean, :defaultValueLiteral => "true"
       has_attr 'defaultValue', Object, :derived=>true
       has_attr 'defaultValueLiteral', String
@@ -76,6 +81,7 @@ module RGen
     end
     
     class EClassifier < ENamedElement
+      abstract
       has_attr 'defaultValue', Object, :derived=>true
       has_attr 'instanceClass', Object, :derived=>true
       has_attr 'instanceClassName', String
