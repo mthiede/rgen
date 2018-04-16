@@ -117,6 +117,7 @@ end
 
 def eannotation(e)
   merge(emodelelement(e), {
+    :_class_ref => 'RGen.ECore.EAnnotation',
     :source => e.source,
     :details => e.details.map do |d|
       merge({}, {
