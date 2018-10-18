@@ -1,6 +1,5 @@
 require 'rubygems/package_task'
 require 'rdoc/task'
-require 'bundler/setup'
 require 'rake/testtask'
 
 RGenGemSpec = eval(File.read('rgen.gemspec'))
