@@ -193,7 +193,23 @@ module MetamodelBuilder
     def inspect
       self.class.name
     end
-    
+
+    def debug
+      name_comp = proc do |el|
+        el.respond_to?(:shortName) ? el.shortName : el
+      end
+
+      obj_info = proc do |a|
+        a.is_a?(Array)? a.map{|e| name_comp[e]} : name_comp[a]
+      end
+
+      features = self.class.ecore.getEAllStructuralFeatures.name
+        .map{|n| [n, self.send(n)]}
+        .select{|n,r| Array(r).any?}
+        .map{|k,v| [k, obj_info[v]]}
+      Hash[features]
+    end
+
 	  def self.method_added(m)
 	    raise "Do not add methods to model classes directly, add them to the ClassModule instead"
 	  end
