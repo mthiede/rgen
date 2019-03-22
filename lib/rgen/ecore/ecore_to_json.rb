@@ -109,7 +109,6 @@ def eenum(enum)
       merge(enamedelement(l), {
         :_class_ref => 'RGen.ECore.EEnumLiteral',
         :value => l.value,
-        :literal => l.literal
       })
     end      
   })
