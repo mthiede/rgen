@@ -20,7 +20,9 @@
     include RGen::MetamodelBuilder::DataTypes
     <% expand 'annotations::Annotations' %>
     <%nl%>
+    <% expand 'EPackageEcoreAttributes' %>
     <% expand 'EnumTypes' %>
+    <%nl%>
     <% for c in ownClasses %><%nl%>
       <% expand 'ClassHeader', this, :for => c %><%iinc%>
         <% if c.abstract %>abstract<% end %>
@@ -52,11 +54,19 @@
     include RGen::MetamodelBuilder::DataTypes
     <% expand 'annotations::Annotations' %>
     <%nl%>
+    <% expand 'EPackageEcoreAttributes' %>
+    <%nl%>
     <% expand 'EnumTypes' %>
     <% for p in eSubpackages %>
       <%nl%><% expand 'GeneratePackagesOnly', :for => p %>
     <% end %><%idec%>
   end
+<% end %>
+
+<% define 'EPackageEcoreAttributes', :for => EPackage do %>
+  <% for key, value in ecoreAttributes %>
+    <%= key %> = <%= value.dump %>
+  <% end %>
 <% end %>
 
 <% define 'Attribute', :for => EAttribute do |rootp| %>

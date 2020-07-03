@@ -55,6 +55,17 @@ module RGen
         end
         sortArray
       end
+
+      def ecoreAttributes
+        attributes = {}
+        unless nsURI.nil? && nsURI != ""
+          attributes["EcoreNsURI"] = nsURI
+        end
+        unless nsPrefix.nil? && nsPrefix != ""
+          attributes["EcoreNsPrefix"] = nsPrefix
+        end
+        attributes
+      end
     end
     
     module EClassifier::ClassModule

@@ -9,6 +9,7 @@ module ECore
 # by RGen::MetamodelBuilder.
 # 
 class RubyToECore < Transformer
+  include Util::NameHelper
   
   transform Class, :to => EClass, :if => :convert? do
     { :name => name.gsub(/.*::(\w+)$/,'\1'),
@@ -35,13 +36,20 @@ class RubyToECore < Transformer
     _constants = _constantOrder + (constants - _constantOrder)
     _constants.select {|c| const_get(c).is_a?(MetamodelBuilder::DataTypes::Enum)}.
       each {|c| @enumParentModule[const_get(c)] = @current_object}
-    { :name => name.gsub(/.*::(\w+)$/,'\1'),
+    attributes = {
+      :name => name.gsub(/.*::(\w+)$/,'\1'),
       :eClassifiers => trans(_constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Class) || 
         (c.is_a?(MetamodelBuilder::DataTypes::Enum) && c != MetamodelBuilder::DataTypes::Boolean) }),
       :eSuperPackage => trans(name =~ /(.*)::\w+$/ ? eval($1) : nil),
       :eSubpackages => trans(_constants.collect{|c| const_get(c)}.select{|c| c.is_a?(Module) && !c.is_a?(Class)}),
       :eAnnotations => trans(_annotations)
     }
+    _constants.select{|c| const_get(c).is_a?(String) && c.to_s.start_with?("Ecore")}.
+      each{|c|
+        attritbute_name = firstToLower(c.to_s[5..-1])
+        attributes[attritbute_name.to_sym] = const_get(c)
+      }
+    attributes
   end
   
   method :convert? do
