@@ -47,7 +47,7 @@ class SimpleXmiToECore < RGen::Transformer
   end
   
   transform SimpleXMIMetaModel::UML::Attribute, :to => EAttribute do
-    typemap = { "String" => EString, "boolean" => EBoolean, "int" => EInt, "long" => ELong, "float" => EFloat }
+    typemap = { "String" => EString, "boolean" => EBoolean, "int" => EInt, "long" => ELong, "float" => EFloat, "double" => EDouble, "Date" => EDate }
     tv = TaggedValueHelper.new(@current_object)
     {	:name => name, :eType => typemap[tv['type']],
       :eAnnotations => [ EAnnotation.new(:details => trans(modelElement_taggedValue.taggedValue)) ] }

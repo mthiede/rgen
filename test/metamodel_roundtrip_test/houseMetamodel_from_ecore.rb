@@ -6,8 +6,9 @@ module HouseMetamodel
 
    SexEnum = Enum.new(:name => 'SexEnum', :literals =>[ :male, :female ])
 
+
    class House < RGen::MetamodelBuilder::MMBase
-      annotation :source => "bla", :details => {'a' => 'b'}
+      annotation :source => "bla", :details => {"abc" => "A \"text\" with some 'quotes'."}
       has_attr 'address', String, :changeable => false 
    end
 
@@ -17,6 +18,8 @@ module HouseMetamodel
    class Person < RGen::MetamodelBuilder::MMBase
       has_attr 'sex', HouseMetamodel::SexEnum 
       has_attr 'id', Long 
+      has_attr 'height', Double 
+      has_attr 'birthday', Date 
       has_many_attr 'nicknames', String 
    end
 
@@ -24,6 +27,7 @@ module HouseMetamodel
    module Rooms
       extend RGen::MetamodelBuilder::ModuleExtension
       include RGen::MetamodelBuilder::DataTypes
+
 
 
       class Room < RGen::MetamodelBuilder::MMBase

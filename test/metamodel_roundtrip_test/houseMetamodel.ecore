@@ -4,7 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="HouseMetamodel">
   <eClassifiers xsi:type="ecore:EClass" name="House">
     <eAnnotations source="bla">
-      <details key="a" value="b"/>
+      <details key="abc" value="A &quot;text&quot; with some 'quotes'."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="#//String"
         changeable="false"/>
@@ -21,6 +21,8 @@
         eType="#//House"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sex" eType="#//SexEnum"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="birthday" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nicknames" upperBound="-1" eType="#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>

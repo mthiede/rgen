@@ -61,12 +61,14 @@ module RGen
           case eType
             when EInt, ELong
               defaultValueLiteral.to_i
-            when EFloat
+            when EFloat, EDouble
               defaultValueLiteral.to_f
             when EEnum
               defaultValueLiteral.to_sym
             when EBoolean
               defaultValueLiteral == "true"
+            when EDate
+              Date.parse(defaultValueLiteral)
             when EString
               defaultValueLiteral
             else
@@ -87,10 +89,14 @@ module RGen
       has_attr 'instanceClassName', String
       module ClassModule
         def instanceClass_derived
-          map = {"java.lang.string" => "String", 
-                 "boolean" => "RGen::MetamodelBuilder::DataTypes::Boolean", 
-                 "int" => "Integer",
-                 "long" => "RGen::MetamodelBuilder::DataTypes::Long"}
+          map = {
+            "java.lang.string" => "String", 
+            "boolean" => "RGen::MetamodelBuilder::DataTypes::Boolean", 
+            "int" => "Integer",
+            "long" => "RGen::MetamodelBuilder::DataTypes::Long",
+            "double" => "RGen::MetamodelBuilder::DataTypes::Double",
+            "date" => "RGen::MetamodelBuilder::DataTypes::Date",
+          }
           icn = instanceClassName
           icn = "NilClass" if icn.nil?
           icn = map[icn.downcase] if map[icn.downcase]
@@ -193,6 +199,8 @@ module RGen
     ELong = EDataType.new(:name => "ELong", :instanceClassName => "Long")
     EBoolean = EDataType.new(:name => "EBoolean", :instanceClassName => "Boolean")
     EFloat = EDataType.new(:name => "EFloat", :instanceClassName => "Float")
+    EDouble = EDataType.new(:name => "EDouble", :instanceClassName => "Double")
+    EDate = EDataType.new(:name => "EDate", :instanceClassName => "Date")
     ERubyObject = EDataType.new(:name => "ERubyObject", :instanceClassName => "Object")
     EJavaObject = EDataType.new(:name => "EJavaObject")
     ERubyClass = EDataType.new(:name => "ERubyClass", :instanceClassName => "Class")

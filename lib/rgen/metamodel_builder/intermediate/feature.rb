@@ -69,9 +69,11 @@ class Attribute < Feature
     Integer => :EInt,
     RGen::MetamodelBuilder::DataTypes::Long => :ELong,
     Float => :EFloat,
+    RGen::MetamodelBuilder::DataTypes::Double => :EDouble,
     RGen::MetamodelBuilder::DataTypes::Boolean => :EBoolean,
+    RGen::MetamodelBuilder::DataTypes::Date => :EDate,
     Object => :ERubyObject,
-    Class => :ERubyClass 
+    Class => :ERubyClass,
   }
 
   def self.default_value(prop)
