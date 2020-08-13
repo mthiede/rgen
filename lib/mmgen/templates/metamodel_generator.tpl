@@ -67,7 +67,7 @@
     <%= eType && eType.instanceClass.to_s %><%nows%>
   <% end %><%nows%>
   <% for p in RGen::MetamodelBuilder::Intermediate::Attribute.properties %>
-    <% unless p == :name || (p == :upperBound && (upperBound == 1 || upperBound == -1)) || 
+    <% unless p == :name || (p == :upperBound && (upperBound == 1 || upperBound == -1)) ||
       RGen::MetamodelBuilder::Intermediate::Attribute.default_value(p) == getGeneric(p) %>
         , :<%=p%> => <%nows%>
         <% if getGeneric(p).is_a?(String) %>

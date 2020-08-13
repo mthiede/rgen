@@ -50,7 +50,8 @@ class Attribute < Feature
     :derived => :required,
     :lowerBound => :required,
     :upperBound => :required,
-    :defaultValueLiteral => :optional
+    :defaultValueLiteral => :optional,
+    :iD => :optional
   }
 
   Defaults = {
