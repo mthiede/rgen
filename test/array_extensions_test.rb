@@ -51,6 +51,19 @@ class ArrayExtensionsTest < MiniTest::Test
     end
   end
 
+  def test_through_with_mmbase
+    e1 = MMBaseClass.new
+    e1.name = "MyName"
+    e1.age = 33
+    e2 = MMBaseClass.new
+    e2.name = "YourName"
+    e2.age = 22
+    a = [e1, e2]
+    assert_equal ["MyName", "YourName"], a._th(:name)
+    assert_equal [33, 22], a._th(:age)
+  end
+
+
   def test_hash_square
     assert_equal({}, Hash[[]])
   end
