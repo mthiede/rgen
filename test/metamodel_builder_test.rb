@@ -264,7 +264,7 @@ class MetamodelBuilderTest < MiniTest::Test
       assert_equal "123456789012345680.0", sprintf("%.1f", sc.floatWithDefault)
     end
     sc.floatWithDefault = nil
-    sc.floatWithDefault = BigDecimal.new("123456789012345678.0")
+    sc.floatWithDefault = BigDecimal("123456789012345678.0")
     assert sc.floatWithDefault.is_a?(BigDecimal)
     assert_equal "123456789012345678.0", sc.floatWithDefault.to_s("F")
 
