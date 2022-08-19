@@ -134,8 +134,6 @@ def etypedelement(te)
     :unique => te.unique,
     :lowerBound => te.lowerBound,
     :upperBound => te.upperBound,
-    :many => te.many,
-    :required => te.required,
     :eType => {:_ref => te.eType ? ref_id(te.eType) : nil}
   })
 end
