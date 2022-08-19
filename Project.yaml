@@ -1,7 +1,7 @@
 name: rgen
 gemspec: rgen.gemspec
 git: https://github.com/mthiede/rgen.git
-version: 0.9.0
+version: 0.9.1
 summary: Ruby Modelling and Generator Framework
 email: martin dot thiede at gmx de
 homepage: http://ruby-gen.org

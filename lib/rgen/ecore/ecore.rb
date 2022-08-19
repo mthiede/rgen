@@ -25,7 +25,7 @@ module RGen
     
     class ENamedElement < EModelElement
       abstract
-      has_attr 'name', String
+      has_attr 'name', String, :lowerBound => 1
     end
     
     class ETypedElement < ENamedElement
@@ -148,8 +148,8 @@ module RGen
     end
     
     class EClass < EClassifier
-      has_attr 'abstract', Boolean
-      has_attr 'interface', Boolean
+      has_attr 'abstract', Boolean, :defaultValueLiteral => "false"
+      has_attr 'interface', Boolean, :defaultValueLiteral => "false"
       has_one  'eIDAttribute', ECore::EAttribute, :derived=>true, :resolveProxies=>false
       
       has_many 'eAllAttributes', ECore::EAttribute, :derived=>true
