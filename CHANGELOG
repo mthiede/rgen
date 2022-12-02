@@ -226,3 +226,7 @@
 =0.9.0
 
 * Update to support Ruby 2.7, drop support for older Rubies
+
+=0.9.1
+
+* fixes in ecore model (make ENamedElement required; set default for EClass::{abstract, interface})
