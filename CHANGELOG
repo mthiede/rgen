@@ -230,3 +230,7 @@
 =0.9.1
 
 * fixes in ecore model (make ENamedElement required; set default for EClass::{abstract, interface})
+
+=0.10.0
+
+* Added support for Ruby up to 3.2

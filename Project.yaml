@@ -1,7 +1,7 @@
 name: rgen
 gemspec: rgen.gemspec
 git: https://github.com/mthiede/rgen.git
-version: 0.9.1
+version: 0.10.0
 summary: Ruby Modelling and Generator Framework
 email: martin dot thiede at gmx de
 homepage: http://ruby-gen.org
@@ -15,7 +15,7 @@ exclude_files: ['**/*.bak']
 encrypt_sources: false
 dependencies:
   https://rubygems.org:
-    - {name: nokogiri,           version: ['>= 1.11.2', '< 1.12'],    development: true}
+    - {name: nokogiri,           version: ['>= 1.14.2', '< 1.15'],    development: true}
     - {name: rake,               version: '~> 12.0',                  development: true}
     - {name: minitest,           version: ['~> 5.0', '>= 5.10.1'],    development: true}
     - {name: minitest-fail-fast, version: '~> 0.1.0',                 development: true}

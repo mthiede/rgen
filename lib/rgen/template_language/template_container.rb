@@ -29,7 +29,7 @@ module RGen
   	      	@@metamodels = @metamodels
     	    	fileContent = f.read
       	  	_detectNewLinePattern(fileContent)
-        		ERB.new(fileContent,nil,nil,'@output').result(binding)
+        		ERB.new(fileContent, eoutvar:'@output').result(binding)
           rescue Exception => e
             processAndRaise(e)
           end
