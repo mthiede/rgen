@@ -30,8 +30,19 @@ def epackage_to_json(package)
 end
 
 def ecore_datatypes
-  [RGen::ECore::EString, RGen::ECore::EInt, RGen::ECore::ELong, RGen::ECore::EBoolean, RGen::ECore::EFloat,
-   RGen::ECore::ERubyObject, RGen::ECore::EJavaObject, RGen::ECore::ERubyClass, RGen::ECore::EJavaClass]
+  [
+    RGen::ECore::EString,
+    RGen::ECore::EInt,
+    RGen::ECore::ELong,
+    RGen::ECore::EBoolean,
+    RGen::ECore::EFloat,
+    RGen::ECore::EDouble,
+    RGen::ECore::EDate,
+    RGen::ECore::ERubyObject,
+    RGen::ECore::EJavaObject,
+    RGen::ECore::ERubyClass,
+    RGen::ECore::EJavaClass
+  ]
       .map {|dt| edatatype(dt)}
 end
 

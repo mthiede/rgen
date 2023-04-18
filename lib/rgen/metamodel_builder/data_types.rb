@@ -65,11 +65,14 @@ module DataTypes
 	# as possible values.
 	Boolean = Enum.new(:name => "Boolean", :literals => [true, false])
 
-	# Long represents a 64-bit Integer
-  # This constant is merely a marker for keeping this information in the Ruby version of the metamodel,
-  # values of this type will always be instances of Integer or Bignum;
+	# Long represents a 64-bit Integer and Double represents a 64-bit Float
+  # These constants are merely markers for keeping this information in the Ruby version of the metamodel,
+  # values of this type will always be instances of Integer or Bignum / Float;
   # Setting it to a string value ensures that it responds to "to_s" which is used in the metamodel generator
 	Long = "Long"
+	Double = "Double"
+
+	Date = "Date"
 end
 
 end

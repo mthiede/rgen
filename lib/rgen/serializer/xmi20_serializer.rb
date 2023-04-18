@@ -59,7 +59,9 @@ class XMI20Serializer < XMLSerializer
     @referenceStrings[RGen::ECore::EInt] = pre+"#//EInt"
     @referenceStrings[RGen::ECore::ELong] = pre+"#//ELong"
     @referenceStrings[RGen::ECore::EFloat] = pre+"#//EFloat"
-    @referenceStrings[RGen::ECore::EBoolean] = pre+"#//EBoolean"
+    @referenceStrings[RGen::ECore::EDouble] = pre+"#//EDouble"
+		@referenceStrings[RGen::ECore::EBoolean] = pre+"#//EBoolean"
+    @referenceStrings[RGen::ECore::EDate] = pre+"#//EDate"
     @referenceStrings[RGen::ECore::EJavaObject] = pre+"#//EJavaObject"
     @referenceStrings[RGen::ECore::EJavaClass] = pre+"#//EJavaClass"
   end

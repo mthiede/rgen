@@ -33,5 +33,5 @@
 <% end %>
 
 <% define 'Details', :for => EAnnotation do %>
-	<%= details.sort{|a,b| a.key<=>b.key}.collect{ |d| "\'" + d.key + "\' => \'"+ (d.value || "").gsub('\'','\\\'').to_s + "\'"}.join(', ') %><%nows%>
+	<%= details.sort{|a,b| a.key<=>b.key}.collect{ |d| "#{d.key.dump} => #{(d.value || "").dump}"}.join(', ') %><%nows%>
 <% end %>

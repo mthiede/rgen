@@ -117,8 +117,9 @@ class XMI11Instantiator < AbstractXMLInstantiator
         value = true if value == "true" && eFeat.eType == EBoolean
         value = false if value == "false" && eFeat.eType == EBoolean
         value = value.to_i if eFeat.eType == EInt || eFeat.eType == ELong
-        value = value.to_f if eFeat.eType == EFloat
+        value = value.to_f if eFeat.eType == EFloat || eFeat.eType == EDouble
         value = value.to_sym if eFeat.eType.is_a?(EEnum)
+        value = Date.parse(value) if eFeat.eType == EDate
         @elementstack.last.setGeneric(attr_name, value)
       end
     end

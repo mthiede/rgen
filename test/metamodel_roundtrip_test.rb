@@ -63,11 +63,13 @@ class MetamodelRoundtripTest < MiniTest::Test
   def test_ecore_serializer_builtin_types
     mm = RGen::ECore::EPackage.new(:name => "P1", :eClassifiers => [
       RGen::ECore::EClass.new(:name => "C1", :eStructuralFeatures => [
-        RGen::ECore::EAttribute.new(:name => "a1", :eType => RGen::ECore::EString), 
-        RGen::ECore::EAttribute.new(:name => "a2", :eType => RGen::ECore::EInt), 
-        RGen::ECore::EAttribute.new(:name => "a3", :eType => RGen::ECore::ELong), 
-        RGen::ECore::EAttribute.new(:name => "a4", :eType => RGen::ECore::EFloat), 
-        RGen::ECore::EAttribute.new(:name => "a5", :eType => RGen::ECore::EBoolean) 
+        RGen::ECore::EAttribute.new(:name => "a1", :eType => RGen::ECore::EString),
+        RGen::ECore::EAttribute.new(:name => "a2", :eType => RGen::ECore::EInt),
+        RGen::ECore::EAttribute.new(:name => "a3", :eType => RGen::ECore::ELong),
+        RGen::ECore::EAttribute.new(:name => "a4", :eType => RGen::ECore::EFloat),
+        RGen::ECore::EAttribute.new(:name => "a5", :eType => RGen::ECore::EDouble),
+        RGen::ECore::EAttribute.new(:name => "a6", :eType => RGen::ECore::EBoolean),
+        RGen::ECore::EAttribute.new(:name => "a7", :eType => RGen::ECore::EDate),
       ])
     ])
     outfile = TEST_DIR+"/using_builtin_types_serialized.ecore"
@@ -92,7 +94,11 @@ class MetamodelRoundtripTest < MiniTest::Test
     a4 = env.find(:class => RGen::ECore::EAttribute, :name => "a4").first
     assert_equal(RGen::ECore::EFloat, a4.eType)
     a5 = env.find(:class => RGen::ECore::EAttribute, :name => "a5").first
-    assert_equal(RGen::ECore::EBoolean, a5.eType)
+    assert_equal(RGen::ECore::EDouble, a5.eType)
+    a6 = env.find(:class => RGen::ECore::EAttribute, :name => "a6").first
+    assert_equal(RGen::ECore::EBoolean, a6.eType)
+    a7 = env.find(:class => RGen::ECore::EAttribute, :name => "a7").first
+    assert_equal(RGen::ECore::EDate, a7.eType)
   end
 
 end

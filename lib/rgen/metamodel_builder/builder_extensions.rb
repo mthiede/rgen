@@ -512,11 +512,11 @@ module BuilderExtensions
   def check_default_value_literal(literal, props)
     return if literal.nil? || props.impl_type == String
     if props.impl_type == Integer || props.impl_type == RGen::MetamodelBuilder::DataTypes::Long
-      unless literal =~ /^\d+$/
+      unless literal =~ /^[-+]?\d+$/
         raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected an Integer")
       end
-    elsif props.impl_type == Float
-      unless literal =~ /^\d+\.\d+$/
+    elsif props.impl_type == Float || props.impl_type == RGen::MetamodelBuilder::DataTypes::Double
+      unless literal =~ /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
         raise StandardError.new("Property #{props.value(:name)} can not take value #{literal}, expected a Float")
       end
     elsif props.impl_type == RGen::MetamodelBuilder::DataTypes::Boolean
@@ -538,6 +538,14 @@ module BuilderExtensions
       code << "unless #{varname}.nil? || #{varname}.is_a?(Integer) || #{varname}.is_a?(MMGeneric)"
       code << "\n"
       expected = "Integer"
+    elsif props.impl_type == RGen::MetamodelBuilder::DataTypes::Double
+      code << "unless #{varname}.nil? || #{varname}.is_a?(Float) || #{varname}.is_a?(MMGeneric)"
+      code << "\n"
+      expected = "Float"
+    elsif props.impl_type == RGen::MetamodelBuilder::DataTypes::Date
+      code << "unless #{varname}.nil? || #{varname}.is_a?(Date) || #{varname}.is_a?(MMGeneric)"
+      code << "\n"
+      expected = "Date"
     elsif props.impl_type.is_a?(Class)
       code << "unless #{varname}.nil? || #{varname}.is_a?(ObjectSpace._id2ref(#{props.impl_type.object_id})) || #{varname}.is_a?(MMGeneric)"
       code << " || #{varname}.is_a?(BigDecimal)" if props.impl_type == Float && defined?(BigDecimal)

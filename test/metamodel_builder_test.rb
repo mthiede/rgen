@@ -17,6 +17,7 @@ class MetamodelBuilderTest < MiniTest::Test
       has_attr 'integerWithDefault', Integer, :defaultValueLiteral => "123"
       has_attr 'longWithDefault', Long, :defaultValueLiteral => "1234567890"
       has_attr 'floatWithDefault', Float, :defaultValueLiteral => "0.123"
+      has_attr 'doubleWithDefault', Double, :defaultValueLiteral => "-1234.456e234"
       has_attr 'boolWithDefault', Boolean, :defaultValueLiteral => "true"
       has_attr 'anything', Object
       has_attr 'allowed', RGen::MetamodelBuilder::DataTypes::Boolean
@@ -921,7 +922,7 @@ class MetamodelBuilderTest < MiniTest::Test
     end
     Test4 = proc do 
       class BadClass < RGen::MetamodelBuilder::MMBase
-        has_attr 'floatWithDefault', Float, :defaultValueLiteral => "1"
+        has_attr 'floatWithDefault', Float, :defaultValueLiteral => "1e"
       end
     end
     Test5 = proc do 
@@ -941,9 +942,14 @@ class MetamodelBuilderTest < MiniTest::Test
         has_attr 'enumWithDefault', kindType, :defaultValueLiteral => "7"
       end
     end
-    Test8 = proc do 
+    Test8 = proc do
       class BadClass < RGen::MetamodelBuilder::MMBase
         has_attr 'longWithDefault', Integer, :defaultValueLiteral => "1.1"
+      end
+    end
+    Test9 = proc do
+      class BadClass < RGen::MetamodelBuilder::MMBase
+        has_attr 'doubleWithDefault', Float, :defaultValueLiteral => "1.1x"
       end
     end
   end
@@ -964,7 +970,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       BadDefaultValueLiteralContainer::Test4.call
     end
-    assert_equal "Property floatWithDefault can not take value 1, expected a Float", err.message
+    assert_equal "Property floatWithDefault can not take value 1e, expected a Float", err.message
     err = assert_raises StandardError do
       BadDefaultValueLiteralContainer::Test5.call
     end
@@ -981,6 +987,10 @@ class MetamodelBuilderTest < MiniTest::Test
       BadDefaultValueLiteralContainer::Test8.call
     end
     assert_equal "Property longWithDefault can not take value 1.1, expected an Integer", err.message
+    err = assert_raises StandardError do
+      BadDefaultValueLiteralContainer::Test9.call
+    end
+    assert_equal "Property doubleWithDefault can not take value 1.1x, expected a Float", err.message
   end
 
   def test_isset_set_to_nil

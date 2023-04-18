@@ -85,6 +85,8 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
       value = true if value == "true" && eFeat.eType == EBoolean
       value = false if value == "false" && eFeat.eType == EBoolean
       value = value.to_i if eFeat.eType == EInt || eFeat.eType == ELong
+      value = value.to_f if eFeat.eType == EFloat || eFeat.eType == EDouble
+      value = Date.parse(value) if eFeat.eType == EDate
       @elementstack.last.setGeneric(attr, value)
     else
       log WARN, "Feature not found: #{attr} on #{@elementstack.last}"
@@ -137,6 +139,8 @@ class ECoreXMLInstantiator < AbstractXMLInstantiator
           when "ELong";       RGen::ECore::ELong
           when "EBoolean";    RGen::ECore::EBoolean
           when "EFloat";      RGen::ECore::EFloat
+          when "EDouble";     RGen::ECore::EDouble
+          when "EDate";       RGen::ECore::EDate
           when "EJavaObject"; RGen::ECore::EJavaObject
           when "EJavaClass";  RGen::ECore::EJavaClass
         end
