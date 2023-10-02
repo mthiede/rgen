@@ -28,7 +28,7 @@ require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/model_builder'
 require 'model_builder/statemachine_metamodel'
 
-class ModelSerializerTest < MiniTest::Test
+class ModelSerializerTest < Minitest::Test
   def test_ecore_internal
     File.open(File.dirname(__FILE__)+"/ecore_internal.rb","w") do |f|
       serializer = RGen::ModelBuilder::ModelSerializer.new(f, RGen::ECore.ecore)

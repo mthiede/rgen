@@ -3,7 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 require 'minitest/autorun'
 require 'rgen/template_language/output_handler'
 
-class MetamodelBuilderTest < MiniTest::Test
+class MetamodelBuilderTest < Minitest::Test
 	def test_direct_nl
 		h = RGen::TemplateLanguage::OutputHandler.new
 		h.mode = :direct

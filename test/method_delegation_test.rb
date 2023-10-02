@@ -3,7 +3,7 @@ $:.unshift File.dirname(__FILE__) + "/../lib"
 require 'minitest/autorun'
 require 'rgen/util/method_delegation'
 
-class MethodDelegationTest < MiniTest::Test
+class MethodDelegationTest < Minitest::Test
   include RGen
   
   class TestDelegate

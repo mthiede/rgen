@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/template_language'
 require 'rgen/metamodel_builder'
 
-class TemplateContainerTest < MiniTest::Test
+class TemplateContainerTest < Minitest::Test
   
   TEMPLATES_DIR = File.dirname(__FILE__)+"/template_language_test/templates"
   OUTPUT_DIR = File.dirname(__FILE__)+"/template_language_test"

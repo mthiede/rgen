@@ -6,7 +6,7 @@ require 'rgen/metamodel_builder'
 require 'rgen/serializer/json_serializer'
 require 'rgen/instantiator/json_instantiator'
 
-class JsonTest < MiniTest::Test
+class JsonTest < Minitest::Test
 
   module TestMM
     extend RGen::MetamodelBuilder::ModuleExtension

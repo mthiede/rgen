@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/model_builder/builder_context'
 
-class BuilderContextTest < MiniTest::Test
+class BuilderContextTest < Minitest::Test
   
   module BuilderExtension1
     module PackageA

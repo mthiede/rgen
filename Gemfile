@@ -63,5 +63,6 @@ deps.each do |source, gems|
     end)
 end
 if is_gem
+  source "https://rubygems.org"
   gemspec :name => project['name'], :path => File.dirname(__FILE__)
 end

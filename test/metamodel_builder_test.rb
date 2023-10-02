@@ -5,7 +5,7 @@ require 'rgen/metamodel_builder'
 require 'rgen/array_extensions'
 require 'bigdecimal'
 
-class MetamodelBuilderTest < MiniTest::Test
+class MetamodelBuilderTest < Minitest::Test
   
   module TestMetamodel
     extend RGen::MetamodelBuilder::ModuleExtension
@@ -226,7 +226,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       sc.allowed = :someSymbol
     end
-    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol\(someSymbol\)\(:someSymbol\) where a \[true,false\] is expected/, err.message
+    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol(\(someSymbol\))?\(:someSymbol\) where a \[true,false\] is expected/, err.message
     err = assert_raises StandardError do
       sc.allowed = "a string"
     end
@@ -244,7 +244,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       sc.kind = :false
     end
-    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol\(false\)\(:false\) where a \[:simple,:extended\] is expected/, err.message
+    assert_match /In (\w+::)+SimpleClass : Can not use a Symbol(\(false\))?\(:false\) where a \[:simple,:extended\] is expected/, err.message
     err = assert_raises StandardError do
       sc.kind = "a string"
     end
@@ -280,6 +280,7 @@ class MetamodelBuilderTest < MiniTest::Test
     assert_equal 5, sc.longWithDefault
     sc.longWithDefault = (2**(0.size * 8 -2) -1) + 1
     assert_equal (2**(0.size * 8 -2) -1) + 1, sc.longWithDefault
+    assert sc.longWithDefault.is_a?(Integer)
     assert sc.longWithDefault.is_a?(Integer)
     err = assert_raises StandardError do
       sc.longWithDefault = "a string"
@@ -615,7 +616,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       bc.addAClasses :notaaclass
     end
-    assert_match /In (\w+::)+BClassMM : Can not use a Symbol\(notaaclass\)\(:notaaclass\) where a (\w+::)+AClassMM is expected/, err.message
+    assert_match /In (\w+::)+BClassMM : Can not use a Symbol(\(notaaclass\))?\(:notaaclass\) where a (\w+::)+AClassMM is expected/, err.message
     
     # remove the AClass from the BClass
     bc.removeAClasses ac
@@ -631,7 +632,7 @@ class MetamodelBuilderTest < MiniTest::Test
     err = assert_raises StandardError do
       ac.addBClasses :notabclass
     end
-    assert_match /In (\w+::)+AClassMM : Can not use a Symbol\(notabclass\)\(:notabclass\) where a (\w+::)+BClassMM is expected/, err.message
+    assert_match /In (\w+::)+AClassMM : Can not use a Symbol(\(notabclass\))?\(:notabclass\) where a (\w+::)+BClassMM is expected/, err.message
     
     # remove the BClass from the AClass
     ac.removeBClasses bc

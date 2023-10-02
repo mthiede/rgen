@@ -7,7 +7,7 @@ require 'mmgen/metamodel_generator'
 require 'rgen/instantiator/ecore_xml_instantiator'
 require 'rgen/serializer/xmi20_serializer'
 
-class MetamodelRoundtripTest < MiniTest::Test
+class MetamodelRoundtripTest < Minitest::Test
   
   TEST_DIR = File.dirname(__FILE__)+"/metamodel_roundtrip_test"
   

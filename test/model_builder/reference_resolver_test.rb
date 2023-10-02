@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/model_builder/reference_resolver'
 
-class ReferenceResolverTest < MiniTest::Test
+class ReferenceResolverTest < Minitest::Test
 
   class ClassA < RGen::MetamodelBuilder::MMBase
     has_attr "name"

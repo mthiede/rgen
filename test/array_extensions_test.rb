@@ -3,7 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","lib")
 require 'minitest/autorun'
 require 'rgen/array_extensions'
 
-class ArrayExtensionsTest < MiniTest::Test
+class ArrayExtensionsTest < Minitest::Test
 
   def test_element_methods
     c = Struct.new("SomeClass",:name,:age)

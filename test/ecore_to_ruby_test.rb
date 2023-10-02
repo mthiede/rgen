@@ -6,7 +6,7 @@ require 'rgen/ecore/ecore'
 require 'rgen/ecore/ecore_ext'
 require 'rgen/ecore/ecore_to_ruby'
 
-class ECoreToRubyTest < MiniTest::Test
+class ECoreToRubyTest < Minitest::Test
 
 module ContainerSimple
 end

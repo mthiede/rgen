@@ -6,7 +6,7 @@ require 'rgen/metamodel_builder'
 require 'rgen/model_builder'
 require 'rgen/util/pattern_matcher'
 
-class PatternMatcherTest < MiniTest::Test
+class PatternMatcherTest < Minitest::Test
 
 module TestMM
   extend RGen::MetamodelBuilder::ModuleExtension

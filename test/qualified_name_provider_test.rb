@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/serializer/qualified_name_provider'
 
-class QualifiedNameProviderTest < MiniTest::Test
+class QualifiedNameProviderTest < Minitest::Test
 
   class AbstractTestNode < RGen::MetamodelBuilder::MMBase
     contains_many 'children', AbstractTestNode, "parent"

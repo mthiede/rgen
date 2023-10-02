@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/fragment/model_fragment'
 
-class ModelFragmentTest < MiniTest::Test
+class ModelFragmentTest < Minitest::Test
 
 module TestMetamodel
   extend RGen::MetamodelBuilder::ModuleExtension

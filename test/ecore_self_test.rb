@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/array_extensions'
 
-class ECoreSelfTest < MiniTest::Test
+class ECoreSelfTest < Minitest::Test
   include RGen::ECore
   
   def test_simple

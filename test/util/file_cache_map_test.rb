@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'fileutils'
 require 'rgen/util/file_cache_map'
 
-class FileCacheMapTest < MiniTest::Test
+class FileCacheMapTest < Minitest::Test
 
   TestDir = File.dirname(__FILE__)+"/file_cache_map_test/testdir"
  

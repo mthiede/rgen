@@ -18,7 +18,7 @@ module DefaultMM
   Person.one_to_one 'personalRoom', MNS::Room, 'inhabitant'
 end
 
-class XMLInstantiatorTest < MiniTest::Test
+class XMLInstantiatorTest < Minitest::Test
 
   XML_DIR = File.join(File.dirname(__FILE__),"testmodel")
   

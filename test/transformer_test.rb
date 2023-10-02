@@ -8,7 +8,7 @@ require 'rgen/util/model_comparator'
 require 'metamodels/uml13_metamodel'
 require 'testmodel/class_model_checker'
 
-class TransformerTest < MiniTest::Test
+class TransformerTest < Minitest::Test
 
 	class ModelIn
 		attr_accessor :name

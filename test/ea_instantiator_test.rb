@@ -9,7 +9,7 @@ require 'testmodel/class_model_checker'
 require 'testmodel/object_model_checker'
 require 'testmodel/ecore_model_checker'
 
-class EAInstantiatorTest < MiniTest::Test
+class EAInstantiatorTest < Minitest::Test
 
     include Testmodel::ClassModelChecker
     include Testmodel::ObjectModelChecker

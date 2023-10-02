@@ -7,7 +7,7 @@ require 'rgen/environment'
 require 'rgen/model_builder'
 require 'model_builder/statemachine_metamodel'
 
-class ModelBuilderTest < MiniTest::Test
+class ModelBuilderTest < Minitest::Test
       
   def test_statemachine
     result = RGen::ModelBuilder.build(StatemachineMetamodel) do 

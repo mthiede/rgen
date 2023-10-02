@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/ecore/ecore'
 require 'rgen/array_extensions'
 
-class MetamodelOrderTest < MiniTest::Test
+class MetamodelOrderTest < Minitest::Test
 	include RGen::ECore
 	
   module TestMM1

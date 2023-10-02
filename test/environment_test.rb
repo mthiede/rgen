@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/environment'
 require 'rgen/metamodel_builder'
 
-class EnvironmentTest < MiniTest::Test
+class EnvironmentTest < Minitest::Test
 
 	class Model
 		attr_accessor :name

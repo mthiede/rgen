@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rgen/metamodel_builder'
 require 'rgen/instantiator/qualified_name_resolver'
 
-class QualifiedNameResolverTest < MiniTest::Test
+class QualifiedNameResolverTest < Minitest::Test
 
   class TestNode < RGen::MetamodelBuilder::MMBase
     has_attr 'name', String
