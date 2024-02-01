@@ -12,7 +12,7 @@ class ECoreToRuby
     @modules = {}
     @classifiers = {}
     @features_added = {}
-    @reserved = Set.new(Object.methods)
+    @reserved = Set.new(Object.methods).merge(Kernel.methods)
   end
 
   # Create a Ruby module representing +epackage+.

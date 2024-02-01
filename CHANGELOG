@@ -238,3 +238,7 @@
 =0.10.1
 
 * Updated dependencies
+
+=next
+
+* Fixed issue with Kernel methods name clash with features
