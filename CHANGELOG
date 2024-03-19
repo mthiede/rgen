@@ -242,3 +242,7 @@
 =0.10.2
 
 * Fixed issue with Kernel methods name clash with features
+
+=upcoming
+
+* properly escape annotations
