@@ -18,6 +18,17 @@ module MetamodelBuilder
 module BuilderExtensions
   include Util::NameHelper
 
+  # Registry used by generated type-check code to reference the exact
+  # implementation-type class object by key.
+  @type_check_classes = {}
+  def self._register_type_check_class(klass)
+    @type_check_classes[klass.object_id] = klass
+    klass.object_id
+  end
+  def self._type_check_class(key)
+    @type_check_classes[key]
+  end
+
   class FeatureBlockEvaluator
     def self.eval(block, props1, props2=nil)
       return unless block
@@ -539,7 +550,7 @@ module BuilderExtensions
       code << "\n"
       expected = "Integer"
     elsif props.impl_type.is_a?(Class)
-      code << "unless #{varname}.nil? || #{varname}.is_a?(ObjectSpace._id2ref(#{props.impl_type.object_id})) || #{varname}.is_a?(MMGeneric)"
+      code << "unless #{varname}.nil? || #{varname}.is_a?(RGen::MetamodelBuilder::BuilderExtensions._type_check_class(#{RGen::MetamodelBuilder::BuilderExtensions._register_type_check_class(props.impl_type)})) || #{varname}.is_a?(MMGeneric)"
       code << " || #{varname}.is_a?(BigDecimal)" if props.impl_type == Float && defined?(BigDecimal)
       code << "\n"
       expected = props.impl_type.to_s
