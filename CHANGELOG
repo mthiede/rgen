@@ -243,6 +243,9 @@
 
 * Fixed issue with Kernel methods name clash with features
 
-=upcoming
+=0.11.0
 
 * properly escape annotations
+* Add support for Ruby 4.0
+* Replace deprecated ObjectSpace._id2ref in type checking code with an internal class registry
+* Widen nokogiri development dependency to '< 2.0' (keeps 1.15.x on Ruby 2.7, resolves 1.18.x on Ruby 3.1+)
