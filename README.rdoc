@@ -33,6 +33,21 @@ Install RGen as a Ruby gem:
 
   gem install rgen
 
+=== Reading XML
+
+Reading XML needs the nokogiri gem, which RGen does not depend on:
+
+  gem install nokogiri
+
+It is required by the three instantiators which read XML:
+* RGen::Instantiator::DefaultXMLInstantiator (and NodebasedXMLInstantiator, which it builds on)
+* XMI11Instantiator
+* ECoreXMLInstantiator
+
+Everything else works without it, including the XMI and JSON serializers, the JSON
+instantiator, the metamodel builder, the transformer, the template language and the
+metamodel generator.
+
 
 == Running the Tests 
 
