@@ -5,7 +5,7 @@ This means that it helps you build Metamodels, instantiate Models, modify
 and transform Models and finally generate arbitrary textual content from it.
 
 RGen features include:
-* Supporting Ruby 2.3 to 4.0
+* Supporting Ruby 2.6 to 4.0
 * Metamodel definition language (internal Ruby DSL)
 * ECore Meta-metamodel with an ECore instance available for every Metamodel
 * Generator creating the Ruby metamodel definition from an ECore instance
