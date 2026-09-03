@@ -4,6 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__),"..","test")
 require 'minitest/autorun'
 require 'rgen/transformer'
 require 'rgen/environment'
+require 'rgen/metamodel_builder'
 require 'rgen/util/model_comparator'
 require 'metamodels/uml13_metamodel'
 require 'testmodel/class_model_checker'
@@ -251,4 +252,179 @@ class TransformerTest < Minitest::Test
 		  envOut.find(:class => UML13::Model).first)
 	end
 	
+
+  # Two structurally equal metamodel packages used to test Transformer.copy_all.
+  # Note that every package module must be extended with the ModuleExtension,
+  # otherwise +ecore+ is not available and copy_all fails.
+  module CopyAllMM1
+    extend RGen::MetamodelBuilder::ModuleExtension
+
+    class ClassA < RGen::MetamodelBuilder::MMBase
+      has_attr 'name', String
+      has_attr 'value', Integer
+    end
+
+    module Sub1
+      extend RGen::MetamodelBuilder::ModuleExtension
+
+      class ClassB < RGen::MetamodelBuilder::MMBase
+        has_attr 'name', String
+      end
+
+      module Sub2
+        extend RGen::MetamodelBuilder::ModuleExtension
+
+        class ClassC < RGen::MetamodelBuilder::MMBase
+          has_attr 'name', String
+        end
+      end
+    end
+
+    ClassA.contains_many 'classBs', Sub1::ClassB, 'classA'
+    Sub1::ClassB.contains_one 'classC', Sub1::Sub2::ClassC, 'classB'
+  end
+
+  module CopyAllMM2
+    extend RGen::MetamodelBuilder::ModuleExtension
+
+    class ClassA < RGen::MetamodelBuilder::MMBase
+      has_attr 'name', String
+      has_attr 'value', Integer
+    end
+
+    module Sub1
+      extend RGen::MetamodelBuilder::ModuleExtension
+
+      class ClassB < RGen::MetamodelBuilder::MMBase
+        has_attr 'name', String
+      end
+
+      module Sub2
+        extend RGen::MetamodelBuilder::ModuleExtension
+
+        class ClassC < RGen::MetamodelBuilder::MMBase
+          has_attr 'name', String
+        end
+      end
+    end
+
+    ClassA.contains_many 'classBs', Sub1::ClassB, 'classA'
+    Sub1::ClassB.contains_one 'classC', Sub1::Sub2::ClassC, 'classB'
+  end
+
+  # copies a whole metamodel package into an equally named target package
+  class CopyAllTransformer < RGen::Transformer
+    copy_all CopyAllMM1, :to => CopyAllMM2
+  end
+
+  # clones within the same metamodel package (no :to given)
+  class CopyAllCloneTransformer < RGen::Transformer
+    copy_all CopyAllMM1
+  end
+
+  # leaves out one class of a subpackage, an explicit rule is used for it instead
+  class CopyAllExceptTransformer < RGen::Transformer
+    copy_all CopyAllMM1, :to => CopyAllMM2, :except => ["Sub1::ClassB"]
+
+    transform CopyAllMM1::Sub1::ClassB, :to => CopyAllMM2::Sub1::ClassB do
+      { :name => "custom_"+name, :classC => trans(classC) }
+    end
+  end
+
+  def createCopyAllTestModel
+    modelA = CopyAllMM1::ClassA.new(:name => "A", :value => 7)
+    modelB = CopyAllMM1::Sub1::ClassB.new(:name => "B")
+    modelC = CopyAllMM1::Sub1::Sub2::ClassC.new(:name => "C")
+    modelB.classC = modelC
+    modelA.addClassBs(modelB)
+    modelA
+  end
+
+  def test_copy_all_to_other_package
+    modelA = createCopyAllTestModel
+    envOut = RGen::Environment.new
+    t = CopyAllTransformer.new(nil, envOut)
+
+    copyA = t.trans(modelA)
+    assert_equal CopyAllMM2::ClassA, copyA.class
+    assert_equal "A", copyA.name
+    assert_equal 7, copyA.value
+
+    assert_equal 1, copyA.classBs.size
+    copyB = copyA.classBs.first
+    assert_equal CopyAllMM2::Sub1::ClassB, copyB.class
+    assert_equal "B", copyB.name
+    # the opposite of the containment reference is set as well
+    assert_equal copyA, copyB.classA
+
+    copyC = copyB.classC
+    assert_equal CopyAllMM2::Sub1::Sub2::ClassC, copyC.class
+    assert_equal "C", copyC.name
+
+    # the source model has not been touched
+    assert_equal CopyAllMM1::ClassA, modelA.class
+    assert_equal 3, envOut.elements.size
+    assert (envOut.elements - [copyA, copyB, copyC]).empty?
+  end
+
+  def test_copy_all_clone_within_same_package
+    modelA = createCopyAllTestModel
+    t = CopyAllCloneTransformer.new
+
+    copyA = t.trans(modelA)
+    # same classes but new objects
+    assert_equal CopyAllMM1::ClassA, copyA.class
+    refute_same modelA, copyA
+    assert_equal "A", copyA.name
+    assert_equal 7, copyA.value
+
+    copyB = copyA.classBs.first
+    assert_equal CopyAllMM1::Sub1::ClassB, copyB.class
+    refute_same modelA.classBs.first, copyB
+    assert_equal "B", copyB.name
+
+    copyC = copyB.classC
+    assert_equal CopyAllMM1::Sub1::Sub2::ClassC, copyC.class
+    refute_same modelA.classBs.first.classC, copyC
+    assert_equal "C", copyC.name
+
+    # the source model still has its own children
+    assert_equal 1, modelA.classBs.size
+    assert_equal "B", modelA.classBs.first.name
+  end
+
+  def test_copy_all_except
+    modelA = createCopyAllTestModel
+    t = CopyAllExceptTransformer.new
+
+    copyA = t.trans(modelA)
+    assert_equal CopyAllMM2::ClassA, copyA.class
+    assert_equal "A", copyA.name
+
+    # ClassB has been excluded from the copy rules, the explicit rule applies
+    copyB = copyA.classBs.first
+    assert_equal CopyAllMM2::Sub1::ClassB, copyB.class
+    assert_equal "custom_B", copyB.name
+
+    # classes of the same subpackage which are not excepted are still copied
+    copyC = copyB.classC
+    assert_equal CopyAllMM2::Sub1::Sub2::ClassC, copyC.class
+    assert_equal "C", copyC.name
+  end
+
+  def test_copy_all_subpackage_traversal
+    # copy rules exist for the classes of all (transitive) subpackages
+    [ CopyAllMM1::ClassA, CopyAllMM1::Sub1::ClassB, CopyAllMM1::Sub1::Sub2::ClassC ].each do |c|
+      assert CopyAllTransformer._transformer_blocks[c], "no copy rule for #{c.name}"
+    end
+    assert_equal CopyAllMM2::Sub1::Sub2::ClassC,
+      CopyAllTransformer._transformer_blocks[CopyAllMM1::Sub1::Sub2::ClassC].target
+
+    # a class of a subpackage can be transformed on its own
+    t = CopyAllTransformer.new
+    copyC = t.trans(CopyAllMM1::Sub1::Sub2::ClassC.new(:name => "C"))
+    assert_equal CopyAllMM2::Sub1::Sub2::ClassC, copyC.class
+    assert_equal "C", copyC.name
+  end
+
 end
