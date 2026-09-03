@@ -161,7 +161,7 @@ module RGen
 #   <%nl%>
 #   int main() {<%iinc%>
 #     printf("Hello World\n");
-#     return 0;<%idec>
+#     return 0;<%idec%>
 #   }
 #   
 # The result is:

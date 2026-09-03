@@ -118,6 +118,7 @@ module RGen
 # 
 # Attributes:
 # * BuilderExtensions#has_attr
+# * BuilderExtensions#has_many_attr
 # 
 # Unidirectional references:
 # * BuilderExtensions#has_one
@@ -133,6 +134,8 @@ module RGen
 # * BuilderExtensions#contains_one
 # * BuilderExtensions#contains_many
 # 
+# A class can be marked as abstract with BuilderExtensions#abstract.
+# 
 # Every builder command can optionally take a specification of further ECore properties.
 # Additional properties for Attributes and References are (with defaults in brackets):
 # * :ordered (true), 
@@ -143,16 +146,20 @@ module RGen
 # * :unsettable (false),
 # * :derived (false),
 # * :lowerBound (0),
+# * :upperBound (1 for the to-one commands, -1 for the to-many commands),
+# * :defaultValueLiteral (none) <i>attributes only</i>,
 # * :resolveProxies (true) <i>references only</i>,
 # 
 # Using these additional properties, the above example can be refined as follows:
 # 
 # 	class Person < RGen::MetamodelBuilder::MMBase
 # 		has_attr 'name', String, :lowerBound => 1
-# 		has_attr 'yearOfBirth', Integer,
+# 		has_attr 'yearOfBirth', Integer
 # 		has_attr 'age', Integer, :derived => true
-# 		def age_derived
-# 			Time.now.year - yearOfBirth
+# 		module ClassModule
+# 			def age_derived
+# 				Time.now.year - yearOfBirth
+# 			end
 # 		end
 # 	end
 # 
@@ -169,6 +176,9 @@ module RGen
 # If the attribute 'derived' of an attribute or reference is set to true, a method +attributeName_derived+
 # has to be provided. This method is called whenever the original attribute is accessed. The
 # original attribute can not be written if it is derived.
+# 
+# Methods can not be added to a model class directly; they must be defined in the class's
+# ClassModule, as in the example above.
 # 
 #
 module MetamodelBuilder	
