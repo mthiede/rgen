@@ -2,7 +2,7 @@ require 'rubygems/package_task'
 require 'rdoc/task'
 require 'rake/testtask'
 
-RGenGemSpec = eval(File.read('rgen.gemspec'))
+RGenGemSpec = eval(File.read('rgen.gemspec'), binding, 'rgen.gemspec')
 
 RDoc::Task.new do |rd|
   rd.main = 'README.rdoc'
